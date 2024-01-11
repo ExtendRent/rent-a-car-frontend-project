@@ -1,0 +1,46 @@
+.bg-navbar{
+  color:rgb(37, 36, 36) ;
+}
+
+/* === removing default button style ===*/
+.logoButton {
+  margin: 0;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* button styling */
+.logoButton {
+  --border-right: 6px;
+  --text-stroke-color: rgba(94, 94, 94, 0.6);
+  --animation-color: #c86829;
+  --fs-size: 1.7em;
+  letter-spacing: 3px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "Arial";
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on button */
+.hover-logo-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.logoButton:hover .hover-logo-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}

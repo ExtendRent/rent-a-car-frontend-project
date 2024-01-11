@@ -1,0 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.mid-column{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.7em;
+}
+.iconClass{
+    margin-right: 1.3em;
+}
+.Typography{
+    margin-bottom: 1.3em;
+}
