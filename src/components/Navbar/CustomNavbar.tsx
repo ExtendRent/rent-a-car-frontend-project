@@ -28,7 +28,7 @@ function CustomNavbar() {
           <Nav className="me-auto">
             <Link to="/cars" className="nav-link">Araçlarımız</Link>
 
-            <Link to="/add-product" className="nav-link">Add Product</Link>
+            <Link to="/login" className="nav-link">Login</Link>
 
             <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
              
