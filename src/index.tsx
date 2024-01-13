@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from 'react-router-dom';
+import '@mantine/core/styles.css';
+import { createTheme, MantineProvider } from '@mantine/core';
 
 
 const root = ReactDOM.createRoot(
@@ -13,7 +15,9 @@ const root = ReactDOM.createRoot(
 root.render(
   
   <BrowserRouter>
+  <MantineProvider>
     <App />
+    </MantineProvider>
   </BrowserRouter>
 );
 
