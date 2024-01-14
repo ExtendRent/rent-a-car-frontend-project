@@ -8,7 +8,7 @@ import { styled } from '@mui/joy/styles';
 import ReactInputMask from 'react-input-mask';
 import { AutocompleteLoading } from '../../components/AutocompleteLoading/AutocompleteLoading';
 import PasswordStrength from '../../components/PasswordStrength/PasswordStrength';
-import { Input } from '@mantine/core';
+import { Input, TextInput } from '@mantine/core';
 import { IMaskInput } from 'react-imask';
 
 
@@ -33,11 +33,11 @@ type Props = {}
 
 export default function Login({ }: Props) {
     // Bugünün tarihini al
-  const today = new Date();
+    const today = new Date();
 
-  // 18 yıl öncesinin tarihini hesapla
-  const eighteenYearsAgo = new Date();
-  eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+    // 18 yıl öncesinin tarihini hesapla
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
     return (
         <Box sx={{ width: '100%', marginTop: 20 }}>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
@@ -47,12 +47,20 @@ export default function Login({ }: Props) {
                         alignItems="center"
                         spacing={2}>
                         <FormControl>
+                        <TextInput
+                                placeholder="Adınız"
+                                label="Adınız"
+                                required
+                            />
+                        <TextInput
+                                placeholder="Soyadınız"
+                                label="Soyadınız"
+                                required
+                            />
                             <AutocompleteLoading />
-                            <FormLabel sx={{ marginBottom: 1 }}>T.C. No *</FormLabel>
-                            
                             <FormLabel sx={{ marginBottom: 1 }}>Cep telefonu *</FormLabel>
-                            <Input component={IMaskInput} mask="+7 (000) 000-00-00" placeholder="Your phone" />;
-                             <PasswordStrength/>
+                            <Input component={IMaskInput} mask="+90 (000) 000-00-00" placeholder="Telefon numaranız" />
+                            <PasswordStrength />
                         </FormControl>
                     </Stack>
 
@@ -66,7 +74,7 @@ export default function Login({ }: Props) {
                         bgcolor={""}>
                         <FormControl>
                             <FormLabel sx={{ marginBottom: 1 }}>Soyadınız (ehliyetinizde yer aldığı gibi) *</FormLabel>
-                        
+
                             <FormLabel sx={{ marginBottom: 1 }}>Doğum Tarihi *</FormLabel>
                             {/* <Input
                                 type="date"
@@ -79,7 +87,7 @@ export default function Login({ }: Props) {
                             /> */}
                             <AutocompleteLoading />
                             <FormLabel sx={{ marginBottom: 1 }}>Şifre Tekrar *</FormLabel>
-                            
+
                         </FormControl>
                     </Stack>
                 </Grid>
