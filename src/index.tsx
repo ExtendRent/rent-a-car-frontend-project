@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
-
+import 'react-phone-number-input/style.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
