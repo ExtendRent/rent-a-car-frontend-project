@@ -8,6 +8,7 @@ import { styled } from '@mui/joy/styles';
 import { AutocompleteLoading } from '../../components/AutocompleteLoading/AutocompleteLoading';
 import PasswordStrength from '../../components/PasswordStrength/PasswordStrength';
 import { InputMask } from '@react-input/mask';
+import { PasswordInput, TextInput } from '@mantine/core';
 
 
 
@@ -29,11 +30,11 @@ type Props = {}
 
 export default function Login({ }: Props) {
     // Bugünün tarihini al
-  const today = new Date();
+    const today = new Date();
 
-  // 18 yıl öncesinin tarihini hesapla
-  const eighteenYearsAgo = new Date();
-  eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+    // 18 yıl öncesinin tarihini hesapla
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
     return (
         <Box sx={{ width: '100%', marginTop: 20 }}>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
@@ -43,12 +44,14 @@ export default function Login({ }: Props) {
                         alignItems="center"
                         spacing={2}>
                         <FormControl>
+                            <TextInput style={{marginBottom:20}} placeholder="Your name" label="name" required/>
+                            <TextInput style={{marginBottom:20}} placeholder="Your surname" label="surname" required/>
                             <AutocompleteLoading />
-                            <FormLabel sx={{ marginBottom: 1 }}>T.C. No *</FormLabel>
-                            
+                            {/*<FormLabel sx={{ marginBottom: 1 }}>T.C. No *</FormLabel>*/ }
+
                             <FormLabel sx={{ marginBottom: 1 }}>Cep telefonu *</FormLabel>
-                            <InputMask style={{borderColor:'#f1f3f5' }} mask="+90 (___) ___-__-__" replacement={{ _: /\d/ }} />
-                             <PasswordStrength/>
+                            <InputMask style={{ borderColor: '#f1f3f5' }} mask="+90 (___) ___-__-__" replacement={{ _: /\d/ }} />
+                            
                         </FormControl>
                     </Stack>
 
@@ -61,9 +64,8 @@ export default function Login({ }: Props) {
                         spacing={2}
                         bgcolor={""}>
                         <FormControl>
-                            <FormLabel sx={{ marginBottom: 1 }}>Soyadınız (ehliyetinizde yer aldığı gibi) *</FormLabel>
-                        
-                            <FormLabel sx={{ marginBottom: 1 }}>Doğum Tarihi *</FormLabel>
+
+                            {/*<FormLabel sx={{ marginBottom: 1 }}>Doğum Tarihi *</FormLabel>*/}
                             {/* <Input
                                 type="date"
                                 slotProps={{
@@ -74,8 +76,9 @@ export default function Login({ }: Props) {
                                 }}
                             /> */}
                             <AutocompleteLoading />
-                            <FormLabel sx={{ marginBottom: 1 }}>Şifre Tekrar *</FormLabel>
-                            
+                            <PasswordStrength/>
+                            <PasswordInput placeholder="Password" label="Password" required />
+
                         </FormControl>
                     </Stack>
                 </Grid>

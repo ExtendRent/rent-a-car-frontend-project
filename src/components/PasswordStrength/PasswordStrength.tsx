@@ -61,6 +61,7 @@ function PasswordStrength() {
             label="Your password"
             placeholder="Your password"
             value={value}
+            style={{marginBottom: 20}}
             onChange={(event) => setValue(event.currentTarget.value)}
           />
         </div>
