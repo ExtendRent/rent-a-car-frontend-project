@@ -1,0 +1,56 @@
+/* NewNavbar.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+.logo {
+  max-width: 150px;
+  height: auto;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-item {
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-item:hover {
+  border-bottom: 2px solid #fff;
+  color: #00f;
+}
+
+/* Güncellenen kısım */
+.navbar-nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.login {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.car-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}

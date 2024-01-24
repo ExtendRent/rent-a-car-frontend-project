@@ -1,89 +1,73 @@
+// Login.tsx
 
-import { Container, FormLabel, Grid, FormControl } from '@mui/joy';
-import React from 'react';
-import Sheet from '@mui/joy/Sheet';
-import Stack from '@mui/joy/Stack';
-import Box from '@mui/joy/Box';
-import { styled } from '@mui/joy/styles';
-import { AutocompleteLoading } from '../../components/AutocompleteLoading/AutocompleteLoading';
-import PasswordStrength from '../../components/PasswordStrength/PasswordStrength';
-import { InputMask } from '@react-input/mask';
-import { PasswordInput, TextInput } from '@mantine/core';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Container, Grid, TextField, Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/configureStore';
+import { useNavigate } from 'react-router-dom';
+import { addSignIn } from '../../store/slices/signInSlice';
 
 
+const Login: React.FC = () => {
+  
+  const dispatch =useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+   
 
+    const handleSubmit = () => {
+        if (email && password) {
+            dispatch(
+                addSignIn({
+                  email,
+                  password
+                })
+            );
+        
+                
+        alert('Üyelik işlemi başarıyla tamamlandı');
 
+       
+        navigate('/login');
+    } else {
+        // Eksik bilgi varsa kullanıcıyı uyar
+        alert('Lütfen tüm alanları doldurun.');
+    }
+    };
 
+  return (
+    <Container maxWidth="sm">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h2>Giriş Yap</h2>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="E-posta"
+              type="email"
+              name="email"
+              fullWidth
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              label="Şifre"
+              type="password"
+              name="password"
+              fullWidth
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              Giriş Yap
+            </Button>
+          </form>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
-const Item = styled(Sheet)(({ theme }) => ({
-    ...theme.typography['body-sm'],
-    textAlign: 'center',
-    fontWeight: theme.fontWeight.md,
-    color: theme.vars.palette.text.secondary,
-    border: '1px solid',
-    borderColor: theme.palette.divider,
-    padding: theme.spacing(1),
-    borderRadius: theme.radius.md,
-}));
-
-type Props = {}
-
-export default function Login({ }: Props) {
-    // Bugünün tarihini al
-    const today = new Date();
-
-    // 18 yıl öncesinin tarihini hesapla
-    const eighteenYearsAgo = new Date();
-    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
-    return (
-        <Box sx={{ width: '100%', marginTop: 20 }}>
-            <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-                <Grid xs={6} sx={{ borderRightStyle: "solid", borderWidth: 1.5, borderColor: "#E1DED9", paddingLeft: 10 }}>
-                    <Stack direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}>
-                        <FormControl>
-                            <TextInput style={{marginBottom:20}} placeholder="Your name" label="name" required/>
-                            <TextInput style={{marginBottom:20}} placeholder="Your surname" label="surname" required/>
-                            <AutocompleteLoading />
-                            {/*<FormLabel sx={{ marginBottom: 1 }}>T.C. No *</FormLabel>*/ }
-
-                            <FormLabel sx={{ marginBottom: 1 }}>Cep telefonu *</FormLabel>
-                            <InputMask style={{ borderColor: '#f1f3f5' }} mask="+90 (___) ___-__-__" replacement={{ _: /\d/ }} />
-                            
-                        </FormControl>
-                    </Stack>
-
-                </Grid>
-
-                <Grid xs={6} sx={{ paddingRight: 10 }}>
-                    <Stack direction="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={2}
-                        bgcolor={""}>
-                        <FormControl>
-
-                            {/*<FormLabel sx={{ marginBottom: 1 }}>Doğum Tarihi *</FormLabel>*/}
-                            {/* <Input
-                                type="date"
-                                slotProps={{
-                                    input: {
-                                        min: '1800-06-07',
-                                        max: eighteenYearsAgo.toISOString().split('T')[0], // Max tarihi 18 yıl önceye ayarla
-                                    },
-                                }}
-                            /> */}
-                            <AutocompleteLoading />
-                            <PasswordStrength/>
-                            <PasswordInput placeholder="Password" label="Password" required />
-
-                        </FormControl>
-                    </Stack>
-                </Grid>
-            </Grid>
-        </Box>
-
-    )
-}
+export default Login;

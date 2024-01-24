@@ -1,6 +1,9 @@
 export interface CarModel {
 	id: number;
-	brandEntityName: string;
-	modelEntityName: string;
+	carModelEntityBrandEntityName: string;
+	carModelEntityName: string;
 	colorEntityName: string;
+	luggage:number;
+	seat:number;
+	rentalPrice:number;
 }

@@ -21,10 +21,10 @@ function PasswordRequirement({ meets, label }: { meets: boolean; label: string }
 }
 
 const requirements = [
-  { re: /[0-9]/, label: 'Includes number' },
-  { re: /[a-z]/, label: 'Includes lowercase letter' },
-  { re: /[A-Z]/, label: 'Includes uppercase letter' },
-  { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
+  { re: /[0-9]/, label: 'Rakam içermeli' },
+  { re: /[a-z]/, label: 'Küçük harf içermeli' },
+  { re: /[A-Z]/, label: 'Büyük harf içermeli' },
+  { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Özel Karakter içermeli' },
 ];
 
 function getStrength(password: string) {
@@ -58,8 +58,8 @@ function PasswordStrength() {
         >
           <PasswordInput
             withAsterisk
-            label="Your password"
-            placeholder="Your password"
+            label="Şifreniz"
+            placeholder="Şifreniz"
             value={value}
             style={{marginBottom: 20}}
             onChange={(event) => setValue(event.currentTarget.value)}
@@ -68,7 +68,7 @@ function PasswordStrength() {
       </Popover.Target>
       <Popover.Dropdown>
         <Progress color={color} value={strength} size={5} mb="xs" />
-        <PasswordRequirement label="Includes at least 6 characters" meets={value.length > 5} />
+        <PasswordRequirement label="En az 6 karakter içermeli" meets={value.length > 5} />
         {checks}
       </Popover.Dropdown>
     </Popover>

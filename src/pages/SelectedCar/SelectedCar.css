@@ -1,0 +1,49 @@
+/* SelectedCar.css */
+.custom-tabs {
+    display: flex;
+  }
+  
+  .tab {
+    border: 1px solid #d3d3d3;
+    flex: 1;
+    margin-right: -1px;
+  }
+  
+  .tab-content {
+    border: 1px solid #d3d3d3;
+    padding: 15px;
+  }
+  
+  .tab-title {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .active-tab {
+    color: red;
+    border-bottom: 2px solid red;
+  }
+  
+  .inactive-tab {
+    color: green;
+    border-bottom: 2px solid green;
+  }
+  
+  .custom-tabs .nav-link {
+    border: none;
+  }
+  
+  .custom-tabs .nav-link.active {
+    border-bottom: none;
+  }
+  
+  .custom-tabs .nav-link.active-tab {
+    color: red;
+    border-bottom: 2px solid red;
+  }
+  
+  .custom-tabs .nav-link.inactive-tab {
+    color: green;
+    border-bottom: 2px solid green;
+  }
+  

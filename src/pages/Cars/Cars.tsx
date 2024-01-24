@@ -6,7 +6,6 @@ type Props = {}
 const Cars = (props: Props) => {
   return (
     <>
-      <CarCart/>
     </>
   )
 }

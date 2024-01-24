@@ -1,8 +1,9 @@
-import axios from "axios";
+import { GetAllCarsModel } from "../models/Responses/GetAllCarsModel";
+import axiosInstance from "../utils/axiosInterceptors";
 
 export default class CarService {
-    getCars() {
-        return axios.get("http://localhost:8080/api/car/getAll")
+    getAll() {
+        return axiosInstance.get<GetAllCarsModel>("cars")
     }
    
 }

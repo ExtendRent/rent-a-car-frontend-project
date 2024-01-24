@@ -8,17 +8,21 @@ import { BrowserRouter } from 'react-router-dom';
 import '@mantine/core/styles.css';
 import { createTheme, MantineProvider } from '@mantine/core';
 import 'react-phone-number-input/style.css'
+import {Provider} from "react-redux"
+import { store } from './store/configureStore';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  
-  <BrowserRouter>
-  <MantineProvider>
-    <App />
-    </MantineProvider>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <MantineProvider>
+        <App />
+        </MantineProvider>
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

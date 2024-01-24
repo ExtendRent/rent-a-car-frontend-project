@@ -12,6 +12,7 @@ function CustomNavbar() {
     navigate('/'); 
   };
 
+
   return (
     <Navbar collapseOnSelect expand="md" className="bg-body-tertiary fixed-top"  >
       <Container>
@@ -26,15 +27,17 @@ function CustomNavbar() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link to="/cars" className="nav-link">Araçlarımız</Link>
 
             <Link to="/login" className="nav-link">Login</Link>
 
-            <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
+            <NavDropdown title="Arabalar" id="collapsible-nav-dropdown">
              
-              <Link to="/action/3.1" className="dropdown-item">Action</Link>
+                <Link to="/cars" className="nav-link">Araba Listeleme</Link>
+                <Link to="/addCar" className="nav-link">Araba Ekleme</Link>
+                <Link to="/updateCar" className="nav-link">Araba Güncelleme</Link>
     
             </NavDropdown>
+            <Link to="/adminPanel" className="nav-link">Admin Panel</Link>
             
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>

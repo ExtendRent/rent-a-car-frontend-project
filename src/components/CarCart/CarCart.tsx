@@ -20,22 +20,30 @@ import { mdiCarShiftPattern } from '@mdi/js';
 import { mdiCalendarAccountOutline } from '@mdi/js';
 import { mdiCarChildSeat } from '@mdi/js';
 import { mdiCreditCardMultipleOutline } from '@mdi/js';
-export default function CarCart() {
-
-
-  const [cars, setCars] = useState<CarModel[]>([]);
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCars } from "../../store/slices/carSlice";
+import { AppDispatch } from "../../store/configureStore";
+interface CarCartProps {
+  onButtonClick: (carId: string) => void;
+}
+export default function CarCart({ onButtonClick }: CarCartProps) {
+  
+  /* const [cars, setCars] = useState<CarModel[]>([]);
 
   useEffect(() => {
     let carService = new CarService();
   
-    carService.getCars().then((result) => {
-      //console.log(result.data.response); // Gelen veriyi console.log ile yazdır
+    carService.getAll().then((result) => {
       setCars(result.data.response);
     });
   
-  }, []);
-  
+  }, []); */
 
+  const carsState =useSelector((state: any) => state.car);
+  const dispatch =useDispatch<AppDispatch>();
+  useEffect(()=>{
+    dispatch(fetchCars())
+  },[])
 
   return (
     <Grid
@@ -44,10 +52,10 @@ export default function CarCart() {
         columns={{ xs: 1, sm: 8, md: 12 }}
         sx={{ flexGrow: 1 ,maxWidth:1500,marginLeft:4,marginRight:4}}
       >
-          {cars.map((car) => (
+          {carsState.cars.map((car:any) => (
             <Grid  xs={1} sm={4} md={4}>
               <Card sx={{ height:600, marginTop: 12 }} key={car.id}>
-                <Typography level="title-lg">{car.brandEntityName} {car.modelEntityName}</Typography>
+                <Typography level="title-lg">{car.carModelEntityBrandEntityName} {car.carModelEntityName} {car.rentalPrice} TL</Typography>
                 <AspectRatio minHeight="140px" maxHeight="260px" sx={{marginBottom:1.6}}>
                   <img
                     src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
@@ -56,17 +64,18 @@ export default function CarCart() {
                     alt=""
                   />
                 </AspectRatio>
+                
                 <CardContent orientation="horizontal">
                 <Grid container spacing={2} sx={{ flexGrow: 1 }}>
                     <Grid xs={6} sx={{borderRightStyle: "solid",borderWidth:1.5,borderColor: "#E1DED9",paddingLeft:2}}>
                           <Typography level="title-lg" sx={{ marginBottom: 1.6 }}>Araç Özellikleri</Typography>
                         <div className="mid-column">
                           <Icon path={mdiAccountGroup} size={1} className="iconClass"/>
-                          <Typography level="body-sm">5 Kişi</Typography>
+                          <Typography level="body-sm">{car.seat} Kişi</Typography>
                         </div>
                         <div className="mid-column">
                           <Icon path={mdiBagSuitcase} size={1} className="iconClass"/>
-                          <Typography level="body-sm">2 Büyük Bavul</Typography>
+                          <Typography level="body-sm">{car.luggage} Büyük Bavul</Typography>
                         </div>
                         <div className="mid-column">
                           <Icon path={mdiCarBrakeAbs} size={1} className="iconClass"/>
@@ -103,7 +112,7 @@ export default function CarCart() {
                  
                 </CardContent>
                 <CardOverflow>
-                <Button variant="solid" color="danger" size="lg">
+                <Button variant="solid" color="danger" size="lg" onClick={() => onButtonClick(car.id)}>
                   Hemen Kirala
                 </Button>
               </CardOverflow>
@@ -111,52 +120,6 @@ export default function CarCart() {
             </Grid>
           ))}
       </Grid>
-   /*  <div>
-      <Table celled>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderCell>Marka</TableHeaderCell>
-            <TableHeaderCell>Model</TableHeaderCell>
-            <TableHeaderCell>Renk</TableHeaderCell>
-            <TableHeaderCell>Yıl</TableHeaderCell>
-            <TableHeaderCell>Kilometre</TableHeaderCell>
-            <TableHeaderCell>Plaka</TableHeaderCell>
-            <TableHeaderCell>Fiyat</TableHeaderCell>
-            <TableHeaderCell></TableHeaderCell>
-          </TableRow>
-        </TableHeader>
-        
-        <TableBody>
-          {cars.map((car) => (
-
-            <TableRow key={car.id}>
-              <TableCell>{car.brandEntityName}</TableCell>
-              <TableCell>{car.modelEntityName}</TableCell>
-              <TableCell>{car.colorEntityName}</TableCell>
-              
-            </TableRow>
-          ))}
-        </TableBody>
-
-        <TableFooter>
-          <TableRow>
-            <TableHeaderCell colSpan="3">
-              <Menu floated="right" pagination>
-                <MenuItem as="a" icon>
-                  <Icon name="chevron left" />
-                </MenuItem>
-                <MenuItem as="a">1</MenuItem>
-                <MenuItem as="a">2</MenuItem>
-                <MenuItem as="a">3</MenuItem>
-                <MenuItem as="a">4</MenuItem>
-                <MenuItem as="a" icon>
-                  <Icon name="chevron right" />
-                </MenuItem>
-              </Menu>
-            </TableHeaderCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </div> */
+   
   );
 }

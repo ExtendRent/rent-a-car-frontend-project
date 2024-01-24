@@ -30,7 +30,7 @@ export function AutocompleteLoading() {
       onChange={handleChange}
       rightSection={loading ? <Loader size="1rem" /> : null}
       label="Email adresiniz * "
-      placeholder="Your email"
+      placeholder="Email adresiniz"
       classNames={classes}
     />
   );
