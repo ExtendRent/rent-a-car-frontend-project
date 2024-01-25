@@ -31,7 +31,7 @@ function AdminPanel() {
         childrenOffset={28}
       >
         <NavLink href="/colors" label="Renkler" />
-        <NavLink href="/uddColor" label="Renk Ekleme" />
+        <NavLink href="/addColor" label="Renk Ekleme" />
       </NavLink>
 
       <NavLink
