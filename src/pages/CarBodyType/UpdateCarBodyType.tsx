@@ -7,5 +7,4 @@ const UpdateCarBodyType = (props: Props) => {
     <div>UpdateCarBodyType</div>
   )
 }
-
 export default UpdateCarBodyType

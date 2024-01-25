@@ -5,6 +5,7 @@ import { carReducer } from "./slices/carSlice";
 import { brandReducer } from "./slices/brandSlice";
 import { signInReducer } from './slices/signInSlice';
 import { showRentalReducer } from './slices/showRentalSlice';
+import { carBodyTypeReducer } from './slices/carBodyTypeSlice';
 
 const rootReducer = combineReducers({
     car:carReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     customer:customerReducer,
     signIn:signInReducer,
     showRental:showRentalReducer,
-    carModel:carModelReducer
+    carModel:carModelReducer,
+    carBodyType:carBodyTypeReducer
 });
 
 export const store =configureStore({reducer:rootReducer});
