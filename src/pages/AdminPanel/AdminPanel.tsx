@@ -36,6 +36,18 @@ function AdminPanel() {
 
       <NavLink
         href="#required-for-focus"
+        label="Vites Tipi"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/gearshifts" label="Vites Tipleri" />
+        <NavLink href="/addgearshifts" label="Vites Tipi Ekleme" />
+      </NavLink>
+
+
+
+      <NavLink
+        href="#required-for-focus"
         label="İndirim Kuponu"
         leftSection={<IconGauge size="1rem" stroke={1.5} />}
         childrenOffset={28}
