@@ -8,6 +8,8 @@ import { showRentalReducer } from './slices/showRentalSlice';
 import { carBodyTypeReducer } from './slices/carBodyTypeSlice';
 import { colorReducer } from './slices/colorSlice';
 import { fuelTypeReducer } from './slices/fuelTypeSlice';
+import { shiftTypeReducer } from './slices/shiftTypeSlice';
+import { discountCodeReducer } from './slices/discountCodeSlice';
 
 
 const rootReducer = combineReducers({
@@ -19,7 +21,9 @@ const rootReducer = combineReducers({
     carModel:carModelReducer,
     carBodyType:carBodyTypeReducer,
     color:colorReducer,
-    fuelType:fuelTypeReducer
+    fuelType:fuelTypeReducer,
+    shiftType : shiftTypeReducer,
+    discountCode: discountCodeReducer,
 });
 
 export const store =configureStore({reducer:rootReducer});

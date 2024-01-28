@@ -34,6 +34,9 @@ import Navbar from './components/Navbar/NewNavbar';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
 import FuelTypes from './pages/FuelType/FuelTypes';
 import AddFuelType from './pages/FuelType/AddFuelType';
+import ShiftTypes from './pages/ShiftType/ShiftTypes';
+import AddShiftType from './pages/ShiftType/AddShiftType';
+
 
 
 function App() {
@@ -54,6 +57,10 @@ function App() {
         <Route path="/colors" element={<Colors />}></Route>
         <Route path="/addColor" element={<AddColor />}></Route>
         <Route path="/updateColor" element={<UpdateColor />}></Route>
+
+        <Route path="/gearshifts" element={<ShiftTypes />}></Route>
+        <Route path="/addgearshifts" element={<AddShiftType />}></Route>
+        
 
         <Route path="/discountCodes" element={<DiscountCodes />}></Route>
         <Route path="/addDiscountCode" element={<AddDiscountCode />}></Route>
