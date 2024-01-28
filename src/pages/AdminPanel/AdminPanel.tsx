@@ -66,6 +66,16 @@ function AdminPanel() {
 
       <NavLink
         href="#required-for-focus"
+        label="Yakıt Tipi"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/fuelTypes" label="Yakıt Türleri" />
+        <NavLink href="/addFuelType" label="Yakıt Tipi Ekleme" />
+      </NavLink>
+
+      <NavLink
+        href="#required-for-focus"
         label="Admin"
         leftSection={<IconGauge size="1rem" stroke={1.5} />}
         childrenOffset={28}

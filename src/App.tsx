@@ -32,6 +32,8 @@ import AddEmployee from './pages/Employee/AddEmployee';
 import UpdateEmployee from './pages/Employee/UpdateEmployee';
 import Navbar from './components/Navbar/NewNavbar';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
+import FuelTypes from './pages/FuelType/FuelTypes';
+import AddFuelType from './pages/FuelType/AddFuelType';
 
 
 function App() {
@@ -64,6 +66,9 @@ function App() {
         <Route path="/carBodyTypes" element={<CarBodyTypes />}></Route>
         <Route path="/addCarBodyType" element={<AddCarBodyType />}></Route>
         <Route path="/updateCarBodyType" element={<UpdateCarBodyType />}></Route>
+
+        <Route path="/fuelTypes" element={<FuelTypes />}></Route>
+        <Route path="/addFuelType" element={<AddFuelType />}></Route>
 
         <Route path="/admins" element={<Admins />}></Route>
         <Route path="/addAdmin" element={<AddAdmin />}></Route>

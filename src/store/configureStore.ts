@@ -7,6 +7,7 @@ import { signInReducer } from './slices/signInSlice';
 import { showRentalReducer } from './slices/showRentalSlice';
 import { carBodyTypeReducer } from './slices/carBodyTypeSlice';
 import { colorReducer } from './slices/colorSlice';
+import { fuelTypeReducer } from './slices/fuelTypeSlice';
 
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     carModel:carModelReducer,
     carBodyType:carBodyTypeReducer,
     color:colorReducer,
+    fuelType:fuelTypeReducer
 });
 
 export const store =configureStore({reducer:rootReducer});
