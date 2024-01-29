@@ -10,6 +10,7 @@ import { colorReducer } from './slices/colorSlice';
 import { fuelTypeReducer } from './slices/fuelTypeSlice';
 import { shiftTypeReducer } from './slices/shiftTypeSlice';
 import { discountCodeReducer } from './slices/discountCodeSlice';
+import { adminReducer } from './slices/adminSlice';
 
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     fuelType:fuelTypeReducer,
     shiftType : shiftTypeReducer,
     discountCode: discountCodeReducer,
+    admin: adminReducer
 });
 
 export const store =configureStore({reducer:rootReducer});
