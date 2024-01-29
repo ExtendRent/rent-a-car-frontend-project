@@ -97,9 +97,7 @@ export const addDiscountCode = createAsyncThunk(
     builder.addCase(updateDiscountCode.fulfilled, (state, action) => {
       state.discountCodes = [];
     });
-    builder.addCase(updateDiscountCode.rejected, (state) => {
-      
-    });
+    builder.addCase(updateDiscountCode.rejected, (state) => {});
 
     builder.addCase(deleteDiscountCode.pending, (state) => { });
     builder.addCase(deleteDiscountCode.fulfilled, (state, action) => {

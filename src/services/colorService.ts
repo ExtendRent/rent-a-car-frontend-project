@@ -8,6 +8,7 @@ export default class ColorService{
     getAll() {
         return axiosInstance.get<GetAllColorsModel>("colors?isDeleted=false")
     }
+    
     add(newColor: AddColorModel){
         return axiosInstance.post<AddColorModel>("colors", newColor)
    }
