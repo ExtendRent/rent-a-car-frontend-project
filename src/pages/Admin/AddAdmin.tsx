@@ -21,9 +21,7 @@ const AddAdmin = (props: Props) => {
 
 
   const handleAddAdmin = () => {
-      if(name.trim() !== "" && surname.trim() !== "" && emailAddress.trim() !== "" && password.trim() !== ""
-      && phoneNumber.trim() !== "" && salary !== null && imagePath.trim() !== "" && status.trim() !== "" 
-      && authority.trim() !== ""){
+      if(name.trim() !== ""){
       dispatch(addAdmin({name: name, surname: surname, emailAddress: emailAddress, password: password,
         phoneNumber: phoneNumber, salary: salary, imagePath: imagePath, status: status, authority: authority}));
       setName("");

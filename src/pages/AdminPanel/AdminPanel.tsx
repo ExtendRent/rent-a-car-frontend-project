@@ -1,5 +1,5 @@
 import { NavLink } from '@mantine/core';
-import { IconGauge, IconFingerprint } from '@tabler/icons-react';
+import { IconGauge } from '@tabler/icons-react';
 
 function AdminPanel() {
   return (
@@ -116,6 +116,14 @@ function AdminPanel() {
         <NavLink href="/addEmployee" label="Çalışan Ekleme" />
       </NavLink>
 
+      <NavLink
+        href="#required-for-focus"
+        label="Araç Durumu"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/vehicleStatuses" label="Araba Durumları" />
+      </NavLink>
    
     </div>
   );
