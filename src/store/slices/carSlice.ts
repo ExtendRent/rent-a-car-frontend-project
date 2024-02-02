@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import CarService from "../../services/carService"
+import { AddCarModel } from "../../models/Requests/AddCarModel";
 
 export const fetchCars =createAsyncThunk(
     "cars/fetchCars",
@@ -18,7 +19,25 @@ export const fetchCars =createAsyncThunk(
             console.error("Error fetching cars:", error);
             throw error; // Hata durumunu iletmek önemlidir
         } 
-    })
+    });
+
+    export const addCar = createAsyncThunk(
+        "cars/addCar",
+        async (newCarData: AddCarModel, thunkAPI) => {
+          try {
+            const service: CarService = new CarService();
+            const addedCar = await service.add(newCarData);
+      
+            return addedCar.data;
+      
+          } catch (error) {
+            console.error("Error adding car:", error);
+            throw error;
+          }
+        }
+      );
+
+    
 
 const carSlice = createSlice(
     {
@@ -26,15 +45,19 @@ const carSlice = createSlice(
         initialState:{ cars : [] as any[] },
         reducers:{},
         extraReducers:builder => {
-            builder.addCase(fetchCars.pending,(state) => {
-    
-            });
+            builder.addCase(fetchCars.pending,(state) => {});
             builder.addCase(fetchCars.fulfilled,(state,action) =>{
-                state.cars = action.payload;
-            
-                
-            });
+                state.cars = action.payload;});
             builder.addCase(fetchCars.rejected,(state) =>{});
+
+            builder.addCase(addCar.pending, (state) => { });
+            builder.addCase(addCar.fulfilled, (state, action) => {
+              state.cars.push(action.payload);
+            });
+            builder.addCase(addCar.rejected, (state) => { });
+
+          
+        
         }
 
     }

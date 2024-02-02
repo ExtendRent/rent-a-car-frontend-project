@@ -25,10 +25,9 @@ const CarModels = (props: Props) => {
     const brandId = parseInt(e.target.value, 10);
 
       setSelectedBrand(brandId);
-
       if (!isNaN(brandId)) {
         dispatch(getByBrandIdCarModels({brandId}));
-      }
+      }   
   };
 
   const handleCarModelSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
