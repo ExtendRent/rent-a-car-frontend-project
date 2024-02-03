@@ -1,5 +1,5 @@
 import { NavLink } from '@mantine/core';
-import { IconGauge, IconFingerprint } from '@tabler/icons-react';
+import { IconGauge } from '@tabler/icons-react';
 
 function AdminPanel() {
   return (
@@ -36,6 +36,18 @@ function AdminPanel() {
 
       <NavLink
         href="#required-for-focus"
+        label="Vites Tipi"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/gearshifts" label="Vites Tipleri" />
+        <NavLink href="/addgearshifts" label="Vites Tipi Ekleme" />
+      </NavLink>
+
+
+
+      <NavLink
+        href="#required-for-focus"
         label="İndirim Kuponu"
         leftSection={<IconGauge size="1rem" stroke={1.5} />}
         childrenOffset={28}
@@ -62,6 +74,16 @@ function AdminPanel() {
       >
         <NavLink href="/carBodyTypes" label="Araba Modelleri" />
         <NavLink href="/addCarBodyType" label="Araba Kasa Tipi Ekleme" />
+      </NavLink>
+
+      <NavLink
+        href="#required-for-focus"
+        label="Yakıt Tipi"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/fuelTypes" label="Yakıt Türleri" />
+        <NavLink href="/addFuelType" label="Yakıt Tipi Ekleme" />
       </NavLink>
 
       <NavLink
@@ -94,6 +116,14 @@ function AdminPanel() {
         <NavLink href="/addEmployee" label="Çalışan Ekleme" />
       </NavLink>
 
+      <NavLink
+        href="#required-for-focus"
+        label="Araç Durumu"
+        leftSection={<IconGauge size="1rem" stroke={1.5} />}
+        childrenOffset={28}
+      >
+        <NavLink href="/vehicleStatuses" label="Araba Durumları" />
+      </NavLink>
    
     </div>
   );

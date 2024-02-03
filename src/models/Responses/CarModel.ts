@@ -1,9 +1,21 @@
 export interface CarModel {
-	id: number;
-	carModelEntityBrandEntityName: string;
-	carModelEntityName: string;
-	colorEntityName: string;
-	luggage:number;
-	seat:number;
-	rentalPrice:number;
+    id: number;
+    isLicenseTypeSuitable: boolean;
+    carModelEntityBrandEntityName: string;
+    carModelEntityName: string;
+    colorEntityName: string;
+    year: number;
+    carBodyTypeEntityName: string;
+    fuelTypeEntityName: string;
+    shiftTypeEntityName: string;
+    seat: number;
+    luggage: number;
+    details: string;
+    rentalPrice: number;
+    licensePlate: string;
+    kilometer: number;
+    imagesEntityImagePaths: string[];
+    isAvailable: boolean;
+    vehicleStatusEntityId: number;
+    expectedDrivingLicenseTypes: string[];
 }

@@ -36,6 +36,12 @@ import OverlayLoader from './components/OverlayLoader/OverlayLoader';
 import { useState } from 'react';
 import { GetByDateCarResponse } from './models/Responses/GetByDateCarResponse';
 import { AllGetByDateCarResponse } from './models/Responses/AllGetByDateCarResponse';
+import FuelTypes from './pages/FuelType/FuelTypes';
+import AddFuelType from './pages/FuelType/AddFuelType';
+import ShiftTypes from './pages/ShiftType/ShiftTypes';
+import AddShiftType from './pages/ShiftType/AddShiftType';
+import VehicleStatuses from './pages/VehicleStatus/VehicleStatuses';
+
 
 
 function App() {
@@ -61,6 +67,10 @@ function App() {
         <Route path="/addColor" element={<AddColor />}></Route>
         <Route path="/updateColor" element={<UpdateColor />}></Route>
 
+        <Route path="/gearshifts" element={<ShiftTypes />}></Route>
+        <Route path="/addgearshifts" element={<AddShiftType />}></Route>
+        
+
         <Route path="/discountCodes" element={<DiscountCodes />}></Route>
         <Route path="/addDiscountCode" element={<AddDiscountCode />}></Route>
         <Route path="/updateDiscountCode" element={<UpdateDiscountCode />}></Route>
@@ -73,6 +83,9 @@ function App() {
         <Route path="/addCarBodyType" element={<AddCarBodyType />}></Route>
         <Route path="/updateCarBodyType" element={<UpdateCarBodyType />}></Route>
 
+        <Route path="/fuelTypes" element={<FuelTypes />}></Route>
+        <Route path="/addFuelType" element={<AddFuelType />}></Route>
+
         <Route path="/admins" element={<Admins />}></Route>
         <Route path="/addAdmin" element={<AddAdmin />}></Route>
         <Route path="/updateAdmin" element={<UpdateAdmin />}></Route>
@@ -84,6 +97,8 @@ function App() {
         <Route path="/employees" element={<Employees />}></Route>
         <Route path="/addEmployee" element={<AddEmployee />}></Route>
         <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
+
+        <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>

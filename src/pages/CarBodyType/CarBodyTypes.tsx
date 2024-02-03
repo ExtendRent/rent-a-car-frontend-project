@@ -27,7 +27,7 @@ const CarBodyTypes = (props: Props) => {
     if (carBodyTypeName.trim() !== "" && selectedCarBodyType !== null) {
       dispatch(updateCarBodyType({ id: selectedCarBodyType, name: carBodyTypeName }))
       handleCancelUpdate();
-      }
+    }
   };
 
   const handleCancelUpdate = () => {
@@ -37,8 +37,8 @@ const CarBodyTypes = (props: Props) => {
   };
 
   const handleDeleteCarBodyType = async () => {
-    if(selectedCarBodyType !== null){
-      await dispatch(deleteCarBodyType({carBodyTypeId : selectedCarBodyType}))
+    if (selectedCarBodyType !== null) {
+      await dispatch(deleteCarBodyType({ carBodyTypeId: selectedCarBodyType }))
       handleCarBodyTypeUpdateSuccess();
     }
   };
