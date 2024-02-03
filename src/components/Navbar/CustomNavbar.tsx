@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Navbar.css";
+import useToken from '../../utils/useToken';
 
 function CustomNavbar() {
   const navigate = useNavigate();
   const handleButtonClick = () => {
     navigate('/'); 
   };
+  const { token, decodedToken, updateToken, clearToken } = useToken();
+
 
 
   return (
@@ -37,8 +40,11 @@ function CustomNavbar() {
                 <Link to="/updateCar" className="nav-link">Araba Güncelleme</Link>
     
             </NavDropdown>
-            <Link to="/adminPanel" className="nav-link">Admin Panel</Link>
-            
+            {!decodedToken?.role?.some(role => role === 'CUSTOMER') && (
+              <Link to="/adminPanel" className="nav-link">
+                Admin Panela
+              </Link>
+            )}
             <form className="d-flex" role="search">
               <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
               <button className="btn btn-outline-dark" type="submit">Search</button>

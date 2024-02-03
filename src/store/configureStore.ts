@@ -7,17 +7,19 @@ import { signInReducer } from './slices/signInSlice';
 import { showRentalReducer } from './slices/showRentalSlice';
 import { carBodyTypeReducer } from './slices/carBodyTypeSlice';
 import { colorReducer } from './slices/colorSlice';
+import { loadingReducer } from './slices/loadingSlice';
 
 
 const rootReducer = combineReducers({
     car:carReducer,
     brand:brandReducer,
     customer:customerReducer,
-    signIn:signInReducer,
     showRental:showRentalReducer,
     carModel:carModelReducer,
     carBodyType:carBodyTypeReducer,
     color:colorReducer,
+    loading: loadingReducer,
+    signIn:signInReducer,
 });
 
 export const store =configureStore({reducer:rootReducer});

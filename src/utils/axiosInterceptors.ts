@@ -1,30 +1,36 @@
 import axios from "axios";
 import config from '../data/config.json';
 import { error } from "console";
+import tokenService from "../services/tokenService";
+import { store } from "../store/configureStore";
+import { decreaseRequestCount, increaseRequestCount } from "../store/slices/loadingSlice";
 
 const axiosInstance = axios.create({
 	baseURL: config.apiBaseUrl,
 });
 
-axiosInstance.interceptors.request.use(config => {
-	
-	return config;
-},
-error => {
-	console.error("Request Interceptor Error", error);
-    return Promise.reject(error);
-}
-);
-
-axiosInstance.interceptors.response.use(
-	response => {
-	
-		return response;
+axiosInstance.interceptors.request.use(
+	(config) => {
+	  let token = tokenService.getToken();
+	  if (token) config.headers.Authorization = `Bearer ${token}`;
+	  //store.dispatch(increaseRequestCount());
+	  return config;
 	},
-	error => {
-		console.error("Response Interceptor Error", error);
-    	return Promise.reject(error);
+	(error) => {
+	  console.error("Request Interceptor Error", error);
+	  return Promise.reject(error);
+	}
+  );
+  
+  axiosInstance.interceptors.response.use(
+	(response) => {
+	  //store.dispatch(decreaseRequestCount());
+	  return response;
 	},
-);
-
-export default axiosInstance;
+	(error) => {
+	  //store.dispatch(decreaseRequestCount());
+	  return Promise.reject(error);
+	}
+  );
+  
+  export default axiosInstance;

@@ -1,12 +1,13 @@
 
 import { ShowRentalModel } from "../models/Requests/ShowRental";
+import { AddShowRentalResponse } from "../models/Responses/AddShowRentalResponse";
 import axiosInstance from "../utils/axiosInterceptors";
 
 
 export default class ShowRentalService {
    
    add(newRental: ShowRentalModel){
-        return axiosInstance.post<ShowRentalModel>("rentals/showRental", newRental)
+        return axiosInstance.post<AddShowRentalResponse>("rentals/showRental", newRental)
    }
    
 }

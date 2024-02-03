@@ -21,45 +21,137 @@ import { mdiCalendarAccountOutline } from '@mdi/js';
 import { mdiCarChildSeat } from '@mdi/js';
 import { mdiCreditCardMultipleOutline } from '@mdi/js';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCars } from "../../store/slices/carSlice";
+import { fetchCars, getByAllFilteredCars } from "../../store/slices/carSlice";
 import { AppDispatch } from "../../store/configureStore";
+import { GetByDateCarResponse } from "../../models/Responses/GetByDateCarResponse";
+import { AllGetByDateCarResponse } from "../../models/Responses/AllGetByDateCarResponse";
+import { fetchBrands } from "../../store/slices/brandSlice";
+import { getByBrandIdCarModels } from "../../store/slices/carModelSlice";
+import { GetAllFilteredResponse } from "../../models/Responses/Car/GetAllFilteredResponse";
 interface CarCartProps {
-  onButtonClick: (carId: string) => void;
+  onButtonClick: (carEntityId: number) => void;
 }
-export default function CarCart({ onButtonClick }: CarCartProps) {
-  
-  /* const [cars, setCars] = useState<CarModel[]>([]);
+export default function CarCart({ onButtonClick }: CarCartProps) { 
+ 
+ /*  const CarCart: React.FC<{ searchCarResponse: AllGetByDateCarResponse | undefined }> = ({ searchCarResponse }) => { */
+    const carsState = useSelector((state: any) => state.car.cars);
+    const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
+    const [selectedCarModel, setSelectedCarModel] = useState<number | null>(null);
 
-  useEffect(() => {
-    let carService = new CarService();
-  
-    carService.getAll().then((result) => {
-      setCars(result.data.response);
-    });
-  
-  }, []); */
+    const dispatch =useDispatch<AppDispatch>();
 
-  const carsState =useSelector((state: any) => state.car);
-  const dispatch =useDispatch<AppDispatch>();
-  useEffect(()=>{
-    dispatch(fetchCars())
-  },[])
+    const brandState =useSelector((state: any) => state.brand);
+    const carModelState = useSelector((state: any) => state.carModel);
 
+    useEffect(()=>{
+      dispatch(fetchBrands())
+    },[dispatch])
+   
+    const handleCarModelSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const carModelId = parseInt(e.target.value, 10);
+      setSelectedCarModel(carModelId);
+    
+    };
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const brandId = parseInt(e.target.value, 10);
+  
+        setSelectedBrand(isNaN(brandId) ? null : brandId);
+
+       
+        if (isNaN(brandId)) {
+          // Eğer brandId NaN ise, selectedCarModel'ı temizle
+          setSelectedCarModel(null);
+        } else {
+          // NaN değilse, car modeli getir
+          dispatch(getByBrandIdCarModels({ brandId }));
+        }
+        
+    };
+
+    const handleFiltred = () => {
+    
+      const filterData: GetAllFilteredResponse = {};
+  
+      if (selectedBrand !== null) {
+        filterData.brandId = selectedBrand;
+      }
+
+      if (selectedCarModel !== null) {
+        filterData.modelId = selectedCarModel;
+      }
+      dispatch(getByAllFilteredCars(filterData));
+      
+    
+    }
   return (
+      <div className="row">
+        <div className="col-md-3">
+          <div className="mb-3">
+            <label htmlFor="brandSelect" className="form-label">
+              Marka Seçiniz
+            </label>
+            <select
+              className="form-select"
+              id="brandSelect"
+              value={selectedBrand || ''}
+              onChange={handleSelectChange}
+            >
+              <option value='' >
+                Marka seçiniz
+              </option>
+              {brandState.brands.map((brand: any) => (
+                <option key={brand.id} value={brand.id}>
+                  {brand.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          
+        
+          {selectedBrand !== null && carModelState.carModel.length > 0 && (
+              <div className="mb-3">
+                <label htmlFor="carModelSelect" className="form-label">
+                  Araba Modeli Seçiniz
+                </label>
+                <select
+                  className="form-select"
+                  id="carModelSelect"
+                  value={selectedCarModel || ''}
+                  onChange={handleCarModelSelectChange}
+                >
+                  <option value="" >
+                    Model seçiniz
+                  </option>
+                  {carModelState.carModel.map((carModel: any) => (
+                    <option key={carModel.id} value={carModel.id}>
+                      {carModel.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+         
+     
+
+          <button type="button" className="btn btn-primary" onClick={handleFiltred}>
+            Filtrele
+          </button>
+        </div>
+    <div className="col-md-9">
     <Grid
         container
         spacing={{ xs: 1, md: 3 }}
         columns={{ xs: 1, sm: 8, md: 12 }}
         sx={{ flexGrow: 1 ,maxWidth:1500,marginLeft:4,marginRight:4}}
       >
-          {carsState.cars.map((car:any) => (
+          {carsState.map((car: any) => (
             <Grid  xs={1} sm={4} md={4}>
               <Card sx={{ height:600, marginTop: 12 }} key={car.id}>
                 <Typography level="title-lg">{car.carModelEntityBrandEntityName} {car.carModelEntityName} {car.rentalPrice} TL</Typography>
                 <AspectRatio minHeight="140px" maxHeight="260px" sx={{marginBottom:1.6}}>
                   <img
-                    src="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286"
-                    srcSet="https://images.unsplash.com/photo-1527549993586-dff825b37782?auto=format&fit=crop&w=286&dpr=2 2x"
+                    src={car.imagesEntityImagePaths}
                     loading="lazy"
                     alt=""
                   />
@@ -77,17 +169,17 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
                           <Icon path={mdiBagSuitcase} size={1} className="iconClass"/>
                           <Typography level="body-sm">{car.luggage} Büyük Bavul</Typography>
                         </div>
-                        <div className="mid-column">
+                        {/* <div className="mid-column">
                           <Icon path={mdiCarBrakeAbs} size={1} className="iconClass"/>
                           <Typography level="body-sm">ABS</Typography>
-                        </div>
+                        </div> */}
                         <div className="mid-column">
                           <Icon path={mdiGasStationOutline} size={1} className="iconClass"/>
-                          <Typography level="body-sm">Dizel/Benzin</Typography>
+                          <Typography level="body-sm">{car.fuelTypeEntityName}</Typography>
                         </div>
                         <div className="mid-column">
                           <Icon path={mdiCarShiftPattern} size={1} className="iconClass" />
-                          <Typography level="body-sm">Manuel</Typography>
+                          <Typography level="body-sm">{car.shiftTypeEntityName}</Typography>
                         </div>
                     </Grid>
                     <Grid xs={6} sx={{paddingLeft:3}}>
@@ -112,14 +204,15 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
                  
                 </CardContent>
                 <CardOverflow>
-                <Button variant="solid" color="danger" size="lg" onClick={() => onButtonClick(car.id)}>
+               <Button variant="solid" color="danger" size="lg" onClick={() => onButtonClick(car.id)}>
                   Hemen Kirala
-                </Button>
+                </Button> 
               </CardOverflow>
               </Card>
             </Grid>
           ))}
       </Grid>
-   
+      </div>
+      </div>
   );
 }

@@ -1,56 +1,76 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
+import { useDispatch } from 'react-redux';
+import { getByDateCars } from '../../store/slices/carSlice';
+import { AppDispatch } from '../../store/configureStore';
+import { GetByDateCarResponse } from '../../models/Responses/GetByDateCarResponse';
+import SelectedCar from '../../pages/SelectedCar/SelectedCar';
+import { AllGetByDateCarResponse } from '../../models/Responses/AllGetByDateCarResponse';
 
 const Search: React.FC = () => {
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const handleSearch = () => {
-   
-    navigate(`/selectedCar?startDate=${startDate}&endDate=${endDate}`);
-    console.log('Arama Tarihi:', startDate);
-    console.log('Bitiş Tarihi:', endDate);
-  };
+  const [searchCarResponse, setSearchCarResponse] = useState<AllGetByDateCarResponse | undefined>();
 
   return (
     <div className="container-lg mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8"> {/* col-md-8 kullanarak genişliği artırın */}
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Araç Kirala</h5>
-              <div className="mb-3">
-                <label htmlFor="startDate" className="form-label">Alış Tarihi</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="endDate" className="form-label">İade Tarihi</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </div>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSearch}
-              >
-                Ara
-              </button>
-            </div>
+      <Formik
+        initialValues={{ startDate: '', endDate: '' }}
+        onSubmit={async (values) => {
+          const { startDate, endDate } = values;
+
+          if (startDate && endDate) {
+            const parsedStartDate = new Date(startDate); // String'i Date'e çevirin
+            const parsedEndDate = new Date(endDate);
+
+            const startDateValue = parsedStartDate instanceof Date ? parsedStartDate.toISOString().split('T')[0] : parsedStartDate;
+            const endDateValue = parsedEndDate instanceof Date ? parsedEndDate.toISOString().split('T')[0] : parsedEndDate;
+            const response = await dispatch(getByDateCars({
+              startDate: startDateValue,
+              finishDate : endDateValue
+            }));
+            if (response.payload) {
+              //console.log(response.payload);
+              
+              setSearchCarResponse(response.payload as AllGetByDateCarResponse);
+             
+            }
+            //<SelectedCar key={JSON.stringify(searchCarResponse)} response={searchCarResponse} />
+            navigate(`/selectedCar`, { state: searchCarResponse });
+          } else {
+            console.error('startDate and endDate must be defined before navigating.');
+          }
+        }}
+      >
+        <Form>
+          <div className="mb-3">
+            <label htmlFor="startDate" className="form-label">
+              Alış Tarihi
+            </label>
+            <Field
+              type="date"
+              className="form-control"
+              id="startDate"
+              name="startDate"
+            />
           </div>
-        </div>
-      </div>
+          <div className="mb-3">
+            <label htmlFor="endDate" className="form-label">
+              İade Tarihi
+            </label>
+            <Field
+              type="date"
+              className="form-control"
+              id="endDate"
+              name="endDate"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Ara
+          </button>
+        </Form>
+      </Formik>
     </div>
   );
 };

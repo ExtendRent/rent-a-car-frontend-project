@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./NewNavbar.css";
 import logo from '../../assets/logo4.png';
 import Spline from '@splinetool/react-spline';
+import useToken from '../../utils/useToken';
 type Props = {}
 
 function Navbar() {
@@ -10,7 +11,7 @@ function Navbar() {
     const handleButtonClick = () => {
         navigate('/');
     };
-    
+  const { token, decodedToken, updateToken, clearToken } = useToken();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand">
@@ -28,9 +29,11 @@ function Navbar() {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNav">
-        <div className="navbar-nav">
-          <Link to="/adminPanel" className="nav-link">Admin Panel</Link>
-        </div>
+          {!decodedToken?.role?.some(role => role === 'CUSTOMER') && (
+            <div className="navbar-nav">
+              <Link to="/adminPanel" className="nav-link">Admin Panel</Link>
+            </div>
+          )}
         <div className="navbar-nav ml-auto">
           <Link to="/login" className="nav-item nav-link">
             Giriş Yap

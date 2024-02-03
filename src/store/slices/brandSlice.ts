@@ -84,6 +84,7 @@ const brandSlice = createSlice({
     builder.addCase(fetchBrands.pending, (state) => {});
     builder.addCase(fetchBrands.fulfilled, (state, action) => {
       state.brands = action.payload;
+      
     });
     builder.addCase(fetchBrands.rejected, (state) => {});
 

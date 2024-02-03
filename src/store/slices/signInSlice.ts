@@ -1,7 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { SignInModel } from "../../models/Requests/SignInModel";
 import SignInService from "../../services/signInService";
-
+/* const parseJwt = (token:string) => {
+  if (!token) {
+    console.error("Token is undefined.");
+    return null;
+  }
+  const [header, payload, signature] = token.split('.');
+  const decodedPayload = JSON.parse(atob(payload));
+  return decodedPayload;
+}; */
 export const addSignIn = createAsyncThunk(
     "signin/addSignIn",
     async (addSignInData: SignInModel     
@@ -9,6 +17,10 @@ export const addSignIn = createAsyncThunk(
       try {
         const service: SignInService = new SignInService();
         const addedSignIn = await service.add(addSignInData);
+        const token = addedSignIn.data.response.token;
+        
+        localStorage.setItem("token", token);
+        //thunkAPI.dispatch({ type: "setDecodedToken", payload: decodedToken });
         return addedSignIn.data;
       } catch (error) {
         console.error("Error adding addedSignIn:", error);
@@ -18,8 +30,12 @@ export const addSignIn = createAsyncThunk(
   );
 const signInSlice = createSlice({
     name: "signIn",
-    initialState: { signIn: [] as any[],error:null },
-    reducers: {},
+    initialState: { signIn: [] as any[],error:null ,decodedToken: null},
+    reducers: {
+      setDecodedToken: (state, action) => {
+        state.decodedToken = action.payload;
+      },
+    },
     extraReducers: (builder) => {
      
   
@@ -32,6 +48,5 @@ const signInSlice = createSlice({
       });
     },
   });
-  
+  export const { setDecodedToken } = signInSlice.actions;
   export const signInReducer = signInSlice.reducer;
-  export const {} = signInSlice.actions;

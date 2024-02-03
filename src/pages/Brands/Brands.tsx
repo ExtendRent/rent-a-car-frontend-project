@@ -14,6 +14,8 @@ const Brands = () => {
  
   useEffect(()=>{
     dispatch(fetchBrands())
+    console.log(brandState);
+    
   },[dispatch])
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

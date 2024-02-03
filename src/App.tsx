@@ -32,13 +32,21 @@ import AddEmployee from './pages/Employee/AddEmployee';
 import UpdateEmployee from './pages/Employee/UpdateEmployee';
 import Navbar from './components/Navbar/NewNavbar';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
+import OverlayLoader from './components/OverlayLoader/OverlayLoader';
+import { useState } from 'react';
+import { GetByDateCarResponse } from './models/Responses/GetByDateCarResponse';
+import { AllGetByDateCarResponse } from './models/Responses/AllGetByDateCarResponse';
 
 
 function App() {
+  const [searchCarResponse, setSearchCarResponse] = useState<AllGetByDateCarResponse | undefined>({} as AllGetByDateCarResponse);
   return (
     <>
+      <OverlayLoader />
       <Navbar />
+      
       <Routes>
+        
 				<Route path="/" element={<Homepage />}></Route>
 				<Route path="/cars" element={<Cars />}></Route>
         <Route path="/addCar" element={<AddCar />}></Route>
@@ -80,7 +88,9 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
 
-        <Route path="/selectedCar" element={<SelectedCar />}></Route>
+        
+        <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
+
 			</Routes>
     </>
   );

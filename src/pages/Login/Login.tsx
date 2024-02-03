@@ -1,40 +1,34 @@
-// Login.tsx
-
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Container, Grid, TextField, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { useNavigate } from 'react-router-dom';
 import { addSignIn } from '../../store/slices/signInSlice';
 
-
 const Login: React.FC = () => {
-  
-  const dispatch =useDispatch<AppDispatch>();
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-   
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
-        if (email && password) {
-            dispatch(
-                addSignIn({
-                  email,
-                  password
-                })
-            );
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Formun varsayılan davranışını engelle
+
+    if (email && password) {
+      try {
+        const signInData = await dispatch(addSignIn({ email, password })); // Eylem dispatch edildi
         
-                
-        alert('Üyelik işlemi başarıyla tamamlandı');
 
-       
-        navigate('/login');
+        alert('Üyelik işlemi başarıyla tamamlandı');
+        navigate('/'); // Başarılı girişten sonra yönlendirme
+      } catch (error) {
+        console.error('Hata:', error); // Hata yönetimi eklendi
+        alert('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
+      }
     } else {
-        // Eksik bilgi varsa kullanıcıyı uyar
-        alert('Lütfen tüm alanları doldurun.');
+      alert('Lütfen tüm alanları doldurun.');
     }
-    };
+  };
 
   return (
     <Container maxWidth="sm">
