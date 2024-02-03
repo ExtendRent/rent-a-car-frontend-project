@@ -1,7 +1,7 @@
 export interface CarModel {
-	id: number;
-    isLicenseTypeSuitable :boolean ;
-    carModelEntityBrandEntityName :string;
+    id: number;
+    isLicenseTypeSuitable: boolean;
+    carModelEntityBrandEntityName: string;
     carModelEntityName: string;
     colorEntityName: string;
     year: number;
@@ -12,10 +12,10 @@ export interface CarModel {
     luggage: number;
     details: string;
     rentalPrice: number;
-    licensePlate:string;
+    licensePlate: string;
     kilometer: number;
-   // imagesEntityImagePaths: string[];
+    imagesEntityImagePaths: string[];
     isAvailable: boolean;
-   // vehicleStatusEntityId: number;
-   // expectedDrivingLicenseTypes: string[];
+    vehicleStatusEntityId: number;
+    expectedDrivingLicenseTypes: string[];
 }

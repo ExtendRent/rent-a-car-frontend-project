@@ -209,7 +209,7 @@ const AddCar = (props: Props) => {
       </div>
       <div>
         <input placeholder='year'
-          type="text"
+          type="number"
           value={year}
           onChange={(e) => setYear(parseInt(e.target.value, 10))}
         />
@@ -223,7 +223,7 @@ const AddCar = (props: Props) => {
       </div>
       <div>
         <input placeholder='rental price'
-          type="text"
+          type="number"
           value={rentalPrice}
           onChange={(e) => setRentalPrice(parseFloat(e.target.value))}
         />
@@ -237,21 +237,21 @@ const AddCar = (props: Props) => {
       </div>
       <div>
         <input placeholder='kilometer'
-          type="text"
+          type="number"
           value={kilometer}
           onChange={(e) => setKilometer(parseInt(e.target.value, 10))}
         />
       </div>
       <div>
         <input placeholder='seat'
-          type="text"
+          type="number"
           value={seat}
           onChange={(e) => setSeat(parseInt(e.target.value, 10))}
         />
       </div>
       <div>
         <input placeholder='luggage'
-          type="text"
+          type="number"
           value={luggage}
           onChange={(e) => setLuggage(parseInt(e.target.value, 10))}
         />
