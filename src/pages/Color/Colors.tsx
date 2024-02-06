@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import '../AdminPanel/AdminPanel.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteColor, fetchColors, updateColor } from '../../store/slices/colorSlice';
@@ -50,36 +51,41 @@ const Colors = () => {
 
 
   return (
-    <div style={{ marginTop: 200 }}>
+    <div className="container d-flex flex-column align-items-center">
       <h2>Color List</h2>
-
-      <select value={selectedColor || ''} onChange={handleSelectChange}>
-        <option value="" disabled>
-          Select a color
-        </option>
+<form>
+  <div className="mb-2">
+      <select className="form-select" id="colorSelect" value={selectedColor || ''} onChange={handleSelectChange}>
+        <option value="" disabled> Select a color </option>
         {colorState.colors.map((color: any) => (
           <option key={color.id} value={color.id}>
             {color.name}
           </option>
         ))}
       </select>
+      </div>
   
       {selectedColor !== null && (
-        <div>
-           <input
+        <div className="mb-2">
+           <input style= {{ appearance: 'none', 
+                WebkitAppearance: 'none',
+                MozAppearance: 'none',
+                backgroundImage: 'none',
+                paddingRight: '10px' }}  className="form-select"
             type="text"
             value={colorName}
             onChange={(e) => setColorName(e.target.value)}
           />
-          <button onClick={handleColorUpdateSuccess}>Update Color</button>
-          <button onClick={handleCancelUpdate}>Cancel</button>
+          <button type="button" className="btn btn-primary" onClick={handleColorUpdateSuccess}>Update Color</button>
+          <button type="button" className="btn btn-primary" onClick={handleCancelUpdate}>Cancel</button>
         </div>
       )}
 
 
-      <button onClick={handleDeleteColor} disabled={selectedColor === null}>
+      <button type="button" className="btn btn-primary" onClick={handleDeleteColor} disabled={selectedColor === null}>
         Delete Color
       </button>
+      </form>
     </div>
 
 

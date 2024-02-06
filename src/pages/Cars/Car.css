@@ -1,0 +1,27 @@
+.row{
+    margin-right: 5px;
+    display: flex;
+   justify-content: flex-end; 
+  /*  border: 1px solid; */
+ 
+} 
+#select-block{
+    margin-right: 160px;
+    width: 300px;
+}
+#input-block{
+    margin-right: 50px;
+    width: 300px;
+}
+h2{
+    margin-top: 30px;
+}
+#container-car{
+    margin-top: 60px;
+}
+#addCarBtn{
+    margin-bottom: 100px;
+}
+
+
+
