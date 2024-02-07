@@ -15,7 +15,7 @@
     "@mui/lab": "^5.0.0-alpha.161",
     "@mui/material": "^5.15.5",
     "@mui/styled-engine-sc": "^6.0.0-alpha.12",
-    "@mui/styles": "^5.15.7",
+    
     "@mui/system": "^5.15.5",
     "@react-input/mask": "^1.0.20",
     "@reduxjs/toolkit": "^2.0.1",
