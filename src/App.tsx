@@ -41,6 +41,7 @@ import AddFuelType from './pages/FuelType/AddFuelType';
 import ShiftTypes from './pages/ShiftType/ShiftTypes';
 import AddShiftType from './pages/ShiftType/AddShiftType';
 import VehicleStatuses from './pages/VehicleStatus/VehicleStatuses';
+import PaymentTypes from './pages/PaymentType/PaymentTypes';
 
 
 
@@ -99,6 +100,8 @@ function App() {
         <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
 
         <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
+
+        <Route path="/paymentTypes" element={<PaymentTypes />}></Route>
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>

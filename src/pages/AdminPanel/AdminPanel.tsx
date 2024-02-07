@@ -20,6 +20,8 @@ import Customers from '../Customer/Customers';
 import Employees from '../Employee/Employees';
 import AddColor from '../Color/AddColor';
 import AddCar from '../Cars/AddCar';
+import PaymentTypes from '../PaymentType/PaymentTypes';
+import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';
 
 const AdminPanel: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,7 +46,7 @@ const AdminPanel: React.FC = () => {
     { name: 'Admin', component: Admins },
     { name: 'Müşteri', component: Customers },
     { name: 'Çalışan', component: Employees },
-
+    { name: 'Ödeme Tipi', component: PaymentTypes}, 
   ];
 
 
@@ -59,6 +61,7 @@ const AdminPanel: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchColors());
+    dispatch(fetchPaymentTypes());
   }, [dispatch])
 
   const handleActionButtonClick = (action: string) => {
