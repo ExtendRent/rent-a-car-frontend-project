@@ -20,6 +20,7 @@ import Customers from '../Customer/Customers';
 import Employees from '../Employee/Employees';
 import AddColor from '../Color/AddColor';
 import AddCar from '../Cars/AddCar';
+import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
 
 const AdminPanel: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,6 +45,8 @@ const AdminPanel: React.FC = () => {
     { name: 'Admin', component: Admins },
     { name: 'Müşteri', component: Customers },
     { name: 'Çalışan', component: Employees },
+    { name: 'Ehliyet Tipi', component: DrivingLicenseTypes},
+    
 
   ];
 
