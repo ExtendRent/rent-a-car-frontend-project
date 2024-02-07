@@ -41,12 +41,11 @@ import AddFuelType from './pages/FuelType/AddFuelType';
 import ShiftTypes from './pages/ShiftType/ShiftTypes';
 import AddShiftType from './pages/ShiftType/AddShiftType';
 import VehicleStatuses from './pages/VehicleStatus/VehicleStatuses';
-<<<<<<< HEAD
 import PaymentTypes from './pages/PaymentType/PaymentTypes';
-=======
 import DrivingLicenseTypes from './pages/DrivingLicenseType/DrivingLicenseTypes';
 import AddDrivingLicenseType from './pages/DrivingLicenseType/AddDrivingLicenseType';
->>>>>>> nursel
+
+
 
 
 
@@ -105,13 +104,11 @@ function App() {
         <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
 
         <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
-
-<<<<<<< HEAD
         <Route path="/paymentTypes" element={<PaymentTypes />}></Route>
-=======
+
         <Route path="/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
         <Route path="/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
->>>>>>> nursel
+
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
