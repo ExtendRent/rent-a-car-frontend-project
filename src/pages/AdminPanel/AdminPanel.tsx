@@ -23,6 +23,8 @@ import AddCar from '../Cars/AddCar';
 import PaymentTypes from '../PaymentType/PaymentTypes';
 import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';
 import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
+import DeleteCar from '../Cars/DeleteCar';
+import { Action } from '@remix-run/router';
 
 const AdminPanel: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,9 +32,12 @@ const AdminPanel: React.FC = () => {
     name: string;
     component: React.FC<any>;
   }
-  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
+  ///const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [formData, setFormData] = useState<any>({});
+  const [selectedEntity, setSelectedEntity] = useState<{ entity: Entity | null, action: 'add' | 'update' | 'delete' }>({ entity: null, action: 'add' });
+
+
 
   const entities = [
     { name: 'Araç', component: Cars },
@@ -47,16 +52,15 @@ const AdminPanel: React.FC = () => {
     { name: 'Admin', component: Admins },
     { name: 'Müşteri', component: Customers },
     { name: 'Çalışan', component: Employees },
-    { name: 'Ödeme Tipi', component: PaymentTypes}, 
-    { name: 'Ehliyet Tipi', component: DrivingLicenseTypes},
-    
+    { name: 'Ödeme Tipi', component: PaymentTypes },
+    { name: 'Ehliyet Tipi', component: DrivingLicenseTypes },
   ];
 
 
-  const handleEntitySelect = (entityName: string) => {
+  const handleEntitySelect = (entityName: string, action: 'add' | 'update' | 'delete') => {
     const entity = entities.find(entity => entity.name === entityName);
     if (entity) {
-      setSelectedEntity(entity);
+      setSelectedEntity({ entity: entity, action: action });
       setIsFormVisible(false);
     }
   };
@@ -67,15 +71,19 @@ const AdminPanel: React.FC = () => {
     dispatch(fetchPaymentTypes());
   }, [dispatch])
 
-  const handleActionButtonClick = (action: string) => {
-    if (action === 'Add') {
-      setSelectedEntity(null);
+   const handleActionButtonClick = (action: 'add' | 'update' | 'delete') => {
+    if (action === 'add') {
+      setSelectedEntity({ entity: null, action: 'add' });
       setIsFormVisible(true);
-    } else {
-      setIsFormVisible(false);
+    } else if (action === 'update') {
+      setSelectedEntity({ entity: null, action: 'update' });
+      setIsFormVisible(true);
+    } else if (action === 'delete') {
+      setSelectedEntity({ entity: null, action: 'delete' });
+      setIsFormVisible(true);
     }
-    /* setIsFormVisible(true); */
-  };
+  }; 
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -93,7 +101,7 @@ const AdminPanel: React.FC = () => {
 
           <ul className="list-group">
             {entities.map(entity => (
-              <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity.name)}>
+              <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity.name, 'add')}>
                 {entity.name}
               </li>
             ))}
@@ -104,20 +112,27 @@ const AdminPanel: React.FC = () => {
             <div className="col-md-12">
               <div className="btn-group">
 
-                <button className="btn btn-warning" onClick={() => handleActionButtonClick('Add')}>Add</button>
-                <button className="btn btn-primary" onClick={() => handleActionButtonClick('Update')}>Update</button>
-                <button className="btn btn-danger" onClick={() => handleActionButtonClick('Delete')}>Delete</button>
+                <button className="btn btn-warning" onClick={() => handleActionButtonClick('add')}>Add</button>
+                <button className="btn btn-primary" onClick={() => handleActionButtonClick('update')}>Update</button>
+                <button className="btn btn-danger" onClick={() => handleActionButtonClick('delete')}>Delete</button>
               </div>
             </div>
           </div>
 
-          {isFormVisible ? (
+        {/*  {selectedPage && pages.map(page => {
+            if (page.name === selectedPage) {
+              return <page.component key={page.name} />;
+            }
+          })}
+ */}
+
+         {isFormVisible ? (
             <AddCar />
           ) : (
-            selectedEntity && <selectedEntity.component />
+            selectedEntity && selectedEntity.entity && <selectedEntity.entity.component />
           )}
-
-          {/* İlgili bileşenin render edileceği yer */}
+ 
+         
           {/* {selectedEntity && (
             <selectedEntity.component />
           )} */}

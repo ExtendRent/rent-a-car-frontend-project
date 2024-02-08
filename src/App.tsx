@@ -44,6 +44,7 @@ import VehicleStatuses from './pages/VehicleStatus/VehicleStatuses';
 import PaymentTypes from './pages/PaymentType/PaymentTypes';
 import DrivingLicenseTypes from './pages/DrivingLicenseType/DrivingLicenseTypes';
 import AddDrivingLicenseType from './pages/DrivingLicenseType/AddDrivingLicenseType';
+import DeleteCar from './pages/Cars/DeleteCar';
 
 
 
@@ -59,7 +60,7 @@ function App() {
 				<Route path="/" element={<Homepage />}></Route>
 				<Route path="/cars" element={<Cars />}></Route>
         <Route path="/addCar" element={<AddCar />}></Route>
-        <Route path="/updateCar" element={<UpdateCar />}></Route>
+        <Route path="/deleteCar" element={<DeleteCar />}></Route>
 
         <Route path="/adminPanel" element={<AdminPanel />}></Route>
 
