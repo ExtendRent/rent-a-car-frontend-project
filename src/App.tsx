@@ -47,8 +47,6 @@ import AddDrivingLicenseType from './pages/DrivingLicenseType/AddDrivingLicenseT
 
 
 
-
-
 function App() {
   const [searchCarResponse, setSearchCarResponse] = useState<AllGetByDateCarResponse | undefined>({} as AllGetByDateCarResponse);
   return (
@@ -104,8 +102,9 @@ function App() {
         <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
 
         <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
-        <Route path="/paymentTypes" element={<PaymentTypes />}></Route>
 
+        <Route path="/paymentTypes" element={<PaymentTypes />}></Route>
+     
         <Route path="/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
         <Route path="/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
 

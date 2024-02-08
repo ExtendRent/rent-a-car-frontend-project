@@ -11,6 +11,7 @@ import { fetchColors } from '../../store/slices/colorSlice';
 import { fetchShiftTypes } from '../../store/slices/shiftTypeSlice';
 import { fetchFuelType } from '../../store/slices/fuelTypeSlice';
 import { fetchVehicleStatus } from '../../store/slices/vehicleStatusSlice';
+import { fetchDrivingLicenseTypes } from '../../store/slices/drivingLicenseTypeSlice';
 
 
 type Props = {}
@@ -23,6 +24,7 @@ const AddCar = (props: Props) => {
   const vehicleStatusState = useSelector((state: any) => state.vehicleStatus);
   const shiftTypeState = useSelector((state: any) => state.shiftType);
   const fuelTypeState = useSelector((state: any) => state.fuelType);
+  const expectedMinDrivingLicenseTypeState= useSelector((state: any) => state.drivingLicenseType)
 
 
   const [selectedCarModel, setSelectedCarModel] = useState<number>();
@@ -32,13 +34,13 @@ const AddCar = (props: Props) => {
   const [selectedVehicleStatus, setSelectedVehicleStatus] = useState<number>(0);
   const [selectedShiftType, setSelectedShiftType] = useState<number>(0);
   const [selectedFuelType, setSelectedFuelType] = useState<number>(0);
+  const [selectedExpectedMinDrivingLicenseType, setselectedExpectedMinDrivingLicenseType] = useState<number>(0);
   const [year, setYear] = useState<number | undefined>(undefined);
   const [details, setDetails] = useState('');
   const [rentalPrice, setRentalPrice] = useState<number>(0);
   const [licensePlate, setLicensePlate] = useState('');
   const [kilometer, setKilometer] = useState<number>(0);
   const [imagePaths, setImagePaths] = useState<string[]>([]);
-  const [expectedDrivingLicenseTypes, setExpectedDrivingLicenseTypes] = useState<string[]>([]);
   const [seat, setSeat] = useState<number>(0);
   const [luggage, setLuggage] = useState<number>(0);
 
@@ -50,11 +52,12 @@ const AddCar = (props: Props) => {
     dispatch(fetchVehicleStatus());
     dispatch(fetchShiftTypes());
     dispatch(fetchFuelType());
+    dispatch(fetchDrivingLicenseTypes());
   }, [dispatch])
 
   const handleAddCar = () => {
     if (year !== undefined && details.trim() !== "" && rentalPrice !== undefined && licensePlate.trim() !== ""
-      && kilometer !== undefined && seat !== undefined && luggage !== undefined && imagePaths.length !== 0 && expectedDrivingLicenseTypes.length !== 0 &&
+      && kilometer !== undefined && seat !== undefined && luggage !== undefined && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined &&
       selectedBrand !== undefined && selectedCarModel !== undefined && selectedCarBodyType !== undefined
       && selectedColor !== undefined && selectedVehicleStatus !== undefined && selectedShiftType !== undefined
       && selectedFuelType !== undefined) {
@@ -66,9 +69,10 @@ const AddCar = (props: Props) => {
         vehicleStatusEntityId: selectedVehicleStatus,
         shiftTypeEntityId: selectedShiftType,
         fuelTypeEntityId: selectedFuelType,
+        expectedMinDrivingLicenseTypeId:selectedExpectedMinDrivingLicenseType,
         year: year, details: details, rentalPrice: rentalPrice, licensePlate: licensePlate,
         kilometer: kilometer,
-        seat: seat, luggage: luggage, imagePaths: imagePaths, expectedDrivingLicenseTypes: expectedDrivingLicenseTypes
+        seat: seat, luggage: luggage, imagePaths: imagePaths
       }));
       setYear(undefined);
       setDetails('');
@@ -76,7 +80,6 @@ const AddCar = (props: Props) => {
       setLicensePlate('');
       setKilometer(0);
       setImagePaths([]);
-      setExpectedDrivingLicenseTypes([]);
       setSeat(0);
       setLuggage(0);
     }
@@ -114,6 +117,9 @@ const AddCar = (props: Props) => {
   }
   const handleFuelTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedFuelType(parseInt(e.target.value, 10));
+  }
+  const handleDrivingLicenseTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setselectedExpectedMinDrivingLicenseType(parseInt(e.target.value, 10));
   }
 
 
@@ -200,6 +206,17 @@ const AddCar = (props: Props) => {
               {fuelTypeState.fuelTypes.map((fuelType: any) => (
                 <option key={fuelType.id} value={fuelType.id}>
                   {fuelType.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-2">
+            <label htmlFor="selectDrivingLicenseType">Ehliyet Tipi Seç</label>
+            <select className="form-select" id="drivingLicenseTypeSelect" value={selectedExpectedMinDrivingLicenseType || ''} onChange={handleDrivingLicenseTypeChange}>
+              <option value="" disabled></option>
+              {expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => (
+                <option key={drivingLicenseType.id} value={drivingLicenseType.id}>
+                  {drivingLicenseType.name}
                 </option>
               ))}
             </select>
@@ -318,21 +335,6 @@ const AddCar = (props: Props) => {
               value={luggage}
               onChange={(e) => setLuggage(parseInt(e.target.value, 10))}
             />
-          </div>
-          <div className="mb-2">
-            <label htmlFor="inputDrivingLicenseType">Ehliyet Tipi Giriniz</label>
-            <input style={{
-              appearance: 'none',
-              WebkitAppearance: 'none',
-              MozAppearance: 'none',
-              backgroundImage: 'none',
-              paddingRight: '10px'
-            }} className="form-select "
-              type="text"
-              value={expectedDrivingLicenseTypes}
-              onChange={(e) => setExpectedDrivingLicenseTypes(e.target.value.split(','))}
-            />
-
           </div>
         </div>
       </div>

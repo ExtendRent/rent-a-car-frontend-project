@@ -14,11 +14,9 @@ import { discountCodeReducer } from './slices/discountCodeSlice';
 import { adminReducer } from './slices/adminSlice';
 import { employeeReducer } from './slices/employeeSlice';
 import { vehicleStatusReducer } from './slices/vehicleStatusSlice';
-<<<<<<< HEAD
 import { paymentTypeReducer } from './slices/paymentTypeSlice';
-=======
 import { drivingLicenseTypeReducer } from './slices/drivingLicenseTypeSlice';
->>>>>>> nursel
+
 
 
 
@@ -38,11 +36,8 @@ const rootReducer = combineReducers({
     admin: adminReducer,
     employee: employeeReducer,
     vehicleStatus: vehicleStatusReducer,
-<<<<<<< HEAD
     paymentType: paymentTypeReducer,
-=======
     drivingLicenseType: drivingLicenseTypeReducer,
->>>>>>> nursel
 });
 
 export const store =configureStore({reducer:rootReducer});
