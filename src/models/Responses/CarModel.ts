@@ -15,7 +15,15 @@ export interface CarModel {
     licensePlate: string;
     kilometer: number;
     imagesEntityImagePaths: string[];
-    isAvailable: boolean;
     vehicleStatusEntityId: number;
-    expectedDrivingLicenseTypes: string[];
+    carModelEntityBrandEntityId: number;
+    carModelEntityId: number;
+    colorEntityId: number;
+    fuelTypeEntityId: number;
+    shiftTypeEntityId: number;
+    carBodyTypeEntityId: number;
+    expectedMinDrivingLicenseTypeId: number;
+    vehicleStatusEntityName: string;
+    expectedMinDrivingLicenseTypeName:string;
+
 }

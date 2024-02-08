@@ -20,12 +20,9 @@ import Customers from '../Customer/Customers';
 import Employees from '../Employee/Employees';
 import AddColor from '../Color/AddColor';
 import AddCar from '../Cars/AddCar';
-<<<<<<< HEAD
 import PaymentTypes from '../PaymentType/PaymentTypes';
 import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';
-=======
 import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
->>>>>>> nursel
 
 const AdminPanel: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,13 +47,9 @@ const AdminPanel: React.FC = () => {
     { name: 'Admin', component: Admins },
     { name: 'Müşteri', component: Customers },
     { name: 'Çalışan', component: Employees },
-<<<<<<< HEAD
     { name: 'Ödeme Tipi', component: PaymentTypes}, 
-=======
     { name: 'Ehliyet Tipi', component: DrivingLicenseTypes},
     
-
->>>>>>> nursel
   ];
 
 

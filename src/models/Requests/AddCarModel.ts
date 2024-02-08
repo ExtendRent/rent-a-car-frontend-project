@@ -10,7 +10,7 @@ export interface AddCarModel {
     licensePlate: string;
     kilometer: number;
     imagePaths: string[];
-    expectedDrivingLicenseTypes: string[];
+    expectedMinDrivingLicenseTypeId: number;
     shiftTypeEntityId: number;
     fuelTypeEntityId: number;
     seat: number;
