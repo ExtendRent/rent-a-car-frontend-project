@@ -4,4 +4,6 @@ export interface GetAllFilteredResponse {
 	colorId?:number;
 	fuelTypeId?:number;
 	shiftTypeId?:number;
+	startDate?:Date | string;
+	endDate?:Date | string;
 }

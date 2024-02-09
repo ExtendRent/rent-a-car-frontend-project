@@ -94,6 +94,8 @@ const SelectedCar:React.FC<{ response: AllGetByDateCarResponse | undefined }> = 
 
           handleCarButtonClick("", carEntityId, formattedStartDate, formattedEndDate, decodedToken?.id);
         }} 
+            startDate={startDate}
+            endDate={endDate}
       />
 
        {/*  <CarCart searchCarResponse={response}/> */}

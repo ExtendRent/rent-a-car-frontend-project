@@ -33,8 +33,10 @@ import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
 import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 interface CarCartProps {
   onButtonClick: (carEntityId: number) => void;
+  startDate: string; // formattedStartDate ve formattedEndDate'yi props olarak ekleyin
+  endDate: string;
 }
-export default function CarCart({ onButtonClick }: CarCartProps) { 
+export default function CarCart({ onButtonClick,startDate, endDate}: CarCartProps) { 
  
  /*  const CarCart: React.FC<{ searchCarResponse: AllGetByDateCarResponse | undefined }> = ({ searchCarResponse }) => { */
     const carsState = useSelector((state: any) => state.car.cars);
@@ -53,7 +55,7 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
     const fuelTypeState = useSelector((state: any) => state.fuelType);
     const shiftTypeState = useSelector((state: any) => state.shiftType);
 
-    useEffect(()=>{
+    useEffect(()=>{  
       dispatch(fetchBrands())
       dispatch(fetchColors())
       dispatch(fetchFuelType())
@@ -107,6 +109,12 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
       }
       if (selectedShiftType !== null) {
         filterData.shiftTypeId = selectedShiftType;
+      }
+      if (startDate !== null){
+        filterData.startDate=startDate;
+      }
+      if (endDate !== null){
+        filterData.endDate=endDate;
       }
       dispatch(getByAllFilteredCars(filterData));
       
