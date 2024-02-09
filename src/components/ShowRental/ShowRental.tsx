@@ -1,17 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalResponse';
+import { addShowRental } from '../../store/slices/showRentalSlice';
+import { AppDispatch } from '../../store/configureStore';
+import { useDispatch } from 'react-redux';
 
-const ShowRental: React.FC<{ response: AddShowRentalResponse | undefined }> = ({ response }) => {
-  console.log(response?.response.carDTO.carBodyTypeEntityName);
-  /* if (typeof response === 'object' && typeof response.data.customerDTO === 'object') {
-    console.log(response.data.customerDTO?.phoneNumber);
-  } */
+
+const ShowRental: React.FC<{ response: AddShowRentalResponse | undefined, onPaymentProcessClick: () => void }> = ({ response, onPaymentProcessClick }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [discountCodeInput, setDiscountCodeInput] = useState('');
+  const [calculatedAmount, setCalculatedAmount] = useState<number | undefined>(undefined);
+  const [rentalResponse, setRentalResponse] = useState<AddShowRentalResponse | undefined>();
+
+
   if (!response) {
     return <div>Bilgiler yükleniyor...</div>;
   }
 
   const { customerDTO, carDTO, startDate, endDate, discountCode, amount } = response.response;
+  const handleCalculateClick = async () => {
+    const newAmountResponse = await dispatch(addShowRental({
+      discountCode: discountCodeInput,
+      carEntityId: carDTO.id,
+      startDate: startDate,
+      endDate: endDate,
+      customerEntityId: customerDTO.id,
+    }));
 
+    if (newAmountResponse.payload) {
+      //setCalculatedAmount(newAmountResponse.payload.amount);
+      setRentalResponse(newAmountResponse.payload as AddShowRentalResponse);
+      setCalculatedAmount(rentalResponse?.response.amount);
+      
+    }
+  };
   return (
     <div>
       <h2>Kiralama Detayları</h2>
@@ -44,8 +65,21 @@ const ShowRental: React.FC<{ response: AddShowRentalResponse | undefined }> = ({
         <strong>İndirim Kodu:</strong> {discountCode}
       </p>
       <p>
-        <strong>Fiyat:</strong> {amount}
+        <strong>Fiyat:</strong> {calculatedAmount !== undefined ? calculatedAmount : amount}
       </p>
+      <div>
+        <input 
+          type="text" 
+          value={discountCodeInput} 
+          onChange={(e) => setDiscountCodeInput(e.target.value)} 
+          placeholder="İndirim Kodu" 
+        />
+        <button onClick={handleCalculateClick}>Hesapla</button>
+      </div>
+      <div>
+        <button onClick={() => onPaymentProcessClick()}>Ödeme Yap</button>
+      </div>
+      <p>sss</p>
     </div>
   );
 };
