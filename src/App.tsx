@@ -41,6 +41,10 @@ import AddFuelType from './pages/FuelType/AddFuelType';
 import ShiftTypes from './pages/ShiftType/ShiftTypes';
 import AddShiftType from './pages/ShiftType/AddShiftType';
 import VehicleStatuses from './pages/VehicleStatus/VehicleStatuses';
+import PaymentTypes from './pages/PaymentType/PaymentTypes';
+import DrivingLicenseTypes from './pages/DrivingLicenseType/DrivingLicenseTypes';
+import AddDrivingLicenseType from './pages/DrivingLicenseType/AddDrivingLicenseType';
+import DeleteCar from './pages/Cars/DeleteCar';
 
 
 
@@ -56,7 +60,7 @@ function App() {
 				<Route path="/" element={<Homepage />}></Route>
 				<Route path="/cars" element={<Cars />}></Route>
         <Route path="/addCar" element={<AddCar />}></Route>
-        <Route path="/updateCar" element={<UpdateCar />}></Route>
+        <Route path="/deleteCar" element={<DeleteCar />}></Route>
 
         <Route path="/adminPanel" element={<AdminPanel />}></Route>
 
@@ -99,6 +103,12 @@ function App() {
         <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
 
         <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
+
+        <Route path="/paymentTypes" element={<PaymentTypes />}></Route>
+     
+        <Route path="/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
+        <Route path="/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
+
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
