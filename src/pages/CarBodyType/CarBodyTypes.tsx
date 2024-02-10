@@ -36,13 +36,6 @@ const CarBodyTypes = (props: Props) => {
     dispatch(fetchCarBodyTypes());
   };
 
-  const handleDeleteCarBodyType = async () => {
-    if (selectedCarBodyType !== null) {
-      await dispatch(deleteCarBodyType({ carBodyTypeId: selectedCarBodyType }))
-      handleCarBodyTypeUpdateSuccess();
-    }
-  };
-
   return (
     <div style={{ marginTop: 200 }}>
       <h2>Car Body Type List</h2>
@@ -69,10 +62,6 @@ const CarBodyTypes = (props: Props) => {
           <button onClick={handleCancelUpdate}>Cancel</button>
         </div>
       )}
-
-      <button onClick={handleDeleteCarBodyType} disabled={selectedCarBodyType === null}>
-        Delete Car Body Type
-      </button>
     </div>
   )
 }

@@ -28,16 +28,15 @@ const Search: React.FC = () => {
             const endDateValue = parsedEndDate instanceof Date ? parsedEndDate.toISOString().split('T')[0] : parsedEndDate;
             const response = await dispatch(getByDateCars({
               startDate: startDateValue,
-              finishDate : endDateValue
+              endDate : endDateValue
             }));
             if (response.payload) {
-              //console.log(response.payload);
-              
+            
               setSearchCarResponse(response.payload as AllGetByDateCarResponse);
              
             }
             //<SelectedCar key={JSON.stringify(searchCarResponse)} response={searchCarResponse} />
-            navigate(`/selectedCar`, { state: searchCarResponse });
+            navigate(`/selectedCar`, { state: { startDate: startDateValue, endDate: endDateValue } });
           } else {
             console.error('startDate and endDate must be defined before navigating.');
           }

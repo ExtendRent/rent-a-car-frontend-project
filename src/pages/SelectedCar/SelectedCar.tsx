@@ -12,11 +12,10 @@ import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalRespo
 import { GetByDateCarResponse } from '../../models/Responses/GetByDateCarResponse';
 import CarCart from '../../components/CarCart/CarCart';
 import { AllGetByDateCarResponse } from '../../models/Responses/AllGetByDateCarResponse';
+import Payment from '../../components/Payment/Payment';
 
 const SelectedCar:React.FC<{ response: AllGetByDateCarResponse | undefined }> = ({ response }) => {
   const brandState = useSelector((state: any) => state.brand.brands);
-  console.log(brandState);
-  
   const { token, decodedToken, updateToken, clearToken } = useToken();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -26,8 +25,16 @@ const SelectedCar:React.FC<{ response: AllGetByDateCarResponse | undefined }> = 
   const startDateString = location?.state?.startDate || '';
   const endDateString = location?.state?.endDate || '';
 
+
+  const [customerEntityId, setCustomerEntityId] = useState<number | undefined>(undefined);
+  const [carEntityId, setCarEntityId] = useState<number | undefined>(undefined);
+
+  
+  
   const startDate = moment(startDateString).format('YYYY-MM-DD');
   const endDate = moment(endDateString).format('YYYY-MM-DD');
+
+  
 
   const handleCarButtonClick = async (discountCode: string, carEntityId: number, startDate: Date | string, endDate: Date | string, customerEntityId?: number) => {
     const startDateValue = startDate instanceof Date ? startDate.toISOString().split('T')[0] : startDate;
@@ -85,8 +92,10 @@ const SelectedCar:React.FC<{ response: AllGetByDateCarResponse | undefined }> = 
           const formattedStartDate = new Date(`${startDate}T00:00:00.000Z`).toISOString().split('T')[0];
           const formattedEndDate = new Date(`${endDate}T00:00:00.000Z`).toISOString().split('T')[0];
 
-          handleCarButtonClick("HOSGELDIN", carEntityId, formattedStartDate, formattedEndDate, decodedToken?.id);
+          handleCarButtonClick("", carEntityId, formattedStartDate, formattedEndDate, decodedToken?.id);
         }} 
+            startDate={startDate}
+            endDate={endDate}
       />
 
        {/*  <CarCart searchCarResponse={response}/> */}
@@ -95,18 +104,14 @@ const SelectedCar:React.FC<{ response: AllGetByDateCarResponse | undefined }> = 
       <Tab eventKey="tab2" title={<div className={activeTab === "tab2" ? "tab-title active-tab" : "tab-title "}>Kiralama Detayları</div>} disabled={activeTab !== "tab2"}>
         <div className="tab-content">
           
-          <ShowRental key={JSON.stringify(rentalResponse)} response={rentalResponse} />
+        <ShowRental key={JSON.stringify(rentalResponse)} response={rentalResponse} onPaymentProcessClick={handleRentDetailsButtonClick} />
         </div>
       </Tab>
       <Tab eventKey="tab3" title={<div className={activeTab === "tab3" ? "tab-title active-tab" : "tab-title "}>Ödeme İşlemi</div>} disabled={activeTab !== "tab3"}>
         <div className="tab-content">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handlePaymentProcessButtonClick}
-          >
-            Ödeme İşlemlerini Görüntüle
-          </button>
+            <Payment response={rentalResponse} onPaymentProcessClick={handlePaymentProcessButtonClick}
+            startDate={startDate}
+            endDate={endDate}/>
         </div>
       </Tab>
       <Tab eventKey="tab4" title={<div className={activeTab === "tab4" ? "tab-title active-tab" : "tab-title"}>Ödeme Bilgileri</div>} disabled={activeTab !== "tab4"}>

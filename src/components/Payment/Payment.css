@@ -1,0 +1,59 @@
+.credit-card {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #ccc;
+  transition: transform 0.5s ease-in-out;
+  border-radius: 10px;
+}
+
+.front, .back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.front {
+  z-index: 2;
+}
+
+.back {
+  z-index: 1;
+  transform: rotateY(180deg);
+}
+
+.credit-card.flipped .front {
+  transform: rotateY(-180deg);
+}
+
+.credit-card.flipped .back {
+  transform: rotateY(0deg);
+}
+
+.logo {
+  width: 100px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.expiration-date, .cvv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.expiration-date, .cvv input {
+  width: 100px;
+}
+
+.cvv input {
+  width: 50px;
+}
+.magnetic-stripe {
+  width: 100%;
+  height: 5px;
+  background-color: #ddd;
+}

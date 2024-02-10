@@ -1,0 +1,17 @@
+.Cards {
+    margin-bottom: 20px; /* Altındaki formdan biraz boşluk bırakın */
+  }
+  
+  .form-control {
+    width: 100%; /* Input alanlarının genişliğini tam genişliğe ayarlayın */
+    padding: 10px; /* Input alanlarının içindeki boşluk miktarını ayarlayın */
+    border: 1px solid #ddd; /* Input alanlarının etrafına sınır ekleyin */
+    border-radius: 5px; /* Input alanlarının köşelerini yuvarlaklaştırın */
+    font-size: 14px; /* Input alanlarının yazı tipi boyutunu ayarlayın */
+    margin-bottom: 10px; /* Input alanları arasında boşluk bırakın */
+  }
+  
+  .btn-dark {
+    background-color: #333; /* Butonun arka plan rengini ayarlayın */
+    color: #fff; /* Butonun yazı rengini ayarlayın */
+  }

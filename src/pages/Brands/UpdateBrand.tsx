@@ -1,4 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+
+type Props = {}
+
+const UpdateBrand = (props: Props) => {
+  return (
+    <div>UpdateBrand</div>
+  )
+}
+
+export default UpdateBrand
+
+/* import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { updateBrand } from '../../store/slices/brandSlice';
 import { AppDispatch } from '../../store/configureStore';
@@ -42,4 +54,4 @@ const UpdateBrand : React.FC<UpdateBrandFormProps> = (
   )
 }
 
-export default UpdateBrand
+export default UpdateBrand */
