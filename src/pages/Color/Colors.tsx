@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../AdminPanel/AdminPanel.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
-import { deleteColor, fetchColors, updateColor } from '../../store/slices/colorSlice';
-import UpdateColor from './UpdateColor';
+import { fetchColors, updateColor } from '../../store/slices/colorSlice';
 
 
 
@@ -41,15 +40,6 @@ const Colors = () => {
     dispatch(fetchColors());
   };
 
-
-  const handleDeleteColor = async () => {
-    if (selectedColor !== null) {
-      await dispatch(deleteColor({ colorId: selectedColor }));
-      handleColorUpdateSuccess();
-    }
-  };
-
-
   return (
     <div className="container d-flex flex-column align-items-center">
       <h2>Color List</h2>
@@ -80,11 +70,6 @@ const Colors = () => {
           <button type="button" className="btn btn-primary" onClick={handleCancelUpdate}>Cancel</button>
         </div>
       )}
-
-
-      <button type="button" className="btn btn-primary" onClick={handleDeleteColor} disabled={selectedColor === null}>
-        Delete Color
-      </button>
       </form>
     </div>
 

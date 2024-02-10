@@ -43,20 +43,13 @@ const CarModels = (props: Props) => {
       });
     }
   };
+  
   const handleCancelUpdate = () => {
     setSelectedBrand(null);
     setSelectedCarModel(null); 
     setCarModelName(''); 
     // Markaları tekrar getir
     dispatch(fetchCarModels());
-  };
-
-  const handleDeleteCarModel = async () => {
-    if (selectedCarModel !== null) {
-      await dispatch(deleteCarModel({ id: selectedCarModel }));
-      // Silme işlemi tamamlandığında tetiklenir
-      handleCancelUpdate();
-    }
   };
 
   return (
@@ -101,10 +94,6 @@ const CarModels = (props: Props) => {
               <button onClick={handleCancelUpdate}>Cancel</button>
           </div>
         )}
-
-        <button onClick={handleDeleteCarModel} disabled={selectedCarModel === null}>
-          Delete Car Model
-        </button>
     </div>
   )
 }

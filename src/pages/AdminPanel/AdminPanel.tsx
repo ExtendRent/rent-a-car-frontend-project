@@ -1,12 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import './AdminPanel.css';
-import CarService from '../../services/carService';
 import Cars from '../Cars/Cars';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
-import { fetchCars } from '../../store/slices/carSlice';
-import { fetchColors } from '../../store/slices/colorSlice';
 import Colors from '../Color/Colors';
 import Brands from '../Brands/Brands';
 import CarModels from '../CarModel/CarModels';
@@ -21,25 +17,34 @@ import Employees from '../Employee/Employees';
 import AddColor from '../Color/AddColor';
 import AddCar from '../Cars/AddCar';
 import PaymentTypes from '../PaymentType/PaymentTypes';
-import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';
 import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
 import DeleteCar from '../Cars/DeleteCar';
-import { Action } from '@remix-run/router';
+import AddCarModel from '../CarModel/AddCarModel';
+import AddBrand from '../Brands/AddBrand';
+import AddCarBodyType from '../CarBodyType/AddCarBodyType';
+import DeleteBrand from '../Brands/DeleteBrand';
+import DeleteCarBodyType from '../CarBodyType/DeleteCarBodyType';
+import DeleteCarModel from '../CarModel/DeleteCarModel';
+import DeleteColor from '../Color/DeleteColor';
+import DeleteDiscountCode from '../DiscountCode/DeleteDiscountCode';
+import AddDiscountCode from '../DiscountCode/AddDiscountCode';
+import AddDrivingLicenseType from '../DrivingLicenseType/AddDrivingLicenseType';
+import DeleteDrivingLicenseType from '../DrivingLicenseType/DeleteDrivingLicenseType';
+import AddFuelType from '../FuelType/AddFuelType';
+
+interface Entity {
+  name: string;
+  component: React.FC<any>;
+}
 
 const AdminPanel: React.FC = () => {
+
   const dispatch = useDispatch<AppDispatch>();
-  interface Entity {
-    name: string;
-    component: React.FC<any>;
-  }
-  ///const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [formData, setFormData] = useState<any>({});
-  const [selectedEntity, setSelectedEntity] = useState<{ entity: Entity | null, action: 'add' | 'update' | 'delete' }>({ entity: null, action: 'add' });
 
+  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
+  const [selectedAction, setSelectedAction] = useState<string>('');
 
-
-  const entities = [
+  const entities: Entity[] = [
     { name: 'Araç', component: Cars },
     { name: 'Marka', component: Brands },
     { name: 'Araç Model', component: CarModels },
@@ -54,45 +59,122 @@ const AdminPanel: React.FC = () => {
     { name: 'Çalışan', component: Employees },
     { name: 'Ödeme Tipi', component: PaymentTypes },
     { name: 'Ehliyet Tipi', component: DrivingLicenseTypes },
+    { name: 'Araba Ekle', component: AddCar },
+    { name: 'Araba Güncelle', component: Cars },
+    { name: 'Araba Sil', component: DeleteCar },
+    { name: 'Marka Ekle', component: AddBrand },
+    { name: 'Marka Güncelle', component: Brands },
+    { name: 'Marka Sil', component: DeleteBrand },
+    { name: 'Model Ekle', component: AddCarModel },
+    { name: 'Model Güncelle', component: CarModels },
+    { name: 'Model Sil', component: DeleteCarModel },
+    { name: 'Kasa Tipi Ekle', component: AddCarBodyType },
+    { name: 'Kasa Tipi Güncelle', component: CarBodyTypes },
+    { name: 'Kasa Tipi Sil', component: DeleteCarBodyType },
+    { name: 'Renk Ekle', component: AddColor },
+    { name: 'Renk Güncelle', component: Colors },
+    { name: 'Renk Sil', component: DeleteColor },
+    { name: 'İndirim Kodu Ekle', component: AddDiscountCode },
+    { name: 'İndirim Kodu Güncelle', component: DiscountCodes },
+    { name: 'İndirim Kodu Sil', component: DeleteDiscountCode },
+    { name: 'Ehliyet Tipi Ekle', component: AddDrivingLicenseType },
+    { name: 'Ehliyet Tipi Güncelle', component: DrivingLicenseTypes },
+    { name: 'Ehliyet Tipi Sil', component: DeleteDrivingLicenseType },
+    { name: 'Yakıt Tipi Ekle', component: AddFuelType },
+    { name: 'Yakıt Tipi Güncelle', component: FuelTypes },
+    /* { name: 'Yakıt Tipi Sil', component: DeleteFuelType }, */
   ];
 
 
-  const handleEntitySelect = (entityName: string, action: 'add' | 'update' | 'delete') => {
-    const entity = entities.find(entity => entity.name === entityName);
-    if (entity) {
-      setSelectedEntity({ entity: entity, action: action });
-      setIsFormVisible(false);
+  const handleEntitySelect = (entity: Entity) => {
+    setSelectedEntity(entity);
+  };
+
+
+  const handleActionButtonClick = (action: string) => {
+    setSelectedAction(action);
+  };
+
+  const EntityOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
+    switch (selectedAction) {
+      case 'add':
+        return <AddOperationComponent entityType={entityType} />;
+      case 'update':
+        return <UpdateOperationComponent entityType={entityType} />;
+      case 'delete':
+        return <DeleteOperationComponent entityType={entityType} />;
+      default:
+        return null;
     }
   };
 
-
-  useEffect(() => {
-    dispatch(fetchColors());
-    dispatch(fetchPaymentTypes());
-  }, [dispatch])
-
-   const handleActionButtonClick = (action: 'add' | 'update' | 'delete') => {
-    if (action === 'add') {
-      setSelectedEntity({ entity: null, action: 'add' });
-      setIsFormVisible(true);
-    } else if (action === 'update') {
-      setSelectedEntity({ entity: null, action: 'update' });
-      setIsFormVisible(true);
-    } else if (action === 'delete') {
-      setSelectedEntity({ entity: null, action: 'delete' });
-      setIsFormVisible(true);
+  const AddOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
+    switch (entityType) {
+      case 'Araç':
+        return <AddCar />;
+      case 'Marka':
+        return <AddBrand />;
+      case 'Araç Model':
+        return <AddCarModel />;
+      case 'Kasa Tipi':
+        return <AddCarBodyType />;
+      case 'Renk':
+        return <AddColor />;
+      case 'İndirim Kodu':
+        return <AddDiscountCode />;
+      case 'Ehliyet Tipi':
+        return <AddDrivingLicenseType />;
+      case 'Yakıt Tipi':
+        return <AddFuelType />;
+      default:
+        return null;
     }
-  }; 
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+  const UpdateOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
+    switch (entityType) {
+      case 'Araç':
+        return <Cars />;
+      case 'Marka':
+        return <Brands />;
+      case 'Araç Model':
+        return <CarModels />;
+      case 'Kasa Tipi':
+        return <CarBodyTypes />;
+      case 'Renk':
+        return <Colors />;
+      case 'İndirim Kodu':
+        return <DiscountCodes />;
+      case 'Ehliyet Tipi':
+        return <DrivingLicenseTypes />;
+      case 'Yakıt Tipi':
+        return <FuelTypes />;
+      default:
+        return null;
+    }
   };
+
+  const DeleteOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
+    switch (entityType) {
+      case 'Araç':
+        return <DeleteCar />;
+      case 'Marka':
+        return <DeleteBrand />;
+      case 'Model':
+        return <DeleteCarModel />;
+      case 'Kasa Tipi':
+        return <DeleteCarBodyType />;
+      case 'Renk':
+        return <DeleteColor />;
+      case 'İndirim Kodu':
+        return <DeleteDiscountCode />;
+      case 'Ehliyet Tipi':
+        return <DeleteDrivingLicenseType />;
+      default:
+        return null;
+    }
+  };
+
 
   return (
     <div className="container">
@@ -100,11 +182,17 @@ const AdminPanel: React.FC = () => {
         <div className="col-md-3">
 
           <ul className="list-group">
-            {entities.map(entity => (
-              <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity.name, 'add')}>
-                {entity.name}
-              </li>
-            ))}
+            {entities.map(entity => {
+              // Eğer öğenin adı "Ekle", "Sil" veya "Güncelle" kelimelerini içeriyorsa, gizle
+              if (entity.name.includes('Ekle') || entity.name.includes('Sil') || entity.name.includes('Güncelle')) {
+                return null;
+              }
+              return (
+                <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity)}>
+                  {entity.name}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="col-md-9">
@@ -118,30 +206,13 @@ const AdminPanel: React.FC = () => {
               </div>
             </div>
           </div>
-
-        {/*  {selectedPage && pages.map(page => {
-            if (page.name === selectedPage) {
-              return <page.component key={page.name} />;
-            }
-          })}
- */}
-
-         {isFormVisible ? (
-            <AddCar />
-          ) : (
-            selectedEntity && selectedEntity.entity && <selectedEntity.entity.component />
-          )}
- 
-         
-          {/* {selectedEntity && (
-            <selectedEntity.component />
-          )} */}
         </div>
+      </div>
+      <div className="selected-component">
+        <EntityOperationComponent entityType={selectedEntity?.name || ''} />
       </div>
     </div>
   );
-
-
 }
 
 export default AdminPanel;
