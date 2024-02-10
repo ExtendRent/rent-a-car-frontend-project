@@ -56,12 +56,6 @@ const Employees = (props: Props) => {
     dispatch(fetchEmployees());
   };
 
-  const handleDeleteEmployee = async () => {
-    if (selectedEmployee !== null) {
-      await dispatch(deleteEmployee({ employeeId: selectedEmployee }));
-      handleEmployeeUpdateSuccess();
-    }
-  };
   return (
 
     <div>
@@ -132,9 +126,6 @@ const Employees = (props: Props) => {
         </div>)}
         <button onClick={handleEmployeeUpdateSuccess}>Update Employee</button>
           <button onClick={handleCancelUpdate}>Cancel</button>
-          <button onClick={handleDeleteEmployee} disabled={selectedEmployee === null}>
-        Delete Employee
-      </button>
 
     </div>
   )

@@ -47,7 +47,7 @@ const Cars = (props: Props) => {
   const [luggage, setLuggage] = useState<number>(0);
   const [selectedCar, setSelectedCar] = useState<number | null>(null);
   const [selectedCarProperties, setSelectedCarProperties] = useState<CarModel | null>(null);
-  
+
 
   useEffect(() => {
     dispatch(fetchCars());
@@ -67,26 +67,18 @@ const Cars = (props: Props) => {
     const selectedCar = carState.cars.find((car: CarModel) => car.id === carId);
     if (selectedCar) {
         setSelectedCarProperties(selectedCar);
-        setSelectedColor(selectedCar.colorEntityId);
-        setSelectedBrand(selectedCar.carModelEntityBrandEntityId);
-        setSelectedCarBodyType(selectedCar.carBodyTypeEntityId);
-        setSelectedCarModel(selectedCar.carModelEntityId);
-        setSelectedFuelType(selectedCar.fuelTypeEntityId);
-        setSelectedShiftType(selectedCar.shiftTypeEntityId);
-        setSelectedVehicleStatus(selectedCar.vehicleStatusEntityId);
-        setselectedExpectedMinDrivingLicenseType(selectedCar.expectedMinDrivingLicenseTypeId);
-        setDetails(selectedCar.details);
-        setYear(selectedCar.year);
-        setImagePaths(selectedCar.imagesEntityImagePaths);
-        setIsAvailable(selectedCar.isAvailable);
-        setKilometer(selectedCar.kilometer);
-        setLicensePlate(selectedCar.licensePlate);
-        setLuggage(selectedCar.luggage);
-        setRentalPrice(selectedCar.rentalPrice);
-        setSeat(selectedCar.seat);
     }
 }
 
+
+  const handleCarChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const carId = parseInt(e.target.value, 10);
+    setSelectedCar(carId);
+    /* const carResponse = await dispatch(getByCarId({carId}));
+    if(carResponse.payload){
+      console.log(carResponse.payload);
+    } */
+  }
 
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 
@@ -98,7 +90,6 @@ const Cars = (props: Props) => {
     }
 
   };
-
 
   const handleCarModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const carModelId = parseInt(e.target.value, 10);
@@ -134,7 +125,7 @@ const Cars = (props: Props) => {
       && kilometer !== undefined && seat !== undefined && luggage !== undefined && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined &&
       selectedBrand !== undefined && selectedCarModel !== undefined && selectedCarBodyType !== undefined
       && selectedColor !== undefined && selectedVehicleStatus !== undefined && selectedShiftType !== undefined
-      && selectedFuelType !== undefined && selectedCarProperties !== null) {
+      && selectedFuelType !== undefined) {
       dispatch(updateCar({
         id: selectedCar,
         brandEntityId: selectedBrand,
@@ -181,14 +172,96 @@ const Cars = (props: Props) => {
     setSeat(0);
     setLuggage(0);
     setIsAvailable(false);
-    setSelectedCarProperties(null);
     dispatch(fetchCars());
   }
 
- 
+  const handleDeleteCar = async () => {
+    if (selectedCar !== null) {
+      await dispatch(deleteCar({ carId: selectedCar }));
+      // Silme işlemi tamamlandığında tetiklenir
+      handleCancelUpdate();
+    }
+  }
 
   return (
     <div id='container-car' className="container d-flex flex-column align-items-center">
+
+{selectedCarProperties && (
+    <div>
+        <h2>Seçilen Araba Özellikleri:</h2>
+        <form>
+            <div className="form-group">
+                <label>Marka:</label>
+                <input type="text" value={selectedCarProperties.carModelEntityBrandEntityName} readOnly />
+            </div>
+            <div className="form-group">
+                <label>Model:</label>
+                <input type="text" value={selectedCarProperties.carModelEntityName} readOnly />
+            </div>
+            <div className="form-group">
+                <label>Renk:</label>
+                <input type="text" value={selectedCarProperties.colorEntityName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.year}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.carBodyTypeEntityName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.fuelTypeEntityName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.shiftTypeEntityName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.seat}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.luggage}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.details}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.rentalPrice}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.licensePlate}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.kilometer}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.imagesEntityImagePaths}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.expectedMinDrivingLicenseTypeName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.vehicleStatusEntityName}/>
+            </div>
+            <div className="form-group">
+                <label>Yıl:</label>
+                <input type="text" value={selectedCarProperties.isLicenseTypeSuitable.toString()}/>
+            </div>
+        
+        </form>
+    </div>
+)}
 
 
       <div className="row col-md-12">
@@ -196,12 +269,12 @@ const Cars = (props: Props) => {
 
           <div className="mb-2">
             <label htmlFor="selectCar">Araç Seç</label>
-            <select className="form-select" id="carSelect" value={selectedCar || ''} onChange={handleSelectCarChange}>
+            <select className="form-select" id="carSelect" value={selectedCar || ''} onChange={handleCarChange}>
               <option value="" disabled>
 
               </option>
               {carState.cars.map((car: any) => (
-                <option key={car.id} value={car.id} >
+                <option key={car.id} value={car.id}>
                   {car.carModelEntityBrandEntityName} {car.carModelEntityName}
                 </option>
               ))}
@@ -234,25 +307,23 @@ const Cars = (props: Props) => {
               </select>
             </div>
           )}
-          {selectedCarProperties &&(
           <div className="mb-2">
             <label htmlFor="selectCarBodyType">Kasa Tipi Seç</label>
             <select className="form-select" id="carBodyTypeSelect" value={selectedCarBodyType || ''} onChange={handleCarBodyTypeChange}>
               <option value="" disabled></option>
               {carBodyTypeState.carBodyTypes.map((carBodyType: any) => (
-                <option key={carBodyType.id} value={carBodyType.id} selected={carBodyType.id === selectedCarProperties.carBodyTypeEntityId}>
+                <option key={carBodyType.id} value={carBodyType.id}>
                   {carBodyType.name}
                 </option>
               ))}
             </select>
           </div>
-          )}
           <div className="mb-2">
             <label htmlFor="selectColor">Renk Seç</label>
             <select className="form-select" id="colorSelect" value={selectedColor || ''} onChange={handleColorChange}>
               <option value="" disabled></option>
               {colorState.colors.map((color: any) => (
-                <option key={color.id} value={color.id}>
+                <option key={color.id} value={color.id} >
                   {color.name}
                 </option>
               ))}
@@ -292,7 +363,7 @@ const Cars = (props: Props) => {
             </select>
           </div>
           <div className="mb-2">
-            <label htmlFor="selectDrivingLicenseType">Ehliyet Tipi Seç</label>
+            <label htmlFor="selectDrivingLicenseType">Yakıt Tipi Seç</label>
             <select className="form-select" id="drivingLicenseTypeSelect" value={selectedExpectedMinDrivingLicenseType || ''} onChange={handleDrivingLicenseTypeChange}>
               <option value="" disabled></option>
               {expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => (
@@ -426,10 +497,12 @@ const Cars = (props: Props) => {
         </div>
       </div>
 
-      <button type="button" className="btn btn-primary" onClick={handleCarUpdateSuccess}>Update Car</button>
+      {/*  <button type="button" className="btn btn-primary" onClick={handleCarUpdateSuccess}>Update Car</button>
       <button type="button" className="btn btn-primary" onClick={handleCancelUpdate}>Cancel</button>
 
-     
+      <button type="button" className="btn btn-primary" onClick={handleDeleteCar} disabled={selectedCar === null}>
+        Delete Car
+      </button> */}
     </div>)
 }
 

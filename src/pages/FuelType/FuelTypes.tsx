@@ -34,13 +34,6 @@ const FuelTypes = (props: Props) => {
         dispatch(fetchFuelType());
     };
 
-    const handleDeleteFuelType = async () => {
-        if (selectedFuelType !== null) {
-            await dispatch(deleteFuelType({ fuelTypeId: selectedFuelType }))
-            handleFuelTypeUpdateSuccess();
-        }
-    };
-
 
     return (
         <div style={{ marginTop: 200 }}>
@@ -70,9 +63,7 @@ const FuelTypes = (props: Props) => {
                 </div>
             )}
 
-            <button onClick={handleDeleteFuelType} disabled={selectedFuelType === null}>
-                Delete Fuel Type
-            </button>
+           
         </div>
     )
 };
