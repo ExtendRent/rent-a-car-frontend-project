@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ShowRentalModel } from "../../models/Requests/ShowRental";
 import ShowRentalService from "../../services/showRentalService";
+import { AddRentalModel } from "../../models/Requests/AddRentalModel";
 
 
 /* export const addShowRental = createAsyncThunk(
@@ -42,6 +43,20 @@ import ShowRentalService from "../../services/showRentalService";
     }
   );
 
+  export const addRental = createAsyncThunk(
+    'rental/addRental',
+    async (rentalData: AddRentalModel) => {
+      try {
+        const service: ShowRentalService = new ShowRentalService();
+        const response = await service.addRental(rentalData);
+        return response.data;
+      } catch (error) {
+        console.error('Error adding show rental:', error);
+        throw error;
+      }
+    }
+  );
+
 const showRentalSlice = createSlice({
     name: "showRental",
     initialState: { showRental: [] as any[], error: null, rentalResponses: [] },
@@ -52,6 +67,13 @@ const showRentalSlice = createSlice({
         state.showRental.push(action.payload);
       });
       builder.addCase(addShowRental.rejected, (state) => {});
+
+
+      builder.addCase(addRental.pending, (state) => {});
+      builder.addCase(addRental.fulfilled, (state, action) => {
+        state.showRental.push(action.payload);
+      });
+      builder.addCase(addRental.rejected, (state) => {});
     },
   });
   

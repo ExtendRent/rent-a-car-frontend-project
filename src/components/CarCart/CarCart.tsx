@@ -28,36 +28,48 @@ import { AllGetByDateCarResponse } from "../../models/Responses/AllGetByDateCarR
 import { fetchBrands } from "../../store/slices/brandSlice";
 import { getByBrandIdCarModels } from "../../store/slices/carModelSlice";
 import { GetAllFilteredResponse } from "../../models/Responses/Car/GetAllFilteredResponse";
+import { fetchColors } from "../../store/slices/colorSlice";
+import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
+import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 interface CarCartProps {
   onButtonClick: (carEntityId: number) => void;
+  startDate: string; // formattedStartDate ve formattedEndDate'yi props olarak ekleyin
+  endDate: string;
 }
-export default function CarCart({ onButtonClick }: CarCartProps) { 
+export default function CarCart({ onButtonClick,startDate, endDate}: CarCartProps) { 
  
  /*  const CarCart: React.FC<{ searchCarResponse: AllGetByDateCarResponse | undefined }> = ({ searchCarResponse }) => { */
     const carsState = useSelector((state: any) => state.car.cars);
     const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
     const [selectedCarModel, setSelectedCarModel] = useState<number | null>(null);
+    const [selectedColor, setSelectedColor] = useState<number | null>(null);
+    const [selectedFuelType, setSelectedFuelType] = useState<number | null>(null);
+    const [selectedShiftType, setSelectedShiftType] = useState<number | null>(null);
+    
 
     const dispatch =useDispatch<AppDispatch>();
-
+    
     const brandState =useSelector((state: any) => state.brand);
     const carModelState = useSelector((state: any) => state.carModel);
+    const colorState = useSelector((state: any) => state.color);
+    const fuelTypeState = useSelector((state: any) => state.fuelType);
+    const shiftTypeState = useSelector((state: any) => state.shiftType);
 
-    useEffect(()=>{
+    useEffect(()=>{  
       dispatch(fetchBrands())
+      dispatch(fetchColors())
+      dispatch(fetchFuelType())
+      dispatch(fetchShiftTypes())
     },[dispatch])
    
-    const handleCarModelSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const changeModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const carModelId = parseInt(e.target.value, 10);
       setSelectedCarModel(carModelId);
     
     };
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const brandId = parseInt(e.target.value, 10);
-  
+    const changeBrand = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const brandId = parseInt(e.target.value, 10);
         setSelectedBrand(isNaN(brandId) ? null : brandId);
-
-       
         if (isNaN(brandId)) {
           // Eğer brandId NaN ise, selectedCarModel'ı temizle
           setSelectedCarModel(null);
@@ -65,19 +77,44 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
           // NaN değilse, car modeli getir
           dispatch(getByBrandIdCarModels({ brandId }));
         }
-        
     };
-
+    const changeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const colorId = parseInt(e.target.value, 10);
+      setSelectedColor(isNaN(colorId) ? null : colorId);
+    };
+    const changeFuelType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const fuelTypeId = parseInt(e.target.value, 10);
+      setSelectedFuelType(isNaN(fuelTypeId) ? null : fuelTypeId);
+    };
+    const changeShiftType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const shiftTypeId = parseInt(e.target.value, 10);
+      setSelectedShiftType(isNaN(shiftTypeId) ? null : shiftTypeId);
+    
+    };
     const handleFiltred = () => {
     
       const filterData: GetAllFilteredResponse = {};
-  
+
       if (selectedBrand !== null) {
         filterData.brandId = selectedBrand;
       }
-
       if (selectedCarModel !== null) {
         filterData.modelId = selectedCarModel;
+      }
+      if (selectedColor !== null) {
+        filterData.colorId = selectedColor;
+      }
+      if (selectedFuelType !== null) {
+        filterData.fuelTypeId = selectedFuelType;
+      }
+      if (selectedShiftType !== null) {
+        filterData.shiftTypeId = selectedShiftType;
+      }
+      if (startDate !== null){
+        filterData.startDate=startDate;
+      }
+      if (endDate !== null){
+        filterData.endDate=endDate;
       }
       dispatch(getByAllFilteredCars(filterData));
       
@@ -94,7 +131,7 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
               className="form-select"
               id="brandSelect"
               value={selectedBrand || ''}
-              onChange={handleSelectChange}
+              onChange={changeBrand}
             >
               <option value='' >
                 Marka seçiniz
@@ -118,7 +155,7 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
                   className="form-select"
                   id="carModelSelect"
                   value={selectedCarModel || ''}
-                  onChange={handleCarModelSelectChange}
+                  onChange={changeModel}
                 >
                   <option value="" >
                     Model seçiniz
@@ -131,8 +168,69 @@ export default function CarCart({ onButtonClick }: CarCartProps) {
                 </select>
               </div>
             )}
-         
+          <div className="mb-3">
+            <label htmlFor="colorSelect" className="form-label">
+              Renk Seçiniz
+            </label>
+            <select
+              className="form-select"
+              id="colorSelect"
+              value={selectedColor || ''}
+              onChange={changeColor}
+            >
+              <option value='' >
+                Renk seçiniz
+              </option>
+              {colorState.colors.map((color: any) => (
+                <option key={color.id} value={color.id}>
+                  {color.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="fuelTypeSelect" className="form-label">
+              Yakıt Tipi Seçiniz
+            </label>
+            <select
+              className="form-select"
+              id="fuelTypeSelect"
+              value={selectedFuelType || ''}
+              onChange={changeFuelType}
+            >
+              <option value='' >
+                Yakıt Tipi Seçiniz
+              </option>
+              {fuelTypeState.fuelTypes.map((fuelType: any) => (
+                    <option key={fuelType.id} value={fuelType.id}>
+                        {fuelType.name}
+                    </option>
+                ))}
+            </select>
+          </div>
      
+          <div className="mb-3">
+            <label htmlFor="shiftTypeSelect" className="form-label">
+              Vites Tipi Seçiniz
+            </label>
+            <select
+              className="form-select"
+              id="shiftTypeSelect"
+              value={selectedShiftType || ''}
+              onChange={changeShiftType}
+            >
+              <option value='' >
+                Vites Tipi Seçiniz
+              </option>
+              {shiftTypeState.shiftTypes.map((shiftType: any) => (
+                <option key={shiftType.id} value={shiftType.id}>
+                  {shiftType.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
 
           <button type="button" className="btn btn-primary" onClick={handleFiltred}>
             Filtrele
