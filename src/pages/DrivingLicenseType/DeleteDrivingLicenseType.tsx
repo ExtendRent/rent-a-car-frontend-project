@@ -20,15 +20,10 @@ const DeleteDrivingLicenseType = (props: Props) => {
       setSelectedDrivingLicenseType(drivingLicenseTypeId);
     }
   
-    const handleCancelUpdate = () => {
-      setSelectedDrivingLicenseType(null);
-      dispatch(fetchDrivingLicenseTypes());
-    }
-  
     const handleDeleteDrivingLicenseType = async () => {
       if (selectedDrivingLicenseType !== null) {
         await dispatch(deleteDrivingLicenseType({ drivingLicenseTypeId: selectedDrivingLicenseType }));
-        handleCancelUpdate();
+        setSelectedDrivingLicenseType(null);
       }
     }
   

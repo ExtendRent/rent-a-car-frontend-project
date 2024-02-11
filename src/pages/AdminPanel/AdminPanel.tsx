@@ -1,218 +1,152 @@
-import React, { useEffect, useState } from 'react';
-import './AdminPanel.css';
-import Cars from '../Cars/Cars';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
-import Colors from '../Color/Colors';
-import Brands from '../Brands/Brands';
-import CarModels from '../CarModel/CarModels';
-import CarBodyTypes from '../CarBodyType/CarBodyTypes';
-import ShiftTypes from '../ShiftType/ShiftTypes';
-import FuelTypes from '../FuelType/FuelTypes';
-import DiscountCodes from '../DiscountCode/DiscountCodes';
-import VehicleStatuses from '../VehicleStatus/VehicleStatuses';
-import Admins from '../Admin/Admins';
-import Customers from '../Customer/Customers';
-import Employees from '../Employee/Employees';
-import AddColor from '../Color/AddColor';
+import React, { useState } from 'react';
 import AddCar from '../Cars/AddCar';
-import PaymentTypes from '../PaymentType/PaymentTypes';
-import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
+import Cars from '../Cars/Cars';
 import DeleteCar from '../Cars/DeleteCar';
-import AddCarModel from '../CarModel/AddCarModel';
+import Brands from '../Brands/Brands';
 import AddBrand from '../Brands/AddBrand';
-import AddCarBodyType from '../CarBodyType/AddCarBodyType';
 import DeleteBrand from '../Brands/DeleteBrand';
+import AddCarBodyType from '../CarBodyType/AddCarBodyType';
+import CarBodyTypes from '../CarBodyType/CarBodyTypes';
 import DeleteCarBodyType from '../CarBodyType/DeleteCarBodyType';
+import AddCarModel from '../CarModel/AddCarModel';
 import DeleteCarModel from '../CarModel/DeleteCarModel';
+import CarModels from '../CarModel/CarModels';
+import AddColor from '../Color/AddColor';
+import Colors from '../Color/Colors';
 import DeleteColor from '../Color/DeleteColor';
-import DeleteDiscountCode from '../DiscountCode/DeleteDiscountCode';
 import AddDiscountCode from '../DiscountCode/AddDiscountCode';
-import AddDrivingLicenseType from '../DrivingLicenseType/AddDrivingLicenseType';
+import DiscountCodes from '../DiscountCode/DiscountCodes';
+import DeleteDiscountCode from '../DiscountCode/DeleteDiscountCode';
 import DeleteDrivingLicenseType from '../DrivingLicenseType/DeleteDrivingLicenseType';
+import AddDrivingLicenseType from '../DrivingLicenseType/AddDrivingLicenseType';
+import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
+import AddEmployee from '../Employee/AddEmployee';
+import DeleteEmployee from '../Employee/DeleteEmployee';
+import Employees from '../Employee/Employees';
 import AddFuelType from '../FuelType/AddFuelType';
-
-interface Entity {
-  name: string;
-  component: React.FC<any>;
-}
+import FuelTypes from '../FuelType/FuelTypes';
+import DeleteFuelType from '../FuelType/DeleteFuelType';
+import PaymentTypes from '../PaymentType/PaymentTypes';
+import AddShiftType from '../ShiftType/AddShiftType';
+import ShiftTypes from '../ShiftType/ShiftTypes';
+import DeleteShiftType from '../ShiftType/DeleteShiftType';
+import VehicleStatuses from '../VehicleStatus/VehicleStatuses';
 
 const AdminPanel: React.FC = () => {
-
-  const dispatch = useDispatch<AppDispatch>();
-
-  const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
-  const [selectedAction, setSelectedAction] = useState<string>('');
-
-  const entities: Entity[] = [
-    { name: 'Araç', component: Cars },
-    { name: 'Marka', component: Brands },
-    { name: 'Araç Model', component: CarModels },
-    { name: 'Kasa Tipi', component: CarBodyTypes },
-    { name: 'Renk', component: Colors },
-    { name: 'Vites Tipi', component: ShiftTypes },
-    { name: 'Yakıt Tipi', component: FuelTypes },
-    { name: 'İndirim Kuponu', component: DiscountCodes },
-    { name: 'Araç Durumu', component: VehicleStatuses },
-    { name: 'Admin', component: Admins },
-    { name: 'Müşteri', component: Customers },
-    { name: 'Çalışan', component: Employees },
-    { name: 'Ödeme Tipi', component: PaymentTypes },
-    { name: 'Ehliyet Tipi', component: DrivingLicenseTypes },
-    { name: 'Araba Ekle', component: AddCar },
-    { name: 'Araba Güncelle', component: Cars },
-    { name: 'Araba Sil', component: DeleteCar },
-    { name: 'Marka Ekle', component: AddBrand },
-    { name: 'Marka Güncelle', component: Brands },
-    { name: 'Marka Sil', component: DeleteBrand },
-    { name: 'Model Ekle', component: AddCarModel },
-    { name: 'Model Güncelle', component: CarModels },
-    { name: 'Model Sil', component: DeleteCarModel },
-    { name: 'Kasa Tipi Ekle', component: AddCarBodyType },
-    { name: 'Kasa Tipi Güncelle', component: CarBodyTypes },
-    { name: 'Kasa Tipi Sil', component: DeleteCarBodyType },
-    { name: 'Renk Ekle', component: AddColor },
-    { name: 'Renk Güncelle', component: Colors },
-    { name: 'Renk Sil', component: DeleteColor },
-    { name: 'İndirim Kodu Ekle', component: AddDiscountCode },
-    { name: 'İndirim Kodu Güncelle', component: DiscountCodes },
-    { name: 'İndirim Kodu Sil', component: DeleteDiscountCode },
-    { name: 'Ehliyet Tipi Ekle', component: AddDrivingLicenseType },
-    { name: 'Ehliyet Tipi Güncelle', component: DrivingLicenseTypes },
-    { name: 'Ehliyet Tipi Sil', component: DeleteDrivingLicenseType },
-    { name: 'Yakıt Tipi Ekle', component: AddFuelType },
-    { name: 'Yakıt Tipi Güncelle', component: FuelTypes },
-    /* { name: 'Yakıt Tipi Sil', component: DeleteFuelType }, */
-  ];
-
-
-  const handleEntitySelect = (entity: Entity) => {
-    setSelectedEntity(entity);
-  };
-
-
-  const handleActionButtonClick = (action: string) => {
-    setSelectedAction(action);
-  };
-
-  const EntityOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
-    switch (selectedAction) {
-      case 'add':
-        return <AddOperationComponent entityType={entityType} />;
-      case 'update':
-        return <UpdateOperationComponent entityType={entityType} />;
-      case 'delete':
-        return <DeleteOperationComponent entityType={entityType} />;
-      default:
-        return null;
-    }
-  };
-
-  const AddOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
-    switch (entityType) {
-      case 'Araç':
-        return <AddCar />;
-      case 'Marka':
-        return <AddBrand />;
-      case 'Araç Model':
-        return <AddCarModel />;
-      case 'Kasa Tipi':
-        return <AddCarBodyType />;
-      case 'Renk':
-        return <AddColor />;
-      case 'İndirim Kodu':
-        return <AddDiscountCode />;
-      case 'Ehliyet Tipi':
-        return <AddDrivingLicenseType />;
-      case 'Yakıt Tipi':
-        return <AddFuelType />;
-      default:
-        return null;
-    }
-  };
-
-  const UpdateOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
-    switch (entityType) {
-      case 'Araç':
-        return <Cars />;
-      case 'Marka':
-        return <Brands />;
-      case 'Araç Model':
-        return <CarModels />;
-      case 'Kasa Tipi':
-        return <CarBodyTypes />;
-      case 'Renk':
-        return <Colors />;
-      case 'İndirim Kodu':
-        return <DiscountCodes />;
-      case 'Ehliyet Tipi':
-        return <DrivingLicenseTypes />;
-      case 'Yakıt Tipi':
-        return <FuelTypes />;
-      default:
-        return null;
-    }
-  };
-
-  const DeleteOperationComponent: React.FC<{ entityType: string }> = ({ entityType }) => {
-    switch (entityType) {
-      case 'Araç':
-        return <DeleteCar />;
-      case 'Marka':
-        return <DeleteBrand />;
-      case 'Model':
-        return <DeleteCarModel />;
-      case 'Kasa Tipi':
-        return <DeleteCarBodyType />;
-      case 'Renk':
-        return <DeleteColor />;
-      case 'İndirim Kodu':
-        return <DeleteDiscountCode />;
-      case 'Ehliyet Tipi':
-        return <DeleteDrivingLicenseType />;
-      default:
-        return null;
-    }
-  };
-
+  const [selectedAction, setSelectedAction] = useState<string | null>(null);
 
   return (
-    <div className="container">
-      <div className="row col-md-12">
-        <div className="col-md-3">
-
-          <ul className="list-group">
-            {entities.map(entity => {
-              // Eğer öğenin adı "Ekle", "Sil" veya "Güncelle" kelimelerini içeriyorsa, gizle
-              if (entity.name.includes('Ekle') || entity.name.includes('Sil') || entity.name.includes('Güncelle')) {
-                return null;
-              }
-              return (
-                <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity)}>
-                  {entity.name}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div className="col-md-9">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="btn-group">
-
-                <button className="btn btn-warning" onClick={() => handleActionButtonClick('add')}>Add</button>
-                <button className="btn btn-primary" onClick={() => handleActionButtonClick('update')}>Update</button>
-                <button className="btn btn-danger" onClick={() => handleActionButtonClick('delete')}>Delete</button>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div style={{ display: 'flex' }}>
+      <div style={{ width: '33%' }}>
+        <ul>
+          <li>
+            <button onClick={() => setSelectedAction('AddCar')}>Araç Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateCar')}>Araç Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteCar')}>Araç Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddBrand')}>Marka Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateBrand')}>Marka Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteBrand')}>Marka Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddCarBodyType')}>Araç Tipi Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateCarBodyType')}>Araç Tipi Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteCarBodyType')}>Araç Tipi Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddCarModel')}>Model Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateCarModel')}>Model Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteCarModel')}>Model Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddColor')}>Renk Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateColor')}>Renk Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteColor')}>Renk Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddDiscountCode')}>İndirim Kuponu Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateDiscountCode')}>İndirim Kuponu Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteDiscountCode')}>İndirim Kuponu Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddDrivingLicenseType')}>Ehliyet Tipi Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateDrivingLicenseType')}>Ehliyet Tipi Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteDrivingLicenseType')}>Ehliyet Tipi Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddEmployee')}>Çalışan Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateEmployee')}>Çalışan Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteEmployee')}>Çalışan Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddFuelType')}>Yakıt Tipi Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateFuelType')}>Yakıt Tipi Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteFuelType')}>Yakıt Tipi Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('UpdatePaymentType')}>Ödeme Tipi Güncelle</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('AddShiftType')}>Vites Tipi Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateShiftType')}>Vites Tipi Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteShiftType')}>Vites Tipi Sil</button>
+          </li>
+          <li>
+            <button onClick={() => setSelectedAction('UpdateVehicleStatus')}>Araç Durumu Güncelle</button>
+          </li>
+          
+        </ul>
       </div>
-      <div className="selected-component">
-        <EntityOperationComponent entityType={selectedEntity?.name || ''} />
+      
+      <div style={{ width: '67%' }}>
+        {selectedAction === 'AddCar' && <AddCar />}
+        {selectedAction === 'UpdateCar' && <Cars />}
+        {selectedAction === 'DeleteCar' && <DeleteCar />}
+
+        {selectedAction === 'AddBrand' && <AddBrand />}
+        {selectedAction === 'UpdateBrand' && <Brands />}
+        {selectedAction === 'DeleteBrand' && <DeleteBrand />}
+
+        {selectedAction === 'AddCarBodyType' && <AddCarBodyType />}
+        {selectedAction === 'UpdateCarBodyType' && <CarBodyTypes />}
+        {selectedAction === 'DeleteCarBodyType' && <DeleteCarBodyType />}
+
+        {selectedAction === 'AddCarModel' && <AddCarModel />}
+        {selectedAction === 'UpdateCarModel' && <CarModels />}
+        {selectedAction === 'DeleteCarModel' && <DeleteCarModel />}
+
+        {selectedAction === 'AddColor' && <AddColor />}
+        {selectedAction === 'UpdateColor' && <Colors />}
+        {selectedAction === 'DeleteColor' && <DeleteColor />}
+
+        {selectedAction === 'AddDiscountCode' && <AddDiscountCode />}
+        {selectedAction === 'UpdateDiscountCode' && <DiscountCodes />}
+        {selectedAction === 'DeleteDiscountCode' && <DeleteDiscountCode />}
+
+        {selectedAction === 'AddDrivingLicenseType' && <AddDrivingLicenseType />}
+        {selectedAction === 'UpdateDrivingLicenseType' && <DrivingLicenseTypes />}
+        {selectedAction === 'DeleteDrivingLicenseType' && <DeleteDrivingLicenseType />}
+
+        {selectedAction === 'AddEmployee' && <AddEmployee />}
+        {selectedAction === 'UpdateEmployee' && <Employees />}
+        {selectedAction === 'DeleteEmployee' && <DeleteEmployee />}
+
+        {selectedAction === 'AddFuelType' && <AddFuelType />}
+        {selectedAction === 'UpdateFuelType' && <FuelTypes />}
+        {selectedAction === 'DeleteFuelType' && <DeleteFuelType />}
+
+        {selectedAction === 'UpdatePaymentType' && <PaymentTypes />}
+
+        {selectedAction === 'AddShiftType' && <AddShiftType />}
+        {selectedAction === 'UpdateShiftType' && <ShiftTypes />}
+        {selectedAction === 'DeleteShiftType' && <DeleteShiftType />}
+
+        {selectedAction === 'UpdateVehicleStatus' && <VehicleStatuses />}
+        
       </div>
     </div>
   );
-}
+};
 
 export default AdminPanel;

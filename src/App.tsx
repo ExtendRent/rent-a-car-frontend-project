@@ -5,31 +5,24 @@ import Cars from './pages/Cars/Cars';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import AddCar from './pages/Cars/AddCar';
-import UpdateCar from './pages/Cars/UpdateCar';
 import Brands from './pages/Brands/Brands';
 import AddBrand from './pages/Brands/AddBrand';
 import Colors from './pages/Color/Colors';
 import AddColor from './pages/Color/AddColor';
-import UpdateColor from './pages/Color/UpdateColor';
 import DiscountCodes from './pages/DiscountCode/DiscountCodes';
 import AddDiscountCode from './pages/DiscountCode/AddDiscountCode';
-import UpdateDiscountCode from './pages/DiscountCode/UpdateDiscountCode';
 import CarModels from './pages/CarModel/CarModels';
 import AddCarModel from './pages/CarModel/AddCarModel';
-import UpdateCarModel from './pages/CarModel/UpdateCarModel';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
 import CarBodyTypes from './pages/CarBodyType/CarBodyTypes';
 import AddCarBodyType from './pages/CarBodyType/AddCarBodyType';
-import UpdateCarBodyType from './pages/CarBodyType/UpdateCarBodyType';
 import Admins from './pages/Admin/Admins';
 import AddAdmin from './pages/Admin/AddAdmin';
 import UpdateAdmin from './pages/Admin/UpdateAdmin';
 import Customers from './pages/Customer/Customers';
 import AddCustomer from './pages/Customer/AddCustomer';
-import UpdateCustomer from './pages/Customer/UpdateCustomer';
 import Employees from './pages/Employee/Employees';
 import AddEmployee from './pages/Employee/AddEmployee';
-import UpdateEmployee from './pages/Employee/UpdateEmployee';
 import Navbar from './components/Navbar/NewNavbar';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
 import OverlayLoader from './components/OverlayLoader/OverlayLoader';
@@ -45,6 +38,16 @@ import PaymentTypes from './pages/PaymentType/PaymentTypes';
 import DrivingLicenseTypes from './pages/DrivingLicenseType/DrivingLicenseTypes';
 import AddDrivingLicenseType from './pages/DrivingLicenseType/AddDrivingLicenseType';
 import DeleteCar from './pages/Cars/DeleteCar';
+import DeleteBrand from './pages/Brands/DeleteBrand';
+import DeleteColor from './pages/Color/DeleteColor';
+import DeleteShiftType from './pages/ShiftType/DeleteShiftType';
+import DeleteDiscountCode from './pages/DiscountCode/DeleteDiscountCode';
+import DeleteCarModel from './pages/CarModel/DeleteCarModel';
+import DeleteCarBodyType from './pages/CarBodyType/DeleteCarBodyType';
+import DeleteFuelType from './pages/FuelType/DeleteFuelType';
+import DeleteAdmin from './pages/Admin/DeleteAdmin';
+import DeleteEmployee from './pages/Employee/DeleteEmployee';
+import DeleteDrivingLicenseType from './pages/DrivingLicenseType/DeleteDrivingLicenseType';
 
 
 
@@ -66,41 +69,43 @@ function App() {
 
         <Route path="/brands" element={<Brands />}></Route>
         <Route path="/addBrand" element={<AddBrand />}></Route>
+        <Route path="/deleteBrand" element={<DeleteBrand />}></Route>
 
         <Route path="/colors" element={<Colors />}></Route>
         <Route path="/addColor" element={<AddColor />}></Route>
-        <Route path="/updateColor" element={<UpdateColor />}></Route>
+        <Route path="/deleteColor" element={<DeleteColor />}></Route>
 
-        <Route path="/gearshifts" element={<ShiftTypes />}></Route>
-        <Route path="/addgearshifts" element={<AddShiftType />}></Route>
-        
+        <Route path="/shiftTypes" element={<ShiftTypes />}></Route>
+        <Route path="/addShiftTypes" element={<AddShiftType />}></Route>
+        <Route path="/deleteShiftType" element={<DeleteShiftType />}></Route>
 
         <Route path="/discountCodes" element={<DiscountCodes />}></Route>
         <Route path="/addDiscountCode" element={<AddDiscountCode />}></Route>
-        <Route path="/updateDiscountCode" element={<UpdateDiscountCode />}></Route>
+        <Route path="/deleteDiscountCode" element={<DeleteDiscountCode />}></Route>
 
         <Route path="/carModels" element={<CarModels />}></Route>
         <Route path="/addCarModel" element={<AddCarModel />}></Route>
-        <Route path="/updateCarModel" element={<UpdateCarModel />}></Route>
+        <Route path="/deleteCarModel" element={<DeleteCarModel />}></Route>
 
         <Route path="/carBodyTypes" element={<CarBodyTypes />}></Route>
         <Route path="/addCarBodyType" element={<AddCarBodyType />}></Route>
-        <Route path="/updateCarBodyType" element={<UpdateCarBodyType />}></Route>
+        <Route path="/deleteCarBodyType" element={<DeleteCarBodyType />}></Route>
 
         <Route path="/fuelTypes" element={<FuelTypes />}></Route>
         <Route path="/addFuelType" element={<AddFuelType />}></Route>
+        <Route path="/deleteFuelType" element={<DeleteFuelType />}></Route>
 
         <Route path="/admins" element={<Admins />}></Route>
         <Route path="/addAdmin" element={<AddAdmin />}></Route>
         <Route path="/updateAdmin" element={<UpdateAdmin />}></Route>
+        <Route path="/deleteAdmin" element={<DeleteAdmin />}></Route>
 
         <Route path="/customers" element={<Customers />}></Route>
         <Route path="/addCustomer" element={<AddCustomer />}></Route>
-        <Route path="/updateCustomer" element={<UpdateCustomer />}></Route>
 
         <Route path="/employees" element={<Employees />}></Route>
         <Route path="/addEmployee" element={<AddEmployee />}></Route>
-        <Route path="/updateEmployee" element={<UpdateEmployee />}></Route>
+        <Route path="/deleteEmployee" element={<DeleteEmployee />}></Route>
 
         <Route path="/vehicleStatuses" element={<VehicleStatuses />}></Route>
 
@@ -108,7 +113,7 @@ function App() {
      
         <Route path="/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
         <Route path="/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
-
+        <Route path="/deleteDrivingLicenseType" element={<DeleteDrivingLicenseType />}></Route>
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>

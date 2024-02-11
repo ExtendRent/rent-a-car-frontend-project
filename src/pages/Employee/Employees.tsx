@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteEmployee, fetchEmployees, updateEmployee } from '../../store/slices/employeeSlice';
-import UpdateEmployee from './UpdateEmployee';
 
 type Props = {}
 

@@ -20,16 +20,10 @@ const DeleteCarBodyType = (props: Props) => {
         setSelectedCarBodyType(carBodyTypeId);
     }
 
-    const handleCancelUpdate = () => {
-        setSelectedCarBodyType(null);
-        dispatch(fetchCarBodyTypes());
-    }
-
     const handleDeleteCarBodyType = async () => {
         if (selectedCarBodyType !== null) {
             await dispatch(deleteCarBodyType({ carBodyTypeId: selectedCarBodyType }));
-            // Silme işlemi tamamlandığında tetiklenir
-            handleCancelUpdate();
+            setSelectedCarBodyType(null);
         }
     }
 

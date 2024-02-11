@@ -19,16 +19,10 @@ const DeleteColor = (props: Props) => {
       setSelectedColor(colorId);
     }
   
-    const handleCancelUpdate = () => {
-      setSelectedColor(null);
-      dispatch(fetchColors());
-    }
-  
     const handleDeleteColor = async () => {
       if (selectedColor !== null) {
         await dispatch(deleteColor({ colorId: selectedColor }));
-        // Silme işlemi tamamlandığında tetiklenir
-        handleCancelUpdate();
+        setSelectedColor(null);
       }
     }
   

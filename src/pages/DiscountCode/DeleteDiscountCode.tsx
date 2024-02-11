@@ -19,15 +19,10 @@ const DeleteDiscountCode = (props: Props) => {
       setSelectedDiscountCode(codeId);
     }
   
-    const handleCancelUpdate = () => {
-      setSelectedDiscountCode(null);
-      dispatch(fetchDiscountCodes());
-    }
-  
     const handleDeleteDiscountCode = async () => {
       if (selectedDiscountCode !== null) {
         await dispatch(deleteDiscountCode({ discountCodeId: selectedDiscountCode }));
-        handleCancelUpdate();
+        setSelectedDiscountCode(null);
       }
     }
   
@@ -37,14 +32,14 @@ const DeleteDiscountCode = (props: Props) => {
         <div id='select-block' className="col-md-6">
   
           <div className="mb-2">
-            <label htmlFor="selectDiscountCode">İndirim Kodu Seç</label>
+            <label htmlFor="selectDiscountCode">İndirim Kuponu Seç</label>
             <select className="form-select" id="discountCodeSelect" value={selectedDiscountCode || ''} onChange={handleDiscountCodeChange}>
               <option value="" disabled>
   
               </option>
               {discountCodeState.discountCodes.map((discountCode: any) => (
                 <option key={discountCode.id} value={discountCode.id} >
-                  {discountCode.name}
+                  {discountCode.discountCode}
                 </option>
               ))}
             </select>
