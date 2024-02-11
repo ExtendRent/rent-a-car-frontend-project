@@ -20,16 +20,10 @@ const DeleteShiftType = (props: Props) => {
         setSelectedShiftType(parseInt(e.target.value, 10));
       };
 
-     /*  const handleCancelUpdate = () => {
-        setSelectedShiftType(null);
-        dispatch(fetchShiftTypes());
-      }; */
-
       const handleDeleteShiftType = async () => {
         if (selectedShiftType !== null) {
           await dispatch(deleteShiftType({ shiftTypeId: selectedShiftType }));
           setSelectedShiftType(null);
-          //handleCancelUpdate();
         }
       };
 

@@ -19,16 +19,11 @@ const DeleteFuelType = (props: Props) => {
         setSelectedFuelType(parseInt(e.target.value, 10))
     };
 
-   /*  const handleCancelUpdate = () => {
-        setSelectedFuelType(null);
-        dispatch(fetchFuelType());
-    }; */
-
+   
     const handleDeleteFuelType = async () => {
         if (selectedFuelType !== null) {
             await dispatch(deleteFuelType({ fuelTypeId: selectedFuelType }))
             setSelectedFuelType(null);
-           // handleCancelUpdate();
         }
 
     };

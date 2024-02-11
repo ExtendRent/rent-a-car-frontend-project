@@ -17,23 +17,16 @@ const DeleteEmployee = (props: Props) => {
     }, [dispatch])
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(typeof e.target.value);
-
         setSelectedEmployee(parseInt(e.target.value, 10));
     };
-
-    /*  const handleCancelUpdate = () => {
-       setSelectedEmployee(null);
-   }; */
-
 
     const handleDeleteEmployee = async () => {
         if (selectedEmployee !== null) {
             await dispatch(deleteEmployee({ employeeId: selectedEmployee }));
             setSelectedEmployee(null);
-            // handleCancelUpdate();
         }
     };
+    
     return (
         <div id='container-shiftType' className="container d-flex flex-column align-items-center">
 

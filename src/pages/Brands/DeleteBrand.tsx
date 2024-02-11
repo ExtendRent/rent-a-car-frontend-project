@@ -20,16 +20,11 @@ const DeleteBrand = (props: Props) => {
     setSelectedBrand(brandId);
   }
 
-  const handleCancelUpdate = () => {
-    setSelectedBrand(null);
-    dispatch(fetchBrands());
-  }
-
+  
   const handleDeleteBrand = async () => {
     if (selectedBrand !== null) {
       await dispatch(deleteBrand({ brandId: selectedBrand }));
-      // Silme işlemi tamamlandığında tetiklenir
-      handleCancelUpdate();
+      setSelectedBrand(null);
     }
   }
 

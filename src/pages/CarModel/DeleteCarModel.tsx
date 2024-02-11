@@ -20,16 +20,10 @@ const DeleteCarModel = (props: Props) => {
         setSelectedCarModel(carModelId);
       }
     
-      const handleCancelUpdate = () => {
-        setSelectedCarModel(null);
-        dispatch(fetchCarModels());
-      }
-    
       const handleDeleteCarModel = async () => {
         if (selectedCarModel !== null) {
           await dispatch(deleteCarModel({ id: selectedCarModel }));
-          // Silme işlemi tamamlandığında tetiklenir
-          handleCancelUpdate();
+          setSelectedCarModel(null);
         }
       }    
 
