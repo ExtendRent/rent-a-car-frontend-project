@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalResponse';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Grid, Button } from '@mui/material';
@@ -19,13 +19,14 @@ const Payment: React.FC<{
   startDate: Date | string; 
   endDate: Date | string; 
   response: AddShowRentalResponse | undefined; 
-  onPaymentProcessClick: () => void 
-}> = ({ startDate, endDate, response, onPaymentProcessClick }) => {
-  const [lastAmount, setLastAmount] = useState<number>(0);
+  onPaymentProcessClick: () => void;
+  setLastAmount: Dispatch<SetStateAction<number>>;
+}> = ({ startDate, endDate, response, onPaymentProcessClick ,setLastAmount }) => {
+  const [lastAmount, setLastAmountLocal] = useState<number>(0);
   const carsState = useSelector((state: any) => state.showRental.showRental);
   const dispatch = useDispatch<AppDispatch>();
   const paymentTypeState = useSelector((state: any) => state.paymentType);
-  
+  const [paymentResponse, setPaymentResponse] = useState<number | undefined>();
   const [selectedPaymentType, setSelectedPaymentType] = useState<number>(0);
   const [creditCardInfo, setCreditCardInfo] = useState<CreditCardInfo>({
     cardNumber: '',
@@ -37,7 +38,7 @@ const Payment: React.FC<{
   
   useEffect(() => {
     dispatch(fetchPaymentTypes())
-    setLastAmount(carsState[carsState.length - 1]?.response?.amount || null);
+    setLastAmountLocal(carsState[carsState.length - 1]?.response?.amount || 0);
   }, [carsState]);
   
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +68,10 @@ const Payment: React.FC<{
         discountCode: response?.response.discountCode,
         creditCardInformation: creditCardInfo
       }));
-    
+      
+        setPaymentResponse(lastAmount);
+        setLastAmountLocal(lastAmount);
+      
       onPaymentProcessClick();
     } else {
       console.error("Invalid customer or car ID.");
@@ -77,6 +81,7 @@ const Payment: React.FC<{
   const handleConfirmButtonClick = () => {
     handleCalculateClick();
     onPaymentProcessClick();
+    setLastAmount(lastAmount);
   };
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const paymentTypeId = parseInt(e.target.value, 10);
