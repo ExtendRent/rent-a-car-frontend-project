@@ -57,7 +57,6 @@ function App() {
     <>
       <OverlayLoader />
       <Navbar />
-      
       <Routes>
         
 				<Route path="/" element={<Homepage />}></Route>
