@@ -1,147 +1,58 @@
-
-import React, { useEffect, useState } from 'react';
-import './AdminPanel.css';
-import CarService from '../../services/carService';
-import Cars from '../Cars/Cars';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
-import { fetchCars } from '../../store/slices/carSlice';
-import { fetchColors } from '../../store/slices/colorSlice';
-import Colors from '../Color/Colors';
-import Brands from '../Brands/Brands';
-import CarModels from '../CarModel/CarModels';
-import CarBodyTypes from '../CarBodyType/CarBodyTypes';
-import ShiftTypes from '../ShiftType/ShiftTypes';
-import FuelTypes from '../FuelType/FuelTypes';
-import DiscountCodes from '../DiscountCode/DiscountCodes';
-import VehicleStatuses from '../VehicleStatus/VehicleStatuses';
-import Admins from '../Admin/Admins';
-import Customers from '../Customer/Customers';
-import Employees from '../Employee/Employees';
-import AddColor from '../Color/AddColor';
+import React, { useState } from 'react';
 import AddCar from '../Cars/AddCar';
-import PaymentTypes from '../PaymentType/PaymentTypes';
-import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';
-import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
+import Cars from '../Cars/Cars';
 import DeleteCar from '../Cars/DeleteCar';
-import { Action } from '@remix-run/router';
+import Brands from '../Brands/Brands';
+import AddBrand from '../Brands/AddBrand';
+import DeleteBrand from '../Brands/DeleteBrand';
+import './AdminPanel2.css';
 
 const AdminPanel: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  interface Entity {
-    name: string;
-    component: React.FC<any>;
-  }
-  ///const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null);
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [formData, setFormData] = useState<any>({});
-  const [selectedEntity, setSelectedEntity] = useState<{ entity: Entity | null, action: 'add' | 'update' | 'delete' }>({ entity: null, action: 'add' });
+  const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const [dropdownActive, setDropdownActive] = useState<boolean[]>([false, false]);
 
-
-
-  const entities = [
-    { name: 'Araç', component: Cars },
-    { name: 'Marka', component: Brands },
-    { name: 'Araç Model', component: CarModels },
-    { name: 'Kasa Tipi', component: CarBodyTypes },
-    { name: 'Renk', component: Colors },
-    { name: 'Vites Tipi', component: ShiftTypes },
-    { name: 'Yakıt Tipi', component: FuelTypes },
-    { name: 'İndirim Kuponu', component: DiscountCodes },
-    { name: 'Araç Durumu', component: VehicleStatuses },
-    { name: 'Admin', component: Admins },
-    { name: 'Müşteri', component: Customers },
-    { name: 'Çalışan', component: Employees },
-    { name: 'Ödeme Tipi', component: PaymentTypes },
-    { name: 'Ehliyet Tipi', component: DrivingLicenseTypes },
-  ];
-
-
-  const handleEntitySelect = (entityName: string, action: 'add' | 'update' | 'delete') => {
-    const entity = entities.find(entity => entity.name === entityName);
-    if (entity) {
-      setSelectedEntity({ entity: entity, action: action });
-      setIsFormVisible(false);
-    }
-  };
-
-
-  useEffect(() => {
-    dispatch(fetchColors());
-    dispatch(fetchPaymentTypes());
-  }, [dispatch])
-
-   const handleActionButtonClick = (action: 'add' | 'update' | 'delete') => {
-    if (action === 'add') {
-      setSelectedEntity({ entity: null, action: 'add' });
-      setIsFormVisible(true);
-    } else if (action === 'update') {
-      setSelectedEntity({ entity: null, action: 'update' });
-      setIsFormVisible(true);
-    } else if (action === 'delete') {
-      setSelectedEntity({ entity: null, action: 'delete' });
-      setIsFormVisible(true);
-    }
-  }; 
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+  const handleDropdownClick = (index: number) => {
+    const newDropdownState = [...dropdownActive];
+    newDropdownState[index] = !newDropdownState[index];
+    setDropdownActive(newDropdownState);
   };
 
   return (
-    <div className="container">
-      <div className="row col-md-12">
-        <div className="col-md-3">
-
-          <ul className="list-group">
-            {entities.map(entity => (
-              <li key={entity.name} className="list-group-item" onClick={() => handleEntitySelect(entity.name, 'add')}>
-                {entity.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="col-md-9">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="btn-group">
-
-                <button className="btn btn-warning" onClick={() => handleActionButtonClick('add')}>Add</button>
-                <button className="btn btn-primary" onClick={() => handleActionButtonClick('update')}>Update</button>
-                <button className="btn btn-danger" onClick={() => handleActionButtonClick('delete')}>Delete</button>
-              </div>
-            </div>
+    <div style={{ display: 'flex' }}>
+      <div style={{ width: '33%' }}>
+        <div className="sidenav">
+          <button className={`dropdown-btn ${dropdownActive[0] ? 'active' : ''}`} onClick={() => handleDropdownClick(0)}>
+            Araç
+            <i className={`fa ${dropdownActive[0] ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
+          </button>
+          <div className={`dropdown-container ${dropdownActive[0] ? 'active' : ''}`}>
+            <button onClick={() => setSelectedAction('AddCar')}>Araç Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateCar')}>Araç Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteCar')}>Araç Sil</button>
           </div>
-
-        {/*  {selectedPage && pages.map(page => {
-            if (page.name === selectedPage) {
-              return <page.component key={page.name} />;
-            }
-          })}
- */}
-
-         {isFormVisible ? (
-            <AddCar />
-          ) : (
-            selectedEntity && selectedEntity.entity && <selectedEntity.entity.component />
-          )}
- 
-         
-          {/* {selectedEntity && (
-            <selectedEntity.component />
-          )} */}
+          <button className={`dropdown-btn ${dropdownActive[1] ? 'active' : ''}`} onClick={() => handleDropdownClick(1)}>
+            Marka
+            <i className={`fa ${dropdownActive[1] ? 'fa-caret-up' : 'fa-caret-down'}`}></i>
+          </button>
+          <div className={`dropdown-container ${dropdownActive[1] ? 'active' : ''}`}>
+            <button onClick={() => setSelectedAction('AddBrand')}>Marka Ekle</button>
+            <button onClick={() => setSelectedAction('UpdateBrand')}>Marka Güncelle</button>
+            <button onClick={() => setSelectedAction('DeleteBrand')}>Marka Sil</button>
+          </div>
         </div>
+      </div>
+
+      <div style={{ width: '67%' }}>
+        {selectedAction === 'AddCar' && <AddCar />}
+        {selectedAction === 'UpdateCar' && <Cars />}
+        {selectedAction === 'DeleteCar' && <DeleteCar />}
+
+        {selectedAction === 'AddBrand' && <AddBrand />}
+        {selectedAction === 'UpdateBrand' && <Brands />}
+        {selectedAction === 'DeleteBrand' && <DeleteBrand />}
       </div>
     </div>
   );
-
-
-}
+};
 
 export default AdminPanel;

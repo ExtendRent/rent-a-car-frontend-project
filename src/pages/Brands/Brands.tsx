@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
-import { deleteBrand, fetchBrands } from '../../store/slices/brandSlice';
-import UpdateBrand from './UpdateBrand';
+import { fetchBrands, updateBrand } from '../../store/slices/brandSlice';
+/* import UpdateBrand from './UpdateBrand'; */
 
 const Brands = () => {
 
@@ -11,11 +11,10 @@ const Brands = () => {
 
   
   const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
+  const [brand, setBrand] = useState("");
  
   useEffect(()=>{
     dispatch(fetchBrands())
-    console.log(brandState);
-    
   },[dispatch])
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -23,31 +22,23 @@ const Brands = () => {
   };
   
   const handleBrandUpdateSuccess = () => {
-    setSelectedBrand(null);
-    // Markaları tekrar getir
-    dispatch(fetchBrands());
+    if (brand.trim() !== "" && selectedBrand !== null) {
+      dispatch(updateBrand({ id: selectedBrand, name: brand }))
+      handleCancelUpdate();
+    }
   };
 
   const handleCancelUpdate = () => {
     setSelectedBrand(null);
-    // Markaları tekrar getir
+    setBrand("");
     dispatch(fetchBrands());
-  };
-
-  const handleDeleteBrand = async () => {
-    if (selectedBrand !== null) {
-      await dispatch(deleteBrand({ brandId: selectedBrand }));
-      // Silme işlemi tamamlandığında tetiklenir
-      handleBrandUpdateSuccess();
-    }
   };
 
   return (
     <div style={{ marginTop: 200 }}>
       <h2>Brand List</h2>
 
-    
-
+  
       <select value={selectedBrand || ''} onChange={handleSelectChange}>
         <option value="" disabled>
           Select a brand
@@ -60,16 +51,16 @@ const Brands = () => {
       </select>
 
       {selectedBrand !== null && (
-        <UpdateBrand
-          brandId={selectedBrand}
-          onCancelUpdate={handleCancelUpdate}
-          onUpdateSuccess={handleBrandUpdateSuccess}
-        />
+        <div>
+          <input
+            type="text"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
+          <button onClick={handleBrandUpdateSuccess}>Update Brand</button>
+          <button onClick={handleCancelUpdate}>Cancel</button>
+        </div>
       )}
-
-      <button onClick={handleDeleteBrand} disabled={selectedBrand === null}>
-        Delete Brand
-      </button>
     </div>
   )
 }

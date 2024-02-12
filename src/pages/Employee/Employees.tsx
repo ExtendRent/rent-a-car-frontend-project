@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteEmployee, fetchEmployees, updateEmployee } from '../../store/slices/employeeSlice';
-import UpdateEmployee from './UpdateEmployee';
 
 type Props = {}
 
@@ -56,12 +55,6 @@ const Employees = (props: Props) => {
     dispatch(fetchEmployees());
   };
 
-  const handleDeleteEmployee = async () => {
-    if (selectedEmployee !== null) {
-      await dispatch(deleteEmployee({ employeeId: selectedEmployee }));
-      handleEmployeeUpdateSuccess();
-    }
-  };
   return (
 
     <div>
@@ -132,9 +125,6 @@ const Employees = (props: Props) => {
         </div>)}
         <button onClick={handleEmployeeUpdateSuccess}>Update Employee</button>
           <button onClick={handleCancelUpdate}>Cancel</button>
-          <button onClick={handleDeleteEmployee} disabled={selectedEmployee === null}>
-        Delete Employee
-      </button>
 
     </div>
   )

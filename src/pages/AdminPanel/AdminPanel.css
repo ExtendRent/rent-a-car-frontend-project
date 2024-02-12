@@ -1,30 +1,74 @@
-.container{
+/* AdminPanel.css */
+
+.container {
     height: 100vh;
-    width:100vw;
-}
-.btn {
-    width:250px ;
+    width: 100vw;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 250px;
     margin: 40px 5px 0px 120px;
     cursor: pointer;
-}
-.form-group{
+  }
+  
+  .form-group {
     width: 500px;
     margin: 50px 0px 0px 230px;
     text-align: center;
-}
-.form-baslik{
-    margin:20px 0px 0px 350px;
+  }
+  
+  .form-baslik {
+    margin: 20px 0px 0px 350px;
     width: 300px;
     text-align: center;
-}
-.buton1{
+  }
+  
+  .buton1 {
     margin: 50px 0px 0px 370px;
     cursor: pointer;
-}
-.list-group{
+  }
+  
+  .list-group {
     margin-top: 45px;
     cursor: pointer;
-}
-.row{
+  }
+  
+  .row {
     margin-top: 300px;
-}
+  }
+  
+  /* AdminPanel içindeki Colors bileşeninin stilleri */
+  .colors-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .colors-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .colors-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .colors-container .form-select {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  .colors-container input[type="text"] {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+  
+  .colors-container .btn-primary {
+    margin-right: 5px;
+  }
+  

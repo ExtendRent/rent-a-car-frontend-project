@@ -34,13 +34,6 @@ export default function ShiftTypes() {
         dispatch(fetchShiftTypes());
       };
 
-      const handleDeleteShiftType = async () => {
-        if (selectedShiftType !== null) {
-          await dispatch(deleteShiftType({ shiftTypeId: selectedShiftType }));
-          handleShiftTypeUpdateSuccess();
-        }
-      };
-    
 
   return (
     <div style={{ marginTop: 200 }}>
@@ -69,9 +62,7 @@ export default function ShiftTypes() {
         </div>
       )}
 
-<button onClick={handleDeleteShiftType} disabled={selectedShiftType === null}>
-        Delete ShiftType
-      </button>
+
 
 
     </div>

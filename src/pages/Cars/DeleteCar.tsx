@@ -21,16 +21,10 @@ const DeleteCar = (props: Props) => {
         
       }
     
-
-    const handleCancelUpdate = () =>{
-        setSelectedCar(null);
-    }
-
     const handleDeleteCar = async () => {
         if (selectedCar !== null) {
           await dispatch(deleteCar({ carId: selectedCar }));
-          // Silme işlemi tamamlandığında tetiklenir
-          handleCancelUpdate();
+          setSelectedCar(null);
         }
       }
 
