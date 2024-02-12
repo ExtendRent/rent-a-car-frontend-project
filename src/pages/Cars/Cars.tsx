@@ -175,14 +175,6 @@ const Cars = (props: Props) => {
     dispatch(fetchCars());
   }
 
-  const handleDeleteCar = async () => {
-    if (selectedCar !== null) {
-      await dispatch(deleteCar({ carId: selectedCar }));
-      // Silme işlemi tamamlandığında tetiklenir
-      handleCancelUpdate();
-    }
-  }
-
   return (
     <div id='container-car' className="container d-flex flex-column align-items-center">
 
