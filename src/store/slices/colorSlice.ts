@@ -1,6 +1,6 @@
-import { UpdateColorModel } from './../../models/Requests/UpdateColorModel';
+import { UpdateColorModel } from '../../models/Requests/Color/UpdateColorModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddColorModel } from "../../models/Requests/AddColorModel";
+import { AddColorModel } from "../../models/Requests/Color/AddColorModel";
 import ColorService from "../../services/colorService";
 
 

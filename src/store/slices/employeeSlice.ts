@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddEmployeeModel } from "../../models/Requests/AddEmployeeModel";
+import { AddEmployeeModel } from "../../models/Requests/Employee/AddEmployeeModel";
 import EmployeeService from "../../services/employeeService";
-import { UpdateEmployeeModel } from "../../models/Requests/UpdateEmployeeModel";
+import { UpdateEmployeeModel } from "../../models/Requests/Employee/UpdateEmployeeModel";
 
 
 export const fetchEmployees = createAsyncThunk(

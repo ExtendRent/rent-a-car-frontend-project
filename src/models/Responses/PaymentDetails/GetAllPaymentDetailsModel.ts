@@ -1,4 +1,4 @@
-import { PaymentDetailsModel } from "../PaymentDetailsModel";
+import { PaymentDetailsModel } from "./PaymentDetailsModel";
 
 export interface GetAllPaymentDetailsModel{
     response: PaymentDetailsModel[];

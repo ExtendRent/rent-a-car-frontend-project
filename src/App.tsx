@@ -24,7 +24,7 @@ import AddEmployee from './pages/Employee/AddEmployee';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
 import OverlayLoader from './components/OverlayLoader/OverlayLoader';
 import { useState } from 'react';
-import { AllGetByDateCarResponse } from './models/Responses/AllGetByDateCarResponse';
+import { AllGetByDateCarResponse } from './models/Responses/Car/AllGetByDateCarResponse';
 import FuelTypes from './pages/FuelType/FuelTypes';
 import AddFuelType from './pages/FuelType/AddFuelType';
 import ShiftTypes from './pages/ShiftType/ShiftTypes';

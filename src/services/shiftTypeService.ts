@@ -1,6 +1,6 @@
-import { AddShiftTypeModel } from "../models/Requests/AddShiftTypeModel";
-import { UpdateShiftTypeModel } from "../models/Requests/UpdateShiftTypeModel";
-import { GetAllShiftTypesModel } from "../models/Responses/GetAllShiftTypesModel";
+import { AddShiftTypeModel } from "../models/Requests/ShiftType/AddShiftTypeModel";
+import { UpdateShiftTypeModel } from "../models/Requests/ShiftType/UpdateShiftTypeModel";
+import { GetAllShiftTypesModel } from "../models/Responses/ShiftTypes/GetAllShiftTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class ShiftTypeService {

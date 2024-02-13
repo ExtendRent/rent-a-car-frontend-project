@@ -1,4 +1,4 @@
-import { DrivingLicenseTypeModel } from "../DrivingLicenseTypeModel";
+import { DrivingLicenseTypeModel } from "./DrivingLicenseTypeModel";
 
 export interface GetAllDrivingLicenseTypesModel {
 	response: DrivingLicenseTypeModel[];

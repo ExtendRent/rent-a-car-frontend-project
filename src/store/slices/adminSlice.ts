@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddAdminModel } from "../../models/Requests/AddAdminModel";
+import { AddAdminModel } from "../../models/Requests/Admin/AddAdminModel";
 import AdminService from "../../services/adminService";
-import { UpdateAdminModel } from "../../models/Requests/UpdateAdminModel";
+import { UpdateAdminModel } from "../../models/Requests/Admin/UpdateAdminModel";
 
 export const fetchAdmins = createAsyncThunk(
     "admins/fetchAdmin",

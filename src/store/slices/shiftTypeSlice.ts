@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddShiftTypeModel } from "../../models/Requests/AddShiftTypeModel";
+import { AddShiftTypeModel } from "../../models/Requests/ShiftType/AddShiftTypeModel";
 import ShiftTypeService from "../../services/shiftTypeService";
-import { UpdateShiftTypeModel } from "../../models/Requests/UpdateShiftTypeModel";
+import { UpdateShiftTypeModel } from "../../models/Requests/ShiftType/UpdateShiftTypeModel";
 
 
 export const fetchShiftTypes = createAsyncThunk(

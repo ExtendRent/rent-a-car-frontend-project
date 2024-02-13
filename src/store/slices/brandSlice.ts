@@ -1,7 +1,7 @@
-import { UpdateBrandModel } from './../../models/Requests/UpdateBrandModel';
+import { UpdateBrandModel } from '../../models/Requests/Brand/UpdateBrandModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import BrandService from "../../services/brandService";
-import { AddBrandModel } from '../../models/Requests/AddBrandModel';
+import { AddBrandModel } from '../../models/Requests/Brand/AddBrandModel';
 
 export const fetchBrands = createAsyncThunk(
   "brands/fetchBrands",

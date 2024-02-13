@@ -1,6 +1,6 @@
-import { AddDiscountCodeModel } from "../models/Requests/AddDiscountCodeModel";
-import { UpdateDiscountCodeModel } from "../models/Requests/UpdateDiscountCodeModel";
-import { GetAllDiscountCodesModel } from "../models/Responses/GetAllDiscountCodesModel";
+import { AddDiscountCodeModel } from "../models/Requests/DiscountCode/AddDiscountCodeModel";
+import { UpdateDiscountCodeModel } from "../models/Requests/DiscountCode/UpdateDiscountCodeModel";
+import { GetAllDiscountCodesModel } from "../models/Responses/DiscountCode/GetAllDiscountCodesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class DiscountCodeService{

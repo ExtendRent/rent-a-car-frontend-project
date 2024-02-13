@@ -1,4 +1,4 @@
-import { AddCustomerModel } from "../models/Requests/AddCustomerModel";
+import { AddCustomerModel } from "../models/Requests/Customer/AddCustomerModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class CustomerService {

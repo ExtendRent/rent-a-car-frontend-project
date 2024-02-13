@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit"
-import { CarModel } from "../../models/Responses/CarModel"
+import { CarModel } from "../../models/Responses/Car/CarModel"
 
 interface CartItem{
     car :CarModel;

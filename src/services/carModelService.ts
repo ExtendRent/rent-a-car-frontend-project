@@ -1,6 +1,6 @@
-import { AddCarModelModel } from "../models/Requests/AddCarModelModel";
-import { UpdateCarModelModel } from "../models/Requests/UpdateCarModelModel";
-import { GetAllCarModelModel } from "../models/Responses/GetAllCarModelModel";
+import { AddCarModelModel } from "../models/Requests/CarModel/AddCarModelModel";
+import { UpdateCarModelModel } from "../models/Requests/CarModel/UpdateCarModelModel";
+import { GetAllCarModelModel } from "../models/Responses/CarModel/GetAllCarModelModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 

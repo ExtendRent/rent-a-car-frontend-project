@@ -1,5 +1,5 @@
-import { SignInModel } from "../models/Requests/SignInModel";
-import { SignInResponse } from "../models/Responses/SignInResponse";
+import { SignInModel } from "../models/Requests/SignIn/SignInModel";
+import { SignInResponse } from "../models/Responses/SignIn/SignInResponse";
 import axiosInstance from "../utils/axiosInterceptors";
 
 

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddCarModelModel } from "../../models/Requests/AddCarModelModel";
+import { AddCarModelModel } from "../../models/Requests/CarModel/AddCarModelModel";
 import CarModelService from "../../services/carModelService";
-import { UpdateCarModelModel } from "../../models/Requests/UpdateCarModelModel";
+import { UpdateCarModelModel } from "../../models/Requests/CarModel/UpdateCarModelModel";
 
 export const addCarModel = createAsyncThunk(
     "carModel/addCarModel",

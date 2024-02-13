@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddDrivingLicenseTypeModel } from "../../models/Requests/AddDrivingLicenseTypeModel";
+import { AddDrivingLicenseTypeModel } from "../../models/Requests/DrivingLicenseType/AddDrivingLicenseTypeModel";
 import DrivingLicenseTypeModelService from "../../services/drivingLicenseTypeService";
-import { UpdateDrivingLicenseTypeModel } from "../../models/Requests/UpdateDrivingLicenseTypeModel";
+import { UpdateDrivingLicenseTypeModel } from "../../models/Requests/DrivingLicenseType/UpdateDrivingLicenseTypeModel";
 
 export const fetchDrivingLicenseTypes = createAsyncThunk(
     "drivingLicenseTypes/fetchDrivingLicenseTypes",

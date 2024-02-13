@@ -8,9 +8,9 @@ import { useLocation } from "react-router";
 import ShowRental from "../../components/ShowRental/ShowRental";
 import moment from "moment";
 import useToken from "../../utils/useToken";
-import { AddShowRentalResponse } from "../../models/Responses/AddShowRentalResponse";
+import { AddShowRentalResponse } from "../../models/Responses/Rental/AddShowRentalResponse";
 import CarCart from "../../components/CarCart/CarCart";
-import { AllGetByDateCarResponse } from "../../models/Responses/AllGetByDateCarResponse";
+import { AllGetByDateCarResponse } from "../../models/Responses/Car/AllGetByDateCarResponse";
 import Payment from "../../components/Payment/Payment";
 import RentalDetail from "../../components/RentalDetail/RentalDetail";
 

@@ -1,7 +1,7 @@
 
-import { AddRentalModel } from "../models/Requests/AddRentalModel";
-import { ShowRentalModel } from "../models/Requests/ShowRental";
-import { AddShowRentalResponse } from "../models/Responses/AddShowRentalResponse";
+import { AddRentalModel } from "../models/Requests/Rental/AddRentalModel";
+import { ShowRentalModel } from "../models/Requests/Rental/ShowRental";
+import { AddShowRentalResponse } from "../models/Responses/Rental/AddShowRentalResponse";
 import axiosInstance from "../utils/axiosInterceptors";
 
 

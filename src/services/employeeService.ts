@@ -1,6 +1,6 @@
-import { AddEmployeeModel } from "../models/Requests/AddEmployeeModel";
-import { UpdateEmployeeModel } from "../models/Requests/UpdateEmployeeModel";
-import { GetAllEmployeesModel } from "../models/Responses/GetAllEmployeesModel";
+import { AddEmployeeModel } from "../models/Requests/Employee/AddEmployeeModel";
+import { UpdateEmployeeModel } from "../models/Requests/Employee/UpdateEmployeeModel";
+import { GetAllEmployeesModel } from "../models/Responses/Employee/GetAllEmployeesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class EmployeeService{

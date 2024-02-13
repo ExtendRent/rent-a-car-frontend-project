@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalResponse';
+import { AddShowRentalResponse } from '../../models/Responses/Rental/AddShowRentalResponse';
 import { addShowRental } from '../../store/slices/showRentalSlice';
 import { AppDispatch } from '../../store/configureStore';
 import { useDispatch } from 'react-redux';

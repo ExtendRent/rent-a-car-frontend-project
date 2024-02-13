@@ -1,8 +1,8 @@
-import { AddDrivingLicenseTypeModel } from '../models/Requests/AddDrivingLicenseTypeModel';
-import { UpdateDrivingLicenseTypeModel } from '../models/Requests/UpdateDrivingLicenseTypeModel';
-import { GetAllDrivingLicenseTypesModel } from '../models/Responses/Car/GetAllDrivingLicenseTypesModel';
+import { AddDrivingLicenseTypeModel } from '../models/Requests/DrivingLicenseType/AddDrivingLicenseTypeModel';
+import { UpdateDrivingLicenseTypeModel } from '../models/Requests/DrivingLicenseType/UpdateDrivingLicenseTypeModel';
+import { GetAllDrivingLicenseTypesModel } from '../models/Responses/DrivingLicenseType/GetAllDrivingLicenseTypesModel';
 import axiosInstance from '../utils/axiosInterceptors';
-import { DrivingLicenseTypeModel } from './../models/Responses/DrivingLicenseTypeModel';
+import { DrivingLicenseTypeModel } from '../models/Responses/DrivingLicenseType/DrivingLicenseTypeModel';
 export default class DrivingLicenseTypeModelService{
     getAll() {
         return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")

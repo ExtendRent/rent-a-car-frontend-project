@@ -1,6 +1,6 @@
-import { AddColorModel } from "../models/Requests/AddColorModel";
-import { UpdateColorModel } from "../models/Requests/UpdateColorModel";
-import { GetAllColorsModel } from "../models/Responses/GetAllColorsModel";
+import { AddColorModel } from "../models/Requests/Color/AddColorModel";
+import { UpdateColorModel } from "../models/Requests/Color/UpdateColorModel";
+import { GetAllColorsModel } from "../models/Responses/Color/GetAllColorsModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 

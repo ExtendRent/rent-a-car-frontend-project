@@ -1,13 +1,13 @@
 
-import { AllGetByDateCarResponse } from "../models/Responses/AllGetByDateCarResponse";
+import { AllGetByDateCarResponse } from "../models/Responses/Car/AllGetByDateCarResponse";
 import { GetAllFilteredResponse } from "../models/Responses/Car/GetAllFilteredResponse";
 
-import { AddCarModel } from "../models/Requests/AddCarModel";
-import { UpdateCarModel } from "../models/Requests/UpdateCarModel";
+import { AddCarModel } from "../models/Requests/Car/AddCarModel";
+import { UpdateCarModel } from "../models/Requests/Car/UpdateCarModel";
 
-import { GetAllCarsModel } from "../models/Responses/GetAllCarsModel";
-import { GetByDateCarModel } from "../models/Responses/GetByDateCarModel";
-import { GetByDateCarResponse } from "../models/Responses/GetByDateCarResponse";
+import { GetAllCarsModel } from "../models/Responses/Car/GetAllCarsModel";
+import { GetByDateCarModel } from "../models/Responses/Car/GetByDateCarModel";
+import { GetByDateCarResponse } from "../models/Responses/Car/GetByDateCarResponse";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class CarService {

@@ -1,6 +1,6 @@
-import { AddFuelTypeModel } from "../models/Requests/AddFuelTypeModel";
-import { UpdateFuelTypeModel } from "../models/Requests/UpdateFuelTypeModel";
-import { GetAllFuelTypesModel } from "../models/Responses/GetAllFuelTypesModel";
+import { AddFuelTypeModel } from "../models/Requests/FuelType/AddFuelTypeModel";
+import { UpdateFuelTypeModel } from "../models/Requests/FuelType/UpdateFuelTypeModel";
+import { GetAllFuelTypesModel } from "../models/Responses/FuelType/GetAllFuelTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class FuelTypeService{

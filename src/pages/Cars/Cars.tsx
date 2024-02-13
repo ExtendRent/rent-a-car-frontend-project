@@ -14,7 +14,7 @@ import { fetchVehicleStatus } from "../../store/slices/vehicleStatusSlice";
 import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
 import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeSlice";
-import { CarModel } from "../../models/Responses/CarModel";
+import { CarModel } from "../../models/Responses/Car/CarModel";
 import SideBar from "../../components/Sidebar/SideBar";
 
 type Props = {};

@@ -1,8 +1,8 @@
 import axios from "axios";
 import axiosInstance from "../utils/axiosInterceptors";
-import { AddBrandModel } from "../models/Requests/AddBrandModel";
-import { GetAllBrandsModel } from "../models/Responses/GetAllBrandsModel";
-import { UpdateBrandModel } from "../models/Requests/UpdateBrandModel";
+import { AddBrandModel } from "../models/Requests/Brand/AddBrandModel";
+import { GetAllBrandsModel } from "../models/Responses/Brand/GetAllBrandsModel";
+import { UpdateBrandModel } from "../models/Requests/Brand/UpdateBrandModel";
 
 export default class BrandService {
     getAll() {

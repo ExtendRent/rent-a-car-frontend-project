@@ -1,6 +1,6 @@
-import { AddCarBodyTypeModel } from "../models/Requests/AddCarBodyTypeModel";
-import { UpdateCarBodyTypeModel } from "../models/Requests/UpdateCarBodyTypeModel";
-import { GetAllCarBodyTypeModel } from "../models/Responses/GetAllCarBodyTypeModel";
+import { AddCarBodyTypeModel } from "../models/Requests/CarBodyType/AddCarBodyTypeModel";
+import { UpdateCarBodyTypeModel } from "../models/Requests/CarBodyType/UpdateCarBodyTypeModel";
+import { GetAllCarBodyTypeModel } from "../models/Responses/CarBodyType/GetAllCarBodyTypeModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class CarBodyTypeService{

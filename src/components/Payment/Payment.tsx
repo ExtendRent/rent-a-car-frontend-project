@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalResponse';
+import { AddShowRentalResponse } from '../../models/Responses/Rental/AddShowRentalResponse';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, TextField, Grid, Button } from '@mui/material';
 import CreditCardForm from '../CreditCardForm/CreditCardForm';

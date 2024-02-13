@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AddShowRentalResponse } from '../../models/Responses/AddShowRentalResponse'
+import { AddShowRentalResponse } from '../../models/Responses/Rental/AddShowRentalResponse'
 import { Button, TextField, Grid, Typography, Box } from '@mui/material';
 import { AppDispatch } from '../../store/configureStore';
 import { fetchPaymentTypes } from '../../store/slices/paymentTypeSlice';

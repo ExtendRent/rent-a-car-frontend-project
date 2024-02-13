@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ShowRentalModel } from "../../models/Requests/ShowRental";
+import { ShowRentalModel } from "../../models/Requests/Rental/ShowRental";
 import ShowRentalService from "../../services/showRentalService";
-import { AddRentalModel } from "../../models/Requests/AddRentalModel";
+import { AddRentalModel } from "../../models/Requests/Rental/AddRentalModel";
 
 
 /* export const addShowRental = createAsyncThunk(

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import PaymentDetailsService from "../../services/paymentDetailsService";
-import { UpdatePaymentDetailsModel } from "../../models/Requests/UpdatePaymentDetailsModel";
+import { UpdatePaymentDetailsModel } from "../../models/Requests/PaymentDetails/UpdatePaymentDetailsModel";
 
 export const fetchPaymentDetails = createAsyncThunk(
     "paymentDetails/fetchPaymentDetails",

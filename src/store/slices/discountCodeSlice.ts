@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { AddDiscountCodeModel } from "../../models/Requests/AddDiscountCodeModel";
+import { AddDiscountCodeModel } from "../../models/Requests/DiscountCode/AddDiscountCodeModel";
 import DiscountCodeService from "../../services/discountCodeService";
-import { UpdateDiscountCodeModel } from "../../models/Requests/UpdateDiscountCodeModel";
+import { UpdateDiscountCodeModel } from "../../models/Requests/DiscountCode/UpdateDiscountCodeModel";
 
 export const fetchDiscountCodes = createAsyncThunk(
     "discountCodes/fetchDiscountCodes",

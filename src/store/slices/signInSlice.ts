@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SignInModel } from "../../models/Requests/SignInModel";
+import { SignInModel } from "../../models/Requests/SignIn/SignInModel";
 import SignInService from "../../services/signInService";
 /* const parseJwt = (token:string) => {
   if (!token) {

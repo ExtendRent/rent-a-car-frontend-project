@@ -1,4 +1,4 @@
-import { AddCustomerModel } from './../../models/Requests/AddCustomerModel';
+import { AddCustomerModel } from '../../models/Requests/Customer/AddCustomerModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import CustomerService from "../../services/customerService";
 

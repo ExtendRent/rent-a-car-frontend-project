@@ -1,5 +1,5 @@
-import { UpdateVehicleStatusModel } from "../models/Requests/UpdateVehicleStatusModel";
-import { GetAllVehicleStatusesModel } from "../models/Responses/GetAllVehicleStatusesModel";
+import { UpdateVehicleStatusModel } from "../models/Requests/VehicleStatus/UpdateVehicleStatusModel";
+import { GetAllVehicleStatusesModel } from "../models/Responses/VehicleStatus/GetAllVehicleStatusesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class VehicleStatusService{

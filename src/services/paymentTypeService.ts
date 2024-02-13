@@ -1,5 +1,5 @@
-import { UpdatePaymentTypeModel } from "../models/Requests/UpdatePaymentTypeModel";
-import { GetAllPaymentTypesModel } from "../models/Responses/GetAllPaymentTypesModel";
+import { UpdatePaymentTypeModel } from "../models/Requests/PaymentType/UpdatePaymentTypeModel";
+import { GetAllPaymentTypesModel } from "../models/Responses/PaymentType/GetAllPaymentTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class PaymentTypeService {

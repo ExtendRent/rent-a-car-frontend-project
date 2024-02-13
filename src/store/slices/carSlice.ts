@@ -1,10 +1,10 @@
 
-import { GetByDateCarModel } from './../../models/Responses/GetByDateCarModel';
+import { GetByDateCarModel } from '../../models/Responses/Car/GetByDateCarModel';
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import CarService from "../../services/carService"
 import { GetAllFilteredResponse } from '../../models/Responses/Car/GetAllFilteredResponse';
-import { AddCarModel } from '../../models/Requests/AddCarModel';
-import { UpdateCarModel } from '../../models/Requests/UpdateCarModel';
+import { AddCarModel } from '../../models/Requests/Car/AddCarModel';
+import { UpdateCarModel } from '../../models/Requests/Car/UpdateCarModel';
 
 export const fetchCars =createAsyncThunk(
     "cars/fetchCars",

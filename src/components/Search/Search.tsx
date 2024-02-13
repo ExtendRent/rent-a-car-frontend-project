@@ -4,9 +4,9 @@ import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
 import { getByDateCars } from '../../store/slices/carSlice';
 import { AppDispatch } from '../../store/configureStore';
-import { GetByDateCarResponse } from '../../models/Responses/GetByDateCarResponse';
+import { GetByDateCarResponse } from '../../models/Responses/Car/GetByDateCarResponse';
 import SelectedCar from '../../pages/SelectedCar/SelectedCar';
-import { AllGetByDateCarResponse } from '../../models/Responses/AllGetByDateCarResponse';
+import { AllGetByDateCarResponse } from '../../models/Responses/Car/AllGetByDateCarResponse';
 
 const Search: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

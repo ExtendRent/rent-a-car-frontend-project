@@ -1,6 +1,6 @@
-import { UpdateFuelTypeModel } from './../../models/Requests/UpdateFuelTypeModel';
+import { UpdateFuelTypeModel } from '../../models/Requests/FuelType/UpdateFuelTypeModel';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AddFuelTypeModel } from '../../models/Requests/AddFuelTypeModel';
+import { AddFuelTypeModel } from '../../models/Requests/FuelType/AddFuelTypeModel';
 import FuelTypeService from '../../services/fuelTypeService';
 
 

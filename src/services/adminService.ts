@@ -1,6 +1,6 @@
-import { AddAdminModel } from "../models/Requests/AddAdminModel";
-import { UpdateAdminModel } from "../models/Requests/UpdateAdminModel";
-import { GetAllAdminModel } from "../models/Responses/GetAllAdminModel";
+import { AddAdminModel } from "../models/Requests/Admin/AddAdminModel";
+import { UpdateAdminModel } from "../models/Requests/Admin/UpdateAdminModel";
+import { GetAllAdminModel } from "../models/Responses/Admin/GetAllAdminModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class AdminService{
