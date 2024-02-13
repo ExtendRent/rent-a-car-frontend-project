@@ -21,7 +21,6 @@ import Customers from './pages/Customer/Customers';
 import AddCustomer from './pages/Customer/AddCustomer';
 import Employees from './pages/Employee/Employees';
 import AddEmployee from './pages/Employee/AddEmployee';
-import Navbar from './components/Navbar/NewNavbar';
 import SelectedCar from './pages/SelectedCar/SelectedCar';
 import OverlayLoader from './components/OverlayLoader/OverlayLoader';
 import { useState } from 'react';
@@ -47,7 +46,9 @@ import DeleteEmployee from './pages/Employee/DeleteEmployee';
 import DeleteDrivingLicenseType from './pages/DrivingLicenseType/DeleteDrivingLicenseType';
 import AdminRoutes from './pages/AdminRoutes/AdminRoutes';
 import PaymentDetails from './pages/PaymentDetails/PaymentDetails';
-
+import Navbar from './components/Navbar/Navbar';
+import PastRentals from './pages/PastRentals/PastRentals';
+import Account from './pages/Accounts/Account';
 
 
   
@@ -58,7 +59,7 @@ function App() {
   return (
     <>
       <OverlayLoader />
-      <Navbar />
+      <Navbar/>
       <Routes>
      
         <Route path="/adminPanel/cars" element={<Cars />}></Route>
@@ -122,8 +123,11 @@ function App() {
 
         
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
-        <Route path="/paymentDetails" element={<PaymentDetails />}></Route>
+        <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
+        <Route path="/allMyRentals" element={<PastRentals />}></Route>
+        <Route path="/account" element={<Account />}></Route>
 
+      
 			</Routes>
     </>
   );

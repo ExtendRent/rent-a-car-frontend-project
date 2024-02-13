@@ -1,0 +1,114 @@
+/* SonNavbar.css */
+.navbar {
+  position: fixed; /* Navbar'ı sayfanın üstüne sabitledik */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: white;
+  margin: 0;
+  padding: 0 20px; /* Yatay boşluk ekledik */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000; /* Navbar'ın diğer içeriklerin üstünde olmasını sağladık */
+}
+
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .navbar-logo {
+    font-size: 26px; /* Logonun yazı boyutunu biraz daha büyüttüm */
+    color: black;
+    text-decoration: none;
+    margin-right: auto; /* Logo'yu sola yasladım */
+    margin-left: 100px;
+  }
+  
+  .menu-icon {
+    display: none; /* Menü simgesini varsayılan olarak gizledim */
+  }
+  
+  .nav-menu {
+    list-style-type: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-menu.nav-menu-right {
+    justify-content: flex-end; /* Sağa yaslanma */
+  }
+  
+  .nav-item {
+    margin-right: 57px; /* Menü öğeleri arasına boşluk ekledim */
+  }
+  
+  .nav-links {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+  }
+  
+  .nav-links:hover {
+    color: pink;
+  }
+  
+  .nav-links-btn {
+    background-color: pink;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+  
+  .nav-item.nav-item-right {
+    margin-left: auto; /* Sağa yaslanmasını sağladım */
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navbar {
+      padding: 0 10px; /* Yatay boşluğu azalttım */
+    }
+  
+    .navbar-logo {
+      margin-left: 10px; /* Logo'nun sola yaslanmasını sağladım */
+    }
+  
+    .menu-icon {
+      display: flex; /* Menü simgesini görünür hale getirdim */
+      margin-right: 10px; /* Menü simgesinin sağa boşluk ekledim */
+    }
+  
+    .nav-menu {
+      position: fixed; /* Menüyü ekranın üst kısmına sabitledim */
+      top: 80px; /* Navbar'ın altında başlasın */
+      left: 0;
+      background-color: white;
+      width: 100%;
+      flex-direction: column; /* Menü öğelerini dikey olarak sıraladım */
+      display: none; /* Başlangıçta gizli olacak */
+      z-index: 999; /* Menünün diğer içeriklerin üstünde olmasını sağladım */
+    }
+  
+    .nav-menu.active {
+      display: flex; /* Menüyü açtığımızda görünür hale getiriyorum */
+      margin-left: 10px;
+    }
+  
+    .nav-item {
+      margin: 10px 0; /* Menü öğeleri arasında boşluk ekledim */
+    }
+  
+    .nav-item.nav-item-right {
+      margin: 10px 0; /* Sağa yaslanmış menü öğeleri için boşluk ayarladım */
+    }
+  }
+  .navbar.dropdown-open {
+    position: fixed; /* Navbar'ı sabit tut */
+    top: 0; /* Navbar'ı sayfanın üstüne sabitle */
+  }
+ 

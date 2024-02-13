@@ -1,0 +1,91 @@
+.user-profile-dropdown {
+    top: 60px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .user-profile-dropdown.active {
+    display: block;
+  }
+  
+  .user-profile-dropdown ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .user-profile-dropdown ul li {
+    padding: 10px;
+  }
+  
+  .user-profile-dropdown ul li a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .user-profile-dropdown ul li a:hover {
+    color: pink;
+  }
+  
+  .user-profile-dropdown .user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .user-profile-dropdown .user-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: black;
+  }
+  
+  .user-profile-dropdown .user-name {
+    margin-left: 10px;
+  }
+  
+  .user-profile-dropdown .user-icon:hover {
+    background-color: #ddd;
+  }
+  
+  .user-profile-dropdown .dropdown-menu {
+    position: absolute;
+    
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none;
+  }
+  
+  .user-profile-dropdown .dropdown-menu.active {
+    display: block;
+  }
+  
+  .user-profile-dropdown .dropdown-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .user-profile-dropdown .dropdown-menu ul li {
+    padding: 10px;
+  }
+  
+  .user-profile-dropdown .dropdown-menu ul li a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .user-profile-dropdown .dropdown-menu ul li a:hover {
+    color: pink;
+  }

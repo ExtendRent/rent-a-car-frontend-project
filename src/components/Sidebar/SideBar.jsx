@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser,FaPlus ,FaCarSide,FaMinus,FaRedo,FaMediumM,FaMastodon,FaCaravan,FaPalette,FaTicketAlt,FaIdCard ,FaHospitalUser,FaGasPump ,FaRegUser     } from "react-icons/fa";
 import { MdPayment } from "react-icons/md";
-
+import { FaFileInvoice } from "react-icons/fa6";
 
 import { TbManualGearbox } from "react-icons/tb";
 import { GrUserAdmin } from "react-icons/gr";
@@ -268,6 +268,11 @@ const routes = [
     path: "/adminPanel/paymentTypes",
     name: "Ödeme Tipi",
     icon: <MdPayment        />,
+  },
+  {
+    path: "/adminPanel/paymentDetails",
+    name: "Fatura",
+    icon: <FaFileInvoice         />,
   },
 ];
 

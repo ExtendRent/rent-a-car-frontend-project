@@ -57,9 +57,10 @@ main {
 
 /* Sidebar */
 .sidebar {
-  background: rgb(0, 7, 61);
-  color: white;
-  height: 100vh;
+  /* background: rgb(0, 7, 61); */
+  background: #BABFD1;
+  color: rgb(0, 7, 61);
+  height: 110vh;
   overflow-y: auto;
 }
 
@@ -93,7 +94,7 @@ main {
   border-radius: 5px;
   background: rgb(238, 238, 238);
 
-  color: white;
+  color: rgb(0, 7, 61);
 }
 
 .routes {
@@ -104,21 +105,21 @@ main {
 }
 .link {
   display: flex;
-  color: white;
+  color: rgb(0, 7, 61);
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .link:hover {
-  border-right: 4px solid white;
-  background: rgb(45, 51, 89);
+  border-right: 4px solid rgb(0, 7, 61);
+  background: rgb(220, 225, 254);
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
-.active {
-  border-right: 4px solid white;
+/* .active {
+  border-right: 4px solid rgb(0, 7, 61);
   background: rgb(45, 51, 89);
-}
+} */
 .link_text {
   white-space: nowrap;
   font-size: 15px;
@@ -126,7 +127,7 @@ main {
 
 .menu {
   display: flex;
-  color: white;
+  color: rgb(0, 7, 61);;
 
   padding: 5px 10px;
   border-right: 4px solid transparent;
@@ -144,4 +145,7 @@ main {
 .menu_container .link {
   padding-left: 20px;
   border-bottom: #fff 0.5px solid;
+  text-decoration: none;
 }
+
+
