@@ -1,10 +1,17 @@
+/* .table-container {
+  position: absolute;
+  width: 1000px; 
+  height: 500px; 
+  top: 170px; 
+  left: 50%;
+  transform: translateX(-50%); 
+} */
+
 table {
-    width: 1000px; /* Tablonun genişliği, sayfa genişliğinin %80'i */
-    height: 500px;
-    /* margin: auto auto; */ /* Sayfa ortasında hizalamak için */
-    border-collapse: collapse;
-    margin-right: 600px;
-  }
+  width: 100%; /* Tablonun genişliği container genişliğine eşit */
+  margin: 0; /* Tablo kenar boşluklarını sıfırlıyoruz */
+  border-collapse: collapse; /* Kenarlıkları birleştiriyoruz */
+} 
   
   th,
   td {
@@ -19,16 +26,14 @@ table {
   
   .denemeBrand{
     margin: auto;
-    width: 1200px;
-    height: 600px;
-    /* margin-top: 200; */ 
-    border: 2px solid red;
+   position: absolute;
+   width: 1000px; 
+   height: 500px; 
+   top: 170px; 
+   left: 50%;
+   transform: translateX(-50%); 
+    
   }
-
-
-.table-container {
-  width: 1000px; /* Tablo genişliği */
-}
 
 .baslik, .sutun {
     border: 1px solid #000000;
@@ -43,3 +48,24 @@ table {
 #name, #nameObje {
     width: 150px;
 }
+#header-container {
+  position: absolute;
+  top: 80px; 
+  left: 150px; 
+  transform: translateX(-50%); 
+  width: 50%;
+  z-index: 100; 
+  
+}
+
+h2 {
+  margin: 0; 
+  padding: 20px; 
+  text-align: center; 
+  margin-left: 600px;
+}
+img{
+  width: 120px;
+  height: 80px;
+}
+

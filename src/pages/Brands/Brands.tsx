@@ -5,6 +5,7 @@ import { fetchBrands, updateBrand } from "../../store/slices/brandSlice";
 import SideBar from "../../components/Sidebar/SideBar";
 import AddBrand from './AddBrand';
 import './Brand.css';
+import { width } from "@mui/system";
 
 const Brands = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,10 +40,10 @@ const Brands = () => {
   return (
     <div >
       <SideBar>
+        <h2 id="header-container">Marka Listesi</h2>
         <div style={{ textAlign: 'center',border: '2 solid red'}} className="denemeBrand">
-          <h2>Brand List</h2>
           <div className="table-container">
-          <table style={{ borderCollapse: 'collapse' }}>
+       <table style={{ width: '1000px', height: '500px', margin: 'auto', borderCollapse: 'collapse' }} >
             <thead>
               <tr className="baslik">
                 <th className="sutun" >ID</th>
@@ -56,7 +57,9 @@ const Brands = () => {
                 <tr key={brand.id} className="baslik">
                   <td className="sutun">{brand.id}</td>
                   <td className="sutun" id="nameObje">{brand.name}</td>
-                  <td className="sutun">{brand.logoImagePath}</td>
+                  <td className="sutun">
+                  <img src={brand.logoImagePath} alt="Brand Logo" /></td>
+
                   <td className="sutun" id="actionObje">
                     <button style={{ marginRight: '21px', padding: '6px' }}>Sil</button>
                     <button style={{ marginRight: '2px', padding: '6px' }} onClick={handleBrandUpdateSuccess}>Güncelle</button>
