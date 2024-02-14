@@ -9,13 +9,16 @@ type Props = {};
 const AddBrand = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const [brandName, setBrandName] = useState("");
+  const [logoImagePath, setLogoImagePath] = useState("");
 
-  const handleAddBrand = () => {
+ const handleAddBrand = () => {
     if (brandName.trim() !== "") {
-      dispatch(addBrand({ name: brandName }));
+      dispatch(addBrand({ name: brandName, logoImagePath: logoImagePath}));
       setBrandName("");
+      setLogoImagePath("");
     }
   };
+  
 
   return (
     <div>
@@ -25,6 +28,11 @@ const AddBrand = (props: Props) => {
             type="text"
             value={brandName}
             onChange={(e) => setBrandName(e.target.value)}
+          />
+          <input
+            type="text"
+            value={logoImagePath}
+            onChange={(e) => setLogoImagePath(e.target.value)}
           />
           <button onClick={handleAddBrand}>Add Brand</button>
         </div>
