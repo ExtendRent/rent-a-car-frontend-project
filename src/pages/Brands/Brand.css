@@ -1,71 +1,17 @@
-/* .table-container {
-  position: absolute;
-  width: 1000px; 
-  height: 500px; 
-  top: 170px; 
-  left: 50%;
-  transform: translateX(-50%); 
-} */
-
-table {
-  width: 100%; /* Tablonun genişliği container genişliğine eşit */
-  margin: 0; /* Tablo kenar boşluklarını sıfırlıyoruz */
-  border-collapse: collapse; /* Kenarlıkları birleştiriyoruz */
-} 
-  
-  th,
-  td {
-    border: 1px solid #000000;
-    padding: 20px; /* Hücre içi dolgusu */
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  .denemeBrand{
-    margin: auto;
-   position: absolute;
-   width: 1000px; 
-   height: 500px; 
-   top: 170px; 
-   left: 50%;
-   transform: translateX(-50%); 
-    
-  }
-
-.baslik, .sutun {
-    border: 1px solid #000000;
-    padding: 20px; /* Hücre içi dolgusu */
-    text-align: center;
-}
-
-#action, #actionObje {
-    width: 200px;
-}
-
-#name, #nameObje {
-    width: 150px;
-}
-#header-container {
-  position: absolute;
-  top: 80px; 
-  left: 150px; 
-  transform: translateX(-50%); 
-  width: 50%;
-  z-index: 100; 
-  
-}
-
-h2 {
-  margin: 0; 
-  padding: 20px; 
-  text-align: center; 
-  margin-left: 600px;
-}
-img{
-  width: 120px;
+/* Resim boyutları */
+img {
+  max-width: 120px;
   height: 80px;
+}
+
+.full-screen {
+  width: 1200px;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  overflow-x: auto;
+  position: absolute;
+  left: 75%;
+  transform: translate(-75%);
 }
 

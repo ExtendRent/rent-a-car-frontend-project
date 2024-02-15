@@ -49,6 +49,7 @@ import PaymentDetails from './pages/PaymentDetails/PaymentDetails';
 import Navbar from './components/Navbar/Navbar';
 import PastRentals from './pages/PastRentals/PastRentals';
 import Account from './pages/Accounts/Account';
+import UpdateBrand from './pages/Brands/UpdateBrand';
 
 
   
@@ -74,6 +75,7 @@ function App() {
         <Route path="/adminPanel/brands" element={<Brands />}></Route>
         <Route path="/adminPanel/addBrand" element={<AddBrand />}></Route>
         <Route path="/adminPanel/deleteBrand" element={<DeleteBrand />}></Route>
+        <Route path="/adminPanel/updateBrand/:id" element={<UpdateBrand/>}></Route>
 
         <Route path="/adminPanel/colors" element={<Colors />}></Route>
         <Route path="/adminPanel/addColor" element={<AddColor />}></Route>

@@ -5,7 +5,7 @@ import { fetchBrands, updateBrand } from "../../store/slices/brandSlice";
 import SideBar from "../../components/Sidebar/SideBar";
 import AddBrand from './AddBrand';
 import './Brand.css';
-import { width } from "@mui/system";
+import MyMUIDataTable from "./BrandTable";
 
 const Brands = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,53 +40,11 @@ const Brands = () => {
   return (
     <div >
       <SideBar>
-        <h2 id="header-container">Marka Listesi</h2>
-        <div style={{ textAlign: 'center',border: '2 solid red'}} className="denemeBrand">
-          <div className="table-container">
-       <table style={{ width: '1000px', height: '500px', margin: 'auto', borderCollapse: 'collapse' }} >
-            <thead>
-              <tr className="baslik">
-                <th className="sutun" >ID</th>
-                <th className="sutun" id="name">Name</th>
-                <th className="sutun" >Logo Image Path</th>
-                <th className="sutun" id="action">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {brandState.brands.map((brand: any) => (
-                <tr key={brand.id} className="baslik">
-                  <td className="sutun">{brand.id}</td>
-                  <td className="sutun" id="nameObje">{brand.name}</td>
-                  <td className="sutun">
-                  <img src={brand.logoImagePath} alt="Brand Logo" /></td>
-
-                  <td className="sutun" id="actionObje">
-                    <button style={{ marginRight: '21px', padding: '6px' }}>Sil</button>
-                    <button style={{ marginRight: '2px', padding: '6px' }} onClick={handleBrandUpdateSuccess}>Güncelle</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
-          {selectedBrand !== null && (
-            <div>
-              <input
-                type="text"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-              />
-              <input
-                type="text"
-                value={logoImagePath}
-                onChange={(e) => setLogoImagePath(e.target.value)}
-              />
-              {/* <button onClick={handleBrandUpdateSuccess}>Update Brand</button>
-              <button onClick={handleCancelUpdate}>Cancel</button> */}
-            </div>
-          )}
+        <div className="full-screen">
+          <MyMUIDataTable />
         </div>
       </SideBar>
+       
     </div>
   );
 };
