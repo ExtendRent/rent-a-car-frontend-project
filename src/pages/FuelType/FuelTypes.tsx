@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
-import { deleteFuelType, fetchFuelType, updateFuelType } from '../../store/slices/fuelTypeSlice';
+import { fetchFuelType, updateFuelType } from '../../store/slices/fuelTypeSlice';
+import SideBar from '../../components/Sidebar/SideBar';
+import MyMUIDataTable from "./FuelTypeTable";
+import '../Brands/Brand.css'
 
 type Props = {}
 
@@ -34,38 +37,16 @@ const FuelTypes = (props: Props) => {
         dispatch(fetchFuelType());
     };
 
-
     return (
-        <div style={{ marginTop: 200 }}>
-            <h2>Fuel Type List</h2>
-
-            <select value={selectedFuelType || ''} onChange={handleSelectChange}>
-                <option value="" disabled>
-                    Select a fuel type
-                </option>
-                {fuelTypeState.fuelTypes.map((fuelType: any) => (
-                    <option key={fuelType.id} value={fuelType.id}>
-                        {fuelType.name}
-                    </option>
-                ))}
-            </select>
-
-
-            {selectedFuelType !== null && (
-                <div>
-                    <input
-                        type="text"
-                        value={fuelTypeName}
-                        onChange={(e) => setFuelTypeName(e.target.value)}
-                    />
-                    <button onClick={handleFuelTypeUpdateSuccess}>Update Fuel Type</button>
-                    <button onClick={handleCancelUpdate}>Cancel</button>
-                </div>
-            )}
-
+        <div >
+          <SideBar>
+            <div className="full-screen">
+              <MyMUIDataTable />
+            </div>
+          </SideBar>
            
         </div>
-    )
+      );
 };
 
 export default FuelTypes

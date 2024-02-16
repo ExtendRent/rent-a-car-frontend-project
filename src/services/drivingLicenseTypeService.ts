@@ -2,10 +2,11 @@ import { AddDrivingLicenseTypeModel } from '../models/Requests/DrivingLicenseTyp
 import { UpdateDrivingLicenseTypeModel } from '../models/Requests/DrivingLicenseType/UpdateDrivingLicenseTypeModel';
 import { GetAllDrivingLicenseTypesModel } from '../models/Responses/DrivingLicenseType/GetAllDrivingLicenseTypesModel';
 import axiosInstance from '../utils/axiosInterceptors';
-import { DrivingLicenseTypeModel } from '../models/Responses/DrivingLicenseType/DrivingLicenseTypeModel';
+
+
 export default class DrivingLicenseTypeModelService{
     getAll() {
-        return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")
+        return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType?isDeleted=false")
     }
 
     add(newDrivingLicenseType: AddDrivingLicenseTypeModel) {

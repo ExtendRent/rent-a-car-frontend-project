@@ -50,6 +50,10 @@ import Navbar from './components/Navbar/Navbar';
 import PastRentals from './pages/PastRentals/PastRentals';
 import Account from './pages/Accounts/Account';
 import UpdateBrand from './pages/Brands/UpdateBrand';
+import UpdateVehicleStatus from './pages/VehicleStatus/UpdateVehicleStatus';
+import UpdateFuelType from './pages/FuelType/UpdateFuelType';
+import UpdateDrivingLicenseType from './pages/DrivingLicenseType/UpdateDrivingLicense';
+import UpdateAdmin from './pages/Admin/UpdateAdmin';
 
 
   
@@ -80,14 +84,18 @@ function App() {
         <Route path="/adminPanel/colors" element={<Colors />}></Route>
         <Route path="/adminPanel/addColor" element={<AddColor />}></Route>
         <Route path="/adminPanel/deleteColor" element={<DeleteColor />}></Route>
+        <Route path="/adminPanel/updateColor/:id" element={<UpdateColor/>}></Route>
+
 
         <Route path="/adminPanel/shiftTypes" element={<ShiftTypes />}></Route>
         <Route path="/adminPanel/addShiftTypes" element={<AddShiftType />}></Route>
         <Route path="/adminPanel/deleteShiftType" element={<DeleteShiftType />}></Route>
+        <Route path="/adminPanel/updateShiftType/:id" element={<UpdateShiftType/>}></Route>
 
         <Route path="/adminPanel/discountCodes" element={<DiscountCodes />}></Route>
         <Route path="/adminPanel/addDiscountCode" element={<AddDiscountCode />}></Route>
         <Route path="/adminPanel/deleteDiscountCode" element={<DeleteDiscountCode />}></Route>
+        <Route path="/adminPanel/updateDiscountCode/:id" element={<UpdateDiscountCode/>}></Route>
 
         <Route path="/adminPanel/carModels" element={<CarModels />}></Route>
         <Route path="/adminPanel/addCarModel" element={<AddCarModel />}></Route>
@@ -100,10 +108,12 @@ function App() {
         <Route path="/adminPanel/fuelTypes" element={<FuelTypes />}></Route>
         <Route path="/adminPanel/addFuelType" element={<AddFuelType />}></Route>
         <Route path="/adminPanel/deleteFuelType" element={<DeleteFuelType />}></Route>
+        <Route path="/adminPanel/updateFuelType/:id" element={<UpdateFuelType/>}></Route>
 
         <Route path="/adminPanel/admins" element={<Admins />}></Route>
         <Route path="/adminPanel/addAdmin" element={<AddAdmin />}></Route>
         <Route path="/adminPanel/deleteAdmin" element={<DeleteAdmin />}></Route>
+        <Route path="/adminPanel/updateAdmin/:id" element={<UpdateAdmin/>}></Route>
 
         <Route path="/adminPanel/customers" element={<Customers />}></Route>
         <Route path="/adminPanel/addCustomer" element={<AddCustomer />}></Route>
@@ -111,14 +121,17 @@ function App() {
         <Route path="/adminPanel/employees" element={<Employees />}></Route>
         <Route path="/adminPanel/addEmployee" element={<AddEmployee />}></Route>
         <Route path="/adminPanel/deleteEmployee" element={<DeleteEmployee />}></Route>
+        <Route path="/adminPanel/updateEmployee/:id" element={<UpdateEmployee/>}></Route>
 
         <Route path="/adminPanel/vehicleStatuses" element={<VehicleStatuses />}></Route>
+        <Route path="/adminPanel/updateVehicleStatus/:id" element={<UpdateVehicleStatus />}></Route>
 
         <Route path="/adminPanel/paymentTypes" element={<PaymentTypes />}></Route>
      
         <Route path="/adminPanel/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
         <Route path="/adminPanel/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
         <Route path="/adminPanel/deleteDrivingLicenseType" element={<DeleteDrivingLicenseType />}></Route>
+        <Route path="/adminPanel/updateDrivingLicenseType/:id" element={<UpdateDrivingLicenseType />}></Route>
 
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>

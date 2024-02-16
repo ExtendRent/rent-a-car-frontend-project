@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { fetchBrands } from '../../store/slices/brandSlice';
 import { deleteCarModel, fetchCarModels, getByBrandIdCarModels, updateCarModel } from '../../store/slices/carModelSlice';
+import SideBar from '../../components/Sidebar/SideBar';
+import '../Brands/Brand.css';
+import MyMUIDataTable from "./CarModelTable";
 
 type Props = {}
 
@@ -53,49 +56,15 @@ const CarModels = (props: Props) => {
   };
 
   return (
-    <div style={{ marginTop: 200 }}>
-      <h2>Car Model List</h2>
-      <label>Select a Brand:</label>
-      <select value={selectedBrand || ''} onChange={handleSelectChange}>
-        <option value="" disabled>
-          Select a brand
-        </option>
-        {brandState.brands.map((brand: any) => (
-          <option key={brand.id} value={brand.id}>
-            {brand.name}
-          </option>
-        ))}
-      </select>
-    
-      {selectedBrand && (
-        <div>
-          <label>Select a Car Model:</label>
-          <select value={selectedCarModel || ''} onChange={handleCarModelSelectChange}>
-            <option value="" disabled>
-              Select a car model
-            </option>
-            {carModelState.carModel.map((carModel: any) => (
-              <option key={carModel.id} value={carModel.id}>
-                {carModel.name}
-              </option>
-            ))}
-          </select>
+    <div >
+      <SideBar>
+        <div className="full-screen">
+          <MyMUIDataTable />
         </div>
-      )}
-
-      {selectedCarModel !== null && (
-          <div>
-            <input
-              type="text"
-              value={carModelName}
-              onChange={(e) => setCarModelName(e.target.value)}
-              />
-              <button onClick={handleUpdateCarModel}>Update Brand</button>
-              <button onClick={handleCancelUpdate}>Cancel</button>
-          </div>
-        )}
+      </SideBar>
+       
     </div>
-  )
+  );
 }
 
 export default CarModels
