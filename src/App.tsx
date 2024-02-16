@@ -50,10 +50,18 @@ import Navbar from './components/Navbar/Navbar';
 import PastRentals from './pages/PastRentals/PastRentals';
 import Account from './pages/Accounts/Account';
 import UpdateBrand from './pages/Brands/UpdateBrand';
+<<<<<<< HEAD
 import UpdateVehicleStatus from './pages/VehicleStatus/UpdateVehicleStatus';
 import UpdateFuelType from './pages/FuelType/UpdateFuelType';
 import UpdateDrivingLicenseType from './pages/DrivingLicenseType/UpdateDrivingLicense';
 import UpdateAdmin from './pages/Admin/UpdateAdmin';
+=======
+import UpdateCarBodyType from './pages/CarBodyType/UpdateCarBodyType';
+import UpdateShiftType from './pages/ShiftType/UpdateShiftType';
+import UpdateColor from './pages/Color/UpdateColor';
+import UpdateEmployee from './pages/Employee/UpdateEmployee';
+import UpdateDiscountCode from './pages/DiscountCode/UpdateDiscountCode';
+>>>>>>> 52af35144d30f3230d04a88b6a02ef9afebe4711
 
 
   
@@ -85,7 +93,10 @@ function App() {
         <Route path="/adminPanel/addColor" element={<AddColor />}></Route>
         <Route path="/adminPanel/deleteColor" element={<DeleteColor />}></Route>
         <Route path="/adminPanel/updateColor/:id" element={<UpdateColor/>}></Route>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 52af35144d30f3230d04a88b6a02ef9afebe4711
 
         <Route path="/adminPanel/shiftTypes" element={<ShiftTypes />}></Route>
         <Route path="/adminPanel/addShiftTypes" element={<AddShiftType />}></Route>
@@ -104,6 +115,7 @@ function App() {
         <Route path="/adminPanel/carBodyTypes" element={<CarBodyTypes />}></Route>
         <Route path="/adminPanel/addCarBodyType" element={<AddCarBodyType />}></Route>
         <Route path="/adminPanel/deleteCarBodyType" element={<DeleteCarBodyType />}></Route>
+        <Route path="/adminPanel/updateCarBodyType/:id" element={<UpdateCarBodyType/>}></Route>
 
         <Route path="/adminPanel/fuelTypes" element={<FuelTypes />}></Route>
         <Route path="/adminPanel/addFuelType" element={<AddFuelType />}></Route>

@@ -5,16 +5,16 @@ import MUIDataTable, {
   FilterType,
   Responsive,
 } from "mui-datatables";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { deleteBrand, fetchBrands, updateBrand } from "../../store/slices/brandSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteShiftType, fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 
-const BrandTable: React.FC = () => {
+const ShiftTypeTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const brandState = useSelector((state: any) => state.brand);
+  const shiftTypeState = useSelector((state: any) => state.shiftType);
   const [data, setData] = useState<any[][]>([["Loading Data..."]]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
@@ -23,30 +23,28 @@ const BrandTable: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
   const navigate  = useNavigate();
   useEffect(() => {
-    dispatch(fetchBrands());
+    dispatch(fetchShiftTypes());
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-     // brandState'in bir dizi olup olmadığını kontrol ettik
-     const tableData = brandState.brands.map((brand: any) => [
-      brand.id,
-      brand.name,
-      <img src={brand.logoImagePath} alt="Brand Logo" />,
-      <IconButton onClick={() => handleUpdate(brand.id)}><EditIcon /></IconButton>,
-      <IconButton onClick={() => handleDelete(brand.id)}><DeleteIcon /></IconButton>,
+     const tableData = shiftTypeState.shiftTypes.map((shiftType: any) => [
+        shiftType.id,
+        shiftType.name,
+      <IconButton onClick={() => handleUpdate(shiftType.id)}><EditIcon /></IconButton>,
+      <IconButton onClick={() => handleDelete(shiftType.id)}><DeleteIcon /></IconButton>,
     ]);
       
       setData(tableData);
-      setCount(brandState.length);
+      setCount(shiftTypeState.length);
    
-  }, [brandState]);
+  }, [shiftTypeState]);
   const handleDelete = (id: number) => {
     console.log("Deleted ID:", id);
-    dispatch(deleteBrand({ brandId: id }));
+    dispatch(deleteShiftType({ shiftTypeId: id }));
   };
   const handleUpdate = (id: number) => {
     console.log("Deleted ID:", id);
-    navigate(`/adminPanel/updateBrand/${id}`);
+    navigate(`/adminPanel/updateShiftType/${id}`);
   };
   const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
@@ -69,16 +67,13 @@ const BrandTable: React.FC = () => {
       case "name":
         columnName = "name";
         break;
-      case "logoImagePath":
-        columnName = "logoImagePath";
-        break;
       default:
         break;
     }
   
     // Sıralama işlemleri burada yapılacak
     // Örnek bir sıralama işlemi:
-    const sortedData = brandState.brands.slice().sort((a: any, b: any) => {
+    const sortedData = shiftTypeState.shiftTypes.slice().sort((a: any, b: any) => {
       if (sortOrder.direction === "asc") {
         // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
         return a[columnName] > b[columnName] ? 1 : -1;
@@ -89,16 +84,14 @@ const BrandTable: React.FC = () => {
     });
   
     // Sıralanmış verileri güncelle
-    setData(sortedData.map((brand: any) => [brand.id, brand.name, <img src={brand.logoImagePath} alt="Brand Logo" />]));
+    setData(sortedData.map((shiftType: any) => [shiftType.id, shiftType.name]));
     // isLoading durumunu false olarak ayarla
     setIsLoading(false);
   };
   const handleRowSelectionChange = (currentRowsSelected: any[]) => {
     if (currentRowsSelected.length > 0) {
-      const selectedRow = data[currentRowsSelected[0].index]; // Seçilen ilk satırın verilerini al
-      const selectedId = selectedRow[0]; // ID, ilk sütunda olduğu varsayılarak alındı
-      //console.log("Seçilen satır ID'si: ", selectedId);
-      //dispatch(deleteBrand({ brandId: selectedId }))
+      const selectedRow = data[currentRowsSelected[0].index];
+      const selectedId = selectedRow[0];
     }
   };
 
@@ -117,7 +110,7 @@ const BrandTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = brandState.brands.map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+      const originalData = shiftTypeState.shiftTypes.map((shiftType: any) => [shiftType.id, shiftType.name]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -125,7 +118,7 @@ const BrandTable: React.FC = () => {
         case 'changePage':
           changePage(tableState.page, tableState.sortOrder);
           break;
-        case 'changeRowsPerPage': // Yeni sayfa sayısını işlemek için case eklendi
+        case 'changeRowsPerPage':
           changeRowsPerPage(tableState.rowsPerPage, tableState.page);
           break;
         case 'sort':
@@ -133,24 +126,21 @@ const BrandTable: React.FC = () => {
           break;
         case 'filterChange':
           const { filterList } = tableState;
-          const filteredData = brandState.brands.filter((brand: any) => {
+          const filteredData = shiftTypeState.shiftTypes.filter((shiftType: any) => {
             return (
-              brand.id.toString().includes(filterList[0][0] || "") &&
-              brand.name.toLowerCase().includes(filterList[1][0] || "") &&
-              brand.logoImagePath.toLowerCase().includes(filterList[2][0] || "")
-            );
-          }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+                shiftType.id.toString().includes(filterList[0][0] || "") &&
+                shiftType.name.toString().includes(filterList[1][0] || ""));
+          }).map((shiftType: any) => [shiftType.id, shiftType.name]);
           setData(filteredData);
           break;
         case 'search':
           const { searchText } = tableState;
           if (searchText) {
-            const searchData = brandState.brands.filter((brand: any) => {
+            const searchData = shiftTypeState.shiftTypes.filter((shiftType: any) => {
               return (
-                brand.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                brand.logoImagePath.toLowerCase().includes(searchText.toLowerCase())
+                shiftType.name.toLowerCase().includes(searchText.toLowerCase())
               );
-            }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+            }).map((shiftType: any) => [shiftType.id, shiftType.name]);
             setData(searchData);
           }
           break;
@@ -165,7 +155,7 @@ const BrandTable: React.FC = () => {
       <MUIDataTable
         title={
           <Typography variant="h6">
-            MARKALAR 
+            VİTES TİPİ
             {isLoading && (
               <CircularProgress
                 size={24}
@@ -190,21 +180,8 @@ const BrandTable: React.FC = () => {
           },
           {
             name: "name",
-            label: "MARKA",
+            label: "VİTES TİPİ",
             options: {
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
-            },
-          },
-          {
-            name: "logoImagePath",
-            label: "LOGO",
-            options: {
-              filter: false,
               customHeadRender: (columnMeta: MUIDataTableColumn) => (
                 <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
@@ -250,5 +227,5 @@ const BrandTable: React.FC = () => {
   );
 };
 
-export default BrandTable;
+export default ShiftTypeTable;
 

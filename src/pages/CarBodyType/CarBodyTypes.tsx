@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteCarBodyType, fetchCarBodyTypes, updateCarBodyType } from '../../store/slices/carBodyTypeSlice';
-
+import SideBar from '../../components/Sidebar/SideBar';
+import MyMUIDataTable from "./CarBodyTypeTable";
+import '../Brands/Brand.css';
 
 type Props = {}
 
@@ -37,31 +39,13 @@ const CarBodyTypes = (props: Props) => {
   };
 
   return (
-    <div style={{ marginTop: 200 }}>
-      <h2>Car Body Type List</h2>
-
-      <select value={selectedCarBodyType || ''} onChange={handleSelectChange}>
-        <option value="" disabled>
-          Select a car body type
-        </option>
-        {carBodyTypeState.carBodyTypes.map((carBodyType: any) => (
-          <option key={carBodyType.id} value={carBodyType.id}>
-            {carBodyType.name}
-          </option>
-        ))}
-      </select>
-
-      {selectedCarBodyType !== null && (
-        <div>
-          <input
-            type="text"
-            value={carBodyTypeName}
-            onChange={(e) => setCarBodyTypeName(e.target.value)}
-          />
-          <button onClick={handleCarBodyTypeUpdateSuccess}>Update Car Body Type</button>
-          <button onClick={handleCancelUpdate}>Cancel</button>
+    <div >
+      <SideBar>
+        <div className="full-screen">
+          <MyMUIDataTable />
         </div>
-      )}
+      </SideBar>
+       
     </div>
   )
 }

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteEmployee, fetchEmployees, updateEmployee } from '../../store/slices/employeeSlice';
+import SideBar from '../../components/Sidebar/SideBar';
+import MyMUIDataTable from "./EmployeeTable";
+import '../Brands/Brand.css';
+
 
 type Props = {}
 
@@ -56,77 +60,13 @@ const Employees = (props: Props) => {
   };
 
   return (
-
-    <div>
-      <div style={{ marginTop: 200 }}>
-        <h2>Employee List</h2>
-
-        <select value={selectedEmployee || ''} onChange={handleSelectChange}>
-          <option value="" disabled>
-            Select a employee
-          </option>
-          {employeeState.employees.map((employee: any) => (
-            <option key={employee.id} value={employee.id}>
-              {employee.name} {employee.surname}
-            </option>
-          ))}
-        </select>
+    <div >
+    <SideBar>
+      <div className="full-screen">
+        <MyMUIDataTable />
       </div>
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>)}
-
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-          />
-        </div>)}
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={emailAddress}
-            onChange={(e) => setEmailAddress(e.target.value)}
-          />
-        </div>)}
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>)}
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-        </div>)}
-
-      {selectedEmployee !== null && (
-        <div>
-          <input
-            type="text"
-            value={salary}
-            onChange={(e) => setSalary(parseInt(e.target.value, 10))}
-          />
-
-        </div>)}
-        <button onClick={handleEmployeeUpdateSuccess}>Update Employee</button>
-          <button onClick={handleCancelUpdate}>Cancel</button>
-
-    </div>
+    </SideBar>
+  </div>
   )
 }
 

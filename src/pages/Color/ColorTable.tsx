@@ -5,16 +5,17 @@ import MUIDataTable, {
   FilterType,
   Responsive,
 } from "mui-datatables";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { deleteBrand, fetchBrands, updateBrand } from "../../store/slices/brandSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteColor, fetchColors } from "../../store/slices/colorSlice";
 
-const BrandTable: React.FC = () => {
+
+const ColorTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const brandState = useSelector((state: any) => state.brand);
+  const colorState = useSelector((state: any) => state.color);
   const [data, setData] = useState<any[][]>([["Loading Data..."]]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
@@ -23,30 +24,26 @@ const BrandTable: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
   const navigate  = useNavigate();
   useEffect(() => {
-    dispatch(fetchBrands());
+    dispatch(fetchColors());
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-     // brandState'in bir dizi olup olmadığını kontrol ettik
-     const tableData = brandState.brands.map((brand: any) => [
-      brand.id,
-      brand.name,
-      <img src={brand.logoImagePath} alt="Brand Logo" />,
-      <IconButton onClick={() => handleUpdate(brand.id)}><EditIcon /></IconButton>,
-      <IconButton onClick={() => handleDelete(brand.id)}><DeleteIcon /></IconButton>,
+     const tableData = colorState.colors.map((color: any) => [
+        color.id,
+        color.name,
+      <IconButton onClick={() => handleUpdate(color.id)}><EditIcon /></IconButton>,
+      <IconButton onClick={() => handleDelete(color.id)}><DeleteIcon /></IconButton>,
     ]);
       
       setData(tableData);
-      setCount(brandState.length);
+      setCount(colorState.length);
    
-  }, [brandState]);
+  }, [colorState]);
   const handleDelete = (id: number) => {
-    console.log("Deleted ID:", id);
-    dispatch(deleteBrand({ brandId: id }));
+    dispatch(deleteColor({ colorId: id }));
   };
   const handleUpdate = (id: number) => {
-    console.log("Deleted ID:", id);
-    navigate(`/adminPanel/updateBrand/${id}`);
+    navigate(`/adminPanel/updateColor/${id}`);
   };
   const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
@@ -69,16 +66,13 @@ const BrandTable: React.FC = () => {
       case "name":
         columnName = "name";
         break;
-      case "logoImagePath":
-        columnName = "logoImagePath";
-        break;
       default:
         break;
     }
   
     // Sıralama işlemleri burada yapılacak
     // Örnek bir sıralama işlemi:
-    const sortedData = brandState.brands.slice().sort((a: any, b: any) => {
+    const sortedData = colorState.colors.slice().sort((a: any, b: any) => {
       if (sortOrder.direction === "asc") {
         // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
         return a[columnName] > b[columnName] ? 1 : -1;
@@ -89,16 +83,14 @@ const BrandTable: React.FC = () => {
     });
   
     // Sıralanmış verileri güncelle
-    setData(sortedData.map((brand: any) => [brand.id, brand.name, <img src={brand.logoImagePath} alt="Brand Logo" />]));
+    setData(sortedData.map((color: any) => [color.id, color.name]));
     // isLoading durumunu false olarak ayarla
     setIsLoading(false);
   };
   const handleRowSelectionChange = (currentRowsSelected: any[]) => {
     if (currentRowsSelected.length > 0) {
-      const selectedRow = data[currentRowsSelected[0].index]; // Seçilen ilk satırın verilerini al
-      const selectedId = selectedRow[0]; // ID, ilk sütunda olduğu varsayılarak alındı
-      //console.log("Seçilen satır ID'si: ", selectedId);
-      //dispatch(deleteBrand({ brandId: selectedId }))
+      const selectedRow = data[currentRowsSelected[0].index];
+      const selectedId = selectedRow[0];
     }
   };
 
@@ -117,7 +109,7 @@ const BrandTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = brandState.brands.map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+      const originalData = colorState.colors.map((color: any) => [color.id, color.name]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -125,7 +117,7 @@ const BrandTable: React.FC = () => {
         case 'changePage':
           changePage(tableState.page, tableState.sortOrder);
           break;
-        case 'changeRowsPerPage': // Yeni sayfa sayısını işlemek için case eklendi
+        case 'changeRowsPerPage':
           changeRowsPerPage(tableState.rowsPerPage, tableState.page);
           break;
         case 'sort':
@@ -133,24 +125,21 @@ const BrandTable: React.FC = () => {
           break;
         case 'filterChange':
           const { filterList } = tableState;
-          const filteredData = brandState.brands.filter((brand: any) => {
+          const filteredData = colorState.colors.filter((color: any) => {
             return (
-              brand.id.toString().includes(filterList[0][0] || "") &&
-              brand.name.toLowerCase().includes(filterList[1][0] || "") &&
-              brand.logoImagePath.toLowerCase().includes(filterList[2][0] || "")
-            );
-          }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+                color.id.toString().includes(filterList[0][0] || "") &&
+                color.name.toLowerCase().includes(filterList[1][0] || ""));
+          }).map((color: any) => [color.id, color.name]);
           setData(filteredData);
           break;
         case 'search':
           const { searchText } = tableState;
           if (searchText) {
-            const searchData = brandState.brands.filter((brand: any) => {
+            const searchData = colorState.colors.filter((color: any) => {
               return (
-                brand.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                brand.logoImagePath.toLowerCase().includes(searchText.toLowerCase())
+                color.name.toLowerCase().includes(searchText.toLowerCase())
               );
-            }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+            }).map((color: any) => [color.id, color.name]);
             setData(searchData);
           }
           break;
@@ -165,7 +154,7 @@ const BrandTable: React.FC = () => {
       <MUIDataTable
         title={
           <Typography variant="h6">
-            MARKALAR 
+            RENK
             {isLoading && (
               <CircularProgress
                 size={24}
@@ -190,21 +179,8 @@ const BrandTable: React.FC = () => {
           },
           {
             name: "name",
-            label: "MARKA",
+            label: "RENK",
             options: {
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
-            },
-          },
-          {
-            name: "logoImagePath",
-            label: "LOGO",
-            options: {
-              filter: false,
               customHeadRender: (columnMeta: MUIDataTableColumn) => (
                 <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
@@ -250,5 +226,5 @@ const BrandTable: React.FC = () => {
   );
 };
 
-export default BrandTable;
+export default ColorTable;
 

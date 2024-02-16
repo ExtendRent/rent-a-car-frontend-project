@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class EmployeeService{
 
     getAll(){
-        return axiosInstance.get<GetAllEmployeesModel>("employees/")
+        return axiosInstance.get<GetAllEmployeesModel>("employees?isDeleted=false")
     }
 
     add(newEmployee: AddEmployeeModel){

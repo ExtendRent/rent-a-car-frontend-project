@@ -3,6 +3,9 @@ import '../AdminPanel/AdminPanel.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { fetchColors, updateColor } from '../../store/slices/colorSlice';
+import SideBar from '../../components/Sidebar/SideBar';
+import MyMUIDataTable from "./ColorTable";
+import '../Brands/Brand.css';
 
 
 
@@ -41,37 +44,14 @@ const Colors = () => {
   };
 
   return (
-    <div className="container d-flex flex-column align-items-center">
-      <h2>Color List</h2>
-<form>
-  <div className="mb-2">
-      <select className="form-select" id="colorSelect" value={selectedColor || ''} onChange={handleSelectChange}>
-        <option value="" disabled> Select a color </option>
-        {colorState.colors.map((color: any) => (
-          <option key={color.id} value={color.id}>
-            {color.name}
-          </option>
-        ))}
-      </select>
+    <div >
+    <SideBar>
+      <div className="full-screen">
+        <MyMUIDataTable />
       </div>
-  
-      {selectedColor !== null && (
-        <div className="mb-2">
-           <input style= {{ appearance: 'none', 
-                WebkitAppearance: 'none',
-                MozAppearance: 'none',
-                backgroundImage: 'none',
-                paddingRight: '10px' }}  className="form-select"
-            type="text"
-            value={colorName}
-            onChange={(e) => setColorName(e.target.value)}
-          />
-          <button type="button" className="btn btn-primary" onClick={handleColorUpdateSuccess}>Update Color</button>
-          <button type="button" className="btn btn-primary" onClick={handleCancelUpdate}>Cancel</button>
-        </div>
-      )}
-      </form>
-    </div>
+    </SideBar>
+     
+  </div>
 
 
   )
