@@ -1,5 +1,6 @@
-import { AddCarBodyTypeModel } from "../../Requests/CarBodyType/AddCarBodyTypeModel";
+
+import { CarBodyTypeModel } from "./CarBodyTypeModel";
 
 export interface GetAllCarBodyTypeModel {
-	response: AddCarBodyTypeModel[];
+	response: CarBodyTypeModel[];
 }
