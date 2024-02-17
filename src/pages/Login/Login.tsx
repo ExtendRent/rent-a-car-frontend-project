@@ -7,35 +7,67 @@ import { addSignIn } from '../../store/slices/signInSlice';
 import { Formik, Form, Field, ErrorMessage, FieldInputProps, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Autocomplete, PasswordInput } from '@mantine/core';
+import { Alert } from '@mui/material';
+import { ErrorResponse } from '../../services/signInService';
+import { unwrapResult } from '@reduxjs/toolkit';
+import axios, { AxiosError } from 'axios';
 
 const Login: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const handleClose = () => setOpen(false);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
-  const handleSubmit = async (values: { email: string }) => {
-    const { email } = values;
-
-    if (email && password) {
-      try {
-        const signInData = await dispatch(addSignIn({ email, password }));
-
-        alert('Üyelik işlemi başarıyla tamamlandı');
-        navigate('/');
-      } catch (error) {
-        console.error('Hata:', error);
-        alert('Giriş başarısız. Lütfen bilgilerinizi kontrol edin.');
+ 
+  const handleSubmit = async (values: { email: string, password: string }) => {
+    try {
+      const response = await dispatch(addSignIn({ email: values.email, password: values.password }));
+      if ('error' in response) {
+        if (response.error.message && response.error.message.includes("1007")) {
+          setErrorMessage('Giriş başarısız. Kullanıcı bulunamadı.');
+        } else {
+          setErrorMessage('Giriş başarısız. Lütfen tekrar deneyin.');
+          console.log(response);
+        }
+      } else {
+        setSuccessMessage('Hoşgeldiniz! Giriş başarılı.');
+        setTimeout(() => {
+          setSuccessMessage('');
+          navigate('/');
+        }, 2000);
       }
-    } else {
-      alert('Lütfen tüm alanları doldurun.');
+    } catch (error) {
+      console.error('Redux action dispatch hatası:', error);
+      setErrorMessage('Giriş başarısız. Lütfen tekrar deneyin.');
+     
     }
+    
+    
   };
-
+  
+  
+  
+  
+  
+  
+  
   const data = ['gmail.com', 'outlook.com', 'yahoo.com'];
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required('Lütfen bu alanı doldurunuz'), // Email alanının hata mesajını değiştirdik
-    password: Yup.string().required('Lütfen bu alanı doldurunuz'), // Password alanının hata mesajını değiştirdik
+    email: Yup.string()
+    .email('Geçerli bir e-posta adresi giriniz')
+    .required('E-posta adresi boş geçilemez'),
+  password: Yup.string()
+    .required('Şifre boş geçilemez')
+    /* .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Şifre en az 8 karakter uzunluğunda olmalı, en az bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir'
+    ), */
   });
 
   const initialValues = {
@@ -44,57 +76,63 @@ const Login: React.FC = () => {
     // Diğer alanlar buraya eklenebilir
   };
 
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => {
-        handleSubmit(values);
-        resetForm();
-      }}
-    >
-      {({ values, setFieldValue }) => (
-        <Container maxWidth="sm">
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <h2>Giriş Yap</h2>
-              <Form>
-                <Autocomplete
-                  label="Email adresiniz"
-                  placeholder="Email adresiniz"
-                  value={values.email}
-                  onChange={(value) => setFieldValue('email', value || '')}
-                  data={data.map((provider) => `${values.email}@${provider}`)}
-                />
-                <ErrorMessage name="email" component="div" className="error" />
-                <Field name="password">
+
+    return (
+      <Container maxWidth="sm">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <h2>Giriş Yap</h2>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={(values, { resetForm }) => {
+                handleSubmit(values);
+                resetForm();
+              }}
+            >
+              {({ values, setFieldValue }) => (
+                <Form>
+                  <Autocomplete
+                    label="Email adresiniz"
+                    placeholder="Email adresiniz"
+                    value={values.email}
+                    onChange={(value) => setFieldValue('email', value || '')}
+                    data={data.map((provider) => `${values.email}@${provider}`)}
+                  />
+                  <ErrorMessage name="email" component="div" className="text-danger" />
+                  <Field name="password">
                     {({ field, form }: { field: FieldInputProps<string>; form: FormikProps<any>; }) => (
-                      <div> {/* PasswordInput bileşeninin yanına hata mesajını eklemek için bir div ekledik */}
+                      <div>
                         <PasswordInput
                           placeholder="Şifre"
-                          label="Şifre"
-                          required
+                          label="Şifre"                      
                           value={field.value}
                           onChange={(event) => {
                             form.setFieldValue('password', event.target.value); 
                           }}
                         />
-                      <ErrorMessage name="password">
-                        {message => <div className="error">{message}</div>}
-                      </ErrorMessage>
+                        <ErrorMessage name="password">
+                          {message => <div className="text-danger">{message}</div>}
+                        </ErrorMessage>
                       </div>
                     )}
                   </Field>
-                <Button type="submit" variant="contained" color="primary">
-                  Giriş Yap
-                </Button>
-              </Form>
-            </Grid>
+                  <Button type="submit" variant="contained" color="primary">
+                    Giriş Yap
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+            {errorMessage && (
+              <Alert severity="error">{errorMessage}</Alert>
+            )}
+            {successMessage && (
+              <Alert severity="success">{successMessage}</Alert>
+            )}
           </Grid>
-        </Container>
-      )}
-    </Formik>
-  );
-};
-
-export default Login;
+        </Grid>
+      </Container>
+    );
+  };
+  
+  export default Login;

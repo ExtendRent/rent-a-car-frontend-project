@@ -134,7 +134,7 @@ export default function SignUp({ }: Props) {
                                 value={surname}
                                 onChange={(e) => setSurname(e.target.value)}
                                 />   
-                                {/* <PasswordStrength/> */}
+                                <PasswordStrength/>
                                 <PasswordInput 
                                     placeholder="Şifre" 
                                     label="Şifre" 
