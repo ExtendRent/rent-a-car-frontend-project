@@ -51,18 +51,13 @@ const Login: React.FC = () => {
   };
   
   
-  
-  
-  
-  
-  
   const data = ['gmail.com', 'outlook.com', 'yahoo.com'];
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
     .email('Geçerli bir e-posta adresi giriniz')
     .required('E-posta adresi boş geçilemez'),
-  password: Yup.string()
+    password: Yup.string()
     .required('Şifre boş geçilemez')
     /* .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
@@ -73,7 +68,6 @@ const Login: React.FC = () => {
   const initialValues = {
     email: '',
     password: '',
-    // Diğer alanlar buraya eklenebilir
   };
 
 
