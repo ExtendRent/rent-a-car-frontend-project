@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { fetchBrands } from '../../store/slices/brandSlice';
 import { fetchCarModels, getByBrandIdCarModels } from '../../store/slices/carModelSlice';
-import { addCar } from '../../store/slices/carSlice';
 import { fetchCarBodyTypes } from '../../store/slices/carBodyTypeSlice';
 import { fetchColors } from '../../store/slices/colorSlice';
 import { fetchShiftTypes } from '../../store/slices/shiftTypeSlice';
@@ -15,6 +14,8 @@ import SideBar from '../../components/Sidebar/SideBar';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import FormikInput from '../../components/FormikInput/FormikInput';
+import FormikSelect from '../../components/FormikSelect/FormikSelect'; // FormikSelect bileşenini ekledik
+import { addCar } from '../../store/slices/carSlice';
 
 type Props = {}
 
@@ -29,22 +30,22 @@ const AddCar = (props: Props) => {
   const fuelTypeState = useSelector((state: any) => state.fuelType);
   const expectedMinDrivingLicenseTypeState = useSelector((state: any) => state.drivingLicenseType);
 
-  const [selectedCarModel, setSelectedCarModel] = useState<number>();
+  const [selectedCarModel, setSelectedCarModel] = useState<number | undefined>();
   const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
-  const [selectedCarBodyType, setSelectedCarBodyType] = useState<number>(0);
-  const [selectedColor, setSelectedColor] = useState<number>(0);
-  const [selectedVehicleStatus, setSelectedVehicleStatus] = useState<number>(0);
-  const [selectedShiftType, setSelectedShiftType] = useState<number>(0);
-  const [selectedFuelType, setSelectedFuelType] = useState<number>(0);
-  const [selectedExpectedMinDrivingLicenseType, setselectedExpectedMinDrivingLicenseType] = useState<number>(0);
+  const [selectedCarBodyType, setSelectedCarBodyType] = useState<number | undefined>(undefined);
+  const [selectedColor, setSelectedColor] = useState<number | undefined>(undefined);
+  const [selectedVehicleStatus, setSelectedVehicleStatus] = useState<number | undefined>(undefined);
+  const [selectedShiftType, setSelectedShiftType] = useState<number | undefined>(undefined);
+  const [selectedFuelType, setSelectedFuelType] = useState<number | undefined>(undefined);
+  const [selectedExpectedMinDrivingLicenseType, setselectedExpectedMinDrivingLicenseType] = useState<number | undefined>(undefined);
   const [year, setYear] = useState<number | undefined>(undefined);
-  const [details, setDetails] = useState('');
-  const [rentalPrice, setRentalPrice] = useState<number>(0);
-  const [licensePlate, setLicensePlate] = useState('');
-  const [kilometer, setKilometer] = useState<number>(0);
+  const [details, setDetails] = useState<string>('');
+  const [rentalPrice, setRentalPrice] = useState<number | undefined>(undefined);
+  const [licensePlate, setLicensePlate] = useState<string>('');
+  const [kilometer, setKilometer] = useState<number | undefined>(undefined);
   const [imagePaths, setImagePaths] = useState<string[]>([]);
-  const [seat, setSeat] = useState<number>(0);
-  const [luggage, setLuggage] = useState<number>(0);
+  const [seat, setSeat] = useState<number | undefined>(undefined);
+  const [luggage, setLuggage] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     dispatch(fetchBrands());
@@ -58,34 +59,41 @@ const AddCar = (props: Props) => {
   }, [dispatch])
 
   const handleAddCar = () => {
-    if (year !== undefined && details.trim() !== "" && rentalPrice !== undefined && licensePlate.trim() !== ""
-      && kilometer !== undefined && seat !== undefined && luggage !== undefined && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined &&
-      selectedBrand !== undefined && selectedCarModel !== undefined && selectedCarBodyType !== undefined
-      && selectedColor !== undefined && selectedVehicleStatus !== undefined && selectedShiftType !== undefined
-      && selectedFuelType !== undefined) {
+    if (year !== undefined && details.trim() !== "" && rentalPrice !== undefined && rentalPrice !== 0 && licensePlate.trim() !== ""
+      && kilometer !== undefined && kilometer !== 0 && seat !== undefined && seat !== 0 && luggage !== undefined && luggage !== 0
+      && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined && selectedExpectedMinDrivingLicenseType !== 0
+      && selectedBrand !== undefined && selectedCarModel !== undefined && selectedCarBodyType !== undefined && selectedCarBodyType !== 0
+      && selectedColor !== undefined && selectedColor !== 0 && selectedVehicleStatus !== undefined && selectedVehicleStatus !== 0
+      && selectedShiftType !== undefined && selectedShiftType !== 0 && selectedFuelType !== undefined && selectedFuelType !== 0) {
       dispatch(addCar({
-        brandEntityId: selectedBrand,
-        carModelEntityId: selectedCarModel,
+        brandEntityId: selectedBrand!,
+        carModelEntityId: selectedCarModel!,
         carBodyTypeEntityId: selectedCarBodyType,
         colorEntityId: selectedColor,
         vehicleStatusEntityId: selectedVehicleStatus,
         shiftTypeEntityId: selectedShiftType,
         fuelTypeEntityId: selectedFuelType,
         expectedMinDrivingLicenseTypeId: selectedExpectedMinDrivingLicenseType,
-        year: year, details: details, rentalPrice: rentalPrice, licensePlate: licensePlate,
-        kilometer: kilometer,
-        seat: seat, luggage: luggage, imagePaths: imagePaths
+        year: year!,
+        details,
+        rentalPrice,
+        licensePlate,
+        kilometer,
+        seat,
+        luggage,
+        imagePaths
       }));
       setYear(undefined);
       setDetails('');
-      setRentalPrice(0);
+      setRentalPrice(undefined);
       setLicensePlate('');
-      setKilometer(0);
+      setKilometer(undefined);
       setImagePaths([]);
-      setSeat(0);
-      setLuggage(0);
+      setSeat(undefined);
+      setLuggage(undefined);
     }
   };
+
   const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const brandId = parseInt(e.target.value, 10);
 
@@ -124,240 +132,191 @@ const AddCar = (props: Props) => {
     year: Yup.number().required('Yıl giriniz'),
     details: Yup.string().required('Detay giriniz'),
     rentalPrice: Yup.number().required('Araç fiyatı giriniz'),
-    // Diğer alanlar buraya eklenebilir
+    licensePlate: Yup.string().required('Plaka giriniz'),
+    kilometer: Yup.number().required('Kilometre giriniz'),
+    seat: Yup.number().required('Koltuk sayısı giriniz'),
+    luggage: Yup.number().required('Bagaj sayısı giriniz'),
+    brands: Yup.number().required('Marka seçiniz'),
+    carModel: Yup.number().required('Araç modeli seçiniz'),
+    selectedCarBodyType: Yup.number().required('Kasa tipi seçiniz'),
+    selectedColor: Yup.number().required('Renk seçiniz'),
+    selectedVehicleStatus: Yup.number().required('Araç durumu seçiniz'),
+    selectedShiftType: Yup.number().required('Vites tipi seçiniz'),
+    selectedFuelType: Yup.number().required('Yakıt tipi seçiniz'),
+    selectedExpectedMinDrivingLicenseType: Yup.number().required('Ehliyet tipi seçiniz'),
   });
 
   const initialValues = {
-    year: 0,
+    year: '',
     details: '',
     rentalPrice: '',
-    // Diğer alanlar buraya eklenebilir
+    licensePlate: '',
+    kilometer: '',
+    seat: '',
+    luggage: '',
+    brands: '',
+    carModel: '',
+    selectedCarBodyType: '',
+    selectedColor: '',
+    selectedVehicleStatus: '',
+    selectedShiftType: '',
+    selectedFuelType: '',
+    selectedExpectedMinDrivingLicenseType: '',
   };
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
-        // Form gönderildiğinde burası çalışır
         console.log(values);
+        handleAddCar();
         resetForm(); // Formu sıfırla
       }}
     >
       <SideBar>
-        <div id='container-car' className="container d-flex flex-column align-items-center">
+        <div className="container-car">
+        <h2 className='h2-car'>Araba Ekleme</h2>
           <Form>
-            <div className="row col-md-12">
+            <div className="row">
               <div id='select-block' className="col-md-6">
                 <div className="mb-2">
-                  <label htmlFor="selectBrand">Marka Seç</label>
-                  <select className="form-select" id="brandSelect" value={selectedBrand || ''} onChange={handleBrandChange}>
-                    <option value="" disabled></option>
-                    {brandState.brands.map((brand: any) => (
-                      <option key={brand.id} value={brand.id}>
-                        {brand.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                      label="Marka Seç"
+                      name="brands"
+                      options={brandState.brands.map((brands: any) => ({ value: brands.id, label: brands.name }))}
+                      value={selectedBrand !== undefined ? selectedBrand : ""}
+                      onChange={handleBrandChange}
+                    />
                 </div>
                 {selectedBrand && (
                   <div className="mb-2">
-                    <label htmlFor="selectCarModel">Araç Model Seç</label>
-                    <select className="form-select" id="carModelSelect" value={selectedCarModel || ''} onChange={handleCarModelChange}>
-                      <option value="" disabled></option>
-                      {carModelState.carModel.map((carModel: any) => (
-                        <option key={carModel.id} value={carModel.id}>
-                          {carModel.name}
-                        </option>
-                      ))}
-                    </select>
+                    <FormikSelect
+                      label="Araç Model Seç"
+                      name="carModel"
+                      options={carModelState.carModel.map((carModel: any) => ({ value: carModel.id, label: carModel.name }))}
+                      value={selectedCarModel !== undefined ? selectedCarModel : ""}
+                      onChange={handleCarModelChange}
+                    />
                   </div>
                 )}
                 <div className="mb-2">
-                  <label htmlFor="selectCarBodyType">Kasa Tipi Seç</label>
-                  <select className="form-select" id="carBodyTypeSelect" value={selectedCarBodyType || ''} onChange={handleCarBodyTypeChange}>
-                    <option value="" disabled></option>
-                    {carBodyTypeState.carBodyTypes.map((carBodyType: any) => (
-                      <option key={carBodyType.id} value={carBodyType.id}>
-                        {carBodyType.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Kasa Tipi Seç"
+                    name="selectedCarBodyType"
+                    options={carBodyTypeState.carBodyTypes.map((carBodyType: any) => ({ value: carBodyType.id, label: carBodyType.name }))}
+                    value={selectedCarBodyType !== undefined ? selectedCarBodyType : ""}
+                    onChange={handleCarBodyTypeChange}
+                  />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="selectColor">Renk Seç</label>
-                  <select className="form-select" id="colorSelect" value={selectedColor || ''} onChange={handleColorChange}>
-                    <option value="" disabled></option>
-                    {colorState.colors.map((color: any) => (
-                      <option key={color.id} value={color.id}>
-                        {color.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Renk Seç"
+                    name="selectedColor"
+                    options={colorState.colors.map((color: any) => ({ value: color.id, label: color.name }))}
+                    value={selectedColor}
+                    onChange={handleColorChange}
+                  />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="selectVehicleSatus">Araç Durumu Seç</label>
-                  <select className="form-select" id="vehicleStatusSelect" value={selectedVehicleStatus || ''} onChange={handleVehicleStatusChange}>
-                    <option value="" disabled></option>
-                    {vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => (
-                      <option key={vehicleStatus.id} value={vehicleStatus.id}>
-                        {vehicleStatus.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Araç Durumu Seç"
+                    name="selectedVehicleStatus"
+                    options={vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => ({ value: vehicleStatus.id, label: vehicleStatus.name }))}
+                    value={selectedVehicleStatus}
+                    onChange={handleVehicleStatusChange}
+                  />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="selectShiftType">Vites Tipi Seç</label>
-                  <select className="form-select" id="shiftTypeSelect" value={selectedShiftType || ''} onChange={handleShiftTypeChange}>
-                    <option value="" disabled></option>
-                    {shiftTypeState.shiftTypes.map((shiftType: any) => (
-                      <option key={shiftType.id} value={shiftType.id}>
-                        {shiftType.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Vites Tipi Seç"
+                    name="selectedShiftType"
+                    options={shiftTypeState.shiftTypes.map((shiftType: any) => ({ value: shiftType.id, label: shiftType.name }))}
+                    value={selectedShiftType}
+                    onChange={handleShiftTypeChange}
+                  />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="selectFuelType">Yakıt Tipi Seç</label>
-                  <select className="form-select" id="FuelTypeSelect" value={selectedFuelType || ''} onChange={handleFuelTypeChange}>
-                    <option value="" disabled></option>
-                    {fuelTypeState.fuelTypes.map((fuelType: any) => (
-                      <option key={fuelType.id} value={fuelType.id}>
-                        {fuelType.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Yakıt Tipi Seç"
+                    name="selectedFuelType"
+                    options={fuelTypeState.fuelTypes.map((fuelType: any) => ({ value: fuelType.id, label: fuelType.name }))}
+                    value={selectedFuelType}
+                    onChange={handleFuelTypeChange}
+                  />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="selectDrivingLicenseType">Ehliyet Tipi Seç</label>
-                  <select className="form-select" id="drivingLicenseTypeSelect" value={selectedExpectedMinDrivingLicenseType || ''} onChange={handleDrivingLicenseTypeChange}>
-                    <option value="" disabled></option>
-                    {expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => (
-                      <option key={drivingLicenseType.id} value={drivingLicenseType.id}>
-                        {drivingLicenseType.name}
-                      </option>
-                    ))}
-                  </select>
+                  <FormikSelect
+                    label="Ehliyet Tipi Seç"
+                    name="selectedExpectedMinDrivingLicenseType"
+                    options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => ({ value: drivingLicenseType.id, label: drivingLicenseType.name }))}
+                    value={selectedExpectedMinDrivingLicenseType}
+                    onChange={handleDrivingLicenseTypeChange}
+                  />
                 </div>
                 <div className="mb-2">
                   <label htmlFor="inputImage">Fotoğraf Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
+                  <input
+                    className="form-control"
                     type="text"
-                    value={imagePaths}
+                    value={imagePaths.join(',')}
                     onChange={(e) => setImagePaths(e.target.value.split(','))}
                   />
                 </div>
               </div>
               <div id='input-block' className="col-md-6">
-                <div className="mb-2">
                 <FormikInput
-                    name="year"
-                    label="Yıl Giriniz"
-                    placeHolder="Yıl Giriniz."
-                    value={year !== undefined ? String(year) : ''}
-                    type='number'
+                  name="year"
+                  label="Yıl Giriniz"
+                  placeHolder="Yıl Giriniz."
+                  value={year !== undefined ? String(year) : ''}
+                  type='number'
                 />
-
-                </div>
-                <div className="mb-2">
-                  {/* <label htmlFor="inputDetails">Detay Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="text"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                  /> */}
-                  <FormikInput
-                      name="details"
-                      label="Detay Giriniz"
-                      placeHolder="Detay Giriniz."
-                      value={details || ''}
-                      type='text'
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="inputRentalPrice">Araç Fiyatı Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="number"
-                    value={rentalPrice}
-                    onChange={(e) => setRentalPrice(parseFloat(e.target.value))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="inputLicensePlate">Plaka Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="text"
-                    value={licensePlate}
-                    onChange={(e) => setLicensePlate(e.target.value)}
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="inputKilometer">Kilometre Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="number"
-                    value={kilometer}
-                    onChange={(e) => setKilometer(parseInt(e.target.value, 10))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="inputSeat">Koltuk Sayısı Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="number"
-                    value={seat}
-                    onChange={(e) => setSeat(parseInt(e.target.value, 10))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="inputLuggage">Bagaj Sayısı Giriniz</label>
-                  <input style={{
-                    appearance: 'none',
-                    WebkitAppearance: 'none',
-                    MozAppearance: 'none',
-                    backgroundImage: 'none',
-                    paddingRight: '10px'
-                  }} className="form-select "
-                    type="number"
-                    value={luggage}
-                    onChange={(e) => setLuggage(parseInt(e.target.value, 10))}
-                  />
-                </div>
+                <FormikInput
+                  name="details"
+                  label="Detay Giriniz"
+                  placeHolder="Detay Giriniz."
+                  value={details}
+                  type='text'
+                />
+                <FormikInput
+                  name="rentalPrice"
+                  label="Araç Fiyatı Giriniz"
+                  placeHolder="Araç Fiyatı Giriniz."
+                  value={rentalPrice !== undefined ? String(rentalPrice) : ''}
+                  type='number'
+                />
+                <FormikInput
+                  name="licensePlate"
+                  label="Plaka Giriniz"
+                  placeHolder="Plaka Giriniz."
+                  value={licensePlate}
+                  type='text'
+                />
+                <FormikInput
+                  name="kilometer"
+                  label="Kilometre Giriniz"
+                  placeHolder="Kilometre Giriniz."
+                  value={kilometer !== undefined ? String(kilometer) : ''}
+                  type='number'
+                />
+                <FormikInput
+                  name="seat"
+                  label="Koltuk Sayısı Giriniz"
+                  placeHolder="Koltuk Sayısı Giriniz."
+                  value={seat !== undefined ? String(seat) : ''}
+                  type='number'
+                />
+                <FormikInput
+                  name="luggage"
+                  label="Bagaj Sayısı Giriniz"
+                  placeHolder="Bagaj Sayısı Giriniz."
+                  value={luggage !== undefined ? String(luggage) : ''}
+                  type='number'
+                />
               </div>
             </div>
-            <button id='addCarBtn' type="button" className="btn btn-primary" onClick={handleAddCar}>Add Car</button>
+            <button id='addCarBtn' type="submit" className="btn btn-primary">Araba Ekle</button>
           </Form>
         </div>
       </SideBar>
