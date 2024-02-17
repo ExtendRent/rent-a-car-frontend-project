@@ -218,6 +218,28 @@ const routes = [
   },
   {
     path: "",
+    name: "Araç Segmenti",
+    icon: <TbManualGearbox       />,
+    subRoutes: [
+      {
+        path: "/adminPanel/AddCarSegment",
+        name: "Araç Segmenti Ekleme ",
+        icon: <FaPlus  />,
+      },
+      {
+        path: "/adminPanel/CarSegments",
+        name: "Araç Segmenti Güncelleme",
+        icon: <FaRedo   />,
+      },
+      {
+        path: "/adminPanel/DeleteCarSegment",
+        name: "Araç Segmenti Silme",
+        icon: <FaMinus  />,
+      },
+    ],
+  },
+  {
+    path: "",
     name: "Çalışan",
     icon: <FaHospitalUser      />,
     subRoutes: [
