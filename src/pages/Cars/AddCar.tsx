@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import FormikInput from '../../components/FormikInput/FormikInput';
 import FormikSelect from '../../components/FormikSelect/FormikSelect'; // FormikSelect bileşenini ekledik
 import { addCar } from '../../store/slices/carSlice';
-
+import {Button } from '@mui/material';
 type Props = {}
 
 const AddCar = (props: Props) => {
@@ -59,6 +59,8 @@ const AddCar = (props: Props) => {
   }, [dispatch])
 
   const handleAddCar = () => {
+    console.log("ss");
+    
     if (year !== undefined && details.trim() !== "" && rentalPrice !== undefined && rentalPrice !== 0 && licensePlate.trim() !== ""
       && kilometer !== undefined && kilometer !== 0 && seat !== undefined && seat !== 0 && luggage !== undefined && luggage !== 0
       && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined && selectedExpectedMinDrivingLicenseType !== 0
@@ -129,14 +131,35 @@ const AddCar = (props: Props) => {
   }
 
   const validationSchema = Yup.object().shape({
-    year: Yup.number().required('Yıl giriniz'),
-    details: Yup.string().required('Detay giriniz'),
-    rentalPrice: Yup.number().required('Araç fiyatı giriniz'),
-    licensePlate: Yup.string().required('Plaka giriniz'),
-    kilometer: Yup.number().required('Kilometre giriniz'),
-    seat: Yup.number().required('Koltuk sayısı giriniz'),
-    luggage: Yup.number().required('Bagaj sayısı giriniz'),
+    year: Yup.number()
+      .min(2005, 'Yıl en az 2005 olmalıdır')
+      .max(2024, 'Yıl en fazla 2024 olmalıdır')
+      .required('Yıl giriniz'),
+    details: Yup.string()
+      .max(500, 'Açıklama en fazla 500 karakter olmalıdır')
+      .required('Detay giriniz'),
+    rentalPrice: Yup.number()
+      .min(110, 'Kiralama ücreti en az 110 olmalıdır')
+      .required('Araç fiyatı giriniz'),
+    licensePlate: Yup.string()
+      .matches(/^(\d{2}[ ]?[A-Za-z]{1,3}[ ]?\d{2}|\d{2}[ ]?[A-Za-z]{2}[ ]?\d{3})$/, 'Geçerli bir plaka giriniz')
+      .required('Plaka giriniz'),
+    kilometer: Yup.number()
+      .min(1, 'Kilometre en az 1 olmalıdır')
+      .required('Kilometre giriniz'),
+    imagePaths: Yup.array()
+      .min(1, 'En az bir resim yükleyiniz')
+      .required('Resim yükleyiniz'),
+    seat: Yup.number()
+      .min(1, 'Koltuk sayısı en az 1 olmalıdır')
+      .max(15, 'Koltuk sayısı en fazla 15 olmalıdır')
+      .required('Koltuk sayısı giriniz'),
+    luggage: Yup.number()
+      .min(1, 'Bagaj sayısı en az 1 olmalıdır')
+      .max(15, 'Bagaj sayısı en fazla 15 olmalıdır')
+      .required('Bagaj sayısı giriniz'),
     brands: Yup.number().required('Marka seçiniz'),
+    inputImage: Yup.number().required('Fotoğraf giriniz.'),
     carModel: Yup.number().required('Araç modeli seçiniz'),
     selectedCarBodyType: Yup.number().required('Kasa tipi seçiniz'),
     selectedColor: Yup.number().required('Renk seçiniz'),
@@ -145,6 +168,7 @@ const AddCar = (props: Props) => {
     selectedFuelType: Yup.number().required('Yakıt tipi seçiniz'),
     selectedExpectedMinDrivingLicenseType: Yup.number().required('Ehliyet tipi seçiniz'),
   });
+  
 
   const initialValues = {
     year: '',
@@ -189,7 +213,7 @@ const AddCar = (props: Props) => {
                       onChange={handleBrandChange}
                     />
                 </div>
-                {selectedBrand && (
+                
                   <div className="mb-2">
                     <FormikSelect
                       label="Araç Model Seç"
@@ -199,7 +223,7 @@ const AddCar = (props: Props) => {
                       onChange={handleCarModelChange}
                     />
                   </div>
-                )}
+                
                 <div className="mb-2">
                   <FormikSelect
                     label="Kasa Tipi Seç"
@@ -316,7 +340,8 @@ const AddCar = (props: Props) => {
                 />
               </div>
             </div>
-            <button id='addCarBtn' type="submit" className="btn btn-primary">Araba Ekle</button>
+            <Button id='addCarBtn' type="submit" className="btn btn-primary">Araba Ekle</Button>
+           
           </Form>
         </div>
       </SideBar>
