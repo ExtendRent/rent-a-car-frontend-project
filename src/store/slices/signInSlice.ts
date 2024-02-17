@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { SignInModel } from "../../models/Requests/SignIn/SignInModel";
-import SignInService from "../../services/signInService";
+import SignInService, { ErrorResponse } from "../../services/signInService";
+import { SignInResponse } from "../../models/Responses/SignIn/SignInResponse";
 /* const parseJwt = (token:string) => {
   if (!token) {
     console.error("Token is undefined.");
@@ -11,26 +12,24 @@ import SignInService from "../../services/signInService";
   return decodedPayload;
 }; */
 export const addSignIn = createAsyncThunk(
-    "signin/addSignIn",
-    async (addSignInData: SignInModel     
-      , thunkAPI) => {
+  "signin/addSignIn",
+  async (addSignInData: SignInModel, thunkAPI) => {
       try {
-        const service: SignInService = new SignInService();
-        const addedSignIn = await service.add(addSignInData);
-        const token = addedSignIn.data.response.token;
-        
-        localStorage.setItem("token", token);
-        //thunkAPI.dispatch({ type: "setDecodedToken", payload: decodedToken });
-        return addedSignIn.data;
+          const service: SignInService = new SignInService();
+          const addedSignIn = await service.add(addSignInData);
+          const token = addedSignIn.data.response.token;
+          localStorage.setItem("token", token);
+          return addedSignIn.data.response; // Response'u doğrudan döndürüyoruz
       } catch (error) {
-        console.error("Error adding addedSignIn:", error);
-        throw error;
+          console.error("Error adding signIn:", error);
+          throw new Error("İşlem sırasında bir hata oluştu");
       }
-    }
-  );
+  }
+);
+
 const signInSlice = createSlice({
     name: "signIn",
-    initialState: { signIn: [] as any[],error:null ,decodedToken: null},
+    initialState: { signIn: [] as any[],error: null as string | null ,decodedToken: null},
     reducers: {
       setDecodedToken: (state, action) => {
         state.decodedToken = action.payload;
@@ -43,9 +42,9 @@ const signInSlice = createSlice({
       builder.addCase(addSignIn.fulfilled, (state, action) => {
         state.signIn.push(action.payload);
       });
-      builder.addCase(addSignIn.rejected, (state) => {
-        
-      });
+      builder.addCase(addSignIn.rejected, (state, action) => {
+        state.error = action.error.message || "Bir hata oluştu.";
+    });
     },
   });
   export const { setDecodedToken } = signInSlice.actions;
