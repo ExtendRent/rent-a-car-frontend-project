@@ -59,6 +59,8 @@ import UpdateShiftType from './pages/ShiftType/UpdateShiftType';
 import UpdateColor from './pages/Color/UpdateColor';
 import UpdateEmployee from './pages/Employee/UpdateEmployee';
 import UpdateDiscountCode from './pages/DiscountCode/UpdateDiscountCode';
+import AddCarSegment from './pages/CarSegment/AddCarSegment';
+import CarSegments from './pages/CarSegment/CarSegments';
 
 
 
@@ -111,6 +113,9 @@ function App() {
         <Route path="/adminPanel/addCarBodyType" element={<AddCarBodyType />}></Route>
         <Route path="/adminPanel/deleteCarBodyType" element={<DeleteCarBodyType />}></Route>
         <Route path="/adminPanel/updateCarBodyType/:id" element={<UpdateCarBodyType/>}></Route>
+
+        <Route path="/adminPanel/carSegments" element={<CarSegments />}></Route>
+        <Route path="/adminPanel/addCarSegment" element={<AddCarSegment />}></Route>
 
         <Route path="/adminPanel/fuelTypes" element={<FuelTypes />}></Route>
         <Route path="/adminPanel/addFuelType" element={<AddFuelType />}></Route>
