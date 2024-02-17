@@ -5,8 +5,9 @@ import {
   updatePaymentDetails,
 } from "../../store/slices/paymentDetailsSlice";
 import { useEffect, useState } from "react";
-import { fetchPaymentTypes } from "../../store/slices/paymentTypeSlice";
 import SideBar from "../../components/Sidebar/SideBar";
+import '../Brands/Brand.css';
+import MyMUIDataTable from "./PaymentDetailsTable";
 
 type Props = {};
 
@@ -42,42 +43,13 @@ const PaymentDetails = (props: Props) => {
     dispatch(fetchPaymentDetails());
   };
   return (
-    <div>
+    <div >
       <SideBar>
-        <div style={{ marginTop: 200 }}>
-          <div>
-            <h2>Payment Details List</h2>
-            <select
-              value={selectedPaymentDetails || " "}
-              onChange={handleSelectChange}
-            >
-              <option value="" disabled>
-                Select a PaymentDetails
-              </option>
-              {paymentDetailsState.paymentDetails.map((paymentDetails: any) => (
-                <option key={paymentDetails.id} value={paymentDetails.id}>
-                  {paymentDetails.amount}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <div>
-              {selectedPaymentDetails !== null && (
-                <input
-                  type="text"
-                  value={isNaN(amount) ? "" : amount}
-                  onChange={(e) => setAmount(parseFloat(e.target.value))}
-                />
-              )}
-            </div>
-          </div>
-          <button onClick={handlePaymentDetailsUpdateSuccess}>
-            Update Payment Details
-          </button>
-          <button onClick={handleCancelUpdate}>Cancel</button>
+        <div className="full-screen">
+          <MyMUIDataTable />
         </div>
       </SideBar>
+       
     </div>
   );
 };

@@ -5,18 +5,18 @@ import MUIDataTable, {
     FilterType,
     Responsive,
 } from "mui-datatables";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { deleteBrand, fetchBrands, updateBrand } from "../../store/slices/brandSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteCarModel, fetchCarModels } from "../../store/slices/carModelSlice";
+import { fetchBrands } from "../../store/slices/brandSlice";
 
 const CarModelTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const carModelState = useSelector((state: any) => state.carModel);
-    const brandState = useSelector((state: any) => state.brand)
+    const brandState = useSelector((state: any) => state.brand);
     const [data, setData] = useState<any[][]>([["Loading Data..."]]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
@@ -27,24 +27,30 @@ const CarModelTable: React.FC = () => {
     }>({
         name: "", brandEntityName: "", direction: "asc"
     });
+
     const navigate = useNavigate();
+    
     useEffect(() => {
         dispatch(fetchCarModels());
+        dispatch(fetchBrands());
     }, [page, rowsPerPage]);
 
     useEffect(() => {
-        const tableData = carModelState.carModels.map((carModel: any) => [
-            carModel.id,
-            carModel.name,
-            carModel.brandEntityName,
-            <IconButton onClick={() => handleUpdate(carModel.id)}><EditIcon /></IconButton>,
-            <IconButton onClick={() => handleDelete(carModel.id)}><DeleteIcon /></IconButton>,
-        ]);
-
-        setData(tableData);
-        setCount(carModelState.length);
-
-    }, [carModelState]);
+        if (carModelState.carModel && brandState.brands) {
+            const tableData = carModelState.carModel.map((carModel: any) => [
+                carModel.id,
+                carModel.name,
+                carModel.brandEntityName,
+                <IconButton onClick={() => handleUpdate(carModel.id)}><EditIcon /></IconButton>,
+                <IconButton onClick={() => handleDelete(carModel.id)}><DeleteIcon /></IconButton>,
+            ]);
+            
+            setData(tableData);
+            setCount(carModelState.carModel.length);
+        }
+        console.log(carModelState);
+        
+    }, [carModelState, brandState]);
     const handleDelete = (id: number) => {
         console.log("Deleted ID:", id);
         dispatch(deleteCarModel({ id: id }));
@@ -83,7 +89,7 @@ const CarModelTable: React.FC = () => {
 
         // Sıralama işlemleri burada yapılacak
         // Örnek bir sıralama işlemi:
-        const sortedData = carModelState.carModels.slice().sort((a: any, b: any) => {
+        const sortedData = carModelState.carModel.slice().sort((a: any, b: any) => {
             if (sortOrder.direction === "asc") {
                 // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
                 return a[columnName] > b[columnName] ? 1 : -1;
@@ -96,6 +102,8 @@ const CarModelTable: React.FC = () => {
         // Sıralanmış verileri güncelle
         setData(sortedData.map((carModel: any) => [carModel.id, carModel.name, carModel.brandEntityName]));
         // isLoading durumunu false olarak ayarla
+        console.log(carModelState.brandEntityName);
+        
         setIsLoading(false);
     };
     const handleRowSelectionChange = (currentRowsSelected: any[]) => {
@@ -122,7 +130,7 @@ const CarModelTable: React.FC = () => {
         search: true,
         filterList: [],
         onFilterReset: () => {
-            const originalData = carModelState.carModels.map((carModel: any) => [carModel.id, carModel.name, carModel.brandEntityName]);
+            const originalData = carModelState.carModel.map((carModel: any) => [carModel.id, carModel.name, carModel.brandEntityName]);
             setData(originalData);
         },
         onTableChange: (action: string, tableState: any) => {
@@ -138,11 +146,11 @@ const CarModelTable: React.FC = () => {
                     break;
                 case 'filterChange':
                     const { filterList } = tableState;
-                    const filteredData = carModelState.carModels.filter((carModel: any) => {
+                    const filteredData = carModelState.carModel.filter((carModel: any) => {
                         return (
                             carModel.id.toString().includes(filterList[0][0] || "") &&
-                            carModel.name.toLowerCase().includes(filterList[1][0] || "") &&
-                            carModel.brandEntityName.toLowerCase().includes(filterList[2][0] || "")
+                            carModel.name.toString().includes(filterList[1][0] || "") &&
+                            carModel.brandEntityName.toString().includes(filterList[2][0] || "")
                         );
                     }).map((carModel: any) => [carModel.id, carModel.name, carModel.brandEntityName]);
                     setData(filteredData);
@@ -150,7 +158,7 @@ const CarModelTable: React.FC = () => {
                 case 'search':
                     const { searchText } = tableState;
                     if (searchText) {
-                        const searchData = carModelState.carModels.filter((carModel: any) => {
+                        const searchData = carModelState.carModel.filter((carModel: any) => {
                             return (
                                 carModel.name.toLowerCase().includes(searchText.toLowerCase()) ||
                                 carModel.brandEntityName.toLowerCase().includes(searchText.toLowerCase())
@@ -160,7 +168,9 @@ const CarModelTable: React.FC = () => {
                     }
                     break;
                 default:
-                    console.log("Unhandled action:", action);
+
+                console.log(carModelState);
+                console.log("Unhandled action:", action);
             }
         },
     };
@@ -209,7 +219,6 @@ const CarModelTable: React.FC = () => {
                         name: "brandEntityName",
                         label: "MARKA",
                         options: {
-                            filter: false,
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (
                                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
                             ),

@@ -133,7 +133,7 @@ const FuelTypeTable: React.FC = () => {
           if (searchText) {
             const searchData = fuelTypeState.fuelTypes.filter((fuelType: any) => {
               return (
-                fuelType.name.toString().includes(searchText.toLowerCase())
+                fuelType.name.toLowerCase().includes(searchText.toLowerCase())
               );
             }).map((fuelType: any) => [fuelType.id, fuelType.name]);
             setData(searchData);

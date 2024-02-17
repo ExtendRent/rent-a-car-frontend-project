@@ -129,7 +129,7 @@ const VehicleStatusTable: React.FC = () => {
                     if (searchText) {
                         const searchData = vehicleStatusState.vehicleStatuses.filter((vehicleStatus: any) => {
                             return (
-                                vehicleStatus.name.toString().includes(searchText.toLowerCase())
+                                vehicleStatus.name.toLowerCase().includes(searchText.toLowerCase())
                             );
                         }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name]);
                         setData(searchData);

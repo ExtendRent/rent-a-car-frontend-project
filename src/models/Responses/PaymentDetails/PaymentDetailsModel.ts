@@ -4,5 +4,5 @@ export interface PaymentDetailsModel {
     amount: number;
     paymentTypeEntityName: string;
     createdDate:Date| string ;
-    isDeleted: boolean;
+    deleted: boolean;
 }

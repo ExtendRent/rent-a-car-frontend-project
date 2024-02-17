@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress, Typography, IconButton, Checkbox } from "@mui/material";
+import { CircularProgress, Typography, IconButton } from "@mui/material";
 import MUIDataTable, {
     MUIDataTableColumn,
     FilterType,
@@ -9,43 +9,53 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteCarSegment, fetchCarSegments } from "../../store/slices/carSegmentSlice";
+import { fetchPaymentDetails } from "../../store/slices/paymentDetailsSlice";
+import { fetchPaymentTypes } from "../../store/slices/paymentTypeSlice";
 
-
-const CarSegmentTable: React.FC = () => {
+const PaymentDetailsTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const carSegmentState = useSelector((state: any) => state.carSegment);
+    const paymentDetailsState = useSelector((state: any) => state.paymentDetails);
+    const paymentTypeState = useSelector((state: any) => state.paymentType);
     const [data, setData] = useState<any[][]>([["Loading Data..."]]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-    const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
+    const [sortOrder, setSortOrder] = useState<{
+        name: string; direction: "asc" | "desc"
+    }>({
+        name: "", direction: "asc"
+    });
+
     const navigate = useNavigate();
-    
+
     useEffect(() => {
-        dispatch(fetchCarSegments());
+        dispatch(fetchPaymentDetails());
+        dispatch(fetchPaymentTypes());
     }, [page, rowsPerPage]);
 
     useEffect(() => {
-        const tableData = carSegmentState.carSegments.map((carSegment: any) => [
-            carSegment.id,
-            carSegment.name,
-            carSegment.deleted,
-            <IconButton onClick={() => handleUpdate(carSegment.id)}><EditIcon /></IconButton>,
-            <IconButton onClick={() => handleDelete(carSegment.id)}><DeleteIcon /></IconButton>,
-        ]);
+        if (paymentDetailsState.paymentDetails && paymentTypeState.paymentTypes) {
+            const tableData = paymentDetailsState.paymentDetails.map((paymentDetails: any) => [
+                paymentDetails.id,
+                paymentDetails.paymentTypeEntityId,
+                paymentDetails.amount,
+                paymentDetails.paymentTypeEntityName,
+                paymentDetails.createdDate,
+                paymentDetails.deleted,
+                <IconButton onClick={() => handleUpdate(paymentDetails.id)}><EditIcon /></IconButton>,
+            ]);
 
-        setData(tableData);
-        setCount(carSegmentState.length);
+            setData(tableData);
+            setCount(paymentDetailsState.paymentDetails.length);
+        }
+        console.log(paymentDetailsState);
 
-    }, [carSegmentState]);
-    const handleDelete = (id: number) => {
-        dispatch(deleteCarSegment({ carSegmentId: id }));
-    };
+    }, [paymentDetailsState, paymentTypeState]);
+
     const handleUpdate = (id: number) => {
-        navigate(`/adminPanel/updateCarSegment/${id}`);
+        console.log("Deleted ID:", id);
+        navigate(`/adminPanel/updatePaymentDetails/${id}`);
     };
     const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
         setIsLoading(true);
@@ -65,8 +75,17 @@ const CarSegmentTable: React.FC = () => {
             case "id":
                 columnName = "id";
                 break;
-            case "name":
-                columnName = "name";
+            case "paymentTypeEntityId":
+                columnName = "paymentTypeEntityId";
+                break;
+            case "amount":
+                columnName = "amount";
+                break;
+            case "paymentTypeEntityName":
+                columnName = "paymentTypeEntityName";
+                break;
+            case "createdDate":
+                columnName = "createdDate";
                 break;
             case "deleted":
                 columnName = "deleted";
@@ -77,7 +96,7 @@ const CarSegmentTable: React.FC = () => {
 
         // Sıralama işlemleri burada yapılacak
         // Örnek bir sıralama işlemi:
-        const sortedData = carSegmentState.carSegments.slice().sort((a: any, b: any) => {
+        const sortedData = paymentDetailsState.paymentDetails.slice().sort((a: any, b: any) => {
             if (sortOrder.direction === "asc") {
                 // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
                 return a[columnName] > b[columnName] ? 1 : -1;
@@ -88,14 +107,19 @@ const CarSegmentTable: React.FC = () => {
         });
 
         // Sıralanmış verileri güncelle
-        setData(sortedData.map((carSegment: any) => [carSegment.id, carSegment.name, carSegment.deleted]));
+        setData(sortedData.map((paymentDetails: any) => [paymentDetails.id, paymentDetails.paymentTypeEntityId, paymentDetails.amount, paymentDetails.paymentTypeEntityName,
+            paymentDetails.createdDate, paymentDetails.deleted]));
         // isLoading durumunu false olarak ayarla
+        console.log(paymentDetailsState.paymentTypeEntityName);
+
         setIsLoading(false);
     };
     const handleRowSelectionChange = (currentRowsSelected: any[]) => {
         if (currentRowsSelected.length > 0) {
-            const selectedRow = data[currentRowsSelected[0].index];
-            const selectedId = selectedRow[0];
+            const selectedRow = data[currentRowsSelected[0].index]; // Seçilen ilk satırın verilerini al
+            const selectedId = selectedRow[0]; // ID, ilk sütunda olduğu varsayılarak alındı
+            //console.log("Seçilen satır ID'si: ", selectedId);
+            //dispatch(deleteBrand({ brandId: selectedId }))
         }
     };
 
@@ -114,7 +138,8 @@ const CarSegmentTable: React.FC = () => {
         search: true,
         filterList: [],
         onFilterReset: () => {
-            const originalData = carSegmentState.carSegments.map((carSegment: any) => [carSegment.id, carSegment.name, carSegment.deleted]);
+            const originalData = paymentDetailsState.paymentDetails.map((paymentDetails: any) => [paymentDetails.id, paymentDetails.paymentTypeEntityId, paymentDetails.amount,
+                paymentDetails.paymentTypeEntityName, paymentDetails.createdDate, paymentDetails.deleted]);
             setData(originalData);
         },
         onTableChange: (action: string, tableState: any) => {
@@ -122,7 +147,7 @@ const CarSegmentTable: React.FC = () => {
                 case 'changePage':
                     changePage(tableState.page, tableState.sortOrder);
                     break;
-                case 'changeRowsPerPage':
+                case 'changeRowsPerPage': // Yeni sayfa sayısını işlemek için case eklendi
                     changeRowsPerPage(tableState.rowsPerPage, tableState.page);
                     break;
                 case 'sort':
@@ -130,30 +155,39 @@ const CarSegmentTable: React.FC = () => {
                     break;
                 case 'filterChange':
                     const { filterList } = tableState;
-                    const filteredData = carSegmentState.carSegments.filter((carSegment: any) => {
+                    const filteredData = paymentDetailsState.paymentDetails.filter((paymentDetails: any) => {
                         return (
-                            carSegment.id.toString().includes(filterList[0][0] || "") &&
-                            carSegment.name.toString().includes(filterList[1][0] || "") &&
-                            (filterList[2][0] === "" || carSegment.deleted === (filterList[2][0] === "true")));
-                    }).map((carSegment: any) => [carSegment.id, carSegment.name, carSegment.deleted]);
+                            paymentDetails.id.toString().includes(filterList[0][0] || "") &&
+                            paymentDetails.paymentTypeEntityId.toString().includes(filterList[1][0] || "") &&
+                            paymentDetails.amount.toString().includes(filterList[2][0] || "") &&
+                            paymentDetails.paymentTypeEntityName.toString().includes(filterList[3][0] || "") &&
+                            paymentDetails.createdDate.toString().includes(filterList[4][0] || "") &&
+                            (filterList[5][0] === "" || paymentDetails.deleted === (filterList[5][0] === "true"))
+                        );
+                    }).map((paymentDetails: any) => [paymentDetails.id, paymentDetails.paymentTypeEntityId, paymentDetails.amount, paymentDetails.paymentTypeEntityName,
+                    paymentDetails.createdDate, paymentDetails.deleted]);
                     setData(filteredData);
                     break;
                 case 'search':
                     const { searchText } = tableState;
                     if (searchText) {
-                        const searchData = carSegmentState.carSegments.filter((carSegment: any) => {
+                        const searchData = paymentDetailsState.paymentDetails.filter((paymentDetails: any) => {
                             return (
-                                carSegment.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                                (carSegment.deleted && "true".includes(searchText.toLowerCase())) ||
-                                (!carSegment.deleted && "false".includes(searchText.toLowerCase()))
+                                paymentDetails.amount.toString().includes(searchText.toLowerCase()) ||
+                                paymentDetails.paymentTypeEntityName.toLowerCase().includes(searchText.toLowerCase()) ||
+                                paymentDetails.createdDate.toString().includes(searchText.toLowerCase()) ||
+                                (paymentDetails.deleted && "true".includes(searchText.toLowerCase())) ||
+                                (!paymentDetails.deleted && "false".includes(searchText.toLowerCase()))
                             );
-                        }).map((carSegment: any) => [carSegment.id, carSegment.name, carSegment.deleted]);
+                        }).map((paymentDetails: any) => [paymentDetails.id, paymentDetails.paymentTypeEntityId, paymentDetails.amount, paymentDetails.paymentTypeEntityName,
+                        paymentDetails.createdDate, paymentDetails.deleted]);
                         setData(searchData);
                     }
                     break;
                 default:
+
+                    console.log(paymentDetailsState);
                     console.log("Unhandled action:", action);
-                    
             }
         },
     };
@@ -163,7 +197,7 @@ const CarSegmentTable: React.FC = () => {
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ARAÇ SEGMENT
+                        FATURA
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -187,8 +221,44 @@ const CarSegmentTable: React.FC = () => {
                         },
                     },
                     {
-                        name: "name",
-                        label: "ARAÇ SEGMENT",
+                        name: "paymentTypeEntityId",
+                        label: "FATURA ID",
+                        options: {
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any) => (
+                                <div style={{ textAlign: "center" }}>{value}</div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "amount",
+                        label: "TOPLAM TUTAR",
+                        options: {
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any) => (
+                                <div style={{ textAlign: "center" }}>{value}</div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "paymentTypeEntityName",
+                        label: "ÖDEME TÜRÜ",
+                        options: {
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any) => (
+                                <div style={{ textAlign: "center" }}>{value}</div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "createdDate",
+                        label: "FATURA TARİHİ",
                         options: {
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (
                                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
@@ -205,14 +275,12 @@ const CarSegmentTable: React.FC = () => {
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (
                                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
                             ),
-                            customBodyRender: (value: boolean) => (
-                                
+                            customBodyRender: (value: any) => (
                                 <div style={{ textAlign: "center" }}>
-                                    
-                                    {value === true ? "true" : "false"}
-                                    
-                                </div>)
-                        }
+                                    {value === true ? 'true' : 'false'}
+                                </div>
+                            ),
+                        },
                     },
                     {
                         name: "",
@@ -251,5 +319,5 @@ const CarSegmentTable: React.FC = () => {
     );
 };
 
-export default CarSegmentTable;
+export default PaymentDetailsTable;
 

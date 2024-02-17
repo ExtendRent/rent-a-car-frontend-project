@@ -61,6 +61,8 @@ import UpdateEmployee from './pages/Employee/UpdateEmployee';
 import UpdateDiscountCode from './pages/DiscountCode/UpdateDiscountCode';
 import AddCarSegment from './pages/CarSegment/AddCarSegment';
 import CarSegments from './pages/CarSegment/CarSegments';
+import UpdatePaymentType from './pages/PaymentType/UpdatePaymentType';
+import UpdatePaymentDetails from './pages/PaymentDetails/UpdatePaymentDetails';
 
 
 
@@ -139,7 +141,8 @@ function App() {
         <Route path="/adminPanel/updateVehicleStatus/:id" element={<UpdateVehicleStatus />}></Route>
 
         <Route path="/adminPanel/paymentTypes" element={<PaymentTypes />}></Route>
-     
+        <Route path="/adminPanel/updatePaymentType/:id" element={<UpdatePaymentType />}></Route>
+
         <Route path="/adminPanel/drivingLicenseTypes" element={<DrivingLicenseTypes />}></Route>
         <Route path="/adminPanel/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
         <Route path="/adminPanel/deleteDrivingLicenseType" element={<DeleteDrivingLicenseType />}></Route>
@@ -151,6 +154,7 @@ function App() {
         
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
+        <Route path="/adminPanel/updatePaymentDetails/:id" element={<UpdatePaymentDetails />}></Route>
         <Route path="/allMyRentals" element={<PastRentals />}></Route>
         <Route path="/account" element={<Account />}></Route>
 

@@ -155,7 +155,7 @@ const DrivingLicenseTypeTable: React.FC = () => {
                         const searchData = drivingLicenseTypeState.drivingLicenseTypes.filter((drivingLicenseType: any) => {
                             return (
                                 drivingLicenseType.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                                drivingLicenseType.description.toString().includes(searchText.toLowerCase()) ||
+                                drivingLicenseType.description.toLowerCase().includes(searchText.toLowerCase()) ||
                                 drivingLicenseType.licenseLevel.toString().includes(searchText.toString())
                             );
                         }).map((drivingLicenseType: any) => [drivingLicenseType.id, drivingLicenseType.name, drivingLicenseType.description, drivingLicenseType.licenseLevel]);
