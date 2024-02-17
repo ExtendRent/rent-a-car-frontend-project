@@ -2,6 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { useEffect, useState } from 'react';
 import { fetchVehicleStatus, updateVehicleStatus } from '../../store/slices/vehicleStatusSlice';
+import '../Brands/Brand.css';
+import SideBar from '../../components/Sidebar/SideBar';
+import MyMUIDataTable from "./VehicleStatusTable";
 
 type Props = {}
 
@@ -35,33 +38,15 @@ const VehicleStatuses = (props: Props) => {
     }
 
     return (
-        <div style={{ marginTop: 200 }}>
-            <h2>Vehicle Status List</h2>
-
-            <select value={selectedVehicleStatus || ''} onChange={handleSelectChange}>
-                <option value="" disabled>
-                    Select a Vehicle Status
-                </option>
-                {vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => (
-                    <option key={vehicleStatus.id} value={vehicleStatus.id}>
-                        {vehicleStatus.name}
-                    </option>
-                ))}
-            </select>
-
-            {selectedVehicleStatus !== null && (
-                <div>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    <button onClick={handleVehicleStatusUpdateSuccess}>Update ShiftType</button>
-                    <button onClick={handleCancelUpdate}>Cancel</button>
-                </div>
-            )}
+        <div >
+          <SideBar>
+            <div className="full-screen">
+              <MyMUIDataTable />
+            </div>
+          </SideBar>
+           
         </div>
-    )
+      );
 }
 
 export default VehicleStatuses

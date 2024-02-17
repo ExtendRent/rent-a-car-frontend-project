@@ -4,7 +4,6 @@ export interface AdminModel{
     surname: string;
     email: string;
     phoneNumber: string;
-    password: string;
     salary: number;
 }
 

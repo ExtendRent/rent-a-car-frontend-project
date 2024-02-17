@@ -5,16 +5,16 @@ import MUIDataTable, {
   FilterType,
   Responsive,
 } from "mui-datatables";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { deleteBrand, fetchBrands, updateBrand } from "../../store/slices/brandSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteCarBodyType, fetchCarBodyTypes } from "../../store/slices/carBodyTypeSlice";
 
-const BrandTable: React.FC = () => {
+const CarBodyTypeTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const brandState = useSelector((state: any) => state.brand);
+  const carBodyTypeState = useSelector((state: any) => state.carBodyType);
   const [data, setData] = useState<any[][]>([["Loading Data..."]]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
@@ -23,30 +23,28 @@ const BrandTable: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
   const navigate  = useNavigate();
   useEffect(() => {
-    dispatch(fetchBrands());
+    dispatch(fetchCarBodyTypes());
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-     // brandState'in bir dizi olup olmadığını kontrol ettik
-     const tableData = brandState.brands.map((brand: any) => [
-      brand.id,
-      brand.name,
-      <img src={brand.logoImagePath} alt="Brand Logo" />,
-      <IconButton onClick={() => handleUpdate(brand.id)}><EditIcon /></IconButton>,
-      <IconButton onClick={() => handleDelete(brand.id)}><DeleteIcon /></IconButton>,
+     const tableData = carBodyTypeState.carBodyTypes.map((carBodyType: any) => [
+        carBodyType.id,
+        carBodyType.name,
+      <IconButton onClick={() => handleUpdate(carBodyType.id)}><EditIcon /></IconButton>,
+      <IconButton onClick={() => handleDelete(carBodyType.id)}><DeleteIcon /></IconButton>,
     ]);
       
       setData(tableData);
-      setCount(brandState.length);
+      setCount(carBodyTypeState.length);
    
-  }, [brandState]);
+  }, [carBodyTypeState]);
   const handleDelete = (id: number) => {
     console.log("Deleted ID:", id);
-    dispatch(deleteBrand({ brandId: id }));
+    dispatch(deleteCarBodyType({ carBodyTypeId: id }));
   };
   const handleUpdate = (id: number) => {
     console.log("Deleted ID:", id);
-    navigate(`/adminPanel/updateBrand/${id}`);
+    navigate(`/adminPanel/updateCarBodyType/${id}`);
   };
   const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
@@ -69,16 +67,13 @@ const BrandTable: React.FC = () => {
       case "name":
         columnName = "name";
         break;
-      case "logoImagePath":
-        columnName = "logoImagePath";
-        break;
       default:
         break;
     }
   
     // Sıralama işlemleri burada yapılacak
     // Örnek bir sıralama işlemi:
-    const sortedData = brandState.brands.slice().sort((a: any, b: any) => {
+    const sortedData = carBodyTypeState.carBodyTypes.slice().sort((a: any, b: any) => {
       if (sortOrder.direction === "asc") {
         // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
         return a[columnName] > b[columnName] ? 1 : -1;
@@ -89,7 +84,7 @@ const BrandTable: React.FC = () => {
     });
   
     // Sıralanmış verileri güncelle
-    setData(sortedData.map((brand: any) => [brand.id, brand.name, <img src={brand.logoImagePath} alt="Brand Logo" />]));
+    setData(sortedData.map((carBodyType: any) => [carBodyType.id, carBodyType.name]));
     // isLoading durumunu false olarak ayarla
     setIsLoading(false);
   };
@@ -117,7 +112,7 @@ const BrandTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = brandState.brands.map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+      const originalData = carBodyTypeState.carBodyTypes.map((carBodyType: any) => [carBodyType.id, carBodyType.name]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -133,24 +128,20 @@ const BrandTable: React.FC = () => {
           break;
         case 'filterChange':
           const { filterList } = tableState;
-          const filteredData = brandState.brands.filter((brand: any) => {
+          const filteredData = carBodyTypeState.carBodyTypes.filter((carBodyType: any) => {
             return (
-              brand.id.toString().includes(filterList[0][0] || "") &&
-              brand.name.toLowerCase().includes(filterList[1][0] || "") &&
-              brand.logoImagePath.toLowerCase().includes(filterList[2][0] || "")
-            );
-          }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+                carBodyType.id.toString().includes(filterList[0][0] || "") &&
+                carBodyType.name.toLowerCase().includes(filterList[1][0] || ""));
+          }).map((carBodyType: any) => [carBodyType.id, carBodyType.name]);
           setData(filteredData);
           break;
         case 'search':
           const { searchText } = tableState;
           if (searchText) {
-            const searchData = brandState.brands.filter((brand: any) => {
+            const searchData = carBodyTypeState.carBodyTypes.filter((carBodyType: any) => {
               return (
-                brand.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                brand.logoImagePath.toLowerCase().includes(searchText.toLowerCase())
-              );
-            }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+                carBodyType.name.toLowerCase().includes(searchText.toLowerCase()));
+            }).map((carBodyType: any) => [carBodyType.id, carBodyType.name]);
             setData(searchData);
           }
           break;
@@ -165,7 +156,7 @@ const BrandTable: React.FC = () => {
       <MUIDataTable
         title={
           <Typography variant="h6">
-            MARKALAR 
+            ARAÇ KASA TİPİ 
             {isLoading && (
               <CircularProgress
                 size={24}
@@ -190,21 +181,8 @@ const BrandTable: React.FC = () => {
           },
           {
             name: "name",
-            label: "MARKA",
+            label: "KASA TİPİ",
             options: {
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
-            },
-          },
-          {
-            name: "logoImagePath",
-            label: "LOGO",
-            options: {
-              filter: false,
               customHeadRender: (columnMeta: MUIDataTableColumn) => (
                 <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
@@ -250,5 +228,5 @@ const BrandTable: React.FC = () => {
   );
 };
 
-export default BrandTable;
+export default CarBodyTypeTable;
 

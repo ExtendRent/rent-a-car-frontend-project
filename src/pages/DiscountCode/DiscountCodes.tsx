@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteDiscountCode, fetchDiscountCodes, updateDiscountCode } from '../../store/slices/discountCodeSlice';
+import MyMUIDataTable from "./DiscountCodeTable";
+import '../Brands/Brand.css';
+import SideBar from '../../components/Sidebar/SideBar';
 
 type Props = {}
 
@@ -57,56 +60,14 @@ const DiscountCodes = (props: Props) => {
 
 
   return (
-    <div style={{ marginTop: 200 }}>
-      <h2>DiscountCode List</h2>
-
-      <select value={selectedDiscount || ''} onChange={handleSelectChange}>
-        <option value="" disabled>
-          Select a discountcode
-        </option>
-        {discountCodeState.discountCodes.map((discountCode: any) => (
-          <option key={discountCode.id} value={discountCode.id}>
-            {discountCode.discountCode}
-          </option>
-        ))}
-      </select>
-
-      {selectedDiscount !== null && (
-        <div>
-          <input
-            type="text"
-            value={discountCode}
-            onChange={(e) => setDiscountCode(e.target.value)}
-          />
-
-
-        </div>
-      )}
-
-      {selectedDiscount !== null && (
-        <div>
-          <div>
-            <input
-              type="text"
-              value={discountPercentage}
-              onChange={(e) => setDiscountPercentage(parseInt(e.target.value, 10))}
-            />
-
-
-          </div>
-
-          <div>
-            <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-          </div>
-        </div>
-      )}
-
-      <button style={{ marginLeft: 8 }} onClick={handleDiscountCodeUpdateSuccess}>Update</button>
-      <button style={{ marginLeft: 8 }} onClick={handleCancelUpdate}>Cancel</button>
-      <button onClick={handleDeleteDiscountCode} disabled={selectedDiscount === null}>
-        Delete
-      </button>
-    </div>
+    <div >
+    <SideBar>
+      <div className="full-screen">
+        <MyMUIDataTable />
+      </div>
+    </SideBar>
+     
+  </div>
   )
 
 }

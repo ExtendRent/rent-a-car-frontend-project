@@ -6,6 +6,5 @@ export interface AddAdminModel{
     phoneNumber: string;
     salary: number;
     imagePath: string;
-    status: string;
     authority: string;
 }

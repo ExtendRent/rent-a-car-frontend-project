@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { deleteDrivingLicenseType, fetchDrivingLicenseTypes, updateDrivingLicenseType } from '../../store/slices/drivingLicenseTypeSlice';
+import SideBar from '../../components/Sidebar/SideBar';
+import '../Brands/Brand.css';
+import MyMUIDataTable from "./DrivingLicenseTypeTable";
 
 type Props = {}
 
@@ -50,52 +53,15 @@ const DrivingLicenseTypes = (props: Props) => {
   };
 
   return (
-    <div>
-      <div style={{ marginTop: 200 }}>
-        <h2>Driving License Type List</h2>
-
-        <select value={selectedDrivingLicenseType || ''} onChange={handleSelectChange}>
-          <option value="" disabled>
-            Select a employee
-          </option>
-          {drivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => (
-            <option key={drivingLicenseType.id} value={drivingLicenseType.id}>
-              {drivingLicenseType.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {selectedDrivingLicenseType !== null && (
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>)}
-
-      {selectedDrivingLicenseType !== null && (
-        <div>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>)}
-      {selectedDrivingLicenseType !== null && (
-        <div>
-          <input
-            type="number"
-            value={licenseLevel}
-            onChange={(e) => setLicenseLevel(parseInt(e.target.value))}
-          />
-        </div>)}
-      <button onClick={handleDrivingLicenseTypeUpdateSuccess}>Update Driving License Type</button>
-      <button onClick={handleCancelUpdate}>Cancel</button>
-
+    <div >
+      <SideBar>
+        <div className="full-screen">
+          <MyMUIDataTable />
+        </div>
+      </SideBar>
+       
     </div>
-  )
+  );
 }
 
 export default DrivingLicenseTypes

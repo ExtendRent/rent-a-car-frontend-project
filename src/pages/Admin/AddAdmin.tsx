@@ -16,14 +16,13 @@ const AddAdmin = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [salary, setSalary] = useState<number>(0);
   const [imagePath, setImagePath] = useState("");
-  const [status, setStatus] = useState("");
   const [authority, setAuthority] = useState("");
 
 
   const handleAddAdmin = () => {
       if(name.trim() !== ""){
       dispatch(addAdmin({name: name, surname: surname, emailAddress: emailAddress, password: password,
-        phoneNumber: phoneNumber, salary: salary, imagePath: imagePath, status: status, authority: authority}));
+        phoneNumber: phoneNumber, salary: salary, imagePath: imagePath, authority: authority}));
       setName("");
       setSurname("");
       setEmailAddress("");
@@ -31,7 +30,6 @@ const AddAdmin = (props: Props) => {
       setPhoneNumber("");
       setSalary(0);
       setImagePath("");
-      setStatus("");
       setAuthority("");
     }
   }
@@ -97,15 +95,6 @@ const AddAdmin = (props: Props) => {
           value={imagePath}
           onChange={(e) => setImagePath(e.target.value)}
           placeholder="imagePath"
-        />
-      </div>
-
-      <div style={{ marginTop: 20 }}>
-        <input
-          type="text"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          placeholder="status"
         />
       </div>
 
