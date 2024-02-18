@@ -6,4 +6,5 @@ export interface UpdateEmployeeModel {
     password:string;
     phoneNumber:string;
     salary : number;
+    userImageEntityId: number
 }

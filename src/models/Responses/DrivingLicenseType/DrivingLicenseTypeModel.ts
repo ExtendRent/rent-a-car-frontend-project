@@ -3,4 +3,5 @@ export interface DrivingLicenseTypeModel{
     name: string;
     description: string;
     licenseLevel: number;
+    deleted: boolean;
 }

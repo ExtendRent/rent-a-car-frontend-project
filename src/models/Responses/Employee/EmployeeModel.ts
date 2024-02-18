@@ -4,4 +4,7 @@ export interface EmployeeModel {
     surname:string;
     email:string;
     salary: number;
+    userImageEntityImageUrl: string;
+    deleted: boolean;
+    authority: string;
 }

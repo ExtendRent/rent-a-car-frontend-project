@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 
 export default class ColorService{
     getAll() {
-        return axiosInstance.get<GetAllColorsModel>("colors?isDeleted=false")
+        return axiosInstance.get<GetAllColorsModel>("colors")
     }
     
     add(newColor: AddColorModel){

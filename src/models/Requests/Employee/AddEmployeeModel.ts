@@ -5,4 +5,5 @@ export interface AddEmployeeModel {
     password:string;
     phoneNumber:string;
     salary: number;
+    userImageEntityId: number;
 }

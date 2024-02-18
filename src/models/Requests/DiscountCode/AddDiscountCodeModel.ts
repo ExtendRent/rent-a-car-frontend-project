@@ -1,5 +1,4 @@
 export interface AddDiscountCodeModel {
-	discountCode :string;
-    discountPercentage: number ;
-    
+	discountCode: string;
+    discountPercentage: number;
 }

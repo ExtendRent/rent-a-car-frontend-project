@@ -5,6 +5,5 @@ export interface AddAdminModel{
     password: string;
     phoneNumber: string;
     salary: number;
-    imagePath: string;
-    authority: string;
+    userImageEntityId: number;
 }

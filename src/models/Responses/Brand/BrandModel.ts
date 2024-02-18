@@ -1,5 +1,7 @@
 export interface BrandModel {
 	id: number;
-	carModelEntityBrandEntityName: string;
-	logoImagePath: string;
+	name: string;
+	logoImagePath: string; //  silinecek
+	//brandImageEntityUrl: string  eklenecek
+	//deleted: boolean;  eklenecek
 }

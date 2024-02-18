@@ -3,6 +3,6 @@ export interface PaymentDetailsModel {
     paymentTypeEntityId: number;
     amount: number;
     paymentTypeEntityName: string;
-    createdDate:Date| string ;
+    createdDate:Date | string ;
     deleted: boolean;
 }

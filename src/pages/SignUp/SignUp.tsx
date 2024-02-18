@@ -44,7 +44,7 @@ export default function SignUp({ }: Props) {
     const [drivingLicenseTypes, setDrivingLicenseTypes] = useState<string[]>(["B"]);
 
     const handleSignUp = () => {
-        if (name && surname && emailAddress && phoneNumber && password) {
+         /* if (name && surname && emailAddress && phoneNumber && password) {
             dispatch(
                 addCustomer({
                     name,
@@ -54,7 +54,7 @@ export default function SignUp({ }: Props) {
                     phoneNumber,
                     drivingLicenseNumber,
                     drivingLicenseTypes
-                })
+                }) 
             );
         
       
@@ -71,7 +71,7 @@ export default function SignUp({ }: Props) {
     } else {
         // Eksik bilgi varsa kullanıcıyı uyar
         alert('Lütfen tüm alanları doldurun.');
-    }
+    } */
     };
     const data =
     emailAddress.trim().length > 0 && !emailAddress.includes('@')

@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class DiscountCodeService{
 
     getAll() {
-        return axiosInstance.get<GetAllDiscountCodesModel>("discounts?isDeleted=false")
+        return axiosInstance.get<GetAllDiscountCodesModel>("discounts")
     }
 
     add(newDiscountCode: AddDiscountCodeModel){

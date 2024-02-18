@@ -1,4 +1,5 @@
 export interface CarBodyTypeModel{
     id: number,
-    name: string
+    name: string,
+    deleted: boolean,
 }
