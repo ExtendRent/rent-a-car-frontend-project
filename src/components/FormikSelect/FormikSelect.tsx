@@ -6,15 +6,13 @@ interface FormikSelectProps {
   label: string;
   options: { value: any; label: string }[];
   name: string;
-  value: any;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const FormikSelect: React.FC<FormikSelectProps> = ({ label, options, name, value, onChange, ...props }) => {
+const FormikSelect: React.FC<FormikSelectProps> = ({ label, options, name }) => {
   const [field, meta, helpers] = useField(name);
 
   const handleChange = (selectedOption: any) => {
-    helpers.setValue(selectedOption ? selectedOption.value : '');
+    helpers.setValue(selectedOption ? selectedOption.value : ''); // Tek bir değer seçildiğinde seçilen değeri ayarlar
   };
 
   const customStyles = {
@@ -22,31 +20,12 @@ const FormikSelect: React.FC<FormikSelectProps> = ({ label, options, name, value
       ...provided,
       borderColor: state.isFocused ? '#80bdff' : '#ced4da',
       boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(0, 123, 255, 0.25)' : 'none',
-      borderRadius: '10px', // Yuvarlak border
+      borderRadius: '10px',
       '&:hover': {
         borderColor: state.isFocused ? '#80bdff' : '#ced4da',
       },
     }),
   };
-
-  /* 
-  
-  const customStyles = {
-  control: (provided: any, state: any) => ({
-    ...provided,
-    borderColor: state.isFocused ? '#ff4081' : '#ced4da', // Belirgin bir renk seç
-    backgroundColor: state.isFocused ? '#ffffff' : '#f5f5f5', // Arka plan rengini değiştir
-    borderWidth: '2px', // Kenarlık kalınlığını artır
-    borderRadius: '20px', // Kenar yuvarlaklığını artır
-    boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(255, 64, 129, 0.25)' : 'none', // Daha canlı bir gölge efekti ekle
-    '&:hover': {
-      borderColor: state.isFocused ? '#ff4081' : '#ced4da',
-    },
-  }),
-};
-
-  */
-  
 
   return (
     <div>
@@ -54,7 +33,7 @@ const FormikSelect: React.FC<FormikSelectProps> = ({ label, options, name, value
       <Select
         id={name}
         options={options}
-        value={options.find(option => option.value === field.value)}
+        value={options.find(option => option.value === field.value)} // Seçilen değeri belirtmek için options dizisindeki uygun seçeneği bulur
         onChange={handleChange}
         onBlur={() => helpers.setTouched(true)}
         styles={customStyles}

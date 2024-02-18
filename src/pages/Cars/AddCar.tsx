@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import './Car.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
-import { fetchBrands } from '../../store/slices/brandSlice';
-import { fetchCarModels, getByBrandIdCarModels } from '../../store/slices/carModelSlice';
-import { fetchCarBodyTypes } from '../../store/slices/carBodyTypeSlice';
-import { fetchColors } from '../../store/slices/colorSlice';
-import { fetchShiftTypes } from '../../store/slices/shiftTypeSlice';
-import { fetchFuelType } from '../../store/slices/fuelTypeSlice';
-import { fetchVehicleStatus } from '../../store/slices/vehicleStatusSlice';
-import { fetchDrivingLicenseTypes } from '../../store/slices/drivingLicenseTypeSlice';
-import SideBar from '../../components/Sidebar/SideBar';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import FormikInput from '../../components/FormikInput/FormikInput';
-import FormikSelect from '../../components/FormikSelect/FormikSelect'; // FormikSelect bileşenini ekledik
-import { addCar } from '../../store/slices/carSlice';
-import {Button } from '@mui/material';
-type Props = {}
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import SideBar from "../../components/Sidebar/SideBar";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Button } from "@mui/joy";
+import * as Yup from "yup";
+import { AppDispatch } from "../../store/configureStore";
+import { useDispatch, useSelector } from "react-redux";
+import { addCar } from "../../store/slices/carSlice";
+import FormikSelect from "../../components/FormikSelect/FormikSelect";
+import { fetchBrands } from "../../store/slices/brandSlice";
+import { fetchCarModels } from "../../store/slices/carModelSlice";
+import { fetchCarBodyTypes } from "../../store/slices/carBodyTypeSlice";
+import { fetchColors } from "../../store/slices/colorSlice";
+import { fetchVehicleStatus } from "../../store/slices/vehicleStatusSlice";
+import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
+import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
+import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeSlice";
+
+type Props = {};
 
 const AddCar = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [selectedValue, setSelectedValue] = useState({});
   const brandState = useSelector((state: any) => state.brand);
   const carModelState = useSelector((state: any) => state.carModel);
   const carBodyTypeState = useSelector((state: any) => state.carBodyType);
@@ -29,24 +30,6 @@ const AddCar = (props: Props) => {
   const shiftTypeState = useSelector((state: any) => state.shiftType);
   const fuelTypeState = useSelector((state: any) => state.fuelType);
   const expectedMinDrivingLicenseTypeState = useSelector((state: any) => state.drivingLicenseType);
-
-  const [selectedCarModel, setSelectedCarModel] = useState<number | undefined>();
-  const [selectedBrand, setSelectedBrand] = useState<number | undefined>(undefined);
-  const [selectedCarBodyType, setSelectedCarBodyType] = useState<number | undefined>(undefined);
-  const [selectedColor, setSelectedColor] = useState<number | undefined>(undefined);
-  const [selectedVehicleStatus, setSelectedVehicleStatus] = useState<number | undefined>(undefined);
-  const [selectedShiftType, setSelectedShiftType] = useState<number | undefined>(undefined);
-  const [selectedFuelType, setSelectedFuelType] = useState<number | undefined>(undefined);
-  const [selectedExpectedMinDrivingLicenseType, setselectedExpectedMinDrivingLicenseType] = useState<number | undefined>(undefined);
-  const [year, setYear] = useState<number | undefined>(undefined);
-  const [details, setDetails] = useState<string>('');
-  const [rentalPrice, setRentalPrice] = useState<number | undefined>(undefined);
-  const [licensePlate, setLicensePlate] = useState<string>('');
-  const [kilometer, setKilometer] = useState<number | undefined>(undefined);
-  const [imagePaths, setImagePaths] = useState<string[]>([]);
-  const [seat, setSeat] = useState<number | undefined>(undefined);
-  const [luggage, setLuggage] = useState<number | undefined>(undefined);
-
   useEffect(() => {
     dispatch(fetchBrands());
     dispatch(fetchCarModels());
@@ -57,296 +40,215 @@ const AddCar = (props: Props) => {
     dispatch(fetchFuelType());
     dispatch(fetchDrivingLicenseTypes());
   }, [dispatch])
-
-  const handleAddCar = () => {
-    console.log("ss");
-    
-    if (year !== undefined && details.trim() !== "" && rentalPrice !== undefined && rentalPrice !== 0 && licensePlate.trim() !== ""
-      && kilometer !== undefined && kilometer !== 0 && seat !== undefined && seat !== 0 && luggage !== undefined && luggage !== 0
-      && imagePaths.length !== 0 && selectedExpectedMinDrivingLicenseType !== undefined && selectedExpectedMinDrivingLicenseType !== 0
-      && selectedBrand !== undefined && selectedCarModel !== undefined && selectedCarBodyType !== undefined && selectedCarBodyType !== 0
-      && selectedColor !== undefined && selectedColor !== 0 && selectedVehicleStatus !== undefined && selectedVehicleStatus !== 0
-      && selectedShiftType !== undefined && selectedShiftType !== 0 && selectedFuelType !== undefined && selectedFuelType !== 0) {
-      dispatch(addCar({
-        brandEntityId: selectedBrand!,
-        carModelEntityId: selectedCarModel!,
-        carBodyTypeEntityId: selectedCarBodyType,
-        colorEntityId: selectedColor,
-        vehicleStatusEntityId: selectedVehicleStatus,
-        shiftTypeEntityId: selectedShiftType,
-        fuelTypeEntityId: selectedFuelType,
-        expectedMinDrivingLicenseTypeId: selectedExpectedMinDrivingLicenseType,
-        year: year!,
-        details,
-        rentalPrice,
-        licensePlate,
-        kilometer,
-        seat,
-        luggage,
-        imagePaths
-      }));
-      setYear(undefined);
-      setDetails('');
-      setRentalPrice(undefined);
-      setLicensePlate('');
-      setKilometer(undefined);
-      setImagePaths([]);
-      setSeat(undefined);
-      setLuggage(undefined);
-    }
-  };
-
-  const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const brandId = parseInt(e.target.value, 10);
-
-    setSelectedBrand(brandId);
-
-    if (!isNaN(brandId)) {
-      dispatch(getByBrandIdCarModels({ brandId }));
-    }
-  };
-
-  const handleCarModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const carModelId = parseInt(e.target.value, 10);
-    setSelectedCarModel(carModelId);
-  };
-
-  const handleCarBodyTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCarBodyType(parseInt(e.target.value, 10));
-  }
-  const handleColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedColor(parseInt(e.target.value, 10));
-  }
-  const handleVehicleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedVehicleStatus(parseInt(e.target.value, 10));
-  }
-  const handleShiftTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedShiftType(parseInt(e.target.value, 10));
-  }
-  const handleFuelTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedFuelType(parseInt(e.target.value, 10));
-  }
-  const handleDrivingLicenseTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setselectedExpectedMinDrivingLicenseType(parseInt(e.target.value, 10));
-  }
-
   const validationSchema = Yup.object().shape({
     year: Yup.number()
-      .min(2005, 'Yıl en az 2005 olmalıdır')
-      .max(2024, 'Yıl en fazla 2024 olmalıdır')
-      .required('Yıl giriniz'),
+      .min(2005, "Yıl en az 2005 olmalıdır")
+      .max(2024, "Yıl en fazla 2024 olmalıdır")
+      .required("Yıl giriniz"),
     details: Yup.string()
-      .max(500, 'Açıklama en fazla 500 karakter olmalıdır')
-      .required('Detay giriniz'),
+      .max(500, "Açıklama en fazla 500 karakter olmalıdır")
+      .required("Detay giriniz"),
     rentalPrice: Yup.number()
-      .min(110, 'Kiralama ücreti en az 110 olmalıdır')
-      .required('Araç fiyatı giriniz'),
+      .min(110, "Kiralama ücreti en az 110 olmalıdır")
+      .required("Araç fiyatı giriniz"),
     licensePlate: Yup.string()
-      .matches(/^(\d{2}[ ]?[A-Za-z]{1,3}[ ]?\d{2}|\d{2}[ ]?[A-Za-z]{2}[ ]?\d{3})$/, 'Geçerli bir plaka giriniz')
-      .required('Plaka giriniz'),
+      .matches(
+        /^(\d{2}[ ]?[A-Za-z]{1,3}[ ]?\d{2}|\d{2}[ ]?[A-Za-z]{2}[ ]?\d{3})$/,
+        "Geçerli bir plaka giriniz"
+      )
+      .required("Plaka giriniz"),
     kilometer: Yup.number()
-      .min(1, 'Kilometre en az 1 olmalıdır')
-      .required('Kilometre giriniz'),
-    imagePaths: Yup.array()
-      .min(1, 'En az bir resim yükleyiniz')
-      .required('Resim yükleyiniz'),
+      .min(1, "Kilometre en az 1 olmalıdır")
+      .required("Kilometre giriniz"),
     seat: Yup.number()
-      .min(1, 'Koltuk sayısı en az 1 olmalıdır')
-      .max(15, 'Koltuk sayısı en fazla 15 olmalıdır')
-      .required('Koltuk sayısı giriniz'),
+      .min(1, "Koltuk sayısı en az 1 olmalıdır")
+      .max(15, "Koltuk sayısı en fazla 15 olmalıdır")
+      .required("Koltuk sayısı giriniz"),
     luggage: Yup.number()
-      .min(1, 'Bagaj sayısı en az 1 olmalıdır')
-      .max(15, 'Bagaj sayısı en fazla 15 olmalıdır')
-      .required('Bagaj sayısı giriniz'),
-    brands: Yup.number().required('Marka seçiniz'),
-    inputImage: Yup.number().required('Fotoğraf giriniz.'),
-    carModel: Yup.number().required('Araç modeli seçiniz'),
-    selectedCarBodyType: Yup.number().required('Kasa tipi seçiniz'),
-    selectedColor: Yup.number().required('Renk seçiniz'),
-    selectedVehicleStatus: Yup.number().required('Araç durumu seçiniz'),
-    selectedShiftType: Yup.number().required('Vites tipi seçiniz'),
-    selectedFuelType: Yup.number().required('Yakıt tipi seçiniz'),
-    selectedExpectedMinDrivingLicenseType: Yup.number().required('Ehliyet tipi seçiniz'),
+      .min(1, "Bagaj sayısı en az 1 olmalıdır")
+      .max(15, "Bagaj sayısı en fazla 15 olmalıdır")
+      .required("Bagaj sayısı giriniz"),
+    brandEntityId: Yup.number().required('Marka seçiniz'),
+    carModelEntityId: Yup.number().required('Araç modeli seçiniz'),
+    carBodyTypeEntityId: Yup.number().required('Kasa tipi seçiniz'),
+    colorEntityId: Yup.number().required('Renk seçiniz'),
+    vehicleStatusEntityId: Yup.number().required('Araç durumu seçiniz'),
+    shiftTypeEntityId: Yup.number().required('Vites tipi seçiniz'),
+    fuelTypeEntityId: Yup.number().required('Yakıt tipi seçiniz'),
+    expectedMinDrivingLicenseTypeId: Yup.number().required('Ehliyet tipi seçiniz'),
+    imagePaths:Yup.string().required("Fotoğraf giriniz"),
+
   });
-  
 
   const initialValues = {
-    year: '',
-    details: '',
-    rentalPrice: '',
-    licensePlate: '',
-    kilometer: '',
-    seat: '',
-    luggage: '',
-    brands: '',
-    carModel: '',
-    selectedCarBodyType: '',
-    selectedColor: '',
-    selectedVehicleStatus: '',
-    selectedShiftType: '',
-    selectedFuelType: '',
-    selectedExpectedMinDrivingLicenseType: '',
+    year: 0,
+    details: "",
+    rentalPrice: 0,
+    licensePlate: "",
+    kilometer: 0,
+    seat: 0,
+    luggage: 0,
+    brandEntityId: '',
+    carModelEntityId: '',
+    carBodyTypeEntityId: '',
+    colorEntityId: '',
+    vehicleStatusEntityId: '',
+    shiftTypeEntityId: '',
+    fuelTypeEntityId: '',
+    expectedMinDrivingLicenseTypeId: '',
+    imagePaths:''
   };
-
+  const handleAddCar = (values: any) => {
+    dispatch(addCar(values));
+  };
+  
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(values) => {
+        
+        setSelectedValue(values);
+        handleAddCar(values);
         console.log(values);
-        handleAddCar();
-        resetForm(); // Formu sıfırla
       }}
+      enableReinitialize={true}
     >
       <SideBar>
         <div className="container-car">
-        <h2 className='h2-car'>Araba Ekleme</h2>
+          <h2 className="h2-car">Araba Ekleme</h2>
           <Form>
             <div className="row">
-              <div id='select-block' className="col-md-6">
+            <div id='select-block' className="col-md-6">
                 <div className="mb-2">
                   <FormikSelect
                       label="Marka Seç"
-                      name="brands"
+                      name="brandEntityId"
                       options={brandState.brands.map((brands: any) => ({ value: brands.id, label: brands.name }))}
-                      value={selectedBrand !== undefined ? selectedBrand : ""}
-                      onChange={handleBrandChange}
                     />
+             
                 </div>
                 
                   <div className="mb-2">
                     <FormikSelect
                       label="Araç Model Seç"
-                      name="carModel"
+                      name="carModelEntityId"
                       options={carModelState.carModel.map((carModel: any) => ({ value: carModel.id, label: carModel.name }))}
-                      value={selectedCarModel !== undefined ? selectedCarModel : ""}
-                      onChange={handleCarModelChange}
+                     
                     />
                   </div>
                 
                 <div className="mb-2">
                   <FormikSelect
                     label="Kasa Tipi Seç"
-                    name="selectedCarBodyType"
+                    name="carBodyTypeEntityId"
                     options={carBodyTypeState.carBodyTypes.map((carBodyType: any) => ({ value: carBodyType.id, label: carBodyType.name }))}
-                    value={selectedCarBodyType !== undefined ? selectedCarBodyType : ""}
-                    onChange={handleCarBodyTypeChange}
+                    
                   />
                 </div>
                 <div className="mb-2">
                   <FormikSelect
                     label="Renk Seç"
-                    name="selectedColor"
+                    name="colorEntityId"
                     options={colorState.colors.map((color: any) => ({ value: color.id, label: color.name }))}
-                    value={selectedColor}
-                    onChange={handleColorChange}
+                    
                   />
                 </div>
                 <div className="mb-2">
                   <FormikSelect
                     label="Araç Durumu Seç"
-                    name="selectedVehicleStatus"
+                    name="vehicleStatusEntityId"
                     options={vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => ({ value: vehicleStatus.id, label: vehicleStatus.name }))}
-                    value={selectedVehicleStatus}
-                    onChange={handleVehicleStatusChange}
+                    
                   />
                 </div>
                 <div className="mb-2">
                   <FormikSelect
                     label="Vites Tipi Seç"
-                    name="selectedShiftType"
+                    name="shiftTypeEntityId"
                     options={shiftTypeState.shiftTypes.map((shiftType: any) => ({ value: shiftType.id, label: shiftType.name }))}
-                    value={selectedShiftType}
-                    onChange={handleShiftTypeChange}
+                   
                   />
                 </div>
                 <div className="mb-2">
                   <FormikSelect
                     label="Yakıt Tipi Seç"
-                    name="selectedFuelType"
+                    name="fuelTypeEntityId"
                     options={fuelTypeState.fuelTypes.map((fuelType: any) => ({ value: fuelType.id, label: fuelType.name }))}
-                    value={selectedFuelType}
-                    onChange={handleFuelTypeChange}
+                   
                   />
                 </div>
                 <div className="mb-2">
                   <FormikSelect
                     label="Ehliyet Tipi Seç"
-                    name="selectedExpectedMinDrivingLicenseType"
+                    name="expectedMinDrivingLicenseTypeId"
                     options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map((drivingLicenseType: any) => ({ value: drivingLicenseType.id, label: drivingLicenseType.name }))}
-                    value={selectedExpectedMinDrivingLicenseType}
-                    onChange={handleDrivingLicenseTypeChange}
+                   
                   />
                 </div>
                 <div className="mb-2">
-                  <label htmlFor="inputImage">Fotoğraf Giriniz</label>
-                  <input
-                    className="form-control"
+                  <FormikInput
+                    name="imagePaths"
+                    label="Fotoğraf Giriniz"
+                    placeHolder="Fotoğraf Giriniz."
                     type="text"
-                    value={imagePaths.join(',')}
-                    onChange={(e) => setImagePaths(e.target.value.split(','))}
                   />
                 </div>
               </div>
-              <div id='input-block' className="col-md-6">
+              <div id="input-block" className="col-md-6">
                 <FormikInput
                   name="year"
                   label="Yıl Giriniz"
                   placeHolder="Yıl Giriniz."
-                  value={year !== undefined ? String(year) : ''}
-                  type='number'
+                  type="number"
                 />
+
                 <FormikInput
                   name="details"
                   label="Detay Giriniz"
                   placeHolder="Detay Giriniz."
-                  value={details}
-                  type='text'
+                  type="text"
                 />
                 <FormikInput
                   name="rentalPrice"
                   label="Araç Fiyatı Giriniz"
                   placeHolder="Araç Fiyatı Giriniz."
-                  value={rentalPrice !== undefined ? String(rentalPrice) : ''}
-                  type='number'
+                  type="number"
                 />
                 <FormikInput
                   name="licensePlate"
                   label="Plaka Giriniz"
                   placeHolder="Plaka Giriniz."
-                  value={licensePlate}
-                  type='text'
+                  type="text"
                 />
                 <FormikInput
                   name="kilometer"
                   label="Kilometre Giriniz"
                   placeHolder="Kilometre Giriniz."
-                  value={kilometer !== undefined ? String(kilometer) : ''}
-                  type='number'
+                  type="number"
                 />
                 <FormikInput
                   name="seat"
                   label="Koltuk Sayısı Giriniz"
                   placeHolder="Koltuk Sayısı Giriniz."
-                  value={seat !== undefined ? String(seat) : ''}
-                  type='number'
+                  type="number"
                 />
                 <FormikInput
                   name="luggage"
                   label="Bagaj Sayısı Giriniz"
                   placeHolder="Bagaj Sayısı Giriniz."
-                  value={luggage !== undefined ? String(luggage) : ''}
-                  type='number'
+                  type="number"
                 />
               </div>
             </div>
-            <Button id='addCarBtn' type="submit" className="btn btn-primary">Araba Ekle</Button>
-           
+            <Button type="submit" className="btn btn-primary">
+              Araba Ekle
+            </Button>
           </Form>
         </div>
       </SideBar>
     </Formik>
-  )
-}
+  );
+};
 
 export default AddCar;

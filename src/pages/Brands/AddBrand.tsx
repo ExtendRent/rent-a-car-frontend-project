@@ -12,30 +12,28 @@ type Props = {};
 
 const AddBrand = (props: Props) => {
     const dispatch = useDispatch<AppDispatch>();
-    const [brandName, setBrandName] = useState("");
-    const [logoImagePath, setLogoImagePath] = useState("");
 
-    const handleAddBrand = () => {
-        if (brandName.trim() !== "") {
-            dispatch(addBrand({ name: brandName, logoImagePath: logoImagePath}));
-            setBrandName("");
-            setLogoImagePath("");
-        }
+    const handleAddBrand = (values: any) => {
+        dispatch(addBrand(values));
     };
 
     const validationSchema = Yup.object().shape({
-        brandName: Yup.string().required('Marka Giriniz'),
-        logoImagePath: Yup.string().required('Fotoğraf Giriniz'),
-    })
+    name: Yup.string()
+        .min(2, 'Marka en az 2 karakter olmalıdır')
+        .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$/, 'Marka sadece harflerden oluşmalıdır')
+        .required('Marka Giriniz'),
+    logoImagePath: Yup.string().required('Fotoğraf Giriniz'),
+    });
+
 
     return (
         <Formik
-            initialValues={{ brandName: '', logoImagePath: '' }}
+            initialValues={{ name: '', logoImagePath: '' }}
             validationSchema={validationSchema}
-            onSubmit={(values, { resetForm }) => {
-                handleAddBrand();
-                resetForm(); // Formu sıfırla
+            onSubmit={(values) => {
+                handleAddBrand(values);
             }}
+            enableReinitialize={true}
         >
             <SideBar>
                 <div className="container-car">
@@ -45,11 +43,9 @@ const AddBrand = (props: Props) => {
                             <div id='select-block' className="col-md-6">
                                 <div className="mb-2">
                                 <FormikInput
-                                    name="brandName"
+                                    name="name"
                                     label="Marka Giriniz"
                                     placeHolder="Marka Giriniz."
-                                    value={brandName}
-                                    onChange={(value) => setBrandName(value as string)} // onChange prop'unu burada kullanıyoruz
                                     type='text'
                                 />
                                 </div>
@@ -58,12 +54,10 @@ const AddBrand = (props: Props) => {
                                         name="logoImagePath"
                                         label="Resim Giriniz"
                                         placeHolder="Resim Giriniz."
-                                        value={logoImagePath}
-                                        onChange={(value) => setLogoImagePath(value as string)} 
                                         type='text'
                                     />
                                 </div>
-                                <Button onClick={handleAddBrand}>Ekle</Button>
+                                <Button type="submit">Ekle</Button>
                             </div>
                         </div>
                     </Form>

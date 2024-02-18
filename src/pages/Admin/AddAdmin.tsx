@@ -12,30 +12,10 @@ type Props = {}
 const AddAdmin = (props: Props) => {
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [salary, setSalary] = useState<number>(0);
-  const [imagePath, setImagePath] = useState("");
-  const [authority, setAuthority] = useState("");
-
-
-  const handleAddAdmin = () => {
-      if(name.trim() !== ""){
-      dispatch(addAdmin({name: name, surname: surname, emailAddress: emailAddress, password: password,
-        phoneNumber: phoneNumber, salary: salary, imagePath: imagePath, authority: authority}));
-      setName("");
-      setSurname("");
-      setEmailAddress("");
-      setPassword("");
-      setPhoneNumber("");
-      setSalary(0);
-      setImagePath("");
-      setAuthority("");
-    }
+  const [selectedValue, setSelectedValue] = useState({});
+ 
+  const handleAddAdmin = (values: any) => {
+      dispatch(addAdmin(values));
   }
 
   const validationSchema = Yup.object().shape({
@@ -46,7 +26,10 @@ const AddAdmin = (props: Props) => {
       .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, 'Soyisim sadece harflerden oluşmalıdır')
       .required('Soyisim giriniz'),
     emailAddress: Yup.string().required('Mail Adresi Giriniz'),
-    password: Yup.string().required('Şifre Giriniz'),
+    password: Yup.string().required('Şifre Giriniz')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Şifre en az 8 karakter uzunluğunda olmalı, en az bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir'),
     phoneNumber: Yup.string()
       .matches(/^[0-9]+$/, 'Telefon numarası sadece sayılardan oluşmalıdır')
       .min(10, 'Telefon numarası 10 hane olmalıdır')
@@ -64,7 +47,7 @@ const AddAdmin = (props: Props) => {
     emailAddress:'',
     password:'',
     phoneNumber:'',
-    salary:'',
+    salary: 0,
     imagePath:'',
     authority:'',
   }
@@ -73,11 +56,11 @@ const AddAdmin = (props: Props) => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => {
-        console.log(values);
-        handleAddAdmin();
-        resetForm(); // Formu sıfırla
+      onSubmit={(values) => {
+        setSelectedValue(values);
+        handleAddAdmin(values);
       }}
+      enableReinitialize={true}
     >
     <SideBar>
       <div className="container-car">
@@ -90,8 +73,6 @@ const AddAdmin = (props: Props) => {
                     name="name"
                     label="İsim Giriniz"
                     placeHolder="İsim Giriniz."
-                    value={name}
-                    onChange={(value) => setName(value as string)}
                     type='text'
                   />
                 </div>
@@ -100,8 +81,6 @@ const AddAdmin = (props: Props) => {
                     name="surname"
                     label="Soyisim Giriniz"
                     placeHolder="İsim Giriniz."
-                    value={surname}
-                    onChange={(value) => setSurname(value as string)}
                     type='text'
                   />
                 </div>
@@ -110,8 +89,6 @@ const AddAdmin = (props: Props) => {
                     name="emailAddress"
                     label="Mail Adresi Giriniz"
                     placeHolder="Mail Adresi Giriniz."
-                    value={emailAddress}
-                    onChange={(value) => setEmailAddress(value as string)}
                     type='text'
                   />
                 </div>
@@ -120,8 +97,6 @@ const AddAdmin = (props: Props) => {
                     name="password"
                     label="Şifre Giriniz"
                     placeHolder="Şifre Giriniz."
-                    value={password}
-                    onChange={(value) => setPassword(value as string)}
                     type='text'
                   />
                 </div>
@@ -132,8 +107,6 @@ const AddAdmin = (props: Props) => {
                     name="phoneNumber"
                     label="Telefon Numarası Giriniz"
                     placeHolder="Telefon Numarası Giriniz."
-                    value={phoneNumber}
-                    onChange={(value) => setPhoneNumber(value as string)}
                     type='text'
                   />
                 </div>
@@ -142,9 +115,7 @@ const AddAdmin = (props: Props) => {
                     name="salary"
                     label="Maaş Giriniz"
                     placeHolder="Maaş Giriniz."
-                    value={salary !== undefined ? String(salary) : ''}
-                    onChange={(value) => setSalary(value as number)}
-                    type='text'
+                    type='number'
                   />
                 </div>
                 <div className="mb-2">
@@ -152,8 +123,6 @@ const AddAdmin = (props: Props) => {
                     name="imagePath"
                     label="Resim Giriniz"
                     placeHolder="Resim Giriniz."
-                    value={imagePath}
-                    onChange={(value) => setImagePath(value as string)}
                     type='text'
                   />
                 </div>
@@ -162,13 +131,10 @@ const AddAdmin = (props: Props) => {
                     name="authority"
                     label="Yetki Giriniz"
                     placeHolder="Yetki Giriniz."
-                    value={authority}
-                    onChange={(value) => setAuthority(value as string)}
-                    type='text'
                   />
                 </div>
               </div>
-              <Button onClick={handleAddAdmin}>Ekle</Button>
+              <Button type='submit'>Ekle</Button>
             </div>
         </Form>
         </div>
