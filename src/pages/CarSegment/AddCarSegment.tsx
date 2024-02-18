@@ -2,30 +2,60 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { addCarSegment } from '../../store/slices/carSegmentSlice';
+import * as Yup from "yup";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Form, Formik } from "formik";
+import SideBar from "../../components/Sidebar/SideBar";
+import { Button } from "@mui/joy";
 
 type Props = {}
 
 const AddCarSegment = (props: Props) => {
 
     const dispatch = useDispatch<AppDispatch>();
-    const [name, setName] = useState("");
   
-    const handleAddCarSegment= () => {
-      if (name.trim() !== "") {
-        dispatch(addCarSegment({ name: name }));
-        setName("");
-      }
+    const handleAddCarSegment= (values: any) => {
+        dispatch(addCarSegment(values));
     };
-
+    const validationSchema = Yup.object().shape({
+      name: Yup.string()
+        .min(2, "Segment en az 2 karakter olmalıdır")
+        .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Segment sadece harflerden oluşmalıdır")
+        .required("Segment Giriniz"),
+    });
+    const initialValues = {
+      name: "",
+    };
   return (
-    <div style={{marginTop:200}}>
-    <input
-      type="text"
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-    />
-     <button onClick={handleAddCarSegment}>Add Car Segment</button> 
-  </div>
+    <Formik
+    initialValues={initialValues}
+    validationSchema={validationSchema}
+    onSubmit={(values) => {
+      handleAddCarSegment(values);
+    }}
+    enableReinitialize={true}
+  >
+    <SideBar>
+      <div className="container-car">
+        <h2 className="h2-car">Segment Ekleme</h2>
+        <Form>
+          <div className="row">
+            <div id="select-block" className="col-md-6">
+              <div className="mb-2">
+                <FormikInput
+                  name="name"
+                  label="Segment Giriniz"
+                  placeHolder="Segment Giriniz."
+                  type="text"
+                />
+                <Button type="submit">Ekle</Button>
+              </div>
+            </div>
+          </div>
+        </Form>
+      </div>
+    </SideBar>
+    </Formik>
   )
 }
 

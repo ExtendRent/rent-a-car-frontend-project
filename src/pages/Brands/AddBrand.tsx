@@ -20,7 +20,7 @@ const AddBrand = (props: Props) => {
     const validationSchema = Yup.object().shape({
     name: Yup.string()
         .min(2, 'Marka en az 2 karakter olmalıdır')
-        .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$/, 'Marka sadece harflerden oluşmalıdır')
+        .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, 'Marka sadece harflerden oluşmalıdır')
         .required('Marka Giriniz'),
     logoImagePath: Yup.string().required('Fotoğraf Giriniz'),
     });

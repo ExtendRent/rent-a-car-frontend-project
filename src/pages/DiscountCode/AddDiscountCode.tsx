@@ -2,56 +2,73 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { addDiscountCode } from '../../store/slices/discountCodeSlice';
+import * as Yup from "yup";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Form, Formik } from "formik";
+import SideBar from "../../components/Sidebar/SideBar";
+import { Button } from "@mui/joy";
 
 type Props = {}
 
 const AddDiscountCode = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [discountCode, setDiscountCode] = useState("");
-  const [discountPercentage, setDiscountPercentage] = useState<number | null>(null);
+ 
 
-  const handleAddDiscountCode = () => {
-    // Discount kodu ve percentage boş olmamalı
-    const discountCodePattern = /^[a-zA-Z0-9]+$/;
-    const percentagePattern = /^[0-9]+$/;
-    if (
-        discountCode.trim() !== "" &&
-        discountCodePattern.test(discountCode) &&  //değişkeninin belirtilen desene uyup uymadığına bak
-        discountPercentage !== null && 
-        percentagePattern.test(discountPercentage.toString()) && // Sayı olmalı
-        discountPercentage >= 5 && 
-        discountPercentage <= 90 
-    ) {
-        dispatch(addDiscountCode({ discountCode: discountCode, discountPercentage: discountPercentage }));
-        // State temizlenir
-        setDiscountCode("");
-        setDiscountPercentage(null);
-    }
+  const handleAddDiscountCode = (values: any) => {
+      dispatch(addDiscountCode(values));
 }; 
-
+const validationSchema = Yup.object().shape({
+    discountCode: Yup.string()
+        .matches(/^[a-zA-Z0-9]+$/, "Sadece harf ve rakamlardan oluşmalıdır")
+        .required("İndirim kodu gerekli"),
+    discountPercentage: Yup.number()
+        .min(5, "İndirim oranı en az 5 olmalıdır")
+        .max(90, "İndirim oranı en fazla 90 olmalıdır")
+        .typeError("Sadece sayılar kabul edilir")
+        .required("İndirim oranı gerekli")
+});
+const initialValues = {
+  discountCode: "",
+  discountPercentage:0,
+};
 
 
   return (
-    <div style={{marginTop:200}}>
-    <input
-      type="text"
-      value={discountCode}
-      onChange={(e) => setDiscountCode(e.target.value)}
-    />
-     
-
-     <div style={{marginTop:20}}>
-    <input
-      type="text"
-      value={discountPercentage !== null ? discountPercentage.toString() : ''}
-      onChange={(e) => setDiscountPercentage(parseInt(e.target.value, 10))}
-    />
-    
-</div>
-<button onClick={handleAddDiscountCode}>Add Discountcode</button> 
-  </div>
-  
-
+    <Formik
+    initialValues={initialValues}
+    validationSchema={validationSchema}
+    onSubmit={(values) => {
+      handleAddDiscountCode(values);
+    }}
+    enableReinitialize={true}
+  >
+    <SideBar>
+      <div className="container-car">
+        <h2 className="h2-car">İndirim Kodu Ekleme</h2>
+        <Form>
+          <div className="row">
+            <div id="select-block" className="col-md-6">
+              <div className="mb-2">
+                <FormikInput
+                  name="discountCode"
+                  label="İndirim Kodu Giriniz"
+                  placeHolder="İndirim Kodu Giriniz."
+                  type="text"
+                />
+                <FormikInput
+                  name="discountPercentage"
+                  label="İndirim Oranı Giriniz"
+                  placeHolder="İndirim Oranı Giriniz."
+                  type="number"
+                />
+                <Button type="submit">Ekle</Button>
+              </div>
+            </div>
+          </div>
+        </Form>
+      </div>
+    </SideBar>
+    </Formik>
   )
 }
 

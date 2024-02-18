@@ -1,28 +1,64 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store/configureStore'
-import { addFuelType } from '../../store/slices/fuelTypeSlice'
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/configureStore";
+import { addFuelType } from "../../store/slices/fuelTypeSlice";
+import * as Yup from "yup";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Form, Formik } from "formik";
+import SideBar from "../../components/Sidebar/SideBar";
+import { Button } from "@mui/joy";
 
-type Props = {}
+type Props = {};
 
 const AddFuelType = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
 
-    const dispatch = useDispatch<AppDispatch>();
-    const [fuelTypeName, setFuelTypeName] = useState("");
-
-    const handleAddFuelType = () => {
-        if (fuelTypeName.trim() !== "" ) {
-            dispatch(addFuelType({ name: fuelTypeName}))
-            setFuelTypeName("");
-        }
-    }
-
-    return (
-        <div style={{ marginTop: 200 }}>
-            <input type="text" value={fuelTypeName} onChange={(e) => setFuelTypeName(e.target.value)} />
-            <button onClick={handleAddFuelType}>Add Fuel Type</button>
+  const handleAddFuelType = (values: any) => {
+    dispatch(addFuelType(values));
+  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, "Yakıt Tipi en az 2 karakter olmalıdır")
+      .matches(
+        /^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/,
+        "Yakıt Tipi sadece harflerden oluşmalıdır"
+      )
+      .required("Yakıt Tipi Giriniz"),
+  });
+  const initialValues = {
+    name: "",
+  };
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        handleAddFuelType(values);
+      }}
+      enableReinitialize={true}
+    >
+      <SideBar>
+        <div className="container-car">
+          <h2 className="h2-car">Yakıt Tipi Ekleme</h2>
+          <Form>
+            <div className="row">
+              <div id="select-block" className="col-md-6">
+                <div className="mb-2">
+                  <FormikInput
+                    name="name"
+                    label="Yakıt Tipi Giriniz"
+                    placeHolder="Yakıt Tipi Giriniz."
+                    type="text"
+                  />
+                  <Button type="submit">Ekle</Button>
+                </div>
+              </div>
+            </div>
+          </Form>
         </div>
-    )
-}
+      </SideBar>
+    </Formik>
+  );
+};
 
-export default AddFuelType
+export default AddFuelType;

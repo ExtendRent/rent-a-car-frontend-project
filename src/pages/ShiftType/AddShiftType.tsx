@@ -2,36 +2,63 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useState } from "react";
 import { addShiftType } from "../../store/slices/shiftTypeSlice";
+import * as Yup from "yup";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Form, Formik } from "formik";
+import SideBar from "../../components/Sidebar/SideBar";
+import { Button } from "@mui/joy";
 
-
-type Props = {}
+type Props = {};
 
 const AddShiftType = (props: Props) => {
-    const dispatch = useDispatch<AppDispatch>();
-    const [shiftTypeName, setShiftTypeName] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
-    const handleAddShiftType = () => {
-        if ((shiftTypeName.trim() !== "")) {
-          dispatch(addShiftType({ name: shiftTypeName}));
-          setShiftTypeName("");
-        }
-      };
-
-    return (
-
-        <div>
-            <div style={{ marginTop: 200 }}>
-                <input
+  const handleAddShiftType = (values: any) => {
+    dispatch(addShiftType(values));
+  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, "Vites Tipi en az 2 karakter olmalıdır")
+      .matches(
+        /^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/,
+        "Vites Tipi sadece harflerden oluşmalıdır"
+      )
+      .required("Vites Tipi Giriniz"),
+  });
+  const initialValues = {
+    name: "",
+  };
+  return (
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        handleAddShiftType(values);
+      }}
+      enableReinitialize={true}
+    >
+      <SideBar>
+        <div className="container-car">
+          <h2 className="h2-car">Vites Tipi Ekleme</h2>
+          <Form>
+            <div className="row">
+              <div id="select-block" className="col-md-6">
+                <div className="mb-2">
+                  <FormikInput
+                    name="name"
+                    label="Vites Tipi Giriniz"
+                    placeHolder="Vites Tipi Giriniz."
                     type="text"
-                    value={shiftTypeName}
-                    onChange={(e) => setShiftTypeName(e.target.value)}
-                />
-                <button style={{marginTop:10}} onClick={handleAddShiftType}>Add Shifttype</button>
+                  />
+                  <Button type="submit">Ekle</Button>
+                </div>
+              </div>
             </div>
-         </div>
+          </Form>
+        </div>
+      </SideBar>
+    </Formik>
+  );
+};
 
-
-    )
-}
-
-export default AddShiftType
+export default AddShiftType;

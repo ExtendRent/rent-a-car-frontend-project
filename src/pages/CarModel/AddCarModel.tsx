@@ -3,54 +3,77 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { addCarModel } from '../../store/slices/carModelSlice';
 import { fetchBrands } from '../../store/slices/brandSlice';
+import { Button } from "@mui/joy";
+import * as Yup from "yup";
+import FormikInput from "../../components/FormikInput/FormikInput";
+import { Form, Formik } from "formik";
+import SideBar from "../../components/Sidebar/SideBar";
+import FormikSelect from '../../components/FormikSelect/FormikSelect';
 
 type Props = {}
 
 const AddCarModel = (props: Props) => {
 
   const dispatch =useDispatch<AppDispatch>();
+  const [selectedValue, setSelectedValue] = useState({});
   const brandState =useSelector((state: any) => state.brand);
-  console.log(brandState);
   
-
-  const [carModelName, setCarModelName] = useState("");
-  const [selectedBrand, setSelectedBrand] = useState<number>(0)
-
   useEffect(()=>{
     dispatch(fetchBrands())
   },[dispatch])
 
-  const handleAddCarModel = () => {
-    if (carModelName.trim() !== "" && selectedBrand !== undefined) {
-      dispatch(addCarModel({ brandEntityId: selectedBrand, carModelEntityName: carModelName }));
-      setCarModelName("");
-    }
+  const handleAddCarModel = (values: any) => {
+      dispatch(addCarModel(values));
   };
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedBrand(parseInt(e.target.value, 10));
+  const validationSchema = Yup.object().shape({
+    carModelEntityName: Yup.string()
+      .min(2, "Marka en az 2 karakter olmalıdır")
+      .required("Marka Giriniz"),
+    brandEntityId: Yup.number().required('Marka seçiniz'),
+  });
+  const initialValues = {
+    brandEntityId: "",
+    carModelEntityName:"",
   };
-
 
   return (
-    <div style={{marginTop:200}}>
-        <select value={selectedBrand} onChange={handleSelectChange}>
-            <option value="" disabled>
-              Select a brand
-            </option>
-            {brandState.brands.map((brand: any) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.name}
-              </option>
-            ))}
-        </select>
-        <input
-          type="text"
-          value={carModelName}
-          onChange={(e) => setCarModelName(e.target.value)}
-        />
-        <button onClick={handleAddCarModel}>Add Car Model</button>
-    </div>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values) => {
+        setSelectedValue(values);
+        handleAddCarModel(values);
+      }}
+      enableReinitialize={true}
+    >
+    <SideBar>
+        <div className="container-car">
+          <h2 className="h2-car">Marka Ekleme</h2>
+          <Form>
+            <div className="row">
+              <div id="select-block" className="col-md-6">
+                <div className="mb-2">
+                    <FormikSelect
+                      label="Marka Seç"
+                      name="brandEntityId"
+                      options={brandState.brands.map((brands: any) => ({ value: brands.id, label: brands.name }))}
+                    />
+                </div>
+                <div className="mb-2">
+                  <FormikInput
+                    name="carModelEntityName"
+                    label="Model Giriniz"
+                    placeHolder="Model Giriniz."
+                    type="text"
+                  />
+                </div>
+                  <Button type="submit">Ekle</Button>
+              </div>
+            </div>
+          </Form>
+        </div>
+      </SideBar>
+    </Formik>
   )
 }
 
