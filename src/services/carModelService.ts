@@ -7,7 +7,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class CarModelService {
    
    getAll(){
-      return axiosInstance.get<GetAllCarModelModel>("carModels?isDeleted=false", )
+      return axiosInstance.get<GetAllCarModelModel>("carModels", )
    }
 
    add(newCarModel: AddCarModelModel){

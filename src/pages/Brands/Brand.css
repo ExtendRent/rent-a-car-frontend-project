@@ -5,13 +5,14 @@ img {
 }
 
 .full-screen {
-  width: 1200px;
+  margin-top: 30px;
+  width: 85%;
   display: flex;
   align-items: stretch;
   flex-direction: column;
   overflow-x: auto;
   position: absolute;
-  left: 75%;
+  left: 77%;
   transform: translate(-75%);
 }
 

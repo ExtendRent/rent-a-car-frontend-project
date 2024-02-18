@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { fetchPaymentTypes, updatePaymentType } from '../../store/slices/paymentTypeSlice';
+import '../Brands/Brand.css';
+import MyMUIDataTable from "./PaymentTypeTable";
+import SideBar from '../../components/Sidebar/SideBar';
 
 type Props = {}
 
@@ -39,36 +42,15 @@ const PaymentTypes = (props: Props) => {
   }
 
   return (
-    <div style={{ marginTop: 200 }}>
-
-      <select value={selectedPaymentType || " "} onChange={handleSelectChange}>
-        <option value="" disabled></option> 
-        {paymentTypeState.paymentTypes.map((paymentType: any) => (
-          <option key={paymentType.id} value={paymentType.id}>
-            {paymentType.name}
-          </option>
-        ))}
-      </select> 
- 
-      {selectedPaymentType !== null && (
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <div >
+      <SideBar>
+        <div className="full-screen">
+          <MyMUIDataTable />
         </div>
-      )}
-
-      <div>
-        <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-      </div>
-
-      <button onClick={handlePaymentTypeUpdateSuccess}>Update Payment Type</button>
-      <button onClick={handleCancelUpdate}>Cancel</button>
-
+      </SideBar>
+       
     </div>
-  )
+  );
 }
 
 export default PaymentTypes
