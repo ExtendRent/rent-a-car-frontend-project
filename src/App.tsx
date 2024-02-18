@@ -63,6 +63,7 @@ import AddCarSegment from './pages/CarSegment/AddCarSegment';
 import CarSegments from './pages/CarSegment/CarSegments';
 import UpdatePaymentType from './pages/PaymentType/UpdatePaymentType';
 import UpdatePaymentDetails from './pages/PaymentDetails/UpdatePaymentDetails';
+import UpdateCar from './pages/Cars/UpdateCar';
 
 
 
@@ -80,7 +81,8 @@ function App() {
         <Route path="/adminPanel/cars" element={<Cars />}></Route>
         <Route path="/adminPanel/addCar" element={<AddCar />}></Route>
         <Route path="/adminPanel/deleteCar" element={<DeleteCar />}></Route>
-      
+        <Route path="/adminPanel/updateCar/:id" element={<UpdateCar/>}></Route>
+
 				<Route path="/" element={<Homepage />}></Route>
 				
 

@@ -1,6 +1,6 @@
 export interface CarModel {
     id: number;
-    isLicenseTypeSuitable: boolean;
+    licenseTypeSuitable: boolean;
     carModelEntityBrandEntityName: string;
     carModelEntityName: string;
     colorEntityName: string;
