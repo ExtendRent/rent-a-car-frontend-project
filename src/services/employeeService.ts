@@ -3,22 +3,21 @@ import { UpdateEmployeeModel } from "../models/Requests/Employee/UpdateEmployeeM
 import { GetAllEmployeesModel } from "../models/Responses/Employee/GetAllEmployeesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class EmployeeService{
+export default class EmployeeService {
 
-    getAll(){
-        return axiosInstance.get<GetAllEmployeesModel>("employees?isDeleted=false")
-    }
-
-    add(newEmployee: AddEmployeeModel){
-        return axiosInstance.post<AddEmployeeModel>("employees", newEmployee)
-   }
-
-   update(updatedEmployee: UpdateEmployeeModel) {
-    return axiosInstance.put<GetAllEmployeesModel>("employees",updatedEmployee);
+  getAll() {
+    return axiosInstance.get<GetAllEmployeesModel>("employees")
   }
 
-  delete(id: number){
+  add(newEmployee: AddEmployeeModel) {
+    return axiosInstance.post<AddEmployeeModel>("employees", newEmployee)
+  }
+
+  update(updatedEmployee: UpdateEmployeeModel) {
+    return axiosInstance.put<GetAllEmployeesModel>("employees", updatedEmployee);
+  }
+
+  delete(id: number) {
     return axiosInstance.delete<GetAllEmployeesModel>(`employees?id=${id}&isHardDelete=true`)
-    
-  }    
+  }
 }

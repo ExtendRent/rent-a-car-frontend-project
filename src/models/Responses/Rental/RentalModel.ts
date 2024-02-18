@@ -19,5 +19,5 @@ export interface RentalModel{
 
     paymentDetailsEntityAmount: number;
     paymentDetailsEntityPaymentTypeEntityPaymentTypeName: string;
-    isActive: boolean;
+    active: boolean;
 }

@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class AdminService{
 
     getAll(){
-        return axiosInstance.get<GetAllAdminModel>("admins?isDeleted=false")
+        return axiosInstance.get<GetAllAdminModel>("admins")
     }
 
     add(newAdmin: AddAdminModel){

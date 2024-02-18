@@ -6,6 +6,6 @@ export interface UpdateAdminModel{
     password: string;
     phoneNumber: string;
     salary: number;
-    imagePath: string;
-    authority: string;
+    status: string;
+    userImageEntityId: number;
 }

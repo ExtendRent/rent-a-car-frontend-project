@@ -6,7 +6,7 @@ import axiosInstance from '../utils/axiosInterceptors';
 
 export default class DrivingLicenseTypeModelService{
     getAll() {
-        return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType?isDeleted=false")
+        return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")
     }
 
     add(newDrivingLicenseType: AddDrivingLicenseTypeModel) {

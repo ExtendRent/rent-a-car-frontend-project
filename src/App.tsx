@@ -64,6 +64,9 @@ import CarSegments from './pages/CarSegment/CarSegments';
 import UpdatePaymentType from './pages/PaymentType/UpdatePaymentType';
 import UpdatePaymentDetails from './pages/PaymentDetails/UpdatePaymentDetails';
 import UpdateCar from './pages/Cars/UpdateCar';
+import Rentals from './pages/Rental/Rentals';
+import UpdateRental from './pages/Rental/UpdateRental';
+import UpdateCustomer from './pages/Customer/UpdateCustomer';
 
 
 
@@ -133,6 +136,7 @@ function App() {
 
         <Route path="/adminPanel/customers" element={<Customers />}></Route>
         <Route path="/adminPanel/addCustomer" element={<AddCustomer />}></Route>
+        <Route path="/adminPanel/updateCustomer" element={<UpdateCustomer />}></Route>
 
         <Route path="/adminPanel/employees" element={<Employees />}></Route>
         <Route path="/adminPanel/addEmployee" element={<AddEmployee />}></Route>
@@ -153,6 +157,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
 
+        <Route path="/adminPanel/rentals" element={<Rentals />}></Route>
+        <Route path="/adminPanel/updateRental/:id" element={<UpdateRental />}></Route>
         
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>

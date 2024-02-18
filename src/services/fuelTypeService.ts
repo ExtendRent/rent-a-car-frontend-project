@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class FuelTypeService{
 
     getAll(){
-        return axiosInstance.get<GetAllFuelTypesModel>("fuels?isDeleted=false")
+        return axiosInstance.get<GetAllFuelTypesModel>("fuels")
     }
 
     add(newFuelType: AddFuelTypeModel){
