@@ -7,7 +7,6 @@ import { UpdateCarModel } from "../models/Requests/Car/UpdateCarModel";
 
 import { GetAllCarsModel } from "../models/Responses/Car/GetAllCarsModel";
 import { GetByDateCarModel } from "../models/Responses/Car/GetByDateCarModel";
-import { GetByDateCarResponse } from "../models/Responses/Car/GetByDateCarResponse";
 import axiosInstance from "../utils/axiosInterceptors";
 
 export default class CarService {

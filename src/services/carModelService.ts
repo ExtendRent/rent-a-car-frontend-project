@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { AddCarModelModel } from "../models/Requests/CarModel/AddCarModelModel";
 import { UpdateCarModelModel } from "../models/Requests/CarModel/UpdateCarModelModel";
 import { GetAllCarModelModel } from "../models/Responses/CarModel/GetAllCarModelModel";
@@ -8,6 +9,14 @@ export default class CarModelService {
    
    getAll(){
       return axiosInstance.get<GetAllCarModelModel>("carModels", )
+   }
+
+   getById(id: number){
+      return axiosInstance.get<GetAllCarModelModel>(`carModels/${id}`)
+   }
+
+   getByModelName(modelName: string){
+      return axiosInstance.get<GetAllCarModelModel>(`carModels/models/${modelName}`)
    }
 
    add(newCarModel: AddCarModelModel){

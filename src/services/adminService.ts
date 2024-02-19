@@ -9,6 +9,10 @@ export default class AdminService{
         return axiosInstance.get<GetAllAdminModel>("admins")
     }
 
+    getById(id: number){
+        return axiosInstance.get<GetAllAdminModel>(`admins/${id}`)
+    }
+
     add(newAdmin: AddAdminModel){
         return axiosInstance.post<AddAdminModel>("admins", newAdmin)
     }
