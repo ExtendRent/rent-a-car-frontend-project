@@ -20,4 +20,8 @@ export default class FuelTypeService{
     delete(id: number){
         return axiosInstance.delete<GetAllFuelTypesModel>(`fuels?id=${id}&isHardDelete=true`)
     }
+
+    getById(id:number){
+        return axiosInstance.get<GetAllFuelTypesModel>(`fuels/${id}`)
+     }  
 }

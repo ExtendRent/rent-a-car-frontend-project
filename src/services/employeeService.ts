@@ -20,4 +20,8 @@ export default class EmployeeService {
   delete(id: number) {
     return axiosInstance.delete<GetAllEmployeesModel>(`employees?id=${id}&isHardDelete=true`)
   }
+
+  getById(id:number){
+    return axiosInstance.get<GetAllEmployeesModel>(`employees/${id}`)
+ }  
 }

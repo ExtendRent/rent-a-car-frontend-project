@@ -30,6 +30,7 @@ const VehicleStatusTable: React.FC = () => {
         const tableData = vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => [
             vehicleStatus.id,
             vehicleStatus.name,
+            vehicleStatus.deleted,
             <IconButton onClick={() => handleUpdate(vehicleStatus.id)}><EditIcon /></IconButton>
         ]);
 
@@ -62,6 +63,9 @@ const VehicleStatusTable: React.FC = () => {
             case "name":
                 columnName = "name";
                 break;
+                case "deleted":
+                    columnName = "deleted";
+                    break;
             default:
                 break;
         }
@@ -74,7 +78,7 @@ const VehicleStatusTable: React.FC = () => {
             }
         });
 
-        setData(sortedData.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name]));
+        setData(sortedData.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]));
         setIsLoading(false);
     };
 
@@ -100,7 +104,7 @@ const VehicleStatusTable: React.FC = () => {
         search: true,
         filterList: [],
         onFilterReset: () => {
-            const originalData = vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name]);
+            const originalData = vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
             setData(originalData);
         },
         onTableChange: (action: string, tableState: any) => {
@@ -119,9 +123,9 @@ const VehicleStatusTable: React.FC = () => {
                     const filteredData = vehicleStatusState.vehicleStatuses.filter((vehicleStatus: any) => {
                         return (
                             vehicleStatus.id.toString().includes(filterList[0][0] || "") &&
-                            vehicleStatus.name.toString().includes(filterList[1][0] || "")
-                        );
-                    }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name]);
+                            vehicleStatus.name.toString().includes(filterList[1][0] || "") &&
+                            (filterList[2][0] === "" || vehicleStatus.deleted === (filterList[2][0] === "true")));
+                    }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
                     setData(filteredData);
                     break;
                 case 'search':
@@ -129,9 +133,11 @@ const VehicleStatusTable: React.FC = () => {
                     if (searchText) {
                         const searchData = vehicleStatusState.vehicleStatuses.filter((vehicleStatus: any) => {
                             return (
-                                vehicleStatus.name.toLowerCase().includes(searchText.toLowerCase())
+                                vehicleStatus.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                                (vehicleStatus.deleted && "true".includes(searchText.toLowerCase())) ||
+                                (!vehicleStatus.deleted && "false".includes(searchText.toLowerCase()))
                             );
-                        }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name]);
+                        }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
                         setData(searchData);
                     }
                     break;
@@ -180,6 +186,22 @@ const VehicleStatusTable: React.FC = () => {
                                 <div style={{ textAlign: "center" }}>{value}</div>
                             ),
                         },
+                    },
+                    {
+                        name: "deleted",
+                        label: "SİLİNEN",
+                        options: {
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: boolean) => (
+                                
+                                <div style={{ textAlign: "center" }}>
+                                    
+                                    {value === true ? "true" : "false"}
+                                    
+                                </div>)
+                        }
                     },
                     {
                         name: "",

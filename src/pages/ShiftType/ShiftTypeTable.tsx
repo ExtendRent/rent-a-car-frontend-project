@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress, Typography,IconButton  } from "@mui/material";
+import { CircularProgress, Typography, IconButton } from "@mui/material";
 import MUIDataTable, {
   MUIDataTableColumn,
   FilterType,
@@ -21,22 +21,23 @@ const ShiftTypeTable: React.FC = () => {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchShiftTypes());
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-     const tableData = shiftTypeState.shiftTypes.map((shiftType: any) => [
-        shiftType.id,
-        shiftType.name,
+    const tableData = shiftTypeState.shiftTypes.map((shiftType: any) => [
+      shiftType.id,
+      shiftType.name,
+      shiftType.deleted,
       <IconButton onClick={() => handleUpdate(shiftType.id)}><EditIcon /></IconButton>,
       <IconButton onClick={() => handleDelete(shiftType.id)}><DeleteIcon /></IconButton>,
     ]);
-      
-      setData(tableData);
-      setCount(shiftTypeState.length);
-   
+
+    setData(tableData);
+    setCount(shiftTypeState.length);
+
   }, [shiftTypeState]);
   const handleDelete = (id: number) => {
     console.log("Deleted ID:", id);
@@ -48,7 +49,7 @@ const ShiftTypeTable: React.FC = () => {
   };
   const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
-    setPage(page); 
+    setPage(page);
     setIsLoading(false);
   };
   const changeRowsPerPage = (rowsPerPage: number, page: number) => { // Satır sayısını değiştiren fonksiyonu ekledik
@@ -67,10 +68,13 @@ const ShiftTypeTable: React.FC = () => {
       case "name":
         columnName = "name";
         break;
+      case "deleted":
+        columnName = "deleted";
+        break;
       default:
         break;
     }
-  
+
     // Sıralama işlemleri burada yapılacak
     // Örnek bir sıralama işlemi:
     const sortedData = shiftTypeState.shiftTypes.slice().sort((a: any, b: any) => {
@@ -82,9 +86,9 @@ const ShiftTypeTable: React.FC = () => {
         return b[columnName] > a[columnName] ? 1 : -1;
       }
     });
-  
+
     // Sıralanmış verileri güncelle
-    setData(sortedData.map((shiftType: any) => [shiftType.id, shiftType.name]));
+    setData(sortedData.map((shiftType: any) => [shiftType.id, shiftType.name, shiftType.deleted ]));
     // isLoading durumunu false olarak ayarla
     setIsLoading(false);
   };
@@ -110,7 +114,7 @@ const ShiftTypeTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = shiftTypeState.shiftTypes.map((shiftType: any) => [shiftType.id, shiftType.name]);
+      const originalData = shiftTypeState.shiftTypes.map((shiftType: any) => [shiftType.id, shiftType.name, shiftType.deleted]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -128,9 +132,10 @@ const ShiftTypeTable: React.FC = () => {
           const { filterList } = tableState;
           const filteredData = shiftTypeState.shiftTypes.filter((shiftType: any) => {
             return (
-                shiftType.id.toString().includes(filterList[0][0] || "") &&
-                shiftType.name.toString().includes(filterList[1][0] || ""));
-          }).map((shiftType: any) => [shiftType.id, shiftType.name]);
+              shiftType.id.toString().includes(filterList[0][0] || "") &&
+              shiftType.name.toString().includes(filterList[1][0] || "") &&
+              (filterList[2][0] === "" || shiftType.deleted === (filterList[2][0] === "true")));
+          }).map((shiftType: any) => [shiftType.id, shiftType.name, shiftType.deleted]);
           setData(filteredData);
           break;
         case 'search':
@@ -138,9 +143,11 @@ const ShiftTypeTable: React.FC = () => {
           if (searchText) {
             const searchData = shiftTypeState.shiftTypes.filter((shiftType: any) => {
               return (
-                shiftType.name.toLowerCase().includes(searchText.toLowerCase())
+                shiftType.name.toLowerCase().includes(searchText.toLowerCase())||
+                (shiftType.deleted && "true".includes(searchText.toLowerCase())) ||
+                (!shiftType.deleted && "false".includes(searchText.toLowerCase()))
               );
-            }).map((shiftType: any) => [shiftType.id, shiftType.name]);
+            }).map((shiftType: any) => [shiftType.id, shiftType.name, shiftType.deleted]);
             setData(searchData);
           }
           break;
@@ -171,7 +178,7 @@ const ShiftTypeTable: React.FC = () => {
             label: "ID",
             options: {
               customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
               customBodyRender: (value: any) => (
                 <div style={{ textAlign: "center" }}>{value}</div>
@@ -183,13 +190,29 @@ const ShiftTypeTable: React.FC = () => {
             label: "VİTES TİPİ",
             options: {
               customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
               customBodyRender: (value: any) => (
                 <div style={{ textAlign: "center" }}>{value}</div>
               ),
             },
           },
+          {
+            name: "deleted",
+            label: "SİLİNEN",
+            options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                    <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: boolean) => (
+                    
+                    <div style={{ textAlign: "center" }}>
+                        
+                        {value === true ? "true" : "false"}
+                        
+                    </div>)
+            }
+        },
           {
             name: "",
             label: "",
@@ -199,7 +222,7 @@ const ShiftTypeTable: React.FC = () => {
                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
               customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
-                <div style={{ textAlign: "center" ,float: "inline-end"}}>
+                <div style={{ textAlign: "center", float: "inline-end" }}>
                   {value}
                 </div>
               ),
@@ -214,7 +237,7 @@ const ShiftTypeTable: React.FC = () => {
                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
               ),
               customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
-                <div style={{ textAlign: "center" , float: "inline-start"}}>
+                <div style={{ textAlign: "center", float: "inline-start" }}>
                   {value}
                 </div>
               ),
