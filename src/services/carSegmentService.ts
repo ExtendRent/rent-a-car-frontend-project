@@ -3,22 +3,25 @@ import { UpdateCarSegmentModel } from "../models/Requests/CarSegment/UpdateCarSe
 import { GetAllCarSegmentsModel } from "../models/Responses/CarSegment/GetAllCarSegmentsModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class CarSegmentService{
+export default class CarSegmentService {
 
-    getAll() {
-        return axiosInstance.get<GetAllCarSegmentsModel>("car-segments")
-    }
-    
-    add(newCarSegment: AddCarSegmentModel){
-        return axiosInstance.post<AddCarSegmentModel>("car-segments", newCarSegment)
-   }
-
-   update(updatedCarSegment: UpdateCarSegmentModel) {
-    return axiosInstance.put<GetAllCarSegmentsModel>("car-segments",updatedCarSegment);
+  getAll() {
+    return axiosInstance.get<GetAllCarSegmentsModel>("car-segments")
   }
 
-   delete(id: number){
+  getById(id: number) {
+    return axiosInstance.get<GetAllCarSegmentsModel>(`car-segments/${id}`)
+  }
+
+  add(newCarSegment: AddCarSegmentModel) {
+    return axiosInstance.post<AddCarSegmentModel>("car-segments", newCarSegment)
+  }
+
+  update(updatedCarSegment: UpdateCarSegmentModel) {
+    return axiosInstance.put<GetAllCarSegmentsModel>("car-segments", updatedCarSegment);
+  }
+
+  delete(id: number) {
     return axiosInstance.delete<GetAllCarSegmentsModel>(`car-segments?id=${id}&isHardDelete=true`)
-    
-  }      
+  }
 }
