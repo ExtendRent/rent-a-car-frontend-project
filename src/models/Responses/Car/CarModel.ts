@@ -25,5 +25,5 @@ export interface CarModel {
     expectedMinDrivingLicenseTypeId: number;
     vehicleStatusEntityName: string;
     expectedMinDrivingLicenseTypeName:string;
-
+    carSegmentEntityId:number;
 }

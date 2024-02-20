@@ -14,7 +14,7 @@ export default class ImageService{
       
         return axiosInstance.post<{}>(`images/car?licensePlate=${licensePlate}`,image ,{
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "applications/json",
           },
         }
     )}

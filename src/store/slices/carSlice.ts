@@ -98,7 +98,9 @@ export const getByCarId = createAsyncThunk(
 async ({ carId }: { carId: number; }, thunkAPI) => {
     try {
     const getByCarIded = await carService.getByCarId(carId);
+    
     return getByCarIded.data;
+    
 
     } catch (error) {
     console.error("Error fetching getByCarIded:", error);
