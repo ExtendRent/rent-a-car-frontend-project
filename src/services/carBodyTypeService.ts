@@ -3,7 +3,7 @@ import { UpdateCarBodyTypeModel } from "../models/Requests/CarBodyType/UpdateCar
 import { GetAllCarBodyTypeModel } from "../models/Responses/CarBodyType/GetAllCarBodyTypeModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class CarBodyTypeService{
+class CarBodyTypeService{
 
     getAll() {
         return axiosInstance.get<GetAllCarBodyTypeModel>("carBodyTypes")
@@ -26,3 +26,4 @@ export default class CarBodyTypeService{
     }
     
 }
+export default new CarBodyTypeService();

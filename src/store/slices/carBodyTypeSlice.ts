@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddCarBodyTypeModel } from "../../models/Requests/CarBodyType/AddCarBodyTypeModel";
 import CarBodyTypeService from "../../services/carBodyTypeService";
 import { UpdateCarBodyTypeModel } from "../../models/Requests/CarBodyType/UpdateCarBodyTypeModel";
+import carBodyTypeService from "../../services/carBodyTypeService";
 
 
 export const fetchCarBodyTypes = createAsyncThunk(
   "carBodyTypes/fetchCarBodyTypes",
   async (_, thunkAPI) => {
     try {
-      const service: CarBodyTypeService = new CarBodyTypeService();
-      const allCarBodyTypes = await service.getAll();
+      const allCarBodyTypes = await carBodyTypeService.getAll();
       return allCarBodyTypes.data.response;
 
     } catch (error) {
@@ -23,8 +23,7 @@ export const addCarBodyType = createAsyncThunk(
   "carBodyTypes/addCarBodyTypes",
   async (newCarBodyTypeData: AddCarBodyTypeModel, thunkAPI) => {
     try {
-      const service: CarBodyTypeService = new CarBodyTypeService();
-      const addedCarBodyType = await service.add(newCarBodyTypeData);
+      const addedCarBodyType = await carBodyTypeService.add(newCarBodyTypeData);
       // Burada eklenen car bodey typeı geri dönebilirsiniz
       console.log(addedCarBodyType);
 
@@ -41,8 +40,7 @@ export const updateCarBodyType = createAsyncThunk(
   async (updatedCarBodyTypeData: UpdateCarBodyTypeModel, thunkAPI) => {
     try {
 
-      const service: CarBodyTypeService = new CarBodyTypeService();
-      const updatedCarBodyType = await service.update(updatedCarBodyTypeData);
+      const updatedCarBodyType = await carBodyTypeService.update(updatedCarBodyTypeData);
       if (updatedCarBodyType.data) {
         return updatedCarBodyType.data.response;
       }
@@ -61,8 +59,7 @@ export const deleteCarBodyType = createAsyncThunk(
   "carBodyTypes/deleteCarBodyType",
   async ({ carBodyTypeId }: { carBodyTypeId: number; }, thunkAPI) => {
     try {
-      const service: CarBodyTypeService = new CarBodyTypeService();
-      await service.delete(carBodyTypeId);
+      await carBodyTypeService.delete(carBodyTypeId);
       return {
         deletedCarBodyTypeId: carBodyTypeId
       };

@@ -3,7 +3,7 @@ import { AddBrandModel } from "../models/Requests/Brand/AddBrandModel";
 import { GetAllBrandsModel } from "../models/Responses/Brand/GetAllBrandsModel";
 import { UpdateBrandModel } from "../models/Requests/Brand/UpdateBrandModel";
 
-export default class BrandService {
+class BrandService {
   getAll() {
     return axiosInstance.get<GetAllBrandsModel>("brands")
   }
@@ -24,3 +24,4 @@ export default class BrandService {
     return axiosInstance.delete<GetAllBrandsModel>(`brands/{id}?id=${id}&isHardDelete=true`)
   }
 }
+export default new BrandService();
