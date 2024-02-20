@@ -19,6 +19,20 @@ export const fetchColors = createAsyncThunk(
   }
 );
 
+export const getByIdColor = createAsyncThunk(
+  "colors/getByIdColors",
+  async ({ id }: { id: number; }, thunkAPI) => {
+    try {
+      const getByIded = await colorService.getById(id);
+      return getByIded.data.response;
+
+    } catch (error) {
+      console.error("Error adding getByIded:", error);
+      throw error;
+    }
+  }
+);
+
 export const addColor = createAsyncThunk(
   "colors/addColor",
   async (newColorData: AddColorModel, thunkAPI) => {
@@ -84,6 +98,16 @@ const colorSlice = createSlice({
       state.colors = action.payload;
     });
     builder.addCase(fetchColors.rejected, (state) => { });
+    /*-----------------*/
+
+    builder.addCase(getByIdColor.pending, (state) => { });
+    builder.addCase(getByIdColor.fulfilled, (state, action) => {
+      state.colors = action.payload;
+    });
+    builder.addCase(getByIdColor.rejected, (state) => {
+    });
+
+    /*-----------------*/
 
 
     builder.addCase(addColor.pending, (state) => { });
@@ -92,14 +116,12 @@ const colorSlice = createSlice({
     });
     builder.addCase(addColor.rejected, (state) => { });
 
-    builder.addCase(updateColor.pending, (state) => {});
+    builder.addCase(updateColor.pending, (state) => { });
     builder.addCase(updateColor.fulfilled, (state, action) => {
       state.colors = [];
     });
-    builder.addCase(updateColor.rejected, (state) => {
-      
-    });
-
+    builder.addCase(updateColor.rejected, (state) => { });
+    /*-----------------*/
 
     builder.addCase(deleteColor.pending, (state) => { });
     builder.addCase(deleteColor.fulfilled, (state, action) => {

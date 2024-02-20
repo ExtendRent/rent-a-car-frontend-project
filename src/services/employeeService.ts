@@ -3,7 +3,7 @@ import { UpdateEmployeeModel } from "../models/Requests/Employee/UpdateEmployeeM
 import { GetAllEmployeesModel } from "../models/Responses/Employee/GetAllEmployeesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class EmployeeService {
+class EmployeeService {
 
   getAll() {
     return axiosInstance.get<GetAllEmployeesModel>("employees")
@@ -25,3 +25,4 @@ export default class EmployeeService {
     return axiosInstance.get<GetAllEmployeesModel>(`employees/${id}`)
  }  
 }
+export default new EmployeeService();

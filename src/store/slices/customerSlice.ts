@@ -2,14 +2,14 @@ import { AddCustomerModel } from '../../models/Requests/Customer/AddCustomerMode
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import CustomerService from "../../services/customerService";
 import { UpdateCustomerModel } from '../../models/Requests/Customer/UpdateCustomerModel';
+import customerService from '../../services/customerService';
 
 
 export const fetchCustomers = createAsyncThunk(
   "customers/fetchCustomer",
   async (_, thunkAPI) => {
     try {
-      const service: CustomerService = new CustomerService();
-      const allCustomers = await service.getAll();
+      const allCustomers = await customerService.getAll();
       return allCustomers.data.response;
     } catch (error) {
       console.error("Error fetching customers:", error);
@@ -18,13 +18,41 @@ export const fetchCustomers = createAsyncThunk(
   }
 );
 
+export const getByIdCustomer = createAsyncThunk(
+  "customers/getByIdCustomers",
+  async ({ id }: { id: number; }, thunkAPI) => {
+    try {
+      const getByIded = await customerService.getById(id);
+      return getByIded.data.response;
+
+    } catch (error) {
+      console.error("Error adding getByIded:", error);
+      throw error;
+    }
+  }
+);
+
+export const getRentalsByCustomer = createAsyncThunk(
+  "customers/getRentalsByCustomers",
+  async ({ customerId }: { customerId: number; }, thunkAPI) => {
+    try {
+      const getById = await customerService.getRentalsByCustomerId(customerId);
+      return getById.data.response;
+
+    } catch (error) {
+      console.error("Error adding getByBrandIded:", error);
+      throw error;
+    }
+  }
+);
+
+
 export const addCustomer = createAsyncThunk(
   "customers/addCustomer",
   async (addCustomerData: AddCustomerModel
     , thunkAPI) => {
     try {
-      const service: CustomerService = new CustomerService();
-      const addedCustomer = await service.add(addCustomerData);
+      const addedCustomer = await customerService.add(addCustomerData);
       return addedCustomer.data;
     } catch (error) {
       console.error("Error adding customer:", error);
@@ -38,8 +66,7 @@ export const updateCustomer = createAsyncThunk(
   "customers/updateCustomer",
   async (updatedCustomerData: UpdateCustomerModel, thunkAPI) => {
     try {
-      const service: CustomerService = new CustomerService();
-      const updatedCustomer = await service.update(updatedCustomerData);
+      const updatedCustomer = await customerService.update(updatedCustomerData);
       if (updatedCustomer.data) {
         return updatedCustomer.data.response
       }
@@ -58,8 +85,7 @@ export const deleteCustomer = createAsyncThunk(
   "customers/deleteCustomer",
   async ({ customerId }: { customerId: number; }, thunkAPI) => {
     try {
-      const service: CustomerService = new CustomerService();
-      await service.delete(customerId);
+      await customerService.delete(customerId);
       return {
         deletedCustomerId: customerId
       };
@@ -76,7 +102,7 @@ const customerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
 
-    /*-----------------------------------------------------------------*/
+    /*---------------*/
 
     builder.addCase(addCustomer.pending, (state) => { });
     builder.addCase(addCustomer.fulfilled, (state, action) => {
@@ -85,7 +111,16 @@ const customerSlice = createSlice({
     builder.addCase(addCustomer.rejected, (state) => { });
 
 
-    /*-----------------------------------------------------------------*/
+    /*---------------*/
+
+    builder.addCase(getByIdCustomer.pending, (state) => { });
+    builder.addCase(getByIdCustomer.fulfilled, (state, action) => {
+      state.customers = action.payload;
+    });
+    builder.addCase(getByIdCustomer.rejected, (state) => {
+    });
+
+    /*---------------*/
 
     builder.addCase(fetchCustomers.pending, (state) => { });
     builder.addCase(fetchCustomers.fulfilled, (state, action) => {
@@ -93,7 +128,16 @@ const customerSlice = createSlice({
     });
     builder.addCase(fetchCustomers.rejected, (state) => { });
 
-    /*-----------------------------------------------------------------*/
+    /*-----------------*/
+
+    builder.addCase(getRentalsByCustomer.pending, (state) => { });
+    builder.addCase(getRentalsByCustomer.fulfilled, (state, action) => {
+        state.customers = action.payload;
+    });
+    builder.addCase(getRentalsByCustomer.rejected, (state) => {
+    });
+
+ /*-----------------*/
 
     builder.addCase(updateCustomer.pending, (state) => { });
     builder.addCase(updateCustomer.fulfilled, (state, action) => {
@@ -101,7 +145,7 @@ const customerSlice = createSlice({
     });
     builder.addCase(updateCustomer.rejected, (state) => { });
 
-    /*-----------------------------------------------------------------*/
+    /*---------------*/
 
     builder.addCase(deleteCustomer.pending, (state) => { });
     builder.addCase(deleteCustomer.fulfilled, (state, action) => {

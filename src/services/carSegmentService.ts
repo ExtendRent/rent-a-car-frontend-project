@@ -3,7 +3,7 @@ import { UpdateCarSegmentModel } from "../models/Requests/CarSegment/UpdateCarSe
 import { GetAllCarSegmentsModel } from "../models/Responses/CarSegment/GetAllCarSegmentsModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class CarSegmentService {
+class CarSegmentService {
 
   getAll() {
     return axiosInstance.get<GetAllCarSegmentsModel>("car-segments")
@@ -25,3 +25,5 @@ export default class CarSegmentService {
     return axiosInstance.delete<GetAllCarSegmentsModel>(`car-segments?id=${id}&isHardDelete=true`)
   }
 }
+
+export default new CarSegmentService();

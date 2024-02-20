@@ -3,7 +3,7 @@ import { UpdateAdminModel } from "../models/Requests/Admin/UpdateAdminModel";
 import { GetAllAdminModel } from "../models/Responses/Admin/GetAllAdminModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class AdminService{
+class AdminService{
 
     getAll(){
         return axiosInstance.get<GetAllAdminModel>("admins")
@@ -25,3 +25,4 @@ export default class AdminService{
         return axiosInstance.delete<GetAllAdminModel>(`admins?id=${id}&isHardDelete=true`)
     }
 }
+export default new AdminService();

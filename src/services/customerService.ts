@@ -3,7 +3,7 @@ import { UpdateCustomerModel } from "../models/Requests/Customer/UpdateCustomerM
 import { GetAllCustomerModel } from "../models/Responses/Customer/GetAllCustomerModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class CustomerService {
+class CustomerService {
 
     getAll() {
         return axiosInstance.get<GetAllCustomerModel>("customers")
@@ -29,3 +29,5 @@ export default class CustomerService {
         return axiosInstance.get<GetAllCustomerModel>(`customers/rentals/${customerId}`)
     }
 }
+
+export default new CustomerService();

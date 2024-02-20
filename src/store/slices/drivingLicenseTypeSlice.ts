@@ -2,27 +2,41 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddDrivingLicenseTypeModel } from "../../models/Requests/DrivingLicenseType/AddDrivingLicenseTypeModel";
 import DrivingLicenseTypeModelService from "../../services/drivingLicenseTypeService";
 import { UpdateDrivingLicenseTypeModel } from "../../models/Requests/DrivingLicenseType/UpdateDrivingLicenseTypeModel";
+import drivingLicenseTypeService from "../../services/drivingLicenseTypeService";
 
 export const fetchDrivingLicenseTypes = createAsyncThunk(
     "drivingLicenseTypes/fetchDrivingLicenseTypes",
     async (_, thunkAPI) => {
-      try {
-        const service: DrivingLicenseTypeModelService = new DrivingLicenseTypeModelService();
-        const allDrivingLicenseTypes = await service.getAll();
-        return allDrivingLicenseTypes.data.response;
-  
-      } catch (error) {
-        console.error("Error fetching allDrivingLicenseTypes:", error);
-        throw error;
-      }
+        try {
+            const allDrivingLicenseTypes = await drivingLicenseTypeService.getAll();
+            return allDrivingLicenseTypes.data.response;
+
+        } catch (error) {
+            console.error("Error fetching allDrivingLicenseTypes:", error);
+            throw error;
+        }
     }
-  );
+);
+
+export const getByIdDrivingLicenseType = createAsyncThunk(
+    "drivingLicenseTypes/getByIdDrivingLicenseTypes",
+    async ({ id }: { id: number; }, thunkAPI) => {
+        try {
+            const getByIded = await drivingLicenseTypeService.getById(id);
+            return getByIded.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByIded:", error);
+            throw error;
+        }
+    }
+);
+
 export const addDrivingLicenseType = createAsyncThunk(
     "drivingLicenseTypes/addDrivingLicenseType",
     async (newDrivingLicenseTypeData: AddDrivingLicenseTypeModel, thunkAPI) => {
         try {
-            const service: DrivingLicenseTypeModelService = new DrivingLicenseTypeModelService();
-            const addedDrivingLicenseType = await service.add(newDrivingLicenseTypeData);
+            const addedDrivingLicenseType = await drivingLicenseTypeService.add(newDrivingLicenseTypeData);
 
             return addedDrivingLicenseType.data;
 
@@ -37,9 +51,7 @@ export const updateDrivingLicenseType = createAsyncThunk(
     "drivingLicenseTypes/updateDrivingLicenseType",
     async (updatedDrivingLicenseTypeData: UpdateDrivingLicenseTypeModel, thunkAPI) => {
         try {
-
-            const service: DrivingLicenseTypeModelService = new DrivingLicenseTypeModelService();
-            const updatedDrivingLicenseType = await service.update(updatedDrivingLicenseTypeData);
+            const updatedDrivingLicenseType = await drivingLicenseTypeService.update(updatedDrivingLicenseTypeData);
             if (updatedDrivingLicenseType.data) {
                 return updatedDrivingLicenseType.data.response;
             }
@@ -58,8 +70,7 @@ export const deleteDrivingLicenseType = createAsyncThunk(
     "drivingLicenseTypes/deleteDrivingLicenseType",
     async ({ drivingLicenseTypeId }: { drivingLicenseTypeId: number; }, thunkAPI) => {
         try {
-            const service: DrivingLicenseTypeModelService = new DrivingLicenseTypeModelService();
-            await service.delete(drivingLicenseTypeId);
+            await drivingLicenseTypeService.delete(drivingLicenseTypeId);
             return {
                 deletedDrivingLicenseTypeId: drivingLicenseTypeId
             };
@@ -78,10 +89,20 @@ const drivingLicenseTypeSlice = createSlice({
     extraReducers: (builder) => {
 
         builder.addCase(fetchDrivingLicenseTypes.pending, (state) => { });
-    builder.addCase(fetchDrivingLicenseTypes.fulfilled, (state, action) => {
-      state.drivingLicenseTypes = action.payload;
-    });
-    builder.addCase(fetchDrivingLicenseTypes.rejected, (state) => { });
+        builder.addCase(fetchDrivingLicenseTypes.fulfilled, (state, action) => {
+            state.drivingLicenseTypes = action.payload;
+        });
+        builder.addCase(fetchDrivingLicenseTypes.rejected, (state) => { });
+
+        /*-----------------*/
+
+        builder.addCase(getByIdDrivingLicenseType.pending, (state) => { });
+        builder.addCase(getByIdDrivingLicenseType.fulfilled, (state, action) => {
+            state.drivingLicenseTypes = action.payload;
+        });
+        builder.addCase(getByIdDrivingLicenseType.rejected, (state) => {
+        });
+        /*-----------------*/
 
         builder.addCase(addDrivingLicenseType.pending, (state) => { });
         builder.addCase(addDrivingLicenseType.fulfilled, (state, action) => {
@@ -89,11 +110,15 @@ const drivingLicenseTypeSlice = createSlice({
         });
         builder.addCase(addDrivingLicenseType.rejected, (state) => { });
 
+        /*-----------------*/
+
         builder.addCase(updateDrivingLicenseType.pending, (state) => { });
         builder.addCase(updateDrivingLicenseType.fulfilled, (state, action) => {
             state.drivingLicenseTypes = [];
         });
         builder.addCase(updateDrivingLicenseType.rejected, (state) => { });
+
+        /*-----------------*/
 
         builder.addCase(deleteDrivingLicenseType.pending, (state) => { });
         builder.addCase(deleteDrivingLicenseType.fulfilled, (state, action) => {

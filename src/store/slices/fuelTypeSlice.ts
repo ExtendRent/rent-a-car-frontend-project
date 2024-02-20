@@ -2,14 +2,14 @@ import { UpdateFuelTypeModel } from '../../models/Requests/FuelType/UpdateFuelTy
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AddFuelTypeModel } from '../../models/Requests/FuelType/AddFuelTypeModel';
 import FuelTypeService from '../../services/fuelTypeService';
+import fuelTypeService from '../../services/fuelTypeService';
 
 
 export const fetchFuelType = createAsyncThunk(
     "fuelTypes/fetchFuelTypes",
     async(_,thunkAPI) => {
         try{
-            const service : FuelTypeService = new FuelTypeService();
-            const allFuelTypes = await service.getAll();
+            const allFuelTypes = await fuelTypeService.getAll();
             return allFuelTypes.data.response;
         }
         catch(error){
@@ -17,14 +17,27 @@ export const fetchFuelType = createAsyncThunk(
             throw error;
         }
     }
-)
+);
+
+export const getByIdFuelType = createAsyncThunk(
+    "fuelTypes/getByIdFuelTypes",
+    async ({ id }: { id: number; }, thunkAPI) => {
+        try {
+            const getByIded = await fuelTypeService.getById(id);
+            return getByIded.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByIded:", error);
+            throw error;
+        }
+    }
+);
 
 export const addFuelType = createAsyncThunk(
     "fuelTypes/addFuelTypes",
     async(newFuelTypeData: AddFuelTypeModel, thunkAPI) => {
         try{
-            const service: FuelTypeService = new FuelTypeService();
-            const addedFuelType = await service.add(newFuelTypeData);
+            const addedFuelType = await fuelTypeService.add(newFuelTypeData);
             console.log(addedFuelType);
             return addedFuelType.data;
         }
@@ -39,8 +52,7 @@ export const updateFuelType = createAsyncThunk(
     "fuelTypes/updateFuelTypes",
     async(updatedFuelTypeData : UpdateFuelTypeModel, thunkAPI) => {
         try{
-            const service: FuelTypeService = new FuelTypeService();
-            const updateFuelType = await service.update(updatedFuelTypeData);
+            const updateFuelType = await fuelTypeService.update(updatedFuelTypeData);
             return updateFuelType.data.response;
         }catch(error){
             console.error("Error updating fuel type:", error);
@@ -53,8 +65,7 @@ export const deleteFuelType = createAsyncThunk(
     "fuelTypes/deleteFuelTypes",
     async({ fuelTypeId } : { fuelTypeId: number;}, thunkAPI) => {
         try{
-            const service : FuelTypeService = new FuelTypeService();
-            await service.delete(fuelTypeId);
+            await fuelTypeService.delete(fuelTypeId);
             return{
                 deletedFuelTypeId: fuelTypeId
             } 
@@ -71,7 +82,7 @@ const fuelTypeSlice = createSlice({
     reducers:{},
     extraReducers: (builder) => {
 
-        /*-----------------------------------------------------------------*/
+        /*------------------*/
 
         builder.addCase(addFuelType.pending, (state) => {});
         builder.addCase(addFuelType.fulfilled, (state, action) => {
@@ -79,7 +90,7 @@ const fuelTypeSlice = createSlice({
         });
         builder.addCase(addFuelType.rejected, (state) => {});
 
-        /*-----------------------------------------------------------------*/
+        /*------------------*/
 
         builder.addCase(fetchFuelType.pending, (state) => {});
         builder.addCase(fetchFuelType.fulfilled, (state, action) => {
@@ -87,7 +98,17 @@ const fuelTypeSlice = createSlice({
         })
         builder.addCase(fetchFuelType.rejected, (state) => {})
 
-        /*-----------------------------------------------------------------*/
+        /*-------------------*/
+        builder.addCase(getByIdFuelType.pending, (state) => { });
+        builder.addCase(getByIdFuelType.fulfilled, (state, action) => {
+            state.fuelTypes = action.payload;
+        });
+        builder.addCase(getByIdFuelType.rejected, (state) => {
+        });
+
+
+
+         /*------------------*/
 
         builder.addCase(updateFuelType.pending, (state) => {});
         builder.addCase(updateFuelType.fulfilled, (state, action) => {
@@ -95,7 +116,7 @@ const fuelTypeSlice = createSlice({
         })
         builder.addCase(updateFuelType.rejected, (state) => {});
 
-        /*-----------------------------------------------------------------*/
+        /*----------------------*/
 
         builder.addCase(deleteFuelType.pending, (state) => {});
         builder.addCase(deleteFuelType.fulfilled, (state, action) => {

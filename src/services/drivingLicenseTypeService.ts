@@ -4,7 +4,7 @@ import { GetAllDrivingLicenseTypesModel } from '../models/Responses/DrivingLicen
 import axiosInstance from '../utils/axiosInterceptors';
 
 
-export default class DrivingLicenseTypeModelService {
+class DrivingLicenseTypeModelService {
   getAll() {
     return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")
   }
@@ -27,3 +27,4 @@ export default class DrivingLicenseTypeModelService {
   }
 
 }
+export default new DrivingLicenseTypeModelService(); 

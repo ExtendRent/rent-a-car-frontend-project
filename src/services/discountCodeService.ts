@@ -3,7 +3,7 @@ import { UpdateDiscountCodeModel } from "../models/Requests/DiscountCode/UpdateD
 import { GetAllDiscountCodesModel } from "../models/Responses/DiscountCode/GetAllDiscountCodesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class DiscountCodeService {
+class DiscountCodeService {
 
   getAll() {
     return axiosInstance.get<GetAllDiscountCodesModel>("discounts")
@@ -25,3 +25,4 @@ export default class DiscountCodeService {
     return axiosInstance.delete<GetAllDiscountCodesModel>(`discounts?id=${id}&isHardDelete=true`)
   }
 }
+export default new DiscountCodeService();

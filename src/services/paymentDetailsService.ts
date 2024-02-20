@@ -2,7 +2,8 @@ import { UpdatePaymentDetailsModel } from "../models/Requests/PaymentDetails/Upd
 import { GetAllPaymentDetailsModel } from "../models/Responses/PaymentDetails/GetAllPaymentDetailsModel"
 import axiosInstance from "../utils/axiosInterceptors"
 
-export default class PaymentDetailsService {
+class PaymentDetailsService {
+
     getAll() {
         return axiosInstance.get<GetAllPaymentDetailsModel>("paymentDetails")
     }
@@ -33,3 +34,4 @@ export default class PaymentDetailsService {
     
 
 }
+export default new PaymentDetailsService

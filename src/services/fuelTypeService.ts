@@ -3,7 +3,7 @@ import { UpdateFuelTypeModel } from "../models/Requests/FuelType/UpdateFuelTypeM
 import { GetAllFuelTypesModel } from "../models/Responses/FuelType/GetAllFuelTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class FuelTypeService{
+class FuelTypeService{
 
     getAll(){
         return axiosInstance.get<GetAllFuelTypesModel>("fuels")
@@ -25,3 +25,4 @@ export default class FuelTypeService{
         return axiosInstance.get<GetAllFuelTypesModel>(`fuels/${id}`)
      }  
 }
+export default new FuelTypeService();

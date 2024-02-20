@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddEmployeeModel } from "../../models/Requests/Employee/AddEmployeeModel";
 import EmployeeService from "../../services/employeeService";
 import { UpdateEmployeeModel } from "../../models/Requests/Employee/UpdateEmployeeModel";
+import employeeService from "../../services/employeeService";
 
 
 export const fetchEmployees = createAsyncThunk(
     "employees/fetchEmployees",
     async (_, thunkAPI) => {
         try {
-            const service: EmployeeService = new EmployeeService();
-            const allEmployees = await service.getAll();
+            const allEmployees = await employeeService.getAll();
             return allEmployees.data.response;
 
         } catch (error) {
@@ -19,13 +19,25 @@ export const fetchEmployees = createAsyncThunk(
     }
 );
 
+export const getByIdEmployee = createAsyncThunk(
+    "employees/getByIdEmployees",
+    async ({ id }: { id: number; }, thunkAPI) => {
+        try {
+            const getByIded = await employeeService.getById(id);
+            return getByIded.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByIded:", error);
+            throw error;
+        }
+    }
+);
 
 export const addEmployee = createAsyncThunk(
     "employees/addEmployee",
     async (newEmployeeData: AddEmployeeModel, thunkAPI) => {
         try {
-            const service: EmployeeService = new EmployeeService();
-            const addedEmployee = await service.add(newEmployeeData);
+            const addedEmployee = await employeeService.add(newEmployeeData);
 
             return addedEmployee.data;
 
@@ -40,9 +52,7 @@ export const updateEmployee = createAsyncThunk(
     "employees/updateEmployee",
     async (updatedEmployeeData: UpdateEmployeeModel, thunkAPI) => {
         try {
-
-            const service: EmployeeService = new EmployeeService();
-            const updatedEmployee = await service.update(updatedEmployeeData);
+            const updatedEmployee = await employeeService.update(updatedEmployeeData);
             if (updatedEmployee.data) {
                 return updatedEmployee.data.response;
             }
@@ -61,8 +71,7 @@ export const deleteEmployee = createAsyncThunk(
     "employees/deleteEmployee",
     async ({ employeeId }: { employeeId: number; }, thunkAPI) => {
         try {
-            const service: EmployeeService = new EmployeeService();
-            await service.delete(employeeId);
+            await employeeService.delete(employeeId);
             return {
                 deletedEmployeeId: employeeId
             };
@@ -72,8 +81,6 @@ export const deleteEmployee = createAsyncThunk(
         }
     }
 );
-
-
 
 const employeeSlice = createSlice({
     name: "employee",
@@ -87,6 +94,16 @@ const employeeSlice = createSlice({
         });
         builder.addCase(fetchEmployees.rejected, (state) => { });
 
+        /*-----------------*/
+
+        builder.addCase(getByIdEmployee.pending, (state) => { });
+        builder.addCase(getByIdEmployee.fulfilled, (state, action) => {
+            state.employees = action.payload;
+        });
+        builder.addCase(getByIdEmployee.rejected, (state) => {
+        });
+
+        /*-----------------*/
 
         builder.addCase(addEmployee.pending, (state) => { });
         builder.addCase(addEmployee.fulfilled, (state, action) => {
@@ -94,11 +111,15 @@ const employeeSlice = createSlice({
         });
         builder.addCase(addEmployee.rejected, (state) => { });
 
+        /*-----------------*/
+
         builder.addCase(updateEmployee.pending, (state) => { });
         builder.addCase(updateEmployee.fulfilled, (state, action) => {
             state.employees = [];
         });
         builder.addCase(updateEmployee.rejected, (state) => { });
+
+        /*-----------------*/
 
         builder.addCase(deleteEmployee.pending, (state) => { });
         builder.addCase(deleteEmployee.fulfilled, (state, action) => {

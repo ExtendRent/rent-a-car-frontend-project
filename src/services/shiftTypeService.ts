@@ -3,7 +3,8 @@ import { UpdateShiftTypeModel } from "../models/Requests/ShiftType/UpdateShiftTy
 import { GetAllShiftTypesModel } from "../models/Responses/ShiftTypes/GetAllShiftTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class ShiftTypeService {
+
+class ShiftTypeService {
 
     getAll() {
         return axiosInstance.get<GetAllShiftTypesModel>("gearshifts")
@@ -26,3 +27,4 @@ export default class ShiftTypeService {
     return axiosInstance.get<GetAllShiftTypesModel>(`gearshifts/${id}`)
  }  
 }
+export default new ShiftTypeService();

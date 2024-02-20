@@ -3,7 +3,7 @@ import { UpdateVehicleStatusModel } from "../models/Requests/VehicleStatus/Updat
 import { GetAllVehicleStatusesModel } from "../models/Responses/VehicleStatus/GetAllVehicleStatusesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class VehicleStatusService{
+class VehicleStatusService{
 
     getAll(){
         return axiosInstance.get<GetAllVehicleStatusesModel>("vehicle-statuses");
@@ -19,3 +19,4 @@ export default class VehicleStatusService{
 
 
 }
+export default new VehicleStatusService

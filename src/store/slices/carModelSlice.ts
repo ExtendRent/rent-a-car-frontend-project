@@ -60,6 +60,20 @@ export const fetchCarModels = createAsyncThunk(
     }
   );
 
+  export const getByIdCarModels = createAsyncThunk(
+    "carModels/getByIdCarModels",
+    async ({ id }: { id: number; }, thunkAPI) => {
+        try {
+            const getByIded = await carModelService.getById(id);
+            return getByIded.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByIded:", error);
+            throw error;
+        }
+    }
+);
+
   export const deleteCarModel = createAsyncThunk(
       "carModels/deleteCarModel",
       async ({ id }: { id: number; }, thunkAPI) => {
@@ -88,6 +102,13 @@ export const fetchCarModels = createAsyncThunk(
       });
       builder.addCase(addCarModel.rejected, (state) => {
         
+      });
+
+      builder.addCase(getByIdCarModels.pending, (state) => { });
+      builder.addCase(getByIdCarModels.fulfilled, (state, action) => {
+          state.carModel = action.payload;
+      });
+      builder.addCase(getByIdCarModels.rejected, (state) => {
       });
 
       builder.addCase(updateCarModel.pending, (state) => {});

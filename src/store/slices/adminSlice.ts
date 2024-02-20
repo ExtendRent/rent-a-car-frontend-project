@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddAdminModel } from "../../models/Requests/Admin/AddAdminModel";
 import AdminService from "../../services/adminService";
 import { UpdateAdminModel } from "../../models/Requests/Admin/UpdateAdminModel";
+import adminService from "../../services/adminService";
 
 export const fetchAdmins = createAsyncThunk(
     "admins/fetchAdmin",
     async (_, thunkAPI) => {
       try {
-        const service: AdminService = new AdminService();
-        const allAdmins = await service.getAll();
+        const allAdmins = await adminService.getAll();
         return allAdmins.data.response;
       } catch (error) {
         console.error("Error fetching admins:", error);
@@ -17,12 +17,25 @@ export const fetchAdmins = createAsyncThunk(
     }
   );
 
+  export const getByIdAdmin = createAsyncThunk(
+    "admins/getByIdAdmins",
+    async ({ id }: { id: number; }, thunkAPI) => {
+        try {
+            const getByIded = await adminService.getById(id);
+            return getByIded.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByIded:", error);
+            throw error;
+        }
+    }
+);
+
 export const addAdmin = createAsyncThunk(
     "admins/addAdmin",
     async (newAdminData: AddAdminModel, thunkAPI) => {
         try{
-            const service: AdminService = new AdminService();
-            const addedAdmin = await service.add(newAdminData);
+            const addedAdmin = await adminService.add(newAdminData);
             console.log(addedAdmin);
             console.log(newAdminData);
             
@@ -38,8 +51,7 @@ export const updateAdmin = createAsyncThunk(
     "admins/updateAdmin",
     async(updatedAdminData: UpdateAdminModel, thunkAPI) => {
         try{
-            const service: AdminService = new AdminService();
-            const updatedAdmin =  await service.update(updatedAdminData);
+            const updatedAdmin =  await adminService.update(updatedAdminData);
             if(updatedAdmin.data){
                 return updatedAdmin.data.response
             }
@@ -58,8 +70,7 @@ export const deleteAdmin = createAsyncThunk(
     "admins/deleteAdmin",
     async ({ adminId }: { adminId: number; }, thunkAPI) => {
       try {
-        const service: AdminService = new AdminService();
-        await service.delete(adminId);
+        await adminService.delete(adminId);
         return {
           deletedAdminId: adminId
         };
@@ -91,6 +102,13 @@ const adminSlice = createSlice({
             state.admins = action.payload;
         });
         builder.addCase(fetchAdmins.rejected, (state) => {});
+
+        builder.addCase(getByIdAdmin.pending, (state) => { });
+        builder.addCase(getByIdAdmin.fulfilled, (state, action) => {
+            state.admins = action.payload;
+        });
+        builder.addCase(getByIdAdmin.rejected, (state) => {
+        });
 
         /*-----------------------------------------------------------------*/
 

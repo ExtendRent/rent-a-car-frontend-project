@@ -24,6 +24,21 @@ export const fetchBrands = createAsyncThunk(
   }
 );
 
+export const getByIdBrand = createAsyncThunk(
+  "brands/getByIdBrands",
+  async ({ id }: { id: number; }, thunkAPI) => {
+      try {
+          const getByIded = await brandService.getById(id);
+          return getByIded.data.response;
+
+      } catch (error) {
+          console.error("Error adding getByIded:", error);
+          throw error;
+      }
+  }
+);
+
+
 export const addBrand = createAsyncThunk(
   "brands/addBrand",
   async (newBrandData: AddBrandModel, thunkAPI) => {
@@ -87,6 +102,15 @@ const brandSlice = createSlice({
 
 
     /*-------------  */
+
+    builder.addCase(getByIdBrand.pending, (state) => { });
+    builder.addCase(getByIdBrand.fulfilled, (state, action) => {
+        state.brands = action.payload;
+    });
+    builder.addCase(getByIdBrand.rejected, (state) => {
+    });
+
+ /*-------------  */
 
     builder.addCase(addBrand.pending, (state) => {});
     builder.addCase(addBrand.fulfilled, (state, action) => {

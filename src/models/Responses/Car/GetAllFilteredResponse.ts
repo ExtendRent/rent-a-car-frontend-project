@@ -6,4 +6,15 @@ export interface GetAllFilteredResponse {
 	shiftTypeId?:number;
 	startDate?:Date | string;
 	endDate?:Date | string;
+	statusId?: number;
+	segmentId?: number;
+	licenseSuitable?: boolean;
+	startPrice?: number;
+	endPrice?: number;
+	startYear?: number;
+	endYear?: number;
+	deleted?: boolean ;
+
+
+
 }
