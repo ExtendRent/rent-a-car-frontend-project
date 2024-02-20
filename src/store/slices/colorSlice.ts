@@ -2,14 +2,14 @@ import { UpdateColorModel } from '../../models/Requests/Color/UpdateColorModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddColorModel } from "../../models/Requests/Color/AddColorModel";
 import ColorService from "../../services/colorService";
+import colorService from '../../services/colorService';
 
 
 export const fetchColors = createAsyncThunk(
   "colors/fetchColors",
   async (_, thunkAPI) => {
     try {
-      const service: ColorService = new ColorService();
-      const allColors = await service.getAll();
+      const allColors = await colorService.getAll();
       return allColors.data.response;
 
     } catch (error) {
@@ -23,8 +23,7 @@ export const addColor = createAsyncThunk(
   "colors/addColor",
   async (newColorData: AddColorModel, thunkAPI) => {
     try {
-      const service: ColorService = new ColorService();
-      const addedColor = await service.add(newColorData);
+      const addedColor = await colorService.add(newColorData);
 
       return addedColor.data;
 
@@ -40,8 +39,7 @@ export const updateColor = createAsyncThunk(
   async (updatedColorData: UpdateColorModel, thunkAPI) => {
     try {
 
-      const service: ColorService = new ColorService();
-      const updatedColor = await service.update(updatedColorData);
+      const updatedColor = await colorService.update(updatedColorData);
       if (updatedColor.data) {
         return updatedColor.data.response;
       }
@@ -61,8 +59,7 @@ export const deleteColor = createAsyncThunk(
   "colors/deleteColor",
   async ({ colorId }: { colorId: number; }, thunkAPI) => {
     try {
-      const service: ColorService = new ColorService();
-      await service.delete(colorId);
+      await colorService.delete(colorId);
       return {
         deletedColorId: colorId
       };

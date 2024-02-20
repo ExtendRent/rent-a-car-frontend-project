@@ -2,6 +2,7 @@ import { UpdateBrandModel } from '../../models/Requests/Brand/UpdateBrandModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import BrandService from "../../services/brandService";
 import { AddBrandModel } from '../../models/Requests/Brand/AddBrandModel';
+import brandService from '../../services/brandService';
 
 export const fetchBrands = createAsyncThunk(
   "brands/fetchBrands",
@@ -13,8 +14,7 @@ export const fetchBrands = createAsyncThunk(
         return state.brand.brands;
       } */
 
-      const service: BrandService = new BrandService();
-      const allBrands = await service.getAll();
+      const allBrands = await brandService.getAll();
       return allBrands.data.response;
       
     } catch (error) {
@@ -28,8 +28,7 @@ export const addBrand = createAsyncThunk(
   "brands/addBrand",
   async (newBrandData: AddBrandModel, thunkAPI) => {
     try {
-      const service: BrandService = new BrandService();
-      const addedBrand = await service.add(newBrandData);
+      const addedBrand = await brandService.add(newBrandData);
       // Burada eklenen markayı geri dönebilirsiniz
       console.log(addedBrand);
       
@@ -45,8 +44,7 @@ export const updateBrand = createAsyncThunk(
   async (updatedBrandData: UpdateBrandModel, thunkAPI) => {
     try {
       
-      const service: BrandService = new BrandService();
-      const updatedBrand = await service.update(updatedBrandData);
+      const updatedBrand = await brandService.update(updatedBrandData);
       if (updatedBrand.data) {
         return updatedBrand.data.response;
       }
@@ -64,8 +62,7 @@ export const deleteBrand = createAsyncThunk(
   "brands/deleteBrand",
     async ({ brandId }: { brandId: number; }, thunkAPI) => {
     try {
-      const service: BrandService = new BrandService();
-      await service.delete(brandId);
+      await brandService.delete(brandId);
       return { 
           deletedBrandId: brandId 
         };

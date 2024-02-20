@@ -1,18 +1,21 @@
 export interface AddCarModel {
-	brandEntityId : number;
+	vehicleType:string;
+    carImageEntityId:number;
+    brandEntityId : number;
     carModelEntityId: number;
     carBodyTypeEntityId: number;
     colorEntityId: number;
+    carSegmentEntityId:number;
     vehicleStatusEntityId: number;
     year: number;
     details: string;
     rentalPrice: number;
     licensePlate: string;
     kilometer: number;
-    imagePaths: string[];
     expectedMinDrivingLicenseTypeId: number;
     shiftTypeEntityId: number;
     fuelTypeEntityId: number;
     seat: number;
     luggage: number;
+    available:boolean;
 }

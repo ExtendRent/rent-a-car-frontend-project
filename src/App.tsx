@@ -67,6 +67,7 @@ import UpdateCar from './pages/Cars/UpdateCar';
 import Rentals from './pages/Rental/Rentals';
 import UpdateRental from './pages/Rental/UpdateRental';
 import UpdateCustomer from './pages/Customer/UpdateCustomer';
+import RentalStatuses from './pages/RentalStatus/RentalStatuses';
 
 
 
@@ -128,6 +129,8 @@ function App() {
         <Route path="/adminPanel/addFuelType" element={<AddFuelType />}></Route>
         <Route path="/adminPanel/deleteFuelType" element={<DeleteFuelType />}></Route>
         <Route path="/adminPanel/updateFuelType/:id" element={<UpdateFuelType/>}></Route>
+
+        <Route path="/adminPanel/rentalStatuses" element={<RentalStatuses />}></Route>
 
         <Route path="/adminPanel/admins" element={<Admins />}></Route>
         <Route path="/adminPanel/addAdmin" element={<AddAdmin />}></Route>

@@ -55,11 +55,11 @@ main {
   place-items: center;
 }
 
-/* Sidebar */
 .sidebar {
-  /* background: rgb(0, 7, 61); */
-  background: #BABFD1;
+  background-color: rgba(255, 255, 255, 0);
   color: rgb(0, 7, 61);
+  /* color: rgb(0, 7, 61); */
+  backdrop-filter: blur(4px);
   height: 110vh;
   overflow-y: auto;
 }

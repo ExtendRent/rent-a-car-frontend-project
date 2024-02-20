@@ -5,6 +5,7 @@ import CarService from "../../services/carService"
 import { GetAllFilteredResponse } from '../../models/Responses/Car/GetAllFilteredResponse';
 import { AddCarModel } from '../../models/Requests/Car/AddCarModel';
 import { UpdateCarModel } from '../../models/Requests/Car/UpdateCarModel';
+import carService from '../../services/carService';
 
 export const fetchCars =createAsyncThunk(
     "cars/fetchCars",
@@ -16,8 +17,7 @@ export const fetchCars =createAsyncThunk(
                 return state.car.cars;
             }
             
-            const service : CarService =new CarService();
-            const allCars =await service.getAll();   
+            const allCars =await carService.getAll();   
             return allCars.data.response;
         } catch (error) {
             console.error("Error fetching cars:", error);
@@ -28,8 +28,7 @@ export const getByDateCars =createAsyncThunk(
     "cars/getByDateCars",
     async (searchDate: GetByDateCarModel,thunkAPI) => {
         try {  
-            const service : CarService =new CarService();
-            const filtredCars =await service.getByDate(searchDate);   
+            const filtredCars =await carService.getByDate(searchDate);   
             return filtredCars.data.response;
         } catch (error) {
             console.error("Error fetching cars:", error);
@@ -40,8 +39,7 @@ export const getByAllFilteredCars =createAsyncThunk(
     "cars/getByAllFilteredCars",
     async (allFiltred: GetAllFilteredResponse,thunkAPI) => {
         try {  
-            const service : CarService =new CarService();
-            const filtredCars =await service.getByAllFiltered(allFiltred);   
+            const filtredCars =await carService.getByAllFiltered(allFiltred);   
             return filtredCars.data.response;
         } catch (error) {
             console.error("Error fetching cars:", error);
@@ -52,8 +50,7 @@ export const addCar = createAsyncThunk(
     "cars/addCars",
     async (newCarData: AddCarModel, thunkAPI) => {
         try {
-        const service: CarService = new CarService();
-        const addedCar = await service.add(newCarData);
+        const addedCar = await carService.add(newCarData);
     
         return addedCar.data;
     
@@ -68,8 +65,7 @@ export const updateCar = createAsyncThunk(
 async (updatedCarData: UpdateCarModel, thunkAPI) => {
     try {
 
-    const service: CarService = new CarService();
-    const updatedCar = await service.update(updatedCarData);
+    const updatedCar = await carService.update(updatedCarData);
     if (updatedCar.data) {
         return updatedCar.data.response;
     }
@@ -87,8 +83,7 @@ export const deleteCar = createAsyncThunk(
 "cars/deleteCar",
 async ({ carId }: { carId: number; }, thunkAPI) => {
     try {
-    const service: CarService = new CarService();
-    await service.delete(carId);
+    await carService.delete(carId);
     return {
         deletedCarId: carId
     };
@@ -102,9 +97,8 @@ export const getByCarId = createAsyncThunk(
 "cars/getByCarId",
 async ({ carId }: { carId: number; }, thunkAPI) => {
     try {
-    const service: CarService = new CarService();
-    const getByCarIded = await service.getByCarId(carId);
-    return getByCarIded.data.response;
+    const getByCarIded = await carService.getByCarId(carId);
+    return getByCarIded.data;
 
     } catch (error) {
     console.error("Error fetching getByCarIded:", error);
@@ -170,7 +164,7 @@ const carSlice = createSlice(
 
             builder.addCase(getByCarId.pending, (state) => {});
             builder.addCase(getByCarId.fulfilled, (state, action) => {
-                state.cars = action.payload;
+                state.cars = [action.payload];
             });
             builder.addCase(getByCarId.rejected, (state) => {
             });
