@@ -10,11 +10,14 @@ export interface UpdateCarModel {
     rentalPrice: number;
     licensePlate: string;
     kilometer: number;
-    imagePaths: string[];
     expectedMinDrivingLicenseTypeId: number;
     shiftTypeEntityId: number;
     fuelTypeEntityId: number;
     seat: number;
     luggage: number;
     isAvailable: boolean;
+    vehicleType:string;
+    carImageEntityId:number;
+    carSegmentEntityId:number;
+
 }

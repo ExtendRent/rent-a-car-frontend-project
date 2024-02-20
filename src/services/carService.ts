@@ -25,7 +25,7 @@ class CarService {
     }
 
     getByCarId(id: number){
-        return axiosInstance.get<CarModel>(`cars/${id}`)
+        return axiosInstance.get<GetAllCarsModel>(`cars/${id}`)
     }
 
     add(newCar: AddCarModel) {
