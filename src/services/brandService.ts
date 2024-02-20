@@ -8,6 +8,10 @@ class BrandService {
     return axiosInstance.get<GetAllBrandsModel>("brands")
   }
 
+  getById(id: number){
+    return axiosInstance.get<GetAllBrandsModel>(`brands/${id}`)
+  }
+
   add(newBrand: AddBrandModel) {
     return axiosInstance.post<AddBrandModel>("brands", newBrand)
   }

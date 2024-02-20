@@ -9,6 +9,10 @@ class CarBodyTypeService{
         return axiosInstance.get<GetAllCarBodyTypeModel>("carBodyTypes")
     }
 
+    getById(id: number){
+        return axiosInstance.get<GetAllCarBodyTypeModel>(`carBodyTypes/${id}`)
+    }
+
     add(newCarBodyType: AddCarBodyTypeModel){
         return axiosInstance.post<AddCarBodyTypeModel>("carBodyTypes", newCarBodyType)
     }

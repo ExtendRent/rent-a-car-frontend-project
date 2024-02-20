@@ -3,21 +3,29 @@ import { UpdateCustomerModel } from "../models/Requests/Customer/UpdateCustomerM
 import { GetAllCustomerModel } from "../models/Responses/Customer/GetAllCustomerModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class CustomerService{
+export default class CustomerService {
 
-   getAll(){
-       return axiosInstance.get<GetAllCustomerModel>("customers")
-   }
+    getAll() {
+        return axiosInstance.get<GetAllCustomerModel>("customers")
+    }
 
-   add(newCustomer: AddCustomerModel){
-       return axiosInstance.post<AddCustomerModel>("customers", newCustomer)
-   }
+    getById(id: number){
+        return axiosInstance.get<GetAllCustomerModel>(`customers/${id}`)
+    }
 
-   update(updatedCustomer: UpdateCustomerModel){
-       return axiosInstance.put<GetAllCustomerModel>("customers", updatedCustomer)
-   }
+    add(newCustomer: AddCustomerModel) {
+        return axiosInstance.post<AddCustomerModel>("customers", newCustomer)
+    }
 
-   delete(id:number){
-       return axiosInstance.delete<GetAllCustomerModel>(`customers?id=${id}&isHardDelete=true`)
-   }
+    update(updatedCustomer: UpdateCustomerModel) {
+        return axiosInstance.put<GetAllCustomerModel>("customers", updatedCustomer)
+    }
+
+    delete(id: number) {
+        return axiosInstance.delete<GetAllCustomerModel>(`customers?id=${id}&isHardDelete=true`)
+    }
+
+    getRentalsByCustomerId(customerId: number){
+        return axiosInstance.get<GetAllCustomerModel>(`customers/rentals/${customerId}`)
+    }
 }

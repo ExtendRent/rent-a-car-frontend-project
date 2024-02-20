@@ -31,6 +31,7 @@ const FuelTypeTable: React.FC = () => {
      const tableData = fuelTypeState.fuelTypes.map((fuelType: any) => [
         fuelType.id,
         fuelType.name,
+        fuelType.deleted,
       <IconButton onClick={() => handleUpdate(fuelType.id)}><EditIcon /></IconButton>,
       <IconButton onClick={() => handleDelete(fuelType.id)}><DeleteIcon /></IconButton>,
     ]);
@@ -67,6 +68,9 @@ const FuelTypeTable: React.FC = () => {
       case "name":
         columnName = "name";
         break;
+        case "deleted":
+          columnName = "deleted";
+          break;
       default:
         break;
     }
@@ -79,7 +83,7 @@ const FuelTypeTable: React.FC = () => {
       }
     });
   
-    setData(sortedData.map((fuelType: any) => [fuelType.id, fuelType.name]));
+    setData(sortedData.map((fuelType: any) => [fuelType.id, fuelType.name, fuelType.deleted]));
     setIsLoading(false);
   };
   const handleRowSelectionChange = (currentRowsSelected: any[]) => {
@@ -104,7 +108,7 @@ const FuelTypeTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = fuelTypeState.fuelTypes.map((fuelType: any) => [fuelType.id, fuelType.name]);
+      const originalData = fuelTypeState.fuelTypes.map((fuelType: any) => [fuelType.id, fuelType.name, fuelType.deleted]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -123,8 +127,8 @@ const FuelTypeTable: React.FC = () => {
           const filteredData = fuelTypeState.fuelTypes.filter((fuelType: any) => {
             return (
                 fuelType.id.toString().includes(filterList[0][0] || "") &&
-                fuelType.name.toString().includes(filterList[1][0] || "")
-            );
+                fuelType.name.toString().includes(filterList[1][0] || "") &&
+                (filterList[2][0] === "" || fuelType.deleted === (filterList[2][0] === "true")));
           }).map((fuelType: any) => [fuelType.id, fuelType.name]);
           setData(filteredData);
           break;
@@ -133,9 +137,11 @@ const FuelTypeTable: React.FC = () => {
           if (searchText) {
             const searchData = fuelTypeState.fuelTypes.filter((fuelType: any) => {
               return (
-                fuelType.name.toLowerCase().includes(searchText.toLowerCase())
+                fuelType.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                (fuelType.deleted && "true".includes(searchText.toLowerCase())) ||
+                (!fuelType.deleted && "false".includes(searchText.toLowerCase()))
               );
-            }).map((fuelType: any) => [fuelType.id, fuelType.name]);
+            }).map((fuelType: any) => [fuelType.id, fuelType.name, fuelType.deleted]);
             setData(searchData);
           }
           break;
@@ -185,6 +191,22 @@ const FuelTypeTable: React.FC = () => {
               ),
             },
           },
+          {
+            name: "deleted",
+            label: "SİLİNEN",
+            options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                    <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: boolean) => (
+                    
+                    <div style={{ textAlign: "center" }}>
+                        
+                        {value === true ? "true" : "false"}
+                        
+                    </div>)
+            }
+        },
           {
             name: "",
             label: "",

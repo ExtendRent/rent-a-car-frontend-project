@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import { fetchVehicleStatus } from "../../store/slices/vehicleStatusSlice";
+import { fetchRentalStatuses } from "../../store/slices/rentalStatusSlice";
 
-const VehicleStatusTable: React.FC = () => {
+const RentalStatusTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const vehicleStatusState = useSelector((state: any) => state.vehicleStatus);
+    const rentalStatusState = useSelector((state: any) => state.rentalStatus);
     const [data, setData] = useState<any[][]>([["Loading Data..."]]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
@@ -21,40 +21,36 @@ const VehicleStatusTable: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(5);
     const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
     const navigate = useNavigate();
-    
+
     useEffect(() => {
-        dispatch(fetchVehicleStatus());
+        dispatch(fetchRentalStatuses());
     }, [page, rowsPerPage]);
 
     useEffect(() => {
-        const tableData = vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => [
-            vehicleStatus.id,
-            vehicleStatus.name,
-            vehicleStatus.deleted,
-            <IconButton onClick={() => handleUpdate(vehicleStatus.id)}><EditIcon /></IconButton>
+        const tableData = rentalStatusState.rentalStatuses.map((rentalStatus: any) => [
+            rentalStatus.id,
+            rentalStatus.name,
+            rentalStatus.deleted,
         ]);
 
         setData(tableData);
-        setCount(vehicleStatusState.length);
+        setCount(rentalStatusState.length);
 
-    }, [vehicleStatusState]);
+    }, [rentalStatusState]);
 
-    const handleUpdate = (id: number) => {
-        navigate(`/adminPanel/updateVehicleStatus/${id}`);
-    };
     const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
         setIsLoading(true);
         setPage(page);
         setIsLoading(false);
     };
-    const changeRowsPerPage = (rowsPerPage: number, page: number) => { 
+    const changeRowsPerPage = (rowsPerPage: number, page: number) => {
         setRowsPerPage(rowsPerPage);
         setPage(page);
     };
 
     const sort = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
         setIsLoading(true);
-        
+
         let columnName: string = "";
         switch (sortOrder.name) {
             case "id":
@@ -63,14 +59,14 @@ const VehicleStatusTable: React.FC = () => {
             case "name":
                 columnName = "name";
                 break;
-                case "deleted":
-                    columnName = "deleted";
-                    break;
+            case "deleted":
+                columnName = "deleted";
+                break;
             default:
                 break;
         }
 
-        const sortedData = vehicleStatusState.vehicleStatuses.slice().sort((a: any, b: any) => {
+        const sortedData = rentalStatusState.rentalStatuses.slice().sort((a: any, b: any) => {
             if (sortOrder.direction === "asc") {
                 return a[columnName] > b[columnName] ? 1 : -1;
             } else {
@@ -78,7 +74,7 @@ const VehicleStatusTable: React.FC = () => {
             }
         });
 
-        setData(sortedData.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]));
+        setData(sortedData.map((rentalStatus: any) => [rentalStatus.id, rentalStatus.name, rentalStatus.deleted]));
         setIsLoading(false);
     };
 
@@ -104,7 +100,7 @@ const VehicleStatusTable: React.FC = () => {
         search: true,
         filterList: [],
         onFilterReset: () => {
-            const originalData = vehicleStatusState.vehicleStatuses.map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
+            const originalData = rentalStatusState.rentalStatuses.map((rentalStatus: any) => [rentalStatus.id, rentalStatus.name, rentalStatus.deleted]);
             setData(originalData);
         },
         onTableChange: (action: string, tableState: any) => {
@@ -120,24 +116,24 @@ const VehicleStatusTable: React.FC = () => {
                     break;
                 case 'filterChange':
                     const { filterList } = tableState;
-                    const filteredData = vehicleStatusState.vehicleStatuses.filter((vehicleStatus: any) => {
+                    const filteredData = rentalStatusState.rentalStatuses.filter((rentalStatus: any) => {
                         return (
-                            vehicleStatus.id.toString().includes(filterList[0][0] || "") &&
-                            vehicleStatus.name.toString().includes(filterList[1][0] || "") &&
-                            (filterList[2][0] === "" || vehicleStatus.deleted === (filterList[2][0] === "true")));
-                    }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
+                            rentalStatus.id.toString().includes(filterList[0][0] || "") &&
+                            rentalStatus.name.toString().includes(filterList[1][0] || "") &&
+                            (filterList[2][0] === "" || rentalStatus.deleted === (filterList[2][0] === "true")));
+                    }).map((rentalStatus: any) => [rentalStatus.id, rentalStatus.name, rentalStatus.deleted]);
                     setData(filteredData);
                     break;
                 case 'search':
                     const { searchText } = tableState;
                     if (searchText) {
-                        const searchData = vehicleStatusState.vehicleStatuses.filter((vehicleStatus: any) => {
+                        const searchData = rentalStatusState.rentalStatuses.filter((rentalStatus: any) => {
                             return (
-                                vehicleStatus.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                                (vehicleStatus.deleted && "true".includes(searchText.toLowerCase())) ||
-                                (!vehicleStatus.deleted && "false".includes(searchText.toLowerCase()))
+                                rentalStatus.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                                (rentalStatus.deleted && "true".includes(searchText.toLowerCase())) ||
+                                (!rentalStatus.deleted && "false".includes(searchText.toLowerCase()))
                             );
-                        }).map((vehicleStatus: any) => [vehicleStatus.id, vehicleStatus.name, vehicleStatus.deleted]);
+                        }).map((rentalStatus: any) => [rentalStatus.id, rentalStatus.name, rentalStatus.deleted]);
                         setData(searchData);
                     }
                     break;
@@ -152,7 +148,7 @@ const VehicleStatusTable: React.FC = () => {
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ARAÇ DURUMU
+                        KİRALAMA DURUMU
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -177,7 +173,7 @@ const VehicleStatusTable: React.FC = () => {
                     },
                     {
                         name: "name",
-                        label: "ARAÇ DURUMU",
+                        label: "KİRALAMA DURUMU",
                         options: {
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (
                                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
@@ -195,29 +191,16 @@ const VehicleStatusTable: React.FC = () => {
                                 <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
                             ),
                             customBodyRender: (value: boolean) => (
-                                
+
                                 <div style={{ textAlign: "center" }}>
-                                    
+
                                     {value === true ? "true" : "false"}
-                                    
+
                                 </div>)
                         }
                     },
-                    {
-                        name: "",
-                        label: "",
-                        options: {
-                            filter: false,
-                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-                            ),
-                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
-                                <div style={{ textAlign: "center", float: "inline-end" }}>
-                                    {value}
-                                </div>
-                            ),
-                        },
-                    }
+
+
                 ]}
                 options={options}
             />
@@ -225,5 +208,5 @@ const VehicleStatusTable: React.FC = () => {
     );
 };
 
-export default VehicleStatusTable;
+export default RentalStatusTable;
 

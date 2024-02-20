@@ -6,7 +6,7 @@ import axiosInstance from "../utils/axiosInterceptors";
 export default class ShiftTypeService {
 
     getAll() {
-        return axiosInstance.get<GetAllShiftTypesModel>("gearshifts?isDeleted=false")
+        return axiosInstance.get<GetAllShiftTypesModel>("gearshifts")
     }
 
     add(newShiftType: AddShiftTypeModel){
@@ -21,4 +21,8 @@ export default class ShiftTypeService {
     return axiosInstance.delete<GetAllShiftTypesModel>(`gearshifts?id=${id}&isHardDelete=true`)
     
   }
+
+  getById(id:number){
+    return axiosInstance.get<GetAllShiftTypesModel>(`gearshifts/${id}`)
+ }  
 }

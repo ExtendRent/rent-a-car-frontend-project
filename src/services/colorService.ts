@@ -13,13 +13,21 @@ class ColorService{
         return axiosInstance.post<AddColorModel>("colors", newColor)
    }
 
-   update(updatedColor: UpdateColorModel) {
-    return axiosInstance.put<GetAllColorsModel>("colors",updatedColor);
+
+    getById(id: number){
+      return axiosInstance.get<GetAllColorsModel>(`colors/${id}`)
+    }
+
+ 
+
+  update(updatedColor: UpdateColorModel) {
+    return axiosInstance.put<GetAllColorsModel>("colors", updatedColor);
   }
 
-   delete(id: number){
+  delete(id: number) {
     return axiosInstance.delete<GetAllColorsModel>(`colors?id=${id}&isHardDelete=true`)
-    
+
   }      
 }
 export default new ColorService();
+

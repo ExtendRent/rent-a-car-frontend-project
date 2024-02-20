@@ -4,22 +4,26 @@ import { GetAllDrivingLicenseTypesModel } from '../models/Responses/DrivingLicen
 import axiosInstance from '../utils/axiosInterceptors';
 
 
-export default class DrivingLicenseTypeModelService{
-    getAll() {
-        return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")
-    }
+export default class DrivingLicenseTypeModelService {
+  getAll() {
+    return axiosInstance.get<GetAllDrivingLicenseTypesModel>("drivingLicenseType")
+  }
 
-    add(newDrivingLicenseType: AddDrivingLicenseTypeModel) {
-        return axiosInstance.post<AddDrivingLicenseTypeModel>("drivingLicenseType", newDrivingLicenseType);
-    }
+  getById(id: number){
+    return axiosInstance.get<GetAllDrivingLicenseTypesModel>(`drivingLicenseType/${id}`)
+  }
 
-    update(updatedDrivingLicenseType: UpdateDrivingLicenseTypeModel) {
-        return axiosInstance.put<GetAllDrivingLicenseTypesModel>("drivingLicenseType",updatedDrivingLicenseType);
-      }
+  add(newDrivingLicenseType: AddDrivingLicenseTypeModel) {
+    return axiosInstance.post<AddDrivingLicenseTypeModel>("drivingLicenseType", newDrivingLicenseType);
+  }
 
-      delete(id: number){
-        return axiosInstance.delete<GetAllDrivingLicenseTypesModel>(`drivingLicenseType?id=${id}&isHardDelete=true`)
-        
-      }    
+  update(updatedDrivingLicenseType: UpdateDrivingLicenseTypeModel) {
+    return axiosInstance.put<GetAllDrivingLicenseTypesModel>("drivingLicenseType", updatedDrivingLicenseType);
+  }
+
+  delete(id: number) {
+    return axiosInstance.delete<GetAllDrivingLicenseTypesModel>(`drivingLicenseType?id=${id}&isHardDelete=true`)
+
+  }
 
 }
