@@ -18,7 +18,8 @@ import { paymentTypeReducer } from './slices/paymentTypeSlice';
 import { drivingLicenseTypeReducer } from './slices/drivingLicenseTypeSlice';
 import { paymentDetailsReducer } from './slices/paymentDetailsSlice';
 import { carSegmentReducer } from './slices/carSegmentSlice';
-
+import { imageReducer } from './slices/imageSlice';
+import { rentalStatusReducer } from './slices/rentalStatusSlice';
 
 
 
@@ -42,6 +43,8 @@ const rootReducer = combineReducers({
     drivingLicenseType: drivingLicenseTypeReducer,
     paymentDetails : paymentDetailsReducer,
     carSegment: carSegmentReducer,
+    imageLoad:imageReducer,
+    rentalStatus: rentalStatusReducer
 });
 
 export const store =configureStore({reducer:rootReducer});

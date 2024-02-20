@@ -4,7 +4,7 @@ import { GetAllCarModelModel } from "../models/Responses/CarModel/GetAllCarModel
 import axiosInstance from "../utils/axiosInterceptors";
 
 
-export default class CarModelService {
+class CarModelService {
    
    getAll(){
       return axiosInstance.get<GetAllCarModelModel>("carModels", )
@@ -26,3 +26,4 @@ export default class CarModelService {
       return axiosInstance.get<GetAllCarModelModel>(`carModels/brands/${brandId}`)
    }   
 }
+export default new CarModelService();

@@ -4,7 +4,7 @@ import { GetAllColorsModel } from "../models/Responses/Color/GetAllColorsModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 
-export default class ColorService{
+class ColorService{
     getAll() {
         return axiosInstance.get<GetAllColorsModel>("colors")
     }
@@ -22,3 +22,4 @@ export default class ColorService{
     
   }      
 }
+export default new ColorService();

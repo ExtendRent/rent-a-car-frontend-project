@@ -9,8 +9,9 @@ import { GetAllCarsModel } from "../models/Responses/Car/GetAllCarsModel";
 import { GetByDateCarModel } from "../models/Responses/Car/GetByDateCarModel";
 import { GetByDateCarResponse } from "../models/Responses/Car/GetByDateCarResponse";
 import axiosInstance from "../utils/axiosInterceptors";
+import { CarModel } from "../models/Responses/Car/CarModel";
 
-export default class CarService {
+class CarService {
 
    
     getByDate(searchByDate : GetByDateCarModel){
@@ -25,7 +26,7 @@ export default class CarService {
     }
 
     getByCarId(id: number){
-        return axiosInstance.get<GetAllCarsModel>(`cars/${id}`)
+        return axiosInstance.get<CarModel>(`cars/${id}`)
     }
 
     add(newCar: AddCarModel) {
@@ -40,3 +41,4 @@ export default class CarService {
         return axiosInstance.delete<GetAllCarsModel>(`cars?id=${id}&isHardDelete=true`)
     } 
 }
+export default new CarService();

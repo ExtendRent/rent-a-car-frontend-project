@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddCarModelModel } from "../../models/Requests/CarModel/AddCarModelModel";
 import CarModelService from "../../services/carModelService";
 import { UpdateCarModelModel } from "../../models/Requests/CarModel/UpdateCarModelModel";
+import carModelService from "../../services/carModelService";
 
 export const addCarModel = createAsyncThunk(
     "carModel/addCarModel",
     async (addCarModelData: AddCarModelModel     
       , thunkAPI) => {
       try {
-        const service: CarModelService = new CarModelService();
-        const addedCarModel = await service.add(addCarModelData);
+        const addedCarModel = await carModelService.add(addCarModelData);
         return addedCarModel.data;
 
       } catch (error) {
@@ -23,8 +23,7 @@ export const updateCarModel = createAsyncThunk(
     async (updateCarModelData: UpdateCarModelModel     
       , thunkAPI) => {
       try {
-        const service: CarModelService = new CarModelService();
-        const updatedCarModel = await service.update(updateCarModelData);
+        const updatedCarModel = await carModelService.update(updateCarModelData);
         return updatedCarModel.data;
 
       } catch (error) {
@@ -38,8 +37,7 @@ export const fetchCarModels = createAsyncThunk(
     "carModel/fetchCarModel",
     async (_, thunkAPI) => {
       try {
-        const service: CarModelService = new CarModelService();
-        const fetchedCarModel = await service.getAll();
+        const fetchedCarModel = await carModelService.getAll();
         return fetchedCarModel.data.response;
 
       } catch (error) {
@@ -52,8 +50,7 @@ export const fetchCarModels = createAsyncThunk(
     "carModel/getByBrandIdCarModels",
     async ({ brandId }: { brandId: number; }, thunkAPI) => {
       try {
-        const service: CarModelService = new CarModelService();
-        const getByBrandIded = await service.getByBrandId(brandId);
+        const getByBrandIded = await carModelService.getByBrandId(brandId);
         return getByBrandIded.data.response;
 
       } catch (error) {
@@ -67,8 +64,7 @@ export const fetchCarModels = createAsyncThunk(
       "carModels/deleteCarModel",
       async ({ id }: { id: number; }, thunkAPI) => {
       try {
-        const service: CarModelService = new CarModelService();
-        await service.delete(id);
+        await carModelService.delete(id);
         return { 
             deletedCarModelId: id 
           };
