@@ -2,6 +2,7 @@ export interface RentalModel{
     id: number;
     customerEntityId: number;
     discountEntityId: number;
+    rentalStatusEntityId:number;
     customerEntityName: string;
     customerEntitySurname: string;
 
@@ -16,8 +17,12 @@ export interface RentalModel{
 
     startDate: Date | string;
     endDate: Date | string;
+    returnDate: Date | string;
 
     paymentDetailsEntityAmount: number;
     paymentDetailsEntityPaymentTypeEntityPaymentTypeName: string;
+    rentalStatusEntityName: string;
+    discountEntityDiscountCode: string;
     active: boolean;
-}
+    deleted: boolean;
+} 

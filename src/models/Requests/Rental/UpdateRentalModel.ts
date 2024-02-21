@@ -9,5 +9,6 @@ export interface UpdateRentalModel{
     startKilometer: number;
     endKilometer: number;
     discountEntityId: number;
+    rentalStatusId: number;
     active: boolean;
 }

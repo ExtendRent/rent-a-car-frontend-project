@@ -4,10 +4,18 @@ import axiosInstance from "../utils/axiosInterceptors";
 import { ReturnRentalModel } from '../models/Requests/Rental/ReturnRentalModel';
 import { AddRentalModel } from '../models/Requests/Rental/AddRentalModel';
 
-export default class RentalService {
+class RentalService {
 
     getAll() {
         return axiosInstance.get<GetAllRentalsModel>("rentals")
+    }
+
+    getById(id:number){
+        return axiosInstance.get<GetAllRentalsModel>(`rentals/${id}`)
+     }  
+
+    add(newRental: AddRentalModel){
+        return axiosInstance.post<AddRentalModel>("rentals", newRental)
     }
 
     update(updatedRental: UpdateRentalModel) {
@@ -26,8 +34,6 @@ export default class RentalService {
         return axiosInstance.delete<GetAllRentalsModel>(`rentals?id=${id}&isHardDelete=true`)
     }
 
-    add(newRental: AddRentalModel){
-        return axiosInstance.post<AddRentalModel>("rentals", newRental)
-    }
     
 }
+export default new RentalService();

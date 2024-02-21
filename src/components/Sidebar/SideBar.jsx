@@ -240,6 +240,20 @@ const routes = [
   },
   {
     path: "",
+    name: "ARAÇ KİRALAMA",
+    icon: <TbManualGearbox       />,
+    subRoutes: [
+    
+      {
+        path: "/adminPanel/rentals",
+        name: "Araç Kiralama",
+        icon: <FaRedo   />,
+      }
+  
+    ],
+  },
+  {
+    path: "",
     name: "Çalışan",
     icon: <FaHospitalUser      />,
     subRoutes: [

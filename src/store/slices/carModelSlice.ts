@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddCarModelModel } from "../../models/Requests/CarModel/AddCarModelModel";
-import CarModelService from "../../services/carModelService";
 import { UpdateCarModelModel } from "../../models/Requests/CarModel/UpdateCarModelModel";
 import carModelService from "../../services/carModelService";
 
@@ -100,9 +99,7 @@ export const fetchCarModels = createAsyncThunk(
       builder.addCase(addCarModel.fulfilled, (state, action) => {
         state.carModel.push(action.payload);
       });
-      builder.addCase(addCarModel.rejected, (state) => {
-        
-      });
+      builder.addCase(addCarModel.rejected, (state) => {});
 
       builder.addCase(getByIdCarModels.pending, (state) => { });
       builder.addCase(getByIdCarModels.fulfilled, (state, action) => {
