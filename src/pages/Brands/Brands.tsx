@@ -8,35 +8,6 @@ import './Brand.css';
 import MyMUIDataTable from "./BrandTable";
 
 const Brands = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const brandState = useSelector((state: any) => state.brand);
-
-  const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
-  const [brand, setBrand] = useState("");
-  const [logoImagePath, setLogoImagePath] = useState("");
-
-  useEffect(() => {
-    dispatch(fetchBrands());
-  }, [dispatch]);
-
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedBrand(parseInt(e.target.value, 10));
-  };
-
-  const handleBrandUpdateSuccess = () => {
-    if (brand.trim() !== "" && selectedBrand !== null) {
-      dispatch(updateBrand({ id: selectedBrand, name: brand, logoImagePath: logoImagePath}));
-      handleCancelUpdate();
-    }
-  };
-
-  const handleCancelUpdate = () => {
-    setSelectedBrand(null);
-    setBrand("");
-    setLogoImagePath("");
-    dispatch(fetchBrands());
-  };
-
   return (
     <div >
       <SideBar>

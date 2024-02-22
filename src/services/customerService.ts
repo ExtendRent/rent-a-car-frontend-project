@@ -28,6 +28,10 @@ class CustomerService {
     getRentalsByCustomerId(customerId: number){
         return axiosInstance.get<GetAllCustomerModel>(`customers/rentals/${customerId}`)
     }
+    
+    updatePassword(param:{id: number,password:string}){
+        return axiosInstance.get<GetAllCustomerModel>("customers/updatePassword",{params: param});
+    }
 }
 
 export default new CustomerService();

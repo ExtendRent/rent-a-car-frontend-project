@@ -7,15 +7,6 @@ import { Button } from "@mui/joy";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store/configureStore';
 import { useParams } from 'react-router-dom';
-import carService from '../../services/carService';
-import colorService from '../../services/colorService';
-import brandService from '../../services/brandService';
-import carModelService from '../../services/carModelService';
-import carBodyTypeService from '../../services/carBodyTypeService';
-import { ColorModel } from '../../models/Responses/Color/ColorModel';
-import { BrandModel } from '../../models/Responses/Brand/BrandModel';
-import { CarBodyTypeModel } from '../../models/Responses/CarBodyType/CarBodyTypeModel';
-import { CarModelModel } from '../../models/Responses/CarModel/CarModelModel';
 import { getByCarId, updateCar } from '../../store/slices/carSlice';
 import { fetchBrands } from '../../store/slices/brandSlice';
 import { fetchCarModels } from '../../store/slices/carModelSlice';
@@ -26,7 +17,6 @@ import { fetchShiftTypes } from '../../store/slices/shiftTypeSlice';
 import { fetchFuelType } from '../../store/slices/fuelTypeSlice';
 import { fetchDrivingLicenseTypes } from '../../store/slices/drivingLicenseTypeSlice';
 import { fetchCarSegments } from '../../store/slices/carSegmentSlice';
-import { GetAllCarsModel } from '../../models/Responses/Car/GetAllCarsModel';
 import { CarModel } from '../../models/Responses/Car/CarModel';
 import FormikSelect from '../../components/FormikSelect/FormikSelect';
 import { addCarImages } from '../../store/slices/imageSlice';
@@ -38,11 +28,6 @@ const UpdateCar = (props: Props) => {
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [file, setFile] = useState<File | undefined>();
   const [car, setCar] = useState<CarModel>();
-  const [colors, setColors] = useState<ColorModel[]>([]);
-  const [brands, setBrands] = useState<BrandModel[]>([]);
-  const [resultBrand, setResultBrand] = useState<BrandModel[]>([]);
-  const [carBodyType, setCarBodyType] = useState<CarBodyTypeModel[]>([]);
-  const [models, setModels] = useState<CarModelModel[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const [selectedValue, setSelectedValue] = useState({});
   const brandState = useSelector((state: any) => state.brand);
@@ -83,7 +68,7 @@ const UpdateCar = (props: Props) => {
       dispatch(fetchFuelType());
       dispatch(fetchDrivingLicenseTypes());
       dispatch(fetchCarSegments());
-      dispatch(fetchDrivingLicenseTypes());
+      
        
         
     } catch (error) {
@@ -156,9 +141,8 @@ const UpdateCar = (props: Props) => {
   const handleUpdateCar = async (values: any) => {
     if(typeof file === 'undefined') return;
     const formData =new FormData();
-    formData.append('file',file)
-
-    console.log(formData);
+    formData.append('files',file)
+    formData.append("upload_present" ,"636629149633282");
     
     const { licensePlate, carImageEntityId } = values;
     const imageResponse = await dispatch(addCarImages({
@@ -181,11 +165,12 @@ const UpdateCar = (props: Props) => {
     if (files) {
       // Process the files here
      setFile(target.files[0])
+     console.log(target.files[0]);
      
     }
   };
   return (
-    <>
+   
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -304,7 +289,6 @@ const UpdateCar = (props: Props) => {
                   />
                 </div>
                 <div className="mb-2">
-                  
                   <input type='file' name='image' onChange={handleOnChange}/>
                 </div>
               </div>
@@ -374,7 +358,7 @@ const UpdateCar = (props: Props) => {
           </Form>
         </div>
       </SideBar>
-    </Formik></>
+    </Formik>
   )
 }
 

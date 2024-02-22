@@ -103,7 +103,7 @@ const carBodyTypeSlice = createSlice({
 
     builder.addCase(getByIdCarBodyType.pending, (state) => { });
     builder.addCase(getByIdCarBodyType.fulfilled, (state, action) => {
-        state.carBodyTypes = action.payload;
+        state.carBodyTypes = [action.payload];
     });
     builder.addCase(getByIdCarBodyType.rejected, (state) => {
     });

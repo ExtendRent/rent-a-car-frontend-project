@@ -1,4 +1,4 @@
-export interface CarModelModel {
+export interface GetByIdCarModelModel {
     id: number,
     name: string,
     brandEntityName?: string,
