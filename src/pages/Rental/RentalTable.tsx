@@ -10,11 +10,12 @@ import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteRental, fetchRentals } from "../../store/slices/rentalSlice";
+import { deleteRental, fetchRentals, startRental } from "../../store/slices/rentalSlice";
 import { fetchRentalStatuses } from "../../store/slices/rentalStatusSlice";
 import { fetchCustomers } from "../../store/slices/customerSlice";
 import { fetchDiscountCodes } from "../../store/slices/discountCodeSlice";
 import { fetchCars } from "../../store/slices/carSlice";
+import { Button } from "react-bootstrap";
 
 const RentalTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -64,6 +65,8 @@ const RentalTable: React.FC = () => {
                 rental.rentalStatusEntityName,
                 <IconButton onClick={() => handleUpdate(rental.id)}><EditIcon /></IconButton>,
                 <IconButton onClick={() => handleDelete(rental.id)}><DeleteIcon /></IconButton>,
+                <IconButton type="button" className="btn btn-primary" onClick={() => handleStartUpdate(rental.id)}>Start Rental</IconButton>,
+                <IconButton onClick={() => handleReturnUpdate(rental.id)}>End Rental</IconButton>,
             ]);
 
             setData(tableData);
@@ -72,6 +75,17 @@ const RentalTable: React.FC = () => {
         console.log(carState);
 
     }, [rentalState, carState, customerState, rentalStatusState]);
+
+    const handleStartUpdate = (id: number) => {
+        console.log("Start Update:", id);
+        dispatch(startRental({ rentalId: id }));
+    };
+
+    const handleReturnUpdate = (id: number) => {
+        console.log("Return Update ID:", id);
+        navigate(`/adminPanel/returnRental/${id}`);
+    };
+
     const handleDelete = (id: number) => {
         console.log("Deleted ID:", id);
         dispatch(deleteRental({ id: id }));
@@ -134,6 +148,7 @@ const RentalTable: React.FC = () => {
             case "rentalStatusEntityName":
                 columnName = "rentalStatusEntityName";
                 break;
+                
             default:
                 break;
         }
@@ -234,7 +249,7 @@ const RentalTable: React.FC = () => {
                             rental.returnDate.toString().includes(filterList[9][0] || "") &&
                             rental.paymentDetailsEntityAmount.toString().includes(filterList[10][0] || "") &&
                             rental.paymentDetailsEntityPaymentTypeEntityPaymentTypeName.toLowerCase().includes(filterList[11][0] || "") &&
-                            rental.rentalStatusEntityName.toLowerCase().includes(filterList[12][0] || "") )
+                            rental.rentalStatusEntityName.toLowerCase().includes(filterList[12][0] || ""))
 
                     }).map((rental: any) => [
                         rental.id,
@@ -261,18 +276,18 @@ const RentalTable: React.FC = () => {
                         const searchData = rentalState.rentals.filter((rental: any) => {
                             return (
                                 rental.customerEntityName.toLowerCase().includes(filterList[0][0] || "") &&
-                            rental.customerEntitySurname.toLowerCase().includes(filterList[1][0] || "") &&
-                            rental.carEntityBrandEntityName.toLowerCase().includes(filterList[2][0] || "") &&
-                            rental.carEntityYear.toString().includes(filterList[3][0] || "") &&
-                            rental.carEntityRentalPrice.toString().includes(filterList[4][0] || "") &&
-                            rental.carEntityLicensePlate.toLowerCase().includes(filterList[5][0] || "") &&
-                            rental.startDate.toString().includes(filterList[6][0] || "") &&
-                            rental.endDate.toString().includes(filterList[7][0] || "") &&
-                            rental.returnDate.toString().includes(filterList[8][0] || "") &&
-                            rental.paymentDetailsEntityAmount.toString().includes(filterList[9][0] || "") &&
-                            rental.paymentDetailsEntityPaymentTypeEntityPaymentTypeName.toLowerCase().includes(filterList[10][0] || "") &&
-                            rental.rentalStatusEntityName.toLowerCase().includes(filterList[11][0] || "") )
-                           
+                                rental.customerEntitySurname.toLowerCase().includes(filterList[1][0] || "") &&
+                                rental.carEntityBrandEntityName.toLowerCase().includes(filterList[2][0] || "") &&
+                                rental.carEntityYear.toString().includes(filterList[3][0] || "") &&
+                                rental.carEntityRentalPrice.toString().includes(filterList[4][0] || "") &&
+                                rental.carEntityLicensePlate.toLowerCase().includes(filterList[5][0] || "") &&
+                                rental.startDate.toString().includes(filterList[6][0] || "") &&
+                                rental.endDate.toString().includes(filterList[7][0] || "") &&
+                                rental.returnDate.toString().includes(filterList[8][0] || "") &&
+                                rental.paymentDetailsEntityAmount.toString().includes(filterList[9][0] || "") &&
+                                rental.paymentDetailsEntityPaymentTypeEntityPaymentTypeName.toLowerCase().includes(filterList[10][0] || "") &&
+                                rental.rentalStatusEntityName.toLowerCase().includes(filterList[11][0] || ""))
+
                         }).map((rental: any) => [
                             rental.id,
                             rental.customerEntityName,
@@ -472,6 +487,7 @@ const RentalTable: React.FC = () => {
                             ),
                         },
                     },
+                    
                     {
                         name: "",
                         label: "",
@@ -497,6 +513,36 @@ const RentalTable: React.FC = () => {
                             ),
                             customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
                                 <div style={{ textAlign: "center", float: "inline-start" }}>
+                                    {value}
+                                </div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "StartRental",
+                        label: "Start Rental",
+                        options: {
+                            filter: false,
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                                <div style={{ textAlign: "center", float: "inline-end" }}>
+                                    {value}
+                                </div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "EndRental",
+                        label: "End Rental",
+                        options: {
+                            filter: false,
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                                <div style={{ textAlign: "center", float: "inline-end" }}>
                                     {value}
                                 </div>
                             ),

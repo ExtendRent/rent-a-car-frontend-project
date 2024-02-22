@@ -34,6 +34,13 @@ class RentalService {
         return axiosInstance.delete<GetAllRentalsModel>(`rentals?id=${id}&isHardDelete=true`)
     }
 
+    getCountByStatus(status: number){
+        return axiosInstance.get<GetAllRentalsModel>(`rentals/countByStatus/${status}`)
+    }
+
+    getCountIsDeleted(deleted: boolean){
+        return axiosInstance.get<GetAllRentalsModel>(`rentals/count/${deleted}`)
+    }
     
 }
 export default new RentalService();

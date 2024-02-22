@@ -276,6 +276,18 @@ const routes = [
   },
   {
     path: "",
+    name: "Kullanıcı",
+    icon: <FaHospitalUser      />,
+    subRoutes: [
+      {
+        path: "/adminPanel/Users",
+        name: "Kullanıcı",
+        icon: <FaPlus  />,
+      }
+    ],
+  },
+  {
+    path: "",
     name: "Admin",
     icon: <GrUserAdmin       />,
     subRoutes: [
