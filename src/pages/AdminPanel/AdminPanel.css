@@ -8,12 +8,6 @@
     align-items: center;
   }
   
-  .btn {
-    width: 250px;
-    margin: 40px 5px 0px 120px;
-    cursor: pointer;
-  }
-  
   .form-group {
     width: 500px;
     margin: 50px 0px 0px 230px;

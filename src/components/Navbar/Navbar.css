@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   height: 80px;
-  background-color: white;
+  background-color: #121212;
   margin: 0;
   padding: 0 20px; /* Yatay boşluk ekledik */
   display: flex;
@@ -23,7 +23,7 @@
   
   .navbar-logo {
     font-size: 26px; /* Logonun yazı boyutunu biraz daha büyüttüm */
-    color: black;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     margin-right: auto; /* Logo'yu sola yasladım */
     margin-left: 100px;
@@ -50,19 +50,25 @@
   
   .nav-links {
     text-decoration: none;
-    color: black;
+    color: rgb(255, 255, 255);
     font-size: 20px;
   }
   
   .nav-links:hover {
-    color: pink;
+    color: rgb(189, 8, 8);
   }
   
   .nav-links-btn {
-    background-color: pink;
+    background-color: #8C1816;
+
     color: white;
     padding: 10px 20px;
     border-radius: 10px;
+  }
+
+  .nav-links-btn:hover{
+    color: white;
+    background-color: rgb(189, 8, 8);
   }
   
   .nav-item.nav-item-right {

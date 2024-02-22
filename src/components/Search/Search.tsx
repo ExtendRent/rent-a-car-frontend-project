@@ -7,6 +7,9 @@ import { AppDispatch } from '../../store/configureStore';
 import { GetByDateCarResponse } from '../../models/Responses/Car/GetByDateCarResponse';
 import SelectedCar from '../../pages/SelectedCar/SelectedCar';
 import { AllGetByDateCarResponse } from '../../models/Responses/Car/AllGetByDateCarResponse';
+import carIcon from '../../assets/coupe-car.png';
+import wheelIcon from '../../assets/steering-wheel.png';
+import './Search.css'
 
 const Search: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,10 +46,12 @@ const Search: React.FC = () => {
         }}
       >
         <Form>
-          <div className="mb-3">
-            <label htmlFor="startDate" className="form-label">
-              Alış Tarihi
+          
+          <div className="mb-5">
+            <label htmlFor="startDate" className="form-label text-white fs-2">
+              Alış Tarihi 
             </label>
+            
             <Field
               type="date"
               className="form-control"
@@ -54,9 +59,10 @@ const Search: React.FC = () => {
               name="startDate"
             />
           </div>
+
           <div className="mb-3">
-            <label htmlFor="endDate" className="form-label">
-              İade Tarihi
+            <label htmlFor="endDate" className="form-label text-white fs-2">
+              Dönüş Tarihi
             </label>
             <Field
               type="date"
@@ -65,9 +71,23 @@ const Search: React.FC = () => {
               name="endDate"
             />
           </div>
-          <button type="submit" className="btn btn-primary">
-            Ara
-          </button>
+          
+      {/*     <button className='button2'>
+  <div className="svg-wrapper-1">
+  <span>Tarihe Göre Ara</span>
+    <div className="svg-wrapper">
+    <img src={carIcon} alt="Coupe Car" />
+    </div>
+  </div>
+  
+</button> */}
+
+<button className="button3">
+
+Tarihe Göre Ara
+<img className= "wheelIcon" src={wheelIcon} alt="wheel" />
+</button>
+          
         </Form>
       </Formik>
     </div>
