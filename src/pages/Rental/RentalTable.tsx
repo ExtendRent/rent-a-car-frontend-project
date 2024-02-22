@@ -206,7 +206,7 @@ const RentalTable: React.FC = () => {
         search: true,
         filterList: [],
         onFilterReset: () => {
-            const originalData = rentalState.rentals.map((rental: any) => [
+            const originalData = rentalState.map((rental: any) => [
                 rental.id,
                 rental.customerEntityName,
                 rental.customerEntitySurname,

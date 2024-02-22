@@ -70,11 +70,11 @@ export const returnRental = createAsyncThunk(
     }
 );
 
-export const getCountByStatus = createAsyncThunk(
-    "rentals/getCountByStatus",
+export const getRentalCountByStatus = createAsyncThunk(
+    "rentals/getRentalCountByStatus",
     async ({ status }: { status: number; }, thunkAPI) => {
         try {
-            const getByCounted = await rentalService.getCountByStatus(status);
+            const getByCounted = await rentalService.getRentalCountByStatus(status);
             return getByCounted.data.response;
 
         } catch (error) {
@@ -84,11 +84,11 @@ export const getCountByStatus = createAsyncThunk(
     }
 );
 
-export const getCountIsDeleted = createAsyncThunk(
-    "rentals/getCountIsDeleted",
+export const getRentalCountIsDeleted = createAsyncThunk(
+    "rentals/getRentalCountIsDeleted",
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
-            const getCountIsDelete = await rentalService.getCountIsDeleted(deleted);
+            const getCountIsDelete = await rentalService.getRentalCountIsDeleted(deleted);
             return getCountIsDelete.data.response;
 
         } catch (error) {
@@ -188,20 +188,20 @@ const rentalSlice = createSlice({
 
         /*-----------------*/
 
-        builder.addCase(getCountByStatus.pending, (state) => { });
-        builder.addCase(getCountByStatus.fulfilled, (state, action) => {
+        builder.addCase(getRentalCountByStatus.pending, (state) => { });
+        builder.addCase(getRentalCountByStatus.fulfilled, (state, action) => {
             state.rentals = action.payload;
         });
-        builder.addCase(getCountByStatus.rejected, (state) => {
+        builder.addCase(getRentalCountByStatus.rejected, (state) => {
         });
 
         /*-----------------*/
 
-        builder.addCase(getCountIsDeleted.pending, (state) => { });
-        builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+        builder.addCase(getRentalCountIsDeleted.pending, (state) => { });
+        builder.addCase(getRentalCountIsDeleted.fulfilled, (state, action) => {
             state.rentals = action.payload;
         });
-        builder.addCase(getCountIsDeleted.rejected, (state) => {
+        builder.addCase(getRentalCountIsDeleted.rejected, (state) => {
         });
 
         /*-----------------*/

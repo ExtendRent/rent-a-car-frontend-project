@@ -1,5 +1,7 @@
 {
+
   "compilerOptions": {
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
     "target": "es5",
     "lib": [
       "dom",
@@ -20,7 +22,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "typings/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }

@@ -10,33 +10,20 @@ import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { fetchUsers } from "../../store/slices/userSlice";
-//import * as React from 'react';
-import { styled } from '@mui/system';
-import {
-  TablePagination,
-  tablePaginationClasses as classes,
-} from '@mui/base/TablePagination';
-import FirstPageRoundedIcon from '@mui/icons-material/FirstPageRounded';
-import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+
 
 const UserTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const userState = useSelector((state: any) => state.user);
-    
-    
     const [data, setData] = useState<any[][]>([["Loading Data..."]]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
     const [size, setSize] = useState<number>(5);
     const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    //const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
     const navigate = useNavigate();
-
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userState.users.content.length) : 0;
 
     useEffect(() => {
         dispatch(fetchUsers({page, size, sort: [sortOrder.direction] }));
@@ -66,19 +53,16 @@ const UserTable: React.FC = () => {
         navigate(`/adminPanel/users/block/${id}`);
     };
 
-    const handleChangePage = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
-        newPage: number,
-      ) => {
-        setPage(newPage);
-      };
+    const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
+        setIsLoading(true);
+        setPage(page);
+        setIsLoading(false);
+    };
+    const changeSize = (page: number, size: number, ) => { // Satır sayısını değiştiren fonksiyonu ekledik
+        setPage(page);
+        setSize(size);
+    };
 
-      const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      ) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-      };
 
     const sort = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
         setIsLoading(true);
@@ -135,7 +119,6 @@ const UserTable: React.FC = () => {
             const selectedRow = data[currentRowsSelected[0].index];
             const selectedId = selectedRow[0];
             console.log(selectedRow);
-            
         }
     };
 
@@ -147,8 +130,8 @@ const UserTable: React.FC = () => {
         responsive: 'vertical' as Responsive,
         serverSide: true,
         count: count,
-        size: size,
-        rowsPerPageOptions: [5, 10, 15],
+        size: [5, 10, 15],
+        //rowsPerPageOptions: [5, 10, 15],
         page: page,
         sortOrder: sortOrder,
         search: true,
@@ -161,12 +144,12 @@ const UserTable: React.FC = () => {
 
         onTableChange: (action: string, tableState: any) => {
             switch (action) {
-                /* case 'changePage':
+                 case 'changePage':
                     changePage(tableState.page, tableState.sortOrder);
                     break;
-                case 'changeRowsPerPage': // Yeni sayfa sayısını işlemek için case eklendi
-                    changeRowsPerPage(tableState.size, tableState.page);
-                    break; */
+                case 'changeSize': // Yeni sayfa sayısını işlemek için case eklendi
+                    changeSize(tableState.page, tableState.size);
+                    break; 
                 case 'sort':
                     sort(tableState.page, tableState.sortOrder);
                     break;

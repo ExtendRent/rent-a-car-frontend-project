@@ -13,6 +13,10 @@ class AdminService{
         return axiosInstance.get<GetAllAdminModel>(`admins/${id}`)
     }
 
+    getAdminCountIsDeleted(deleted: boolean){
+        return axiosInstance.get<GetAllAdminModel>(`admins/count/${deleted}`)
+    }
+
     add(newAdmin: AddAdminModel){
         return axiosInstance.post<AddAdminModel>("admins", newAdmin)
     }
