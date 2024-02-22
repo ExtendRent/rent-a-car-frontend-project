@@ -25,7 +25,7 @@ class EmployeeService {
     return axiosInstance.get<GetAllEmployeesModel>(`employees/${id}`)
  }  
 
- getCountIsDeleted(deleted: boolean){
+ getEmployeeCountIsDeleted(deleted: boolean){
   return axiosInstance.get<GetAllEmployeesModel>(`employees/count/${deleted}`)
 }
 }

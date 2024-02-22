@@ -47,11 +47,11 @@ export const getByAllFilteredCars = createAsyncThunk(
         }
     });
 
-export const getCountByStatus = createAsyncThunk(
-    "cars/getCountByStatus",
+export const getCarCountByStatus = createAsyncThunk(
+    "cars/getCarCountByStatus",
     async ({ statusId }: { statusId: number; }, thunkAPI) => {
         try {
-            const getByCounted = await carService.getCountByStatus(statusId);
+            const getByCounted = await carService.getCarCountByStatus(statusId);
             return getByCounted.data.response;
 
         } catch (error) {
@@ -60,11 +60,11 @@ export const getCountByStatus = createAsyncThunk(
         }
     });
 
-export const getCountIsDeleted = createAsyncThunk(
+export const getCarCountIsDeleted = createAsyncThunk(
     "cars/getCountIsDeleted",
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
-            const getCountIsDelete = await carService.getCountIsDeleted(deleted);
+            const getCountIsDelete = await carService.getCarCountIsDeleted(deleted);
             return getCountIsDelete.data.response;
 
         } catch (error) {
@@ -199,17 +199,17 @@ const carSlice = createSlice(
 
             /*---------------*/
 
-            builder.addCase(getCountByStatus.pending, (state) => { });
-            builder.addCase(getCountByStatus.fulfilled, (state, action) => {
+            builder.addCase(getCarCountByStatus.pending, (state) => { });
+            builder.addCase(getCarCountByStatus.fulfilled, (state, action) => {
                 state.cars = action.payload; });
-            builder.addCase(getCountByStatus.rejected, (state) => {});
+            builder.addCase(getCarCountByStatus.rejected, (state) => {});
 
             /*---------------*/
 
-            builder.addCase(getCountIsDeleted.pending, (state) => { });
-            builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+            builder.addCase(getCarCountIsDeleted.pending, (state) => { });
+            builder.addCase(getCarCountIsDeleted.fulfilled, (state, action) => {
                 state.cars = action.payload;});
-            builder.addCase(getCountIsDeleted.rejected, (state) => { });
+            builder.addCase(getCarCountIsDeleted.rejected, (state) => { });
 
 
 

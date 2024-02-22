@@ -31,11 +31,11 @@ export const fetchAdmins = createAsyncThunk(
     }
 );
 
-export const getCountIsDeleted = createAsyncThunk(
-    "admins/getCountIsDeleted",
+export const getAdminCountIsDeleted = createAsyncThunk(
+    "admins/getAdminCountIsDeleted",
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
-            const getCountIsDelete = await adminService.getCountIsDeleted(deleted);
+            const getCountIsDelete = await adminService.getAdminCountIsDeleted(deleted);
             return getCountIsDelete.data.response;
 
         } catch (error) {
@@ -128,11 +128,11 @@ const adminSlice = createSlice({
 
         /*-----------------------------------------------------------------*/
 
-        builder.addCase(getCountIsDeleted.pending, (state) => { });
-        builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+        builder.addCase(getAdminCountIsDeleted.pending, (state) => { });
+        builder.addCase(getAdminCountIsDeleted.fulfilled, (state, action) => {
             state.admins = action.payload;
         });
-        builder.addCase(getCountIsDeleted.rejected, (state) => {
+        builder.addCase(getAdminCountIsDeleted.rejected, (state) => {
         });
 
 

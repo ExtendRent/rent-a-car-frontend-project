@@ -82,11 +82,11 @@ export const deleteEmployee = createAsyncThunk(
     }
 );
 
-export const getCountIsDeleted = createAsyncThunk(
-    "employees/getCountIsDeleted",
+export const getEmployeeCountIsDeleted = createAsyncThunk(
+    "employees/getEmployeeCountIsDeleted",
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
       try {
-        const getCountIsDelete = await employeeService.getCountIsDeleted(deleted);
+        const getCountIsDelete = await employeeService.getEmployeeCountIsDeleted(deleted);
         return getCountIsDelete.data.response;
   
       } catch (error) {
@@ -119,11 +119,11 @@ const employeeSlice = createSlice({
 
         /*-----------------*/
 
-        builder.addCase(getCountIsDeleted.pending, (state) => { });
-        builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+        builder.addCase(getEmployeeCountIsDeleted.pending, (state) => { });
+        builder.addCase(getEmployeeCountIsDeleted.fulfilled, (state, action) => {
             state.employees = action.payload;
         });
-        builder.addCase(getCountIsDeleted.rejected, (state) => {
+        builder.addCase(getEmployeeCountIsDeleted.rejected, (state) => {
         });
 
          /*-----------------*/

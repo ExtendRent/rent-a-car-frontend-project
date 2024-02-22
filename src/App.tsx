@@ -71,6 +71,7 @@ import RentalStatuses from './pages/RentalStatus/RentalStatuses';
 import Users from './pages/User/Users';
 import ReturnRental from './pages/Rental/ReturnRental';
 import UpdateCarModel from './pages/CarModel/UpdateCarModel';
+import AdminPanel from './pages/AdminPanel/AdminPanel';
 
   
 
@@ -90,8 +91,7 @@ function App() {
 
 				<Route path="/" element={<Homepage />}></Route>
 				
-
-        <Route path="/adminPanel" element={<AdminRoutes/>}/>
+        <Route path="/adminPanel" element={<AdminPanel/>}/>
 
         <Route path="/adminPanel/brands" element={<Brands />}></Route>
         <Route path="/adminPanel/addBrand" element={<AddBrand />}></Route>
@@ -141,7 +141,7 @@ function App() {
 
         <Route path="/adminPanel/customers" element={<Customers />}></Route>
         <Route path="/adminPanel/addCustomer" element={<AddCustomer />}></Route>
-        <Route path="/adminPanel/updateCustomer" element={<UpdateCustomer />}></Route>
+        <Route path="/updateCustomer/:id" element={<UpdateCustomer />}></Route>
 
         <Route path="/adminPanel/employees" element={<Employees />}></Route>
         <Route path="/adminPanel/addEmployee" element={<AddEmployee />}></Route>
@@ -173,7 +173,6 @@ function App() {
         <Route path="/adminPanel/updatePaymentDetails/:id" element={<UpdatePaymentDetails />}></Route>
         <Route path="/allMyRentals" element={<PastRentals />}></Route>
         <Route path="/account" element={<Account />}></Route>
-
       
 			</Routes>
     </>

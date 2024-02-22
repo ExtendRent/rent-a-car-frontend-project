@@ -32,11 +32,11 @@ export const getByIdCustomer = createAsyncThunk(
   }
 );
 
-export const getCountByStatus = createAsyncThunk(
-  "customers/getCountByStatus",
+export const getCustomerCountByStatus = createAsyncThunk(
+  "customers/getCustomerCountByStatus",
   async ({ status }: { status: string; }, thunkAPI) => {
     try {
-      const getByCounted = await customerService.getCountByStatus(status);
+      const getByCounted = await customerService.getCustomerCountByStatus(status);
       return getByCounted.data.response;
 
     } catch (error) {
@@ -46,11 +46,11 @@ export const getCountByStatus = createAsyncThunk(
   }
 );
 
-export const getCountIsDeleted = createAsyncThunk(
-  "customers/getCountIsDeleted",
+export const getCustomerCountIsDeleted = createAsyncThunk(
+  "customers/getCustomerCountIsDeleted",
   async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
     try {
-      const getCountIsDelete = await customerService.getCountIsDeleted(deleted);
+      const getCountIsDelete = await customerService.getCustomerCountIsDeleted(deleted);
       return getCountIsDelete.data.response;
 
     } catch (error) {
@@ -150,20 +150,20 @@ const customerSlice = createSlice({
 
     /*---------------*/
 
-    builder.addCase(getCountByStatus.pending, (state) => { });
-    builder.addCase(getCountByStatus.fulfilled, (state, action) => {
+    builder.addCase(getCustomerCountByStatus.pending, (state) => { });
+    builder.addCase(getCustomerCountByStatus.fulfilled, (state, action) => {
         state.customers = action.payload;
     });
-    builder.addCase(getCountByStatus.rejected, (state) => {
+    builder.addCase(getCustomerCountByStatus.rejected, (state) => {
     });
 
      /*---------------*/
 
-     builder.addCase(getCountIsDeleted.pending, (state) => { });
-     builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+     builder.addCase(getCustomerCountIsDeleted.pending, (state) => { });
+     builder.addCase(getCustomerCountIsDeleted.fulfilled, (state, action) => {
          state.customers = action.payload;
      });
-     builder.addCase(getCountIsDeleted.rejected, (state) => {
+     builder.addCase(getCustomerCountIsDeleted.rejected, (state) => {
      });
 
       /*---------------*/

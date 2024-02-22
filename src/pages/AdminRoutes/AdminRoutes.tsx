@@ -39,6 +39,7 @@ import DrivingLicenseTypes from '../DrivingLicenseType/DrivingLicenseTypes';
 import AddDrivingLicenseType from '../DrivingLicenseType/AddDrivingLicenseType';
 import DeleteDrivingLicenseType from '../DrivingLicenseType/DeleteDrivingLicenseType';
 import PaymentDetails from '../PaymentDetails/PaymentDetails';
+import AdminPanel from '../AdminPanel/AdminPanel';
 
 
 
@@ -95,6 +96,8 @@ const AdminRoutes: React.FC = () => {
         <Route path="/adminPanel/addDrivingLicenseType" element={<AddDrivingLicenseType />}></Route>
         <Route path="/adminPanel/deleteDrivingLicenseType" element={<DeleteDrivingLicenseType />}></Route>
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
+
+        
       </Routes>
     </SideBar>
   );
