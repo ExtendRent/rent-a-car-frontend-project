@@ -8,6 +8,7 @@ export const addCarImages = createAsyncThunk(
     "images/addCarImages",
     async(values: any, thunkAPI) => {
         try{
+            console.log("car images values : ", values);
             const service: ImageService = new ImageService();
             const { licensePlate, image } = values;
             const addedImage = await service.addCarImage(licensePlate,image);
@@ -64,7 +65,9 @@ const imageSlice = createSlice({
         builder.addCase(addCarImages.fulfilled, (state, action) => {
             state.images.push(action.payload);
         });
-        builder.addCase(addCarImages.rejected, (state) => {});
+        builder.addCase(addCarImages.rejected, (state) => {
+
+        });
 
 
         builder.addCase(addUserImages.pending, (state) => {});

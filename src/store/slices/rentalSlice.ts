@@ -34,18 +34,17 @@ export const getByIdRental = createAsyncThunk(
 
 export const addRental = createAsyncThunk(
     "rental/addRental",
-    async (addRentalData: AddRentalModel     
-      , thunkAPI) => {
-      try {
-        const addedRental = await rentalService.add(addRentalData);
-        return addedRental.data;
+    async (addRentalData: AddRentalModel, thunkAPI) => {
+        try {
+            const addedRental = await rentalService.add(addRentalData);
+            return addedRental.data;
 
-      } catch (error) {
-        console.error("Error adding addedRental:", error);
-        throw error;
-      }
+        } catch (error) {
+            console.error("Error adding addedRental:", error);
+            throw error;
+        }
     }
-  );
+);
 
 export const updateRental = createAsyncThunk(
     "rentals/updateRentals",
@@ -71,33 +70,64 @@ export const returnRental = createAsyncThunk(
     }
 );
 
-/* export const startRental = createAsyncThunk(
+export const getCountByStatus = createAsyncThunk(
+    "rentals/getCountByStatus",
+    async ({ status }: { status: number; }, thunkAPI) => {
+        try {
+            const getByCounted = await rentalService.getCountByStatus(status);
+            return getByCounted.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByCounted:", error);
+            throw error;
+        }
+    }
+);
+
+export const getCountIsDeleted = createAsyncThunk(
+    "rentals/getCountIsDeleted",
+    async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
+        try {
+            const getCountIsDelete = await rentalService.getCountIsDeleted(deleted);
+            return getCountIsDelete.data.response;
+
+        } catch (error) {
+            console.error("Error adding getCountIsDeleted:", error);
+            throw error;
+        }
+    }
+);
+
+
+export const startRental = createAsyncThunk(
     "rentals/startRentals",
     async ({ rentalId }: { rentalId: number; }, thunkAPI) => {
         try {
-            return( await rentalService.startRental(rentalId)).data.response;
+            return (await rentalService.startRental(rentalId)).data.response;
 
         } catch (error) {
-          console.error("Error deleting start rental:", error);
-          throw error;
+            console.error("Error deleting start rental:", error);
+            throw error;
         }
-      }
-); */
+    }
+);
+
+
 
 
 export const deleteRental = createAsyncThunk(
     "rentals/deleteRental",
     async ({ id }: { id: number; }, thunkAPI) => {
-    try {
-      await rentalService.delete(id);
-      return { 
-          deletedRentalId: id 
-        };
-    } catch (error) {
-      console.error("Error deleting rental:", error);
-      throw error;
+        try {
+            await rentalService.delete(id);
+            return {
+                deletedRentalId: id
+            };
+        } catch (error) {
+            console.error("Error deleting rental:", error);
+            throw error;
+        }
     }
-  }
 );
 
 
@@ -123,22 +153,22 @@ const rentalSlice = createSlice({
         });
 
         /*-----------------*/
-        builder.addCase(addRental.pending, (state) => {});
+        builder.addCase(addRental.pending, (state) => { });
         builder.addCase(addRental.fulfilled, (state, action) => {
-          state.rentals.push(action.payload);
+            state.rentals.push(action.payload);
         });
-        builder.addCase(addRental.rejected, (state) => {});
-        
-          /*-----------------*/
+        builder.addCase(addRental.rejected, (state) => { });
 
-          builder.addCase(returnRental.pending, (state) => { });
+        /*-----------------*/
+
+        builder.addCase(returnRental.pending, (state) => { });
         builder.addCase(returnRental.fulfilled, (state, action) => {
             state.rentals = action.payload;
         });
         builder.addCase(returnRental.rejected, (state) => {
         });
 
-         /*-----------------*/
+        /*-----------------*/
 
         builder.addCase(updateRental.pending, (state) => { });
         builder.addCase(updateRental.fulfilled, (state, action) => {
@@ -149,12 +179,38 @@ const rentalSlice = createSlice({
         /*-----------------*/
 
         builder.addCase(deleteRental.pending, (state) => { });
-    builder.addCase(deleteRental.fulfilled, (state, action) => {
-      const deletedRentalId = action.payload.deletedRentalId;
-      state.rentals = state.rentals.filter(rental => rental.id !== deletedRentalId);
-    });
-    builder.addCase(deleteRental.rejected, (state) => { });
+        builder.addCase(deleteRental.fulfilled, (state, action) => {
+            const deletedRentalId = action.payload.deletedRentalId;
+            state.rentals = state.rentals.filter(rental => rental.id !== deletedRentalId);
+        });
+        builder.addCase(deleteRental.rejected, (state) => { });
 
+
+        /*-----------------*/
+
+        builder.addCase(getCountByStatus.pending, (state) => { });
+        builder.addCase(getCountByStatus.fulfilled, (state, action) => {
+            state.rentals = action.payload;
+        });
+        builder.addCase(getCountByStatus.rejected, (state) => {
+        });
+
+        /*-----------------*/
+
+        builder.addCase(getCountIsDeleted.pending, (state) => { });
+        builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+            state.rentals = action.payload;
+        });
+        builder.addCase(getCountIsDeleted.rejected, (state) => {
+        });
+
+        /*-----------------*/
+
+        builder.addCase(startRental.pending, (state) => { });
+        builder.addCase(startRental.fulfilled, (state, action) => {
+            state.rentals = [];
+        });
+        builder.addCase(startRental.rejected, (state) => { });
     }
 });
 

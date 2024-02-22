@@ -26,7 +26,20 @@ export const addSignIn = createAsyncThunk(
       }
   }
 );
-
+export const isUserTrue = createAsyncThunk(
+  "signin/isUserTrue",
+  async (isUserTrueData: {email : string,password:string}, thunkAPI) => {
+      try {
+          const service: SignInService = new SignInService();
+          const addedisUserTrue = await service.isUserTrue(isUserTrueData);
+  
+          return addedisUserTrue.data; 
+      } catch (error) {
+          console.error("Error adding signIn:", error);
+          throw new Error("İşlem sırasında bir hata oluştu");
+      }
+  }
+);
 const signInSlice = createSlice({
     name: "signIn",
     initialState: { signIn: [] as any[],error: null as string | null ,decodedToken: null},
@@ -44,7 +57,15 @@ const signInSlice = createSlice({
       });
       builder.addCase(addSignIn.rejected, (state, action) => {
         state.error = action.error.message || "Bir hata oluştu.";
-    });
+      });
+
+      builder.addCase(isUserTrue.pending, (state) => {});
+      builder.addCase(isUserTrue.fulfilled, (state, action) => {
+        state.signIn.push(action.payload);
+      });
+      builder.addCase(isUserTrue.rejected, (state, action) => {
+        state.error = action.error.message || "Bir hata oluştu.";
+      });
     },
   });
   export const { setDecodedToken } = signInSlice.actions;

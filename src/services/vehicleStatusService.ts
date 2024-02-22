@@ -19,4 +19,4 @@ class VehicleStatusService{
 
 
 }
-export default new VehicleStatusService
+export default new VehicleStatusService();

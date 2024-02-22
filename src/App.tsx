@@ -68,8 +68,9 @@ import Rentals from './pages/Rental/Rentals';
 import UpdateRental from './pages/Rental/UpdateRental';
 import UpdateCustomer from './pages/Customer/UpdateCustomer';
 import RentalStatuses from './pages/RentalStatus/RentalStatuses';
-
-
+import Users from './pages/User/Users';
+import ReturnRental from './pages/Rental/ReturnRental';
+import UpdateCarModel from './pages/CarModel/UpdateCarModel';
 
   
 
@@ -116,6 +117,7 @@ function App() {
         <Route path="/adminPanel/carModels" element={<CarModels />}></Route>
         <Route path="/adminPanel/addCarModel" element={<AddCarModel />}></Route>
         <Route path="/adminPanel/deleteCarModel" element={<DeleteCarModel />}></Route>
+        <Route path="/adminPanel/updateCarModel/:id" element={<UpdateCarModel/>}></Route>
 
         <Route path="/adminPanel/carBodyTypes" element={<CarBodyTypes />}></Route>
         <Route path="/adminPanel/addCarBodyType" element={<AddCarBodyType />}></Route>
@@ -162,7 +164,10 @@ function App() {
 
         <Route path="/adminPanel/rentals" element={<Rentals />}></Route>
         <Route path="/adminPanel/updateRental/:id" element={<UpdateRental />}></Route>
-        
+        <Route path="/adminPanel/returnRental/:id" element={<ReturnRental />}></Route>
+
+        <Route path="/adminPanel/users" element={<Users />}></Route>
+
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
         <Route path="/adminPanel/updatePaymentDetails/:id" element={<UpdatePaymentDetails />}></Route>

@@ -35,6 +35,9 @@ class CustomerService {
 
     getCountByStatus(status: string){
         return axiosInstance.get<GetAllCustomerModel>(`customers/countByStatus/${status}`)
+    } 
+    updatePassword(param:{id: number,password:string}){
+        return axiosInstance.get<GetAllCustomerModel>("customers/updatePassword",{params: param});
     }
 }
 
