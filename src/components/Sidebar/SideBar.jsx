@@ -240,6 +240,20 @@ const routes = [
   },
   {
     path: "",
+    name: "ARAÇ KİRALAMA",
+    icon: <TbManualGearbox       />,
+    subRoutes: [
+    
+      {
+        path: "/adminPanel/rentals",
+        name: "Araç Kiralama",
+        icon: <FaRedo   />,
+      }
+  
+    ],
+  },
+  {
+    path: "",
     name: "Çalışan",
     icon: <FaHospitalUser      />,
     subRoutes: [
@@ -258,6 +272,18 @@ const routes = [
         name: "Çalışan Silme",
         icon: <FaMinus  />,
       },
+    ],
+  },
+  {
+    path: "",
+    name: "Kullanıcı",
+    icon: <FaHospitalUser      />,
+    subRoutes: [
+      {
+        path: "/adminPanel/Users",
+        name: "Kullanıcı",
+        icon: <FaPlus  />,
+      }
     ],
   },
   {
