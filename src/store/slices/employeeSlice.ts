@@ -82,6 +82,20 @@ export const deleteEmployee = createAsyncThunk(
     }
 );
 
+export const getCountIsDeleted = createAsyncThunk(
+    "employees/getCountIsDeleted",
+    async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
+      try {
+        const getCountIsDelete = await employeeService.getCountIsDeleted(deleted);
+        return getCountIsDelete.data.response;
+  
+      } catch (error) {
+        console.error("Error adding getCountIsDeleted:", error);
+        throw error;
+      }
+    }
+  );
+
 const employeeSlice = createSlice({
     name: "employee",
     initialState: { employees: [] as any[], error: null },
@@ -104,6 +118,15 @@ const employeeSlice = createSlice({
         });
 
         /*-----------------*/
+
+        builder.addCase(getCountIsDeleted.pending, (state) => { });
+        builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+            state.employees = action.payload;
+        });
+        builder.addCase(getCountIsDeleted.rejected, (state) => {
+        });
+
+         /*-----------------*/
 
         builder.addCase(addEmployee.pending, (state) => { });
         builder.addCase(addEmployee.fulfilled, (state, action) => {

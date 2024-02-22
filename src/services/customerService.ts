@@ -28,7 +28,14 @@ class CustomerService {
     getRentalsByCustomerId(customerId: number){
         return axiosInstance.get<GetAllCustomerModel>(`customers/rentals/${customerId}`)
     }
-    
+
+    getCountIsDeleted(deleted: boolean){
+        return axiosInstance.get<GetAllCustomerModel>(`customers/count/${deleted}`)
+    }
+
+    getCountByStatus(status: string){
+        return axiosInstance.get<GetAllCustomerModel>(`customers/countByStatus/${status}`)
+    } 
     updatePassword(param:{id: number,password:string}){
         return axiosInstance.get<GetAllCustomerModel>("customers/updatePassword",{params: param});
     }

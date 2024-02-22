@@ -39,5 +39,13 @@ class CarService {
     delete(id: number){
         return axiosInstance.delete<GetAllCarsModel>(`cars?id=${id}&isHardDelete=true`)
     } 
+
+    getCountIsDeleted(deleted: boolean){
+        return axiosInstance.get<GetAllCarsModel>(`cars/count/${deleted}`)
+    }
+
+    getCountByStatus(statusId: number){
+        return axiosInstance.get<GetAllCarsModel>(`cars/countByStatus/${statusId}`)
+    }
 }
 export default new CarService();

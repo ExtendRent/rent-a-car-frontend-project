@@ -32,6 +32,34 @@ export const getByIdCustomer = createAsyncThunk(
   }
 );
 
+export const getCountByStatus = createAsyncThunk(
+  "customers/getCountByStatus",
+  async ({ status }: { status: string; }, thunkAPI) => {
+    try {
+      const getByCounted = await customerService.getCountByStatus(status);
+      return getByCounted.data.response;
+
+    } catch (error) {
+      console.error("Error adding getByCounted:", error);
+      throw error;
+    }
+  }
+);
+
+export const getCountIsDeleted = createAsyncThunk(
+  "customers/getCountIsDeleted",
+  async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
+    try {
+      const getCountIsDelete = await customerService.getCountIsDeleted(deleted);
+      return getCountIsDelete.data.response;
+
+    } catch (error) {
+      console.error("Error adding getCountIsDeleted:", error);
+      throw error;
+    }
+  }
+);
+
 export const getRentalsByCustomer = createAsyncThunk(
   "customers/getRentalsByCustomers",
   async ({ customerId }: { customerId: number; }, thunkAPI) => {
@@ -122,6 +150,24 @@ const customerSlice = createSlice({
 
     /*---------------*/
 
+    builder.addCase(getCountByStatus.pending, (state) => { });
+    builder.addCase(getCountByStatus.fulfilled, (state, action) => {
+        state.customers = action.payload;
+    });
+    builder.addCase(getCountByStatus.rejected, (state) => {
+    });
+
+     /*---------------*/
+
+     builder.addCase(getCountIsDeleted.pending, (state) => { });
+     builder.addCase(getCountIsDeleted.fulfilled, (state, action) => {
+         state.customers = action.payload;
+     });
+     builder.addCase(getCountIsDeleted.rejected, (state) => {
+     });
+
+      /*---------------*/
+
     builder.addCase(fetchCustomers.pending, (state) => { });
     builder.addCase(fetchCustomers.fulfilled, (state, action) => {
       state.customers = action.payload;
@@ -132,12 +178,12 @@ const customerSlice = createSlice({
 
     builder.addCase(getRentalsByCustomer.pending, (state) => { });
     builder.addCase(getRentalsByCustomer.fulfilled, (state, action) => {
-        state.customers = action.payload;
+      state.customers = action.payload;
     });
     builder.addCase(getRentalsByCustomer.rejected, (state) => {
     });
 
- /*-----------------*/
+    /*-----------------*/
 
     builder.addCase(updateCustomer.pending, (state) => { });
     builder.addCase(updateCustomer.fulfilled, (state, action) => {
