@@ -1,0 +1,7 @@
+.inputForm{
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    font-size: 1rem;
+    width: 500px;
+}

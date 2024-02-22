@@ -13,11 +13,15 @@ import { fetchCustomers, getByIdCustomer, updateCustomer } from '../../store/sli
 import { fetchDrivingLicenseTypes } from '../../store/slices/drivingLicenseTypeSlice';
 import Divider from '@mui/material/Divider';
 import { isUserTrue } from '../../store/slices/signInSlice';
+import { changePassword } from '../../store/slices/userSlice';
+import './UpdateCustomer.css';
 type Props = {}
 
 const UpdateCustomer = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams<{ id: string }>();
+  console.log(id);
+  
   const customerId = parseInt(id ?? "", 10);
   const [file, setFile] = useState<File | undefined>();
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
@@ -28,6 +32,7 @@ const UpdateCustomer = (props: Props) => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const expectedMinDrivingLicenseTypeState = useSelector(
     (state: any) => state.drivingLicenseType
   );
@@ -46,7 +51,7 @@ const UpdateCustomer = (props: Props) => {
       
       dispatch(fetchCustomers());
       dispatch(fetchDrivingLicenseTypes());
-      
+     
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -86,21 +91,32 @@ const UpdateCustomer = (props: Props) => {
     window.location.reload();
 
   };
-  const handleClick = () => {
-    /* if (!mail || !password || !newPassword) {
+  const handleClick =async () => {
+    if (!mail || !password || !newPassword) {
       setErrorMessage('Lütfen tüm alanları doldurun.');
     } else if (password === newPassword) {
       setErrorMessage('Yeni şifre, eski şifre ile aynı olamaz.');
-    } else { */
-      
-      const isUser = dispatch(isUserTrue({email:mail,password:password}));
+    } else {
+      const isUser = await dispatch(isUserTrue({email:mail,password:password}));
       if(isUser){
-        
-        console.log(isUser);
-        
+        try {
+          const changePass = await dispatch(changePassword({ id: customerId, password: newPassword }));
+          // İstek başarılı olduysa
+          console.log(changePass); // Değişiklik ile ilgili bilgileri burada kullanabilirsiniz
+          // Başarılı mesajını set et
+          setSuccessMessage('Şifreniz başarıyla güncellendi.');
+          window.location.reload();
+          
+        } catch (error) {
+          // İstek başarısız olduysa
+          console.error('Şifre değiştirme işlemi başarısız:', error);
+          // Hata mesajını set et
+          setErrorMessage('Şifre değiştirme işlemi başarısız oldu.');
+        }
+      
       }
       setErrorMessage('');
-    /* } */
+    }
   };
   return (
     <Formik
@@ -185,9 +201,11 @@ const UpdateCustomer = (props: Props) => {
           <div className="row">
               
               <div id="select-block" className="col-md-6">
-              {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+              
                 <div className="mb-2">
+                <label className="form-label">Mail Giriniz</label>
                 <input
+                    className='inputForm'
                     type="text"
                     value={mail}
                     onChange={(e) => setMail(e.target.value)}
@@ -195,7 +213,9 @@ const UpdateCustomer = (props: Props) => {
                   />
                 </div>
                 <div className="mb-2">
+                <label className="form-label">Eski Şifre Giriniz</label>
                   <input
+                    className='inputForm'
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -203,7 +223,9 @@ const UpdateCustomer = (props: Props) => {
                   />
                 </div> 
                 <div className="mb-2">
+                <label className="form-label">Yeni Şifre Giriniz</label>
                   <input
+                    className='inputForm'
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -212,8 +234,9 @@ const UpdateCustomer = (props: Props) => {
                 </div> 
               </div>
           </div>
-          <button onClick={handleClick}>Güncelle</button>
-
+          <Button onClick={handleClick}>Güncelle</Button>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </Form>
       </div>
     </SideBar>

@@ -19,7 +19,8 @@ import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeS
 import { fetchCarSegments } from "../../store/slices/carSegmentSlice";
 import FormikCheckbox from "../../components/FormikCheckbox/FormikCheckbox";
 import { addCarImages } from "../../store/slices/imageSlice";
-
+import Dropzone from "react-dropzone-uploader";
+import { AddCarModel } from "../../models/Requests/Car/AddCarModel";
 type Props = {};
 
 const AddCar = (props: Props) => {
@@ -99,20 +100,20 @@ const AddCar = (props: Props) => {
     kilometer: 0,
     seat: 0,
     luggage: 0,
-    brandEntityId: "",
-    carModelEntityId: "",
-    carBodyTypeEntityId: "",
-    colorEntityId: "",
-    vehicleStatusEntityId: "",
-    shiftTypeEntityId: "",
-    fuelTypeEntityId: "",
-    expectedMinDrivingLicenseTypeId: "",
-    carImageEntityId: "",
+    brandEntityId: 0,
+    carModelEntityId: 0,
+    carBodyTypeEntityId: 0,
+    colorEntityId: 0,
+    vehicleStatusEntityId: 0,
+    shiftTypeEntityId: 0,
+    fuelTypeEntityId: 0,
+    expectedMinDrivingLicenseTypeId: 0,
     vehicleType: "CAR",
-    carSegmentEntityId: "",
+    carSegmentEntityId: 0,
+    carImageEntityId:0,
     available: true,
   };
-  const handleAddCar = async (values: any) => {
+  /* const handleAddCar = async (values: any) => {
 
     const { licensePlate, carImageEntityId } = values;
     const imageResponse = await dispatch(addCarImages({
@@ -120,11 +121,36 @@ const AddCar = (props: Props) => {
       licensePlate: values.licensePlate
     }));
     console.log(imageResponse);
-    //values.carImageEntityId = imageResponse.carImageEntityId; // imageResponse'dan gelen carImageEntityId'yi values'a ata
-  
-    //dispatch(addCar(values));
+    dispatch(addCar(values));
+  }; */
+  const formData = new FormData();
+  const getUploadParams = ({}) => {
+   
+ 
+    return { url: 'https://httpbin.org/post' }
+
+  }
+  const handleChangeStatus = ({ meta, file }: { meta: any, file: any }) => {
+    if (meta.status === 'done') {
+      console.log('Dosya yüklendi:', file);
+      formData.append("file", file)
+
+
+    } else if (meta.status === 'error') {
+      console.error('Dosya yüklenirken bir hata oluştu:', meta);
+
+    }
   };
+  const handleAddCar = async (values:AddCarModel) => {
   
+    console.log(formData);
+    
+    formData.append('file', new Blob([JSON.stringify(values)], { type: "application/json" }))
+    
+    //console.log(formData);
+    
+    dispatch(addCar(formData));
+  }
   return (
     <Formik
       initialValues={initialValues}
@@ -245,11 +271,16 @@ const AddCar = (props: Props) => {
                   />
                 </div>
                 <div className="mb-2">
-                  <FormikInput
+                  {/* <FormikInput
                     name="carImageEntityId"
                     label="Fotoğraf Giriniz"
                     placeHolder="Fotoğraf Giriniz."
                     type="file"
+                  /> */}
+                  <Dropzone
+                    getUploadParams={getUploadParams}
+                    onChangeStatus={handleChangeStatus}
+                    accept='image/*'
                   />
                 </div>
               </div>

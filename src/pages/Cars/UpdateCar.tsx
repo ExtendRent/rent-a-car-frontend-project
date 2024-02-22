@@ -142,7 +142,8 @@ const UpdateCar = (props: Props) => {
     if(typeof file === 'undefined') return;
     const formData =new FormData();
     formData.append('files',file)
-    formData.append("upload_present" ,"636629149633282");
+    //formData.append("upload_present" ,"636629149633282");
+    console.log(formData);
     
     const { licensePlate, carImageEntityId } = values;
     const imageResponse = await dispatch(addCarImages({

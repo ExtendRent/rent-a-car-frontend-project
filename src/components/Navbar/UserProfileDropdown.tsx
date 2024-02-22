@@ -90,7 +90,7 @@ export default function UserProfileDropdown() {
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Avatar />
-          <Link to='/account'>
+          <Link to={`/updateCustomer/${decodedToken?.id}`}>
               Hesabım
           </Link>
         </MenuItem>

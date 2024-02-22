@@ -54,6 +54,20 @@ export const getUserCountIsDeleted = createAsyncThunk(
         }
     }
 );
+export const changePassword = createAsyncThunk(
+    "users/changePassword",
+    async (changeNewPassword: {id : number,password:string}, thunkAPI) => {
+        try {
+            const getChangePass = await userService.updatePassword(changeNewPassword);
+            
+            return getChangePass.data.response;
+
+        } catch (error) {
+            console.error("Error adding getByDeleted:", error);
+            throw error;
+        }
+    }
+);
 
 const userSlice = createSlice({
     name: "user",

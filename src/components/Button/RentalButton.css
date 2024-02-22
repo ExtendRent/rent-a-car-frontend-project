@@ -1,0 +1,180 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+.noSelect {
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Montserrat';
+  margin: 0;
+  background-color: #6b6b6b;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 50% auto;
+      grid-template-rows: auto 50% auto;
+}
+
+.infotext {
+  max-width: 30em;
+  padding: 3em 10em;
+  background-color: #6b6b6b;
+  border-radius: 0.3em;
+  margin: 1em auto;
+  color: #cccccc;
+  background-color: #aaaaaa;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.mybutton {
+  border: none;
+  font-family: 'Montserrat';
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#cccccc), color-stop(20%, #6b6b6b), color-stop(50%, black), color-stop(70%, black), to(#6b6b6b));
+  background-image: linear-gradient(to bottom right, #cccccc 0%, #6b6b6b 20%, black 50%, black 70%, #6b6b6b 100%);
+  border-radius: 100px;
+  width: 142px;
+  height: 47px;
+  /* margin: auto; */
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  display: -ms-grid;
+  display: grid;
+  cursor: pointer;
+  margin-left: 214px;
+  margin-bottom: 25px;
+}
+
+.mybutton .mybuttoninner {
+  width: 139px;
+  height: 43px;
+  border-radius: 100px;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#9e9e9e), color-stop(40%, white), color-stop(70%, #383838), to(white));
+  background-image: linear-gradient(to bottom, #9e9e9e 0%, white 40%, #383838 70%, white 100%);
+  margin: 2px auto 6px auto;
+  padding: 2px;
+}
+
+.mybutton .mybuttoninner .mybuttoninner2 {
+  width: 134px;
+  height: 40px;
+  background-color: #6b6b6b;
+  border-radius: 100px;
+  -webkit-box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.7);
+          box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.7);
+  display: -ms-grid;
+  display: grid;
+  
+}
+
+.mybutton .mybuttoninner .mybuttoninner2 ul {
+  padding: 0;
+}
+
+.mybutton .mybuttoninner .mybuttoninner2 ul li {
+  color: #aaaaaa;
+  list-style-type: none;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 7px;
+  font-size: 8px;
+}
+
+.mybutton .mybuttoninner .mybuttoninner2 ul .mybuttoninnerline2 {
+  width: 70px;
+  height: 1px;
+  margin: auto;
+  background-color: black;
+  z-index: -1;
+}
+
+.mybutton .mybuttoninner .mybuttoninner2 ul .mybuttoninnerline {
+  width: 70px;
+  height: 1px;
+  margin: auto;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+@-webkit-keyframes animshadow {
+  50% {
+    -webkit-box-shadow: 0 0px 20px white;
+            box-shadow: 0 0px 20px white;
+    background-color: white;
+  }
+  100% {
+    -webkit-box-shadow: 0 0px 4px #e00000;
+            box-shadow: 0 0px 4px #e00000;
+    background-color: #e00000;
+  }
+}
+
+@keyframes animshadow {
+  50% {
+    -webkit-box-shadow: 0 0px 20px white;
+            box-shadow: 0 0px 20px white;
+    background-color: white;
+  }
+  100% {
+    -webkit-box-shadow: 0 0px 4px #e00000;
+            box-shadow: 0 0px 4px #e00000;
+    background-color: #e00000;
+  }
+}
+
+@-webkit-keyframes pressedbutton {
+  100% {
+    -webkit-transform: scale(1.47);
+            transform: scale(1.47);
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+}
+
+@keyframes pressedbutton {
+  100% {
+    -webkit-transform: scale(1.47);
+            transform: scale(1.47);
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+}
+
+.mybutton:hover .mybuttoninnerline {
+  -webkit-box-shadow: 0 0px 4px #e00000;
+          box-shadow: 0 0px 4px #e00000;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: #e00000;
+}
+
+.mybutton:focus {
+  border: none;
+  outline: none;
+  -webkit-animation: pressedbutton 0.2s alternate;
+          animation: pressedbutton 0.2s alternate;
+}
+
+.mybutton:focus .mybuttoninner {
+  border: none;
+}
+
+.mybutton:focus .mybuttoninner2 {
+  border: none;
+}
+
+.mybutton:focus .mybuttoninnerline2 {
+  border: none;
+}
+
+.mybutton:focus .mybuttoninnerline {
+  -webkit-animation: animshadow 0.4s forwards;
+          animation: animshadow 0.4s forwards;
+  border: none;
+}
+/*# sourceMappingURL=style.css.map */

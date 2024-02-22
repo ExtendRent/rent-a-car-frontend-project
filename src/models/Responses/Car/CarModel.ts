@@ -14,7 +14,7 @@ export interface CarModel {
     rentalPrice: number;
     licensePlate: string;
     kilometer: number;
-    imagesEntityImagePaths: string[];
+    imageEntityImageUrl: string;
     vehicleStatusEntityId: number;
     carModelEntityBrandEntityId: number;
     carModelEntityId: number;
