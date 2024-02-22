@@ -1,17 +1,33 @@
-import React, { useState } from 'react'
-import CarCart from '../../components/CarCart/CarCart'
-import Search from '../../components/Search/Search'
+// Homepage.tsx
+import Search from '../../components/Search/Search';
 import './Homepage.css';
-type Props = {}
+import carVideo from '../../assets/videos/lamboBackground.mp4';
 
-const Homepage = (props: Props) => {
- 
- 
+type Props = {};
+
+const Homepage: React.FC<Props> = (props: Props) => {
+
   return (
-    <div>
-      <Search/>
-    </div>
-  )
-}
+  
+    <div className="homepage-container">
+    
+      <div className="searchDate">
+      <Search />
+      </div>
+            
+      <div> 
 
-export default Homepage
+      <video autoPlay 
+      loop 
+      muted 
+      className="background-video">
+        <source src={carVideo} type="video/mp4" />
+      </video>
+
+      </div >
+     
+    </div>
+  );
+};
+
+export default Homepage;

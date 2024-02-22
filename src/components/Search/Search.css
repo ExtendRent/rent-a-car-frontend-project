@@ -1,0 +1,143 @@
+.form-control{
+background-color: #b91b1b;
+color: #121212;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1)}
+
+      input[type="date"]:focus {
+        background-color: rgb(214, 214, 214);
+      }
+
+
+ 
+
+
+  .button3 {
+     appearance: none;
+  background-color: #000000;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 60px;
+  min-width: 0;
+  outline: none;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  will-change: transform;
+  }
+  
+  .wheelIcon {
+    height: 25px;
+    margin-left: 20px;
+    transition-duration: 1.5s;
+  }
+
+  
+  .button3:hover {
+    transition-duration: 2s;
+    box-shadow: inset 0 -100px 0 0 #8C1816;
+  }
+  
+  .button3:active {
+    transform: scale(0.97);
+    box-shadow: inset 0 -100px 0 0 rgb(189, 8, 8);
+    transition-duration: .2s;
+  }
+  
+  .button3:hover .wheelIcon {
+    transform: rotate(250deg);
+    transition-duration: 1.5s;
+  }
+  
+  
+
+
+
+
+
+
+
+
+     
+/* .button2 {
+  
+    appearance: none;
+    background-color: #000000;
+    border: 2px solid #1A1A1A;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: flexbox;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 60px;
+    min-width: 0;
+    outline: none;
+    padding: 16px 24px;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+    will-change: transform;
+}
+
+.button2 span {
+  display: block;
+  margin-left: 0.3em;
+  transition: all 0.3s ease-in-out;
+}
+
+.button2 .svg-wrapper{
+float: left;
+scale: 0.8;
+}
+
+.button2:hover {
+  background: #000;
+}
+
+.button2:hover .svg-wrapper {
+  transition: 0.5s linear;
+}
+
+.button2:hover svg {
+  transform: translateX(1.2em) scale(1.1);
+  fill: #fff;
+}
+
+.button2:hover span {
+  opacity: 0;
+  transition: 0.5s linear;
+}
+
+.button2:active {
+  transform: scale(0.95);
+}
+
+.button2:active .svg-wrapper {
+    transform: translateX(1000%);
+    fill: #fff;
+    transition: transform 0.3s ease-in-out;
+  } */
