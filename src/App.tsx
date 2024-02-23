@@ -72,6 +72,7 @@ import Users from './pages/User/Users';
 import ReturnRental from './pages/Rental/ReturnRental';
 import UpdateCarModel from './pages/CarModel/UpdateCarModel';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
+import Footer from './components/Footer/Footer';
 
   
 
@@ -175,6 +176,7 @@ function App() {
         <Route path="/account" element={<Account />}></Route>
       
 			</Routes>
+    <Footer/>
     </>
   );
 }

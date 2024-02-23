@@ -1,17 +1,54 @@
-.form-control{
-background-color: #b91b1b;
-color: #121212;
-}
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px); /* Başlangıç pozisyonu aşağıda */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* Bitiş pozisyonu yukarıda */
+    }
+  }
+
+input.form-control {
+    background-color: #121212;
+    color: white;
+    border-color: #7a7a7a;
+  }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1)}
+    filter: invert(1)
+    
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:active {
+scale: 0.9;
+}
+
+input[type="date"]::-webkit-calendar-picker{
+    background-color: #8C1816
+}
 
       input[type="date"]:focus {
-        background-color: rgb(214, 214, 214);
+        background-color: #1f1f1f;
+        color: white;
+        box-shadow: none;
+        border-color: #c5c4c4;
       }
 
 
- 
+.text-fadeInUpFast {
+    z-index: +2;
+    animation: fadeInUp 1s ease-in-out;
+  }
 
 
   .button3 {
@@ -50,7 +87,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
   
   .button3:hover {
-    transition-duration: 2s;
+    transition-duration: 1.5s;
     box-shadow: inset 0 -100px 0 0 #8C1816;
   }
   
