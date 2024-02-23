@@ -19,11 +19,11 @@ const Search: React.FC = () => {
   return (
     <div className="container-lg mt-5">
       <Formik
-        initialValues={{ startDate: '', endDate: '' }}
+        initialValues={{ startDate: new Date().toISOString().slice(0, 10) , endDate: '' }}
         onSubmit={async (values) => {
           const { startDate, endDate } = values;
 
-          if (startDate && endDate) {
+          if (startDate || endDate) {
             const parsedStartDate = new Date(startDate); // String'i Date'e çevirin
             const parsedEndDate = new Date(endDate);
 
@@ -48,7 +48,7 @@ const Search: React.FC = () => {
         <Form>
           
           <div className="mb-5">
-            <label htmlFor="startDate" className="form-label text-white fs-2">
+            <label htmlFor="startDate" className="form-label custom-label text-white fs-2">
               Alış Tarihi 
             </label>
             
@@ -61,7 +61,7 @@ const Search: React.FC = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="endDate" className="form-label text-white fs-2">
+            <label htmlFor="endDate" className="form-label custom-label text-white fs-2">
               Dönüş Tarihi
             </label>
             <Field

@@ -10,13 +10,17 @@ const Homepage: React.FC<Props> = (props: Props) => {
   return (
   
     <div className="homepage-container">
-    
+
+
+
       <div className="searchDate">
+<p className="welcomeMessage" style={{fontSize: '20px'}}>
+ <span className='welcomeMessage-red'style={{fontSize: '30px'}}>macera</span> tarihinizi belirleyin.
+</p>
       <Search />
       </div>
             
       <div> 
-
       <video autoPlay 
       loop 
       muted 
