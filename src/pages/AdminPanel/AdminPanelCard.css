@@ -1,24 +1,14 @@
 
 .container2{
     
-  /*  --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
-    
-    padding-right: calc(var(--bs-gutter-x) * 0.5);
-    padding-left: calc(var(--bs-gutter-x) * 0.5); 
-    margin-left: 200px;
-    width: 85%;
-    margin-top: auto;
-    background: #e2dbdd;
-    margin-top: 10px;
-   width: 85%;
+  margin-top: 100px;
+  width: 85%;
   display: flex;
   align-items: stretch;
   flex-direction: column;
-  overflow-x: auto;
   position: absolute;
   left: 77%;
-  transform: translate(-25%); */
+  transform: translate(-75%);
 }
 
 .adminRoutes{

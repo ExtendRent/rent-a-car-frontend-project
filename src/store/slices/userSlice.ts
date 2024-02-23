@@ -46,7 +46,7 @@ export const getUserCountIsDeleted = createAsyncThunk(
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
             const getByDeleted = await userService.getUserCountIsDeleted(deleted);
-            return getByDeleted.data.response;
+            return getByDeleted.data;
 
         } catch (error) {
             console.error("Error adding getByDeleted:", error);
@@ -71,7 +71,7 @@ export const changePassword = createAsyncThunk(
 
 const userSlice = createSlice({
     name: "user",
-    initialState: { users: [] as any[], error: null },
+    initialState: { users: [] as any[], error: null,userCountIsDeleted: 0 },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -104,7 +104,7 @@ const userSlice = createSlice({
 
         builder.addCase(getUserCountIsDeleted.pending, (state) => { });
         builder.addCase(getUserCountIsDeleted.fulfilled, (state, action) => {
-            state.users = action.payload;
+            state.userCountIsDeleted  = action.payload.response;
         });
         builder.addCase(getUserCountIsDeleted.rejected, (state) => {
         });

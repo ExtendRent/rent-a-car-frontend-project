@@ -37,7 +37,7 @@ export const getCustomerCountByStatus = createAsyncThunk(
   async ({ status }: { status: string; }, thunkAPI) => {
     try {
       const getByCounted = await customerService.getCustomerCountByStatus(status);
-      return getByCounted.data.response;
+      return getByCounted.data;
 
     } catch (error) {
       console.error("Error adding getByCounted:", error);
@@ -126,7 +126,7 @@ export const deleteCustomer = createAsyncThunk(
 
 const customerSlice = createSlice({
   name: "customer",
-  initialState: { customers: [] as any[], error: null },
+  initialState: { customers: [] as any[], error: null ,customerStatus:0},
   reducers: {},
   extraReducers: (builder) => {
 
@@ -152,7 +152,7 @@ const customerSlice = createSlice({
 
     builder.addCase(getCustomerCountByStatus.pending, (state) => { });
     builder.addCase(getCustomerCountByStatus.fulfilled, (state, action) => {
-        state.customers = action.payload;
+        state.customerStatus = action.payload.response;
     });
     builder.addCase(getCustomerCountByStatus.rejected, (state) => {
     });

@@ -57,11 +57,14 @@ main {
 
 .sidebar {
   background-color: rgba(255, 255, 255, 0);
-  color: rgb(0, 7, 61);
+  color: rgb(255, 255, 255);
   /* color: rgb(0, 7, 61); */
   backdrop-filter: blur(4px);
   height: 110vh;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 67, 129, 0.547) rgba(0, 0, 0, 0);
+  height: 110vh;
 }
 
 .top_section {
@@ -105,7 +108,7 @@ main {
 }
 .link {
   display: flex;
-  color: rgb(0, 7, 61);
+  color: rgb(255, 255, 255);
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
@@ -113,7 +116,7 @@ main {
 }
 .link:hover {
   border-right: 4px solid rgb(0, 7, 61);
-  background: rgb(220, 225, 254);
+  background: rgb(150, 16, 16);
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 /* .active {
@@ -127,7 +130,7 @@ main {
 
 .menu {
   display: flex;
-  color: rgb(0, 7, 61);;
+  color: rgb(255, 255, 255);;
 
   padding: 5px 10px;
   border-right: 4px solid transparent;

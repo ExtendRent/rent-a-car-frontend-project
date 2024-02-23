@@ -17,7 +17,7 @@ class UserService{
     }
 
     getUserCountIsDeleted(deleted: boolean) {
-        return axiosInstance.get<GetAllUsersModel>(`users/count/${deleted}`);
+        return axiosInstance.get<{response: number}>(`users/count/${deleted}`);
     }
     updatePassword(param:{id: number,password:string}){
         return axiosInstance.put(`users/updatePassword?id=${param.id}&password=${param.password}`);

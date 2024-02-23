@@ -2,7 +2,6 @@ import React ,{ useEffect, useState } from 'react'
 import { Button } from "@mui/joy";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import SideBar from "../../components/Sidebar/SideBar";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import FormikSelect from "../../components/FormikSelect/FormikSelect";
 import { useDispatch, useSelector } from 'react-redux';
@@ -131,7 +130,7 @@ const UpdateCustomer = (props: Props) => {
     }}
     enableReinitialize={true}
   >
-    <SideBar>
+
       <div className="container-car">
         <h2 className="h2-car">Bilgilerim</h2>
         <Form style={{float:'inline-start',background: "rgb(255, 244, 234)",padding:"50px",borderRadius:"10px"}}>
@@ -239,7 +238,7 @@ const UpdateCustomer = (props: Props) => {
           {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </Form>
       </div>
-    </SideBar>
+ 
   </Formik>
   )
 }

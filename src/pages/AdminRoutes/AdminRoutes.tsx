@@ -40,6 +40,7 @@ import AddDrivingLicenseType from '../DrivingLicenseType/AddDrivingLicenseType';
 import DeleteDrivingLicenseType from '../DrivingLicenseType/DeleteDrivingLicenseType';
 import PaymentDetails from '../PaymentDetails/PaymentDetails';
 import AdminPanel from '../AdminPanel/AdminPanel';
+import AdminCards from '../AdminPanel/AdminCards';
 
 
 
@@ -99,6 +100,7 @@ const AdminRoutes: React.FC = () => {
 
         
       </Routes>
+      <AdminCards/>
     </SideBar>
   );
 };

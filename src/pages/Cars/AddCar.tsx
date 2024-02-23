@@ -149,7 +149,7 @@ const AddCar = (props: Props) => {
     
     //console.log(formData);
     
-    dispatch(addCar(formData));
+    //dispatch(addCar(formData));
   }
   return (
     <Formik
