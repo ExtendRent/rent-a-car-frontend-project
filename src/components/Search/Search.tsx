@@ -48,8 +48,8 @@ const Search: React.FC = () => {
         <Form>
           
           <div className="mb-5">
-            <label htmlFor="startDate" className="form-label custom-label text-white fs-2">
-              Alış Tarihi 
+            <label htmlFor="startDate" className="form-label text-white fs-2 text-fadeInUpFast">
+              Başlama Tarihi
             </label>
             
             <Field
@@ -61,7 +61,7 @@ const Search: React.FC = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="endDate" className="form-label custom-label text-white fs-2">
+            <label htmlFor="endDate" className="form-label custom-label text-white fs-2 text-fadeInUpFast">
               Dönüş Tarihi
             </label>
             <Field

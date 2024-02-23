@@ -1,4 +1,22 @@
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px); /* Başlangıç pozisyonu aşağıda */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* Bitiş pozisyonu yukarıda */
+    }
+  }
 
 input.form-control {
     background-color: #121212;
@@ -26,13 +44,11 @@ input[type="date"]::-webkit-calendar-picker{
         border-color: #c5c4c4;
       }
 
-.custom-label {
-    font-family: inherit;
-    color: #8C1816;
-    margin-bottom: 3px;
-}
 
- 
+.text-fadeInUpFast {
+    z-index: +2;
+    animation: fadeInUp 1s ease-in-out;
+  }
 
 
   .button3 {
