@@ -15,7 +15,7 @@ const FormikCheckbox = (props: Props) => {
 
   return (
     <div className="mb-3">
-      <label className="form-check-label">
+      <label className="form-check-label" style={{color:'white'}}>
         <Field
           type="checkbox"
           name={props.name}

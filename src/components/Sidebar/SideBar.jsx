@@ -409,6 +409,7 @@ const SideBar = ({ children }) => {
                   variants={inputAnimation}
                   type="text"
                   placeholder="Search"
+                  style={{width:"130px"}}
                 />
               )}
             </AnimatePresence>
@@ -453,7 +454,7 @@ const SideBar = ({ children }) => {
           </section>
         </motion.div>
 
-        <main style={{width:"90%"}}>{children}</main>
+        <main style={{width:"100%",height:"fit-content;"}}>{children}</main>
       </div>
     </>
   );

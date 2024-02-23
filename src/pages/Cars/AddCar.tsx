@@ -163,196 +163,204 @@ const AddCar = (props: Props) => {
       enableReinitialize={true}
     >
       <SideBar>
-        <div className="container-car">
-          <h2 className="h2-car">Araba Ekleme</h2>
-          <Form>
-            <div className="row">
-              <div id="select-block" className="col-md-6">
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Marka Seç"
-                    name="brandEntityId"
-                    options={brandState.brands.map((brands: any) => ({
-                      value: brands.id,
-                      label: brands.name,
-                    }))}
-                  />
-                </div>
+        <div className="container-card">
+          <div className="form">
+            <h2 className="h2-card">Araba Ekleme</h2>
+              <Form>
+                <div className="row">
+                  <div id="select-block" className="col-md-6">
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Marka Seç"
+                        name="brandEntityId"
+                        options={brandState.brands.map((brands: any) => ({
+                          value: brands.id,
+                          label: brands.name,
+                        }))}
+                      />
+                    </div>
 
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Araç Model Seç"
-                    name="carModelEntityId"
-                    options={carModelState.carModel.map((carModel: any) => ({
-                      value: carModel.id,
-                      label: carModel.name,
-                    }))}
-                  />
-                </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Araç Model Seç"
+                        name="carModelEntityId"
+                        options={carModelState.carModel.map((carModel: any) => ({
+                          value: carModel.id,
+                          label: carModel.name,
+                        }))}
+                      />
+                    </div>
 
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Kasa Tipi Seç"
-                    name="carBodyTypeEntityId"
-                    options={carBodyTypeState.carBodyTypes.map(
-                      (carBodyType: any) => ({
-                        value: carBodyType.id,
-                        label: carBodyType.name,
-                      })
-                    )}
-                  />
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Kasa Tipi Seç"
+                        name="carBodyTypeEntityId"
+                        options={carBodyTypeState.carBodyTypes.map(
+                          (carBodyType: any) => ({
+                            value: carBodyType.id,
+                            label: carBodyType.name,
+                          })
+                        )}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Renk Seç"
+                        name="colorEntityId"
+                        options={colorState.colors.map((color: any) => ({
+                          value: color.id,
+                          label: color.name,
+                        }))}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Araç Durumu Seç"
+                        name="vehicleStatusEntityId"
+                        options={vehicleStatusState.vehicleStatuses.map(
+                          (vehicleStatus: any) => ({
+                            value: vehicleStatus.id,
+                            label: vehicleStatus.name,
+                          })
+                        )}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Vites Tipi Seç"
+                        name="shiftTypeEntityId"
+                        options={shiftTypeState.shiftTypes.map(
+                          (shiftType: any) => ({
+                            value: shiftType.id,
+                            label: shiftType.name,
+                          })
+                        )}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Yakıt Tipi Seç"
+                        name="fuelTypeEntityId"
+                        options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
+                          value: fuelType.id,
+                          label: fuelType.name,
+                        }))}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Ehliyet Tipi Seç"
+                        name="expectedMinDrivingLicenseTypeId"
+                        options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
+                          (drivingLicenseType: any) => ({
+                            value: drivingLicenseType.id,
+                            label: drivingLicenseType.name,
+                          })
+                        )}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikSelect
+                        label="Segment Seç"
+                        name="carSegmentEntityId"
+                        options={segmentState.carSegments.map(
+                          (carSegment: any) => ({
+                            value: carSegment.id,
+                            label: carSegment.name,
+                          })
+                        )}
+                      />
+                    </div>
+                    <div className="mb-2">
+                      {/* <FormikInput
+                        name="carImageEntityId"
+                        label="Fotoğraf Giriniz"
+                        placeHolder="Fotoğraf Giriniz."
+                        type="file"
+                      /> */}
+                      <Dropzone
+                        getUploadParams={getUploadParams}
+                        onChangeStatus={handleChangeStatus}
+                        accept='image/*'
+                        classNames={{ dropzone: 'custom-dropzone' }}
+                      />
+                    </div>
+                  </div>
+                  <div id="input-block" className="col-md-6">
+                    <div className="mb-2">
+                      <FormikInput
+                        name="year"
+                        label="Yıl Giriniz"
+                        placeHolder="Yıl Giriniz."
+                        type="number"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="details"
+                        label="Detay Giriniz"
+                        placeHolder="Detay Giriniz."
+                        type="text"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="rentalPrice"
+                        label="Araç Fiyatı Giriniz"
+                        placeHolder="Araç Fiyatı Giriniz."
+                        type="number"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="licensePlate"
+                        label="Plaka Giriniz"
+                        placeHolder="Plaka Giriniz."
+                        type="text"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="kilometer"
+                        label="Kilometre Giriniz"
+                        placeHolder="Kilometre Giriniz."
+                        type="number"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="seat"
+                        label="Koltuk Sayısı Giriniz"
+                        placeHolder="Koltuk Sayısı Giriniz."
+                        type="number"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikInput
+                        name="luggage"
+                        label="Bagaj Sayısı Giriniz"
+                        placeHolder="Bagaj Sayısı Giriniz."
+                        type="number"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <FormikCheckbox
+                        name="available"
+                        label="Araba Geçerli Mi Giriniz"
+                      />
+                    </div>
+                    <div className="mb-2">
+                      <Button type="submit" className="btn btn-primary">
+                      Araba Ekle
+                    </Button>
+                    </div>
+                  </div>
+                  
+                  
                 </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Renk Seç"
-                    name="colorEntityId"
-                    options={colorState.colors.map((color: any) => ({
-                      value: color.id,
-                      label: color.name,
-                    }))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Araç Durumu Seç"
-                    name="vehicleStatusEntityId"
-                    options={vehicleStatusState.vehicleStatuses.map(
-                      (vehicleStatus: any) => ({
-                        value: vehicleStatus.id,
-                        label: vehicleStatus.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Vites Tipi Seç"
-                    name="shiftTypeEntityId"
-                    options={shiftTypeState.shiftTypes.map(
-                      (shiftType: any) => ({
-                        value: shiftType.id,
-                        label: shiftType.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Yakıt Tipi Seç"
-                    name="fuelTypeEntityId"
-                    options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
-                      value: fuelType.id,
-                      label: fuelType.name,
-                    }))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Ehliyet Tipi Seç"
-                    name="expectedMinDrivingLicenseTypeId"
-                    options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
-                      (drivingLicenseType: any) => ({
-                        value: drivingLicenseType.id,
-                        label: drivingLicenseType.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Segment Seç"
-                    name="carSegmentEntityId"
-                    options={segmentState.carSegments.map(
-                      (carSegment: any) => ({
-                        value: carSegment.id,
-                        label: carSegment.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  {/* <FormikInput
-                    name="carImageEntityId"
-                    label="Fotoğraf Giriniz"
-                    placeHolder="Fotoğraf Giriniz."
-                    type="file"
-                  /> */}
-                  <Dropzone
-                    getUploadParams={getUploadParams}
-                    onChangeStatus={handleChangeStatus}
-                    accept='image/*'
-                  />
-                </div>
-              </div>
-              <div id="input-block" className="col-md-6">
-                <div className="mb-2">
-                  <FormikInput
-                    name="year"
-                    label="Yıl Giriniz"
-                    placeHolder="Yıl Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="details"
-                    label="Detay Giriniz"
-                    placeHolder="Detay Giriniz."
-                    type="text"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="rentalPrice"
-                    label="Araç Fiyatı Giriniz"
-                    placeHolder="Araç Fiyatı Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="licensePlate"
-                    label="Plaka Giriniz"
-                    placeHolder="Plaka Giriniz."
-                    type="text"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="kilometer"
-                    label="Kilometre Giriniz"
-                    placeHolder="Kilometre Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="seat"
-                    label="Koltuk Sayısı Giriniz"
-                    placeHolder="Koltuk Sayısı Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="luggage"
-                    label="Bagaj Sayısı Giriniz"
-                    placeHolder="Bagaj Sayısı Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikCheckbox
-                    name="available"
-                    label="Araba Geçerli Mi Giriniz"
-                  />
-                </div>
-              </div>
-            </div>
-            <Button type="submit" className="btn btn-primary">
-              Araba Ekle
-            </Button>
-          </Form>
+                
+              </Form>
+          </div>
         </div>
       </SideBar>
     </Formik>
