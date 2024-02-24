@@ -24,7 +24,6 @@ const Footer: React.FC<FooterProps> = () => {
               <li><a href="#">FAQ</a></li>
               <li><a href="#">shipping</a></li>
               <li><a href="#">returns</a></li>
-              <li><a href="#">order status</a></li>
               <li><a href="#">payment options</a></li>
             </ul>
           </div>
@@ -40,10 +39,9 @@ const Footer: React.FC<FooterProps> = () => {
           <div className="footer-col">
             <h4>follow us</h4>
             <div className="social-links">
-              <a href="#"><i className="fab fa-facebook-f"></i></a>
-              <a href="#"><i className="fab fa-twitter"></i></a>
-              <a href="#"><i className="fab fa-instagram"></i></a>
-              <a href="#"><i className="fab fa-linkedin-in"></i></a>
+              <a href="#"><i className="fa fa-facebook"></i></a>
+              <a href="#"><i className="fa fa-twitter"></i></a>
+              <a href="#"><i className="fa fa-instagram"></i></a>
             </div>
           </div>
       </div>

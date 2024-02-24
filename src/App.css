@@ -45,9 +45,7 @@
 .main-container {
   display: flex;
 }
-main {
-  padding: 10px;
-}
+
 
 .title {
   font-size: 3rem;
@@ -57,14 +55,16 @@ main {
 
 .sidebar {
   background-color: rgba(255, 255, 255, 0);
+  /* background-color:#9b9a9a4b ;  */
+ /*  background-image:url('./assets/wall10.png'); */
   color: rgb(255, 255, 255);
   /* color: rgb(0, 7, 61); */
   backdrop-filter: blur(4px);
-  height: 110vh;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(59, 67, 129, 0.547) rgba(0, 0, 0, 0);
-  height: 110vh;
+  height: auto;
+
 }
 
 .top_section {
@@ -115,7 +115,7 @@ main {
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .link:hover {
-  border-right: 4px solid rgb(0, 7, 61);
+  border-right: 4px solid rgb(150, 16, 16);
   background: rgb(150, 16, 16);
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
@@ -152,3 +152,41 @@ main {
 }
 
 
+.inputForm{
+  padding: 5px;
+  border-radius: var(--bs-border-radius);
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  font-size: 1rem;
+  width: 500px;
+  background-color:#9b9a9a4b ; 
+  color: whitesmoke;
+}
+input::-webkit-input-placeholder {
+  color: whitesmoke;
+}
+.form-label{
+  color: whitesmoke;
+}
+.label-style{
+  color: whitesmoke;
+}
+.container-card{
+  background-image:url('./assets/wall10.png');
+  width: 100%;
+  height: 905px;
+}
+.form{
+  background-color:  #0000004a;
+  width: 80%;
+  height: 801px;
+  margin: auto;
+  border-radius: 10px;
+  transform: translateY(45px);
+}
+.h2-card{
+  padding-top: 30px;
+  color: whitesmoke;
+}
+.custom-dropzone{
+  color:white
+}

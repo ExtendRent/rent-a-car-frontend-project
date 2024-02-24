@@ -9,10 +9,13 @@ body{
   box-sizing: border-box;
 }
 .container{
-  max-width: 1170px;
+  /* max-width: 900px; */
   margin:auto;
   display: flex;
-    align-items: flex-start;
+  align-items: flex-start;
+  height: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 .row{
   display: flex;
@@ -22,11 +25,11 @@ ul{
   list-style: none;
 }
 .footer{
-  background-color: #6e6f70;
+  background-color: #2d2e2e;
   display: flex;  
 }
 .footer-col{
-   width: 25%;
+   width: 20%;
    /* padding: 0 15px; */
 }
 .footer-col h4{
@@ -69,7 +72,7 @@ ul{
   height: 40px;
   width: 40px;
   background-color: rgba(255,255,255,0.2);
-  margin:0 10px 10px 0;
+  margin:0 10px -14px 0;
   text-align: center;
   line-height: 40px;
   border-radius: 50%;

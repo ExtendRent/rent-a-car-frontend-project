@@ -14,6 +14,7 @@ import Divider from '@mui/material/Divider';
 import { isUserTrue } from '../../store/slices/signInSlice';
 import { changePassword } from '../../store/slices/userSlice';
 import './UpdateCustomer.css';
+import walpaper from '../../assets/wall9.jpg'
 type Props = {}
 
 const UpdateCustomer = (props: Props) => {
@@ -58,20 +59,20 @@ const UpdateCustomer = (props: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, 'İsim sadece harflerden oluşmalıdır')
-      .required('İsim giriniz'),
+      .required('İsim '),
     surname: Yup.string()
       .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, 'Soyisim sadece harflerden oluşmalıdır')
-      .required('Soyisim giriniz'),
-    emailAddress: Yup.string().required('Mail Adresi Giriniz'),
-    password: Yup.string().required('Şifre Giriniz'),
+      .required('Soyisim '),
+    emailAddress: Yup.string().required('Mail Adresi '),
+    password: Yup.string().required('Şifre '),
     phoneNumber: Yup.string()
       .matches(/^[0-9]+$/, 'Telefon numarası sadece sayılardan oluşmalıdır')
       .min(10, 'Telefon numarası 10 hane olmalıdır')
       .max(10, 'Telefon numarası 10 hane olmalıdır')
-      .required('Telefon numarası giriniz'),
+      .required('Telefon numarası '),
     drivingLicenseNumber: Yup.number()
-      .required('Maaş giriniz'),
-    expectedMinDrivingLicenseTypeId:Yup.number().required('Ehliyet giriniz'),
+      .required('Maaş '),
+    expectedMinDrivingLicenseTypeId:Yup.number().required('Ehliyet '),
   })
 
   const initialValues = {
@@ -131,112 +132,114 @@ const UpdateCustomer = (props: Props) => {
     enableReinitialize={true}
   >
 
-      <div className="container-car">
-        <h2 className="h2-car">Bilgilerim</h2>
-        <Form style={{float:'inline-start',background: "rgb(255, 244, 234)",padding:"50px",borderRadius:"10px"}}>
-          <div className="row">
-              <div id="select-block" className="col-md-6">
-                <div className="mb-2">
-                  <FormikInput
-                    name="name"
-                    label="İsim Giriniz"
-                    placeHolder="İsim Giriniz."
-                    type='text'
-                  />
+      <div className="container-card">{/* <img src={walpaper} alt="Logo"/> */}
+        <div className='form'>
+          <h2 className="h2-card">Bilgilerim</h2>
+          <Form style={{float:'inline-start',padding:"50px",borderRadius:"10px"}}>
+            <div className="row">
+                <div id="select-block" className="col-md-6">
+                  <div className="mb-2">
+                    <FormikInput
+                      name="name"
+                      label="İsim "
+                      placeHolder="İsim ."
+                      type='text'
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="surname"
+                      label="Soyisim "
+                      placeHolder="İsim ."
+                      type='text'
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="emailAddress"
+                      label="Mail Adresi "
+                      placeHolder="Mail Adresi ."
+                      type='text'
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="phoneNumber"
+                      label="Telefon Numarası "
+                      placeHolder="Telefon Numarası ."
+                      type='text'
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="drivingLicenseNumber"
+                      label="Ehliyet Numarası "
+                      placeHolder="Ehliyet Numarası ."
+                      type='text'
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Ehliyet Tipi Seç"
+                      name="expectedMinDrivingLicenseTypeId"
+                      options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
+                        (drivingLicenseType: any) => ({
+                          value: drivingLicenseType.id,
+                          label: drivingLicenseType.name,
+                        })
+                      )}
+                    />
+                  </div>
                 </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="surname"
-                    label="Soyisim Giriniz"
-                    placeHolder="İsim Giriniz."
-                    type='text'
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="emailAddress"
-                    label="Mail Adresi Giriniz"
-                    placeHolder="Mail Adresi Giriniz."
-                    type='text'
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="phoneNumber"
-                    label="Telefon Numarası Giriniz"
-                    placeHolder="Telefon Numarası Giriniz."
-                    type='text'
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="drivingLicenseNumber"
-                    label="Ehliyet Numarası Giriniz"
-                    placeHolder="Ehliyet Numarası Giriniz."
-                    type='text'
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Ehliyet Tipi Seç"
-                    name="expectedMinDrivingLicenseTypeId"
-                    options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
-                      (drivingLicenseType: any) => ({
-                        value: drivingLicenseType.id,
-                        label: drivingLicenseType.name,
-                      })
-                    )}
-                  />
-                </div>
-              </div>
-             
-          </div>
-          <Button type="submit" className="btn btn-primary">
-            Güncelle
-          </Button>
-        </Form>
-        {/* <div style={{ width: '2px', background: 'black', margin: '0 20px' }}></div> */}
-        <Form style={{float:'inline-end',background: "rgb(255, 244, 234)",padding:"50px",borderRadius:"10px"}}>
-          <div className="row">
               
-              <div id="select-block" className="col-md-6">
-              
-                <div className="mb-2">
-                <label className="form-label">Mail Giriniz</label>
-                <input
-                    className='inputForm'
-                    type="text"
-                    value={mail}
-                    onChange={(e) => setMail(e.target.value)}
-                    placeholder="Mail Adresi Giriniz"
-                  />
+            </div>
+            <Button type="submit" className="btn btn-primary">
+              Güncelle
+            </Button>
+          </Form>
+          
+          <Form style={{float:'inline-end',padding:"50px",borderRadius:"10px"}}>
+            <div className="row">
+                
+                <div id="select-block" className="col-md-6">
+                
+                  <div className="mb-2">
+                  <label className="form-label">Mail </label>
+                  <input
+                      className='inputForm'
+                      type="text"
+                      value={mail}
+                      onChange={(e) => setMail(e.target.value)}
+                      placeholder="Mail Adresi "
+                    />
+                  </div>
+                  <div className="mb-2">
+                  <label className="form-label">Eski Şifre </label>
+                    <input
+                      className='inputForm'
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Şu Anki Şifre"
+                    />
+                  </div> 
+                  <div className="mb-2">
+                  <label className="form-label">Yeni Şifre </label>
+                    <input
+                      className='inputForm'
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Yeni Şifre"
+                    />
+                  </div> 
                 </div>
-                <div className="mb-2">
-                <label className="form-label">Eski Şifre Giriniz</label>
-                  <input
-                    className='inputForm'
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Şu Anki Şifre"
-                  />
-                </div> 
-                <div className="mb-2">
-                <label className="form-label">Yeni Şifre Giriniz</label>
-                  <input
-                    className='inputForm'
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Yeni Şifre"
-                  />
-                </div> 
-              </div>
-          </div>
-          <Button onClick={handleClick}>Güncelle</Button>
-          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-          {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-        </Form>
+            </div>
+            <Button onClick={handleClick}>Güncelle</Button>
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+          </Form>
+        </div>
       </div>
  
   </Formik>
