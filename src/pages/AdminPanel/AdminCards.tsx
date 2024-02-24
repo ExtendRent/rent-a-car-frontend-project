@@ -18,6 +18,7 @@ import {
   getRentalCountByStatus,
   getRentalCountIsDeleted,
 } from "../../store/slices/rentalSlice";
+import { color } from "@mui/system";
 type Props = {};
 
 const AdminCards = (props: Props) => {
@@ -31,9 +32,18 @@ const AdminCards = (props: Props) => {
   const [userCountIsDeleted, setUserCountIsDeleted] = useState(0);
   const [userCountIsDeletedTrue, setUserCountIsDeletedTrue] = useState(0);
   const [customerPending, setCustomerPending] = useState(0);
-  const [customerVerified, setCustomerVerified] = useState(0);
   const [customerBlocked, setCustomerBlocked] = useState(0);
-  
+  const [customerIsDeleted, setCustomerIsDeleted] = useState(0);
+  const [employeeCountIsDeleted, setEmployeeCountIsDeleted] = useState(0);
+  const [employeeCountIsDeletedTrue, setEmployeeCountIsDeletedTrue] = useState(0);
+  const [adminCountIsDeleted, setAdminCountIsDeleted] = useState(0);
+  const [adminCountIsDeletedTrue, setAdminCountIsDeletedTrue] = useState(0);
+  const [carInUse, setCarInUse] = useState(0);
+  const [carMaintenance, setCarMaintenance] = useState(0);
+  const [carCountIsDeleted, setCarCountIsDeleted] = useState(0);
+  const [rentalActive, setRentalActive] = useState(0);
+  const [rentalFinished, setRentalFinished] = useState(0);
+  const [rentalCountIsDeleted, setRentalCountIsDeleted] = useState(0);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -41,24 +51,46 @@ const AdminCards = (props: Props) => {
         const fetchedUserCountIsTrue: any = await dispatch(getUserCountIsDeleted({ deleted: true }));
         
         const fetchedCustomerPending: any = await dispatch(getCustomerCountByStatus({ status:"PENDING_VERIFYING"  }));
-        const fetchedCustomerVerified: any = await dispatch(getCustomerCountByStatus({ status:"VERIFIED"  }));
         const fetchedCustomerBlocked: any = await dispatch(getCustomerCountByStatus({ status:"BLOCKED"  }));
+
+        const fetchedCustomerIsDeleted: any = await dispatch(getCustomerCountIsDeleted({ deleted : false  }));
         
-        dispatch(getCustomerCountIsDeleted({ deleted: false }));
-        dispatch(getEmployeeCountIsDeleted({ deleted: false }));
-        dispatch(getAdminCountIsDeleted({ deleted: false }));
-        dispatch(getCarCountByStatus({ statusId: 2 }));
-        dispatch(getCarCountIsDeleted({ deleted: false }));
-        dispatch(getRentalCountByStatus({ status: 3 }));
-        dispatch(getRentalCountIsDeleted({ deleted: false }));
+        const fetchedEmployeeCountIsDeleted: any = await dispatch(getEmployeeCountIsDeleted({ deleted: false }));
+        const fetchedEmployeeCountIsTrue: any = await dispatch(getEmployeeCountIsDeleted({ deleted: true }));
+
+        const fetchedAdminCountIsDeleted: any = await dispatch(getAdminCountIsDeleted({ deleted: false }));
+        const fetchedAdminCountIsTrue: any = await dispatch(getAdminCountIsDeleted({ deleted: true }));
+        
+        const fetchedCarInUse: any = await dispatch(getCarCountByStatus({ statusId: 1  }));
+        const fetchedCarMaintenance: any = await dispatch(getCarCountByStatus({ statusId: 2  }));
+        const fetchedCarCountIsDeleted: any = await dispatch(getCarCountIsDeleted({ deleted: false }));
+        
+        const fetchedRentalActive: any = await dispatch(getRentalCountByStatus({ status: 1  }));
+        const fetchedRentalFinished: any = await dispatch(getRentalCountByStatus({ status: 2  }));
+        const fetchedRentalCountIsDeleted: any = await dispatch(getRentalCountIsDeleted({ deleted: false }));
 
 
         setUserCountIsDeleted(fetchedUserCountIsDeleted.payload.response as number);
         setUserCountIsDeletedTrue(fetchedUserCountIsTrue.payload.response as number);
 
         setCustomerPending(fetchedCustomerPending.payload.response as number);
-        setCustomerVerified(fetchedCustomerVerified.payload.response as number);
         setCustomerBlocked(fetchedCustomerBlocked.payload.response as number);
+        setCustomerIsDeleted(fetchedCustomerIsDeleted.payload.response as number);
+
+        setEmployeeCountIsDeleted(fetchedEmployeeCountIsDeleted.payload.response as number);
+        setEmployeeCountIsDeletedTrue(fetchedEmployeeCountIsTrue.payload.response as number);
+
+        setAdminCountIsDeleted(fetchedAdminCountIsDeleted.payload.response as number);
+        setAdminCountIsDeletedTrue(fetchedAdminCountIsTrue.payload.response as number);
+
+        setCarInUse(fetchedCarInUse.payload.response as number);
+        setCarMaintenance(fetchedCarMaintenance.payload.response as number);
+        setCarCountIsDeleted(fetchedCarCountIsDeleted.payload.response as number);
+
+        setRentalActive(fetchedRentalActive.payload.response as number);
+        setRentalFinished(fetchedRentalFinished.payload.response as number);
+        setRentalCountIsDeleted(fetchedRentalCountIsDeleted.payload.response as number);
+
     };
     fetchData();
   }, [dispatch]);
@@ -66,25 +98,20 @@ const AdminCards = (props: Props) => {
     <div className="container2">
         <div className="row">
             <div className="col-md-4 col-lg-3">
-            <div className="card bg-c-purple order-card">
+            <div className="card order-card">
                 <div className="card-block">
                 <h4 style={{ textAlign: "center" }} className="m-b-20">
                     Kullanıcılar
                 </h4>
-                <br />
                 <h6 className="m-b-20">
-                    <i
-                    className="fa fa-user"
-                    aria-hidden="true"
-                    style={{ fontSize: "24px" }}
-                    ></i>{" "}
+                <i className="fa fa-user" style={{fontSize: "24px" ,color: '#8C1816'}}></i>{" "}
                     Aktif Kullanıcılar : <span>{userCountIsDeleted}</span>
                 </h6>
                 <h6 className="m-b-20">
                     <i
                     className="fa fa-user"
                     aria-hidden="true"
-                    style={{ fontSize: "24px" }}
+                    style={{ fontSize: "24px" ,color: '#8C1816'}}
                     ></i>{" "}
                     Silinen Kullanıcılar : <span>{userCountIsDeletedTrue}</span>
                 </h6>
@@ -94,17 +121,16 @@ const AdminCards = (props: Props) => {
             </div>
           
             <div className="col-md-4 col-lg-3">
-            <div className="card bg-c-pink order-card">
+            <div className="card order-card">
                 <div className="card-block">
                 <h4 style={{ textAlign: "center" }} className="m-b-20">
                     Müşteriler
                 </h4>
-                <br></br>
                 <h6 className="m-b-20">
                     <i
                     className="fa fa-user"
                     aria-hidden="true"
-                    style={{ fontSize: "24px" }}
+                    style={{ fontSize: "24px", color: '#8C1816'}}
                     ></i>{" "}
                     Onay Bekleyenler : <span>{customerPending}</span>
                 </h6>
@@ -112,37 +138,43 @@ const AdminCards = (props: Props) => {
                     <i
                     className="fa fa-user"
                     aria-hidden="true"
-                    style={{ fontSize: "24px" }}
+                    style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Onaylananlar : <span>{customerVerified}</span>
+                    Engellenenler : <span>{customerBlocked}</span>
                 </h6>
                 <h6 className="m-b-20">
                     <i
                     className="fa fa-user"
                     aria-hidden="true"
-                    style={{ fontSize: "24px" }}
+                    style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Engellenenler : <span>{customerBlocked}</span>
+                    Mevcut : <span>{customerIsDeleted}</span>
                 </h6>
                 </div>
             </div>
             </div>
             <div className="col-md-4 col-lg-3">
-            <div className="card bg-c-vivid-green order-card">
+            <div className="card order-card">
                 <div className="card-block">
                 <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    EMPLOYEE
+                    ÇALIŞANLAR
                 </h4>
-                <br></br>
                 <h6 className="m-b-20">
                     <i
                     className="fa fa-user"
                     aria-hidden="true"
-                    style={{ fontSize: "24px" }}
+                    style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Total Active : <span>{employeeState.employees}</span>
+                    Aktif Kullanıcılar : <span>{employeeCountIsDeleted}</span>
                 </h6>
-                <br />
+                <h6 className="m-b-20">
+                    <i
+                    className="fa fa-user"
+                    aria-hidden="true"
+                    style={{ fontSize: "24px", color: '#8C1816' }}
+                    ></i>{" "}
+                    Silinen Kullanıcılar : <span>{employeeCountIsDeletedTrue}</span>
+                </h6>
                 <br />
                 </div>
             </div>
@@ -150,19 +182,26 @@ const AdminCards = (props: Props) => {
         </div>
         <div className="row">
             <div className="col-md-4 col-lg-3">
-                <div className="card bg-c-blue order-card">
+                <div className="card order-card">
                 <div className="card-block">
                     <h4 style={{ textAlign: "center" }} className="m-b-20">
                     ADMIN
                     </h4>
-                    <br></br>
                     <h6 className="m-b-20">
                     <i
                         className="fa fa-user"
                         aria-hidden="true"
-                        style={{ fontSize: "24px" }}
+                        style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Total Active : <span>{adminState.admins}</span>
+                    Aktif Kullanıcılar : <span>{adminCountIsDeleted}</span>
+                    </h6>
+                    <h6 className="m-b-20">
+                    <i
+                        className="fa fa-user"
+                        aria-hidden="true"
+                        style={{ fontSize: "24px", color: '#8C1816' }}
+                    ></i>{" "}
+                    Silinenler : <span>{adminCountIsDeletedTrue}</span>
                     </h6>
                     <br />
                     <br />
@@ -171,56 +210,70 @@ const AdminCards = (props: Props) => {
             </div>
 
             <div className="col-md-4 col-lg-3">
-                <div className="card bg-c-green order-card">
+                <div className="card order-card">
                 <div className="card-block">
                     <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    CAR
+                    ARABA
                     </h4>
                     <h6 className="m-b-20">
                     <i
                         className="fa fa-car"
                         aria-hidden="true"
-                        style={{ fontSize: "24px" }}
+                        style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Pending Verifying : <span>{carState.cars}</span>
+                    Kullanımda : <span>{carInUse}</span>
                     </h6>
                     <h6 className="m-b-20">
                     <i
                         className="fa fa-car"
                         aria-hidden="true"
-                        style={{ fontSize: "24px" }}
+                        style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Total Active : <span>{carState.cars}</span>
+                    Bakımda : <span>{carMaintenance}</span>
                     </h6>
-                    <br />
+                    <h6 className="m-b-20">
+                    <i
+                        className="fa fa-car"
+                        aria-hidden="true"
+                        style={{ fontSize: "24px", color: '#8C1816' }}
+                    ></i>{" "}
+                    Mevcut : <span>{carCountIsDeleted}</span>
+                    </h6>
                     <br />
                 </div>
                 </div>
             </div>
 
             <div className="col-md-4 col-lg-3">
-                <div className="card bg-c-yellow order-card">
+                <div className="card order-card">
                 <div className="card-block">
-                    <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    RENTAL
+                    <h4 style={{ textAlign: "center"}} className="m-b-20">
+                    KİRALAMA
                     </h4>
                     <h6 className="m-b-20">
                     <i
                         className="fa fa-user"
                         aria-hidden="true"
-                        style={{ fontSize: "24px" }}
+                        style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Pending Verifying : <span>{rentalState.rentals}</span>
+                    Aktif : <span>{rentalActive}</span>
                     </h6>
                     <h6 className="m-b-20">
                     <i
                         className="fa fa-user"
                         aria-hidden="true"
-                        style={{ fontSize: "24px" }}
+                        style={{ fontSize: "24px", color: '#8C1816' }}
                     ></i>{" "}
-                    Total Active : <span>{rentalState.rentals}</span>
+                    Tamamlanan : <span>{rentalFinished}</span>
                     </h6>
-                    <br />
+                    <h6 className="m-b-20">
+                    <i
+                        className="fa fa-user"
+                        aria-hidden="true"
+                        style={{ fontSize: "24px", color: '#8C1816'}}
+                    ></i>{" "}
+                    Mevcut : <span>{rentalCountIsDeleted}</span>
+                    </h6>
                     <br />
                 </div>
                 </div>

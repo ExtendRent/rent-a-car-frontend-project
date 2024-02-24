@@ -16,27 +16,28 @@
 }
 
 .order-card {
-    color: #fff;
+    color: #a9a8a8;
 }
 
-.bg-c-blue {
-    background: linear-gradient(45deg,#4099ff,#73b4ff);
+.bg-c-white {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8));
 }
 
-.bg-c-green {
-    background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+
+.bg-c-gray {
+    background: linear-gradient(45deg, #999999, #CCCCCC);
 }
 
-.bg-c-yellow {
-    background: linear-gradient(45deg,#FFB64D,#ffcb80);
-}
+/* .bg-c-red {
+    background: linear-gradient(45deg, #999999, #CCCCCC);
+} */
 
 .bg-c-pink {
     background: linear-gradient(45deg,#FF5370,#ff869a);
 }
 
-.bg-c-purple {
-    background: linear-gradient(45deg, #8A2BE2, #FF00FF);
+.bg-c-red {
+    background: linear-gradient(45deg, #FF9999, #FFCCCC);
 }
 
 .bg-c-turquoise {
@@ -55,6 +56,8 @@
     margin-bottom: 30px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
+    max-height: 200px;
+    align-items: center;
 }
 
 .card .card-block {

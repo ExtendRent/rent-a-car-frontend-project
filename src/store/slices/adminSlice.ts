@@ -36,7 +36,7 @@ export const getAdminCountIsDeleted = createAsyncThunk(
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
             const getCountIsDelete = await adminService.getAdminCountIsDeleted(deleted);
-            return getCountIsDelete.data.response;
+            return getCountIsDelete.data;
 
         } catch (error) {
             console.error("Error adding getCountIsDeleted:", error);
@@ -97,7 +97,7 @@ export const deleteAdmin = createAsyncThunk(
 
 const adminSlice = createSlice({
     name: "admin",
-    initialState: {admins: [] as any[], error: null},
+    initialState: {admins: [] as any[], error: null, adminCountIsDeleted:0},
     reducers: {},
     extraReducers: (builder) => {
 
@@ -130,7 +130,7 @@ const adminSlice = createSlice({
 
         builder.addCase(getAdminCountIsDeleted.pending, (state) => { });
         builder.addCase(getAdminCountIsDeleted.fulfilled, (state, action) => {
-            state.admins = action.payload;
+            state.adminCountIsDeleted = action.payload.response;
         });
         builder.addCase(getAdminCountIsDeleted.rejected, (state) => {
         });
