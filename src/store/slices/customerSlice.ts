@@ -51,7 +51,7 @@ export const getCustomerCountIsDeleted = createAsyncThunk(
   async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
     try {
       const getCountIsDelete = await customerService.getCustomerCountIsDeleted(deleted);
-      return getCountIsDelete.data.response;
+      return getCountIsDelete.data;
 
     } catch (error) {
       console.error("Error adding getCountIsDeleted:", error);
@@ -126,7 +126,7 @@ export const deleteCustomer = createAsyncThunk(
 
 const customerSlice = createSlice({
   name: "customer",
-  initialState: { customers: [] as any[], error: null ,customerStatus:0},
+  initialState: { customers: [] as any[], error: null ,customerStatus:0,customerCountIsDeleted: 0 },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -161,7 +161,7 @@ const customerSlice = createSlice({
 
      builder.addCase(getCustomerCountIsDeleted.pending, (state) => { });
      builder.addCase(getCustomerCountIsDeleted.fulfilled, (state, action) => {
-         state.customers = action.payload;
+         state.customerCountIsDeleted = action.payload.response;
      });
      builder.addCase(getCustomerCountIsDeleted.rejected, (state) => {
      });

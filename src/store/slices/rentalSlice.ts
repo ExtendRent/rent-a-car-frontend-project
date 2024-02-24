@@ -75,7 +75,7 @@ export const getRentalCountByStatus = createAsyncThunk(
     async ({ status }: { status: number; }, thunkAPI) => {
         try {
             const getByCounted = await rentalService.getRentalCountByStatus(status);
-            return getByCounted.data.response;
+            return getByCounted.data;
 
         } catch (error) {
             console.error("Error adding getByCounted:", error);
@@ -89,7 +89,7 @@ export const getRentalCountIsDeleted = createAsyncThunk(
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
             const getCountIsDelete = await rentalService.getRentalCountIsDeleted(deleted);
-            return getCountIsDelete.data.response;
+            return getCountIsDelete.data;
 
         } catch (error) {
             console.error("Error adding getCountIsDeleted:", error);
@@ -133,7 +133,7 @@ export const deleteRental = createAsyncThunk(
 
 const rentalSlice = createSlice({
     name: "rental",
-    initialState: { rentals: [] as any[], error: null },
+    initialState: { rentals: [] as any[], error: null, rentalStatus:0, rentalCountIsDeleted:0 },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -190,7 +190,7 @@ const rentalSlice = createSlice({
 
         builder.addCase(getRentalCountByStatus.pending, (state) => { });
         builder.addCase(getRentalCountByStatus.fulfilled, (state, action) => {
-            state.rentals = action.payload;
+            state.rentalStatus = action.payload.response;
         });
         builder.addCase(getRentalCountByStatus.rejected, (state) => {
         });
@@ -199,7 +199,7 @@ const rentalSlice = createSlice({
 
         builder.addCase(getRentalCountIsDeleted.pending, (state) => { });
         builder.addCase(getRentalCountIsDeleted.fulfilled, (state, action) => {
-            state.rentals = action.payload;
+            state.rentalCountIsDeleted = action.payload.response;
         });
         builder.addCase(getRentalCountIsDeleted.rejected, (state) => {
         });

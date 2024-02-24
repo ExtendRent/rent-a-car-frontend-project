@@ -19,15 +19,13 @@ const UserTable: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [count, setCount] = useState<number>(0);
     const [page, setPage] = useState<number>(0);
-    const [size, setSize] = useState<number>(5);
+    const [size, setSize] = useState<number>(15);
     const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
-    //const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-
     const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchUsers({page, size, sort: [sortOrder.direction] }));
-        console.log(userState.users);
+        console.log(userState.users.content);
     }, [page, size]);
 
     useEffect(() => {
@@ -46,7 +44,7 @@ const UserTable: React.FC = () => {
         setData(tableData);
         setCount(userState.users.content.length);
 
-        console.log(userState);
+        console.log(userState.users);
     }, [userState]);
  
     const handleUpdate = (id: number) => {
@@ -130,7 +128,7 @@ const UserTable: React.FC = () => {
         responsive: 'vertical' as Responsive,
         serverSide: true,
         count: count,
-        size: [5, 10, 15],
+        tableSize:size ,
         //rowsPerPageOptions: [5, 10, 15],
         page: page,
         sortOrder: sortOrder,
@@ -148,7 +146,7 @@ const UserTable: React.FC = () => {
                     changePage(tableState.page, tableState.sortOrder);
                     break;
                 case 'changeSize': // Yeni sayfa sayısını işlemek için case eklendi
-                    changeSize(tableState.page, tableState.size);
+                    changeSize(tableState.page, tableState.tableSize);
                     break; 
                 case 'sort':
                     sort(tableState.page, tableState.sortOrder);
