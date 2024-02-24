@@ -69,8 +69,13 @@ const Cars = (props: Props) => {
   return (
     <div >
     <SideBar>
+    <div className="container-card">
+    <div className="container-card-table">
+          <h2 className="h2-card">ARAÇLAR</h2>
       <div className="full-screen">
         <MyMUIDataTable />
+  </div>
+      </div>
       </div>
     </SideBar>
      

@@ -99,7 +99,7 @@ export default function UserProfileDropdown() {
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          <Link to='/allMyRentals' style={{color:'#44494c', textDecoration:"none"}}>
+          <Link to={`/allMyRentals/${decodedToken?.id}`} style={{color:'#44494c', textDecoration:"none"}}>
               Kiralama Geçmişim
           </Link>
         </MenuItem>

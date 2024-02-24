@@ -242,7 +242,7 @@ const CarModelTable: React.FC = () => {
                             car.year.toString().includes(filterList[4][0] || "") &&
                             car.carBodyTypeEntityName.toLowerCase().includes(filterList[5][0] || "") &&
                             car.fuelTypeEntityName.toLowerCase().includes(filterList[6][0] || "") &&
-                            car.shiftTypeEntityName.toString().includes(filterList[7][0] || "") &&
+                            car.shiftTypeEntityName.toLowerCase().includes(filterList[7][0] || "") &&
                             car.rentalPrice.toString().includes(filterList[8][0] || "") &&
                             car.licensePlate.toLowerCase().includes(filterList[9][0] || "") &&
                             car.kilometer.toString().includes(filterList[10][0] || "") &&
@@ -313,7 +313,7 @@ const CarModelTable: React.FC = () => {
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ARAÇ
+                       
                         {isLoading && (
                             <CircularProgress
                                 size={24}
