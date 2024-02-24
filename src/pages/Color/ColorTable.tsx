@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteColor, fetchColors } from "../../store/slices/colorSlice";
-
+import './ColorTable.css'
 
 const ColorTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -150,15 +150,18 @@ const ColorTable: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100%", overflowX: "auto" }}>
+    <div className="container-card">
+      <h2 className="h2-card">RENK</h2>
+      <div className="form">
+      
       <MUIDataTable
         title={
           <Typography variant="h6">
-            RENK
+            
             {isLoading && (
               <CircularProgress
                 size={24}
-                style={{ marginLeft: 15, position: "relative", top: 4 }}
+                style={{ marginLeft: 15, position: "relative", top: 4, backgroundColor: 'red' }}
               />
             )}
           </Typography>
@@ -220,8 +223,19 @@ const ColorTable: React.FC = () => {
             },
           },
         ]}
-        options={options}
+        options={{
+          ...options,
+          setRowProps: () => ({
+            className: 'custom-row'  // Arka plan transparanlığı
+          }),
+          setTableProps: () => ({
+            style: {
+              className: 'custom-mui-table'
+            },
+          }),
+        }}
       />
+      </div>
     </div>
   );
 };

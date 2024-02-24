@@ -36,11 +36,12 @@ const AddCarBodyType = (props: Props) => {
       enableReinitialize={true}
     >
       <SideBar>
-        <div className="container-car">
-          <h2 className="h2-car">Araç Kasa Tipi Ekleme</h2>
+        <div className="container-card">
+        <div className="form">
+          <h2 className="h2-card">Kasa Tipi Ekleme</h2>
           <Form>
             <div className="row">
-              <div id="select-block" className="col-md-6">
+              <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                   <FormikInput
                     name="carBodyTypeEntityName"
@@ -53,6 +54,7 @@ const AddCarBodyType = (props: Props) => {
               </div>
             </div>
           </Form>
+        </div>
         </div>
       </SideBar>
     </Formik>

@@ -20,23 +20,18 @@ const routes = [
  
   {
     path: "",
-    name: "Arabalar",
+    name: "Araçlar",
     icon: <FaCarSide />,
     subRoutes: [
       {
         path: "/adminPanel/addCar",
-        name: "Araba Ekleme ",
+        name: "Araç Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/Cars",
-        name: "Araba Güncelleme",
+        name: "Araç Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteCar",
-        name: "Araba Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -52,13 +47,8 @@ const routes = [
       },
       {
         path: "/adminPanel/Brands",
-        name: "Marka Güncelleme",
+        name: "Marka Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteBrand",
-        name: "Marka Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -69,69 +59,54 @@ const routes = [
     subRoutes: [
       {
         path: "/adminPanel/AddCarModel",
-        name: "Marka Ekleme ",
+        name: "Model Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/CarModels",
-        name: "Marka Güncelleme",
+        name: "Model Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteCarModel",
-        name: "Marka Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
   {
     path: "",
-    name: "Araba Kasa Tipi",
+    name: "Kasa Tipi",
     icon: <FaCaravan  />,
     subRoutes: [
       {
         path: "/adminPanel/AddCarBodyType",
-        name: "Araba Kasa Ekleme ",
+        name: "Kasa Ekleme",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/CarBodyTypes",
-        name: "Araba Kasa Güncelleme",
+        name: "Kasa Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteCarBodyType",
-        name: "Araba Kasa Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
   {
     path: "",
     name: "Renkler",
-    icon: <FaPalette   />,
+    icon: <FaPalette  />,
     subRoutes: [
       {
         path: "/adminPanel/AddColor",
-        name: "Renk Ekleme ",
+        name: "Renk Ekleme",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/Colors",
-        name: "Renk Güncelleme",
+        name: "Renk Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteColor",
-        name: "Renk Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
   {
     path: "",
     name: "İndirim Kodu",
-    icon: <FaTicketAlt    />,
+    icon: <FaTicketAlt />,
     subRoutes: [
       {
         path: "/adminPanel/AddDiscountCode",
@@ -140,13 +115,8 @@ const routes = [
       },
       {
         path: "/adminPanel/DiscountCodes",
-        name: "İndirim Kodu Güncelleme",
+        name: "İndirim Kodu Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteDiscountCode",
-        name: "İndirim Kodu Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -157,18 +127,13 @@ const routes = [
     subRoutes: [
       {
         path: "/adminPanel/AddDrivingLicenseType",
-        name: "Ehliyet Tipi Ekleme ",
+        name: "Ehliyet Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/DrivingLicenseTypes",
-        name: "Ehliyet Tipi Güncelleme",
+        name: "Ehliyet Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteDrivingLicenseType",
-        name: "Ehliyet Tipi Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -179,18 +144,13 @@ const routes = [
     subRoutes: [
       {
         path: "/adminPanel/AddFuelType",
-        name: "Yakıt Tipi Ekleme ",
+        name: "Yakıt Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/FuelTypes",
-        name: "Yakıt Tipi Güncelleme",
+        name: "Yakıt Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteFuelType",
-        name: "Yakıt Tipi Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -201,40 +161,30 @@ const routes = [
     subRoutes: [
       {
         path: "/adminPanel/AddShiftType",
-        name: "Vites Tipi Ekleme ",
+        name: "Vites Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/ShiftTypes",
-        name: "Vites Tipi Güncelleme",
+        name: "Vites Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteShiftType",
-        name: "Vites Tipi Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
   {
     path: "",
-    name: "Araç Segmenti",
+    name: "Segment",
     icon: <TbManualGearbox       />,
     subRoutes: [
       {
         path: "/adminPanel/AddCarSegment",
-        name: "Araç Segmenti Ekleme ",
+        name: "Segment Ekleme ",
         icon: <FaPlus  />,
       },
       {
         path: "/adminPanel/CarSegments",
-        name: "Araç Segmenti Güncelleme",
+        name: "Segment Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteCarSegment",
-        name: "Araç Segmenti Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -264,13 +214,8 @@ const routes = [
       },
       {
         path: "/adminPanel/Employees",
-        name: "Çalışan Güncelleme",
+        name: "Çalışan Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/DeleteEmployee",
-        name: "Çalışan Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
@@ -298,30 +243,25 @@ const routes = [
       },
       {
         path: "/adminPanel/Admins",
-        name: "Admin Güncelleme",
+        name: "Admin Listesi",
         icon: <FaRedo   />,
-      },
-      {
-        path: "/adminPanel/deleteAdmin",
-        name: "Admin Silme",
-        icon: <FaMinus  />,
       },
     ],
   },
   {
     path: "/adminPanel/VehicleStatuses",
     name: "Araç durumu",
-    icon: <MdCarCrash        />,
+    icon: <MdCarCrash />,
   },
   {
     path: "/adminPanel/paymentTypes",
     name: "Ödeme Tipi",
-    icon: <MdPayment        />,
+    icon: <MdPayment />,
   },
   {
     path: "/adminPanel/paymentDetails",
     name: "Fatura",
-    icon: <FaFileInvoice         />,
+    icon: <FaFileInvoice />,
   },
 ];
 

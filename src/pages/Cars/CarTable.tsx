@@ -313,7 +313,7 @@ const CarModelTable: React.FC = () => {
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ARAÇ
+                       
                         {isLoading && (
                             <CircularProgress
                                 size={24}

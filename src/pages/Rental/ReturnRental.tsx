@@ -34,8 +34,9 @@ const ReturnRental = (props: Props) => {
   }
 
   return (
-    <div className="return-rental-form">
-        <h2>Return Rental</h2>
+    <div className="container-card">
+        <div className="form">
+        <h2 className="h2-card">Return Rental</h2>
         <div className="form-control">
             <label htmlFor="endDate">End Date:</label>
             <input
@@ -58,6 +59,7 @@ const ReturnRental = (props: Props) => {
         <div className="form-actions">
         <button onClick={handlePaymentTypeUpdateSuccess}>Update Payment Type</button>
         <button onClick={handleCancelUpdate}>Cancel</button>
+        </div>
         </div>
     </div>
 );
