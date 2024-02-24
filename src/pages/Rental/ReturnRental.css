@@ -1,0 +1,41 @@
+.return-rental-form {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .form-control {
+    margin-bottom: 15px;
+  }
+  
+  .form-control label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-control input[type="date"],
+  .form-control input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid red;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: white
+  }
+  
+  .form-actions button {
+    padding: 10px 20px;
+    background-color: #8C1816;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .form-actions button + button {
+    margin-left: 10px;
+  }
+  
+  .form-actions button:hover {
+    background-color: #8C1816;
+  }
+  

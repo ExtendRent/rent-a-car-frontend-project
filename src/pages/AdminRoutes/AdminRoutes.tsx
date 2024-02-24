@@ -59,7 +59,7 @@ const AdminRoutes: React.FC = () => {
         <Route path="/adminPanel/deleteColor" element={<DeleteColor />}></Route>
 
         <Route path="/adminPanel/shiftTypes" element={<ShiftTypes />}></Route>
-        <Route path="/adminPanel/addShiftTypes" element={<AddShiftType />}></Route>
+        <Route path="/adminPanel/addShiftType" element={<AddShiftType />}></Route>
         <Route path="/adminPanel/deleteShiftType" element={<DeleteShiftType />}></Route>
 
         <Route path="/adminPanel/discountCodes" element={<DiscountCodes />}></Route>

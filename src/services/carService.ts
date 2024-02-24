@@ -17,7 +17,7 @@ class CarService {
         return axiosInstance.get<AllGetByDateCarResponse>("cars",{params: searchByDate})
     }
     getByAllFiltered(allFiltred : GetAllFilteredResponse){
-        return axiosInstance.get<AllGetByDateCarResponse>("cars/filtered",{params: allFiltred})
+        return axiosInstance.get<AllGetByDateCarResponse>("cars/filter",{params: allFiltred})
     } 
 
     getAll() {
@@ -41,11 +41,11 @@ class CarService {
     } 
 
     getCarCountIsDeleted(deleted: boolean){
-        return axiosInstance.get<GetAllCarsModel>(`cars/count/${deleted}`)
+        return axiosInstance.get<{response: number}>(`cars/count/${deleted}`)
     }
 
     getCarCountByStatus(statusId: number){
-        return axiosInstance.get<GetAllCarsModel>(`cars/countByStatus/${statusId}`)
+        return axiosInstance.get<{response: number}>(`cars/countByStatus/${statusId}`)
     }
 }
 export default new CarService();

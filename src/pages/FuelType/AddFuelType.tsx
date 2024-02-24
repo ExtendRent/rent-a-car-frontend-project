@@ -38,11 +38,12 @@ const AddFuelType = (props: Props) => {
       enableReinitialize={true}
     >
       <SideBar>
-        <div className="container-car">
-          <h2 className="h2-car">Yakıt Tipi Ekleme</h2>
+        <div className="container-card">
+        <div className="form">
+          <h2 className="h2-card">Yakıt Tipi Ekleme</h2>
           <Form>
             <div className="row">
-              <div id="select-block" className="col-md-6">
+              <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                   <FormikInput
                     name="name"
@@ -55,6 +56,7 @@ const AddFuelType = (props: Props) => {
               </div>
             </div>
           </Form>
+        </div>
         </div>
       </SideBar>
     </Formik>

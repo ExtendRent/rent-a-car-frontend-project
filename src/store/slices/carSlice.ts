@@ -52,7 +52,7 @@ export const getCarCountByStatus = createAsyncThunk(
     async ({ statusId }: { statusId: number; }, thunkAPI) => {
         try {
             const getByCounted = await carService.getCarCountByStatus(statusId);
-            return getByCounted.data.response;
+            return getByCounted.data;
 
         } catch (error) {
             console.error("Error adding getByCounted:", error);
@@ -65,7 +65,7 @@ export const getCarCountIsDeleted = createAsyncThunk(
     async ({ deleted }: { deleted: boolean; }, thunkAPI) => {
         try {
             const getCountIsDelete = await carService.getCarCountIsDeleted(deleted);
-            return getCountIsDelete.data.response;
+            return getCountIsDelete.data;
 
         } catch (error) {
             console.error("Error adding getCountIsDeleted:", error);
@@ -140,7 +140,7 @@ export const getByCarId = createAsyncThunk(
 const carSlice = createSlice(
     {
         name: "car",
-        initialState: { cars: [] as any[] },
+        initialState: { cars: [] as any[], carStatus:0, carCountIsDeleted:0 },
         reducers: {},
         extraReducers: builder => {
             builder.addCase(fetchCars.pending, (state) => { });
@@ -201,25 +201,15 @@ const carSlice = createSlice(
 
             builder.addCase(getCarCountByStatus.pending, (state) => { });
             builder.addCase(getCarCountByStatus.fulfilled, (state, action) => {
-                state.cars = action.payload; });
+                state.carStatus = action.payload.response; });
             builder.addCase(getCarCountByStatus.rejected, (state) => {});
 
             /*---------------*/
 
             builder.addCase(getCarCountIsDeleted.pending, (state) => { });
             builder.addCase(getCarCountIsDeleted.fulfilled, (state, action) => {
-                state.cars = action.payload;});
+                state.carCountIsDeleted = action.payload.response;});
             builder.addCase(getCarCountIsDeleted.rejected, (state) => { });
-
-
-
-
-
-
-
-
-
-
 
         }
     }

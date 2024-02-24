@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch } from 'react-redux';
-import { getByDateCars } from '../../store/slices/carSlice';
+import { getByAllFilteredCars, getByDateCars } from '../../store/slices/carSlice';
 import { AppDispatch } from '../../store/configureStore';
 import { GetByDateCarResponse } from '../../models/Responses/Car/GetByDateCarResponse';
 import SelectedCar from '../../pages/SelectedCar/SelectedCar';
@@ -29,7 +29,7 @@ const Search: React.FC = () => {
 
             const startDateValue = parsedStartDate instanceof Date ? parsedStartDate.toISOString().split('T')[0] : parsedStartDate;
             const endDateValue = parsedEndDate instanceof Date ? parsedEndDate.toISOString().split('T')[0] : parsedEndDate;
-            const response = await dispatch(getByDateCars({
+            const response = await dispatch(getByAllFilteredCars({
               startDate: startDateValue,
               endDate : endDateValue
             }));

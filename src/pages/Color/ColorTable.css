@@ -1,0 +1,34 @@
+   .css-11mde6h-MuiPaper-root {
+       background: transparent !important;
+       color: rgb(194, 31, 31) !important;
+   }
+
+   .tss-ylo811-MUIDataTableSelectCell-headerCell {
+       background: transparent !important;
+   }
+
+   .custom-row {
+       color: white !important;
+       /* Satır metin rengi */
+   }
+
+   .thead,
+   tbody,
+   tfoot,
+   tr,
+   td,
+   th {
+       color: white !important;
+   }
+
+   .css-i4bv87-MuiSvgIcon-root {
+       color: white !important
+   }
+
+   .css-jtlhu6-MuiTablePagination-root {
+       color: white !important
+   }
+
+   .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon {
+       color: white !important;
+   }
