@@ -30,7 +30,7 @@ class CustomerService {
     }
 
     getCustomerCountIsDeleted(deleted: boolean){
-        return axiosInstance.get<GetAllCustomerModel>(`customers/count/${deleted}`)
+        return axiosInstance.get<{response: number}>(`customers/count/${deleted}`)
     }
 
     getCustomerCountByStatus(status: string){

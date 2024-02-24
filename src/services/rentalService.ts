@@ -35,11 +35,11 @@ class RentalService {
     }
 
     getRentalCountByStatus(status: number){
-        return axiosInstance.get<GetAllRentalsModel>(`rentals/countByStatus/${status}`)
+        return axiosInstance.get<{response: number}>(`rentals/countByStatus/${status}`)
     }
 
     getRentalCountIsDeleted(deleted: boolean){
-        return axiosInstance.get<GetAllRentalsModel>(`rentals/count/${deleted}`)
+        return axiosInstance.get<{response: number}>(`rentals/count/${deleted}`)
     }
     
 }
