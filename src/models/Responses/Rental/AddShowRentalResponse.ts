@@ -4,7 +4,7 @@ export interface AddShowRentalResponse {
       id: number;
       phoneNumber: string;
       drivingLicenseNumber: string;
-      drivingLicenseTypes: string[];
+      drivingLicenseTypeEntityName: string;
       name: string;
       surname: string;
       emailAddress: string;

@@ -8,6 +8,13 @@ body {
     padding: 0;
   }
   
+  .carCard {
+    width: 50%; /* x ekseninde yarısını kaplamak */
+    height: 100vh; /* y ekseninde sayfanın tamamını kaplamak */
+    float: left; /* Sola dayalı */
+    /* İhtiyaca bağlı olarak diğer stilleri ekleyebilirsiniz */
+  }
+  
   .show-rental-container {
     max-width: 800px;
     margin: auto;
