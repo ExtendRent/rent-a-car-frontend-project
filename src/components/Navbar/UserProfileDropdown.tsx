@@ -84,13 +84,13 @@ export default function UserProfileDropdown() {
       >
         <MenuItem onClick={handleClose}>
           <Avatar /> 
-            <Link to='/signup'>
+            <Link to='/signup' style={{color:'#44494c', textDecoration:"none"}}>
                 Üye Ol
             </Link>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Avatar />
-          <Link to={`/updateCustomer/${decodedToken?.id}`}>
+          <Link to={`/updateCustomer/${decodedToken?.id}`} style={{color:'#44494c', textDecoration:"none"}}>
               Hesabım
           </Link>
         </MenuItem>
@@ -99,7 +99,7 @@ export default function UserProfileDropdown() {
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          <Link to='/allMyRentals'>
+          <Link to='/allMyRentals' style={{color:'#44494c', textDecoration:"none"}}>
               Kiralama Geçmişim
           </Link>
         </MenuItem>
