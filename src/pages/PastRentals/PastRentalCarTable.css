@@ -1,3 +1,12 @@
-.table-custom-table {
-    background-color: #f0f0f0; /* Change the background color to your desired color */
+.custom-table-container {
+    background: transparent;
+    margin-top: 45px;
   }
+  
+.table-header {
+    color: red;
+}
+
+.table-data {
+    color: white;
+}

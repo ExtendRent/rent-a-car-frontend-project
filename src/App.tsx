@@ -106,7 +106,7 @@ function App() {
 
 
         <Route path="/adminPanel/shiftTypes" element={<ShiftTypes />}></Route>
-        <Route path="/adminPanel/addShiftTypes" element={<AddShiftType />}></Route>
+        <Route path="/adminPanel/addShiftType" element={<AddShiftType />}></Route>
         <Route path="/adminPanel/deleteShiftType" element={<DeleteShiftType />}></Route>
         <Route path="/adminPanel/updateShiftType/:id" element={<UpdateShiftType/>}></Route>
 
@@ -172,7 +172,7 @@ function App() {
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
         <Route path="/adminPanel/updatePaymentDetails/:id" element={<UpdatePaymentDetails />}></Route>
-        <Route path="/allMyRentals" element={<PastRentals />}></Route>
+        <Route path="/allMyRentals/:id" element={<PastRentals />}></Route>
         <Route path="/account" element={<Account />}></Route>
       
 			</Routes>
