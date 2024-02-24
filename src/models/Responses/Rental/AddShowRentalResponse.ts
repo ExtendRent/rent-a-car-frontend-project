@@ -26,9 +26,9 @@ export interface AddShowRentalResponse {
       rentalPrice: number;
       licensePlate: string;
       kilometer: number;
-      imagesEntityImagePaths: string[];
+      imageEntityImageUrl: string;
       availabilityDate: Date;
-      expectedDrivingLicenseTypes: string[];
+      expectedMinDrivingLicenseTypeName: string;
       vehicleStatusEntityName: string;
     };
     startDate: Date;

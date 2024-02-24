@@ -364,15 +364,15 @@ export default function CarCart({
                   </Grid>
                 </CardContent>
                 <CardOverflow>
-                  {/* <Button
+                  <Button
                     variant="solid"
                     color="danger"
                     size="lg"
                     onClick={() => onButtonClick(car.id)}
                   >
                     Hemen Kirala
-                  </Button> */}
-                  <RentalButton />
+                  </Button>
+              
                 </CardOverflow>
               </Card>
             </Grid>

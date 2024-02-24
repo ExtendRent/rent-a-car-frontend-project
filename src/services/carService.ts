@@ -17,7 +17,7 @@ class CarService {
         return axiosInstance.get<AllGetByDateCarResponse>("cars",{params: searchByDate})
     }
     getByAllFiltered(allFiltred : GetAllFilteredResponse){
-        return axiosInstance.get<AllGetByDateCarResponse>("cars/filtered",{params: allFiltred})
+        return axiosInstance.get<AllGetByDateCarResponse>("cars/filter",{params: allFiltred})
     } 
 
     getAll() {

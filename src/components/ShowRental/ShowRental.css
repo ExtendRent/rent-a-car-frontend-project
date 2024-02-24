@@ -1,0 +1,59 @@
+/* ShowRental.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #333;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .show-rental-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #111;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ff6347; /* Tomato color */
+  }
+  
+  .grid-item {
+    margin-bottom: 20px;
+  }
+  
+  .customer-info, .car-info, .rental-dates, .discount-code, .price {
+    color: #00ced1; /* Dark Turquoise color */
+  }
+  
+  .discount-code-input {
+    margin-top: 20px;
+  }
+  
+  .buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .button {
+    flex: 1;
+    margin-left: 5px;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
