@@ -51,7 +51,7 @@ const AddDrivingLicenseType = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="name"
-                    label="Ehliyet Tipi Giriniz"
+                    label="Ehliyet Tipi "
                     placeHolder="Ehliyet Tipi Giriniz."
                     type="text"
                   />
@@ -63,11 +63,11 @@ const AddDrivingLicenseType = (props: Props) => {
                   />
                   <FormikInput
                     name="licenseLevel"
-                    label="Seviye Giriniz"
+                    label="Seviye "
                     placeHolder="Seviye Giriniz."
                     type="number"
                   />
-                  <Button type="submit">Ekle</Button>
+                   <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'>Ekle</Button>
                 </div>
               </div>
             </div>

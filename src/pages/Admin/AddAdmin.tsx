@@ -72,15 +72,15 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="name"
-                    label="İsim Giriniz"
+                    label="İsim"
                     placeHolder="İsim Giriniz."
-                    type='text'
+                    type='text' 
                   />
                 </div>
                 <div className="mb-2">
                   <FormikInput
                     name="surname"
-                    label="Soyisim Giriniz"
+                    label="Soyisim"
                     placeHolder="İsim Giriniz."
                     type='text'
                   />
@@ -88,7 +88,7 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="emailAddress"
-                    label="Mail Adresi Giriniz"
+                    label="Mail Adresi"
                     placeHolder="Mail Adresi Giriniz."
                     type='text'
                   />
@@ -106,7 +106,7 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="phoneNumber"
-                    label="Telefon Numarası Giriniz"
+                    label="Telefon Numarası"
                     placeHolder="Telefon Numarası Giriniz."
                     type='text'
                   />
@@ -114,7 +114,7 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="salary"
-                    label="Maaş Giriniz"
+                    label="Maaş "
                     placeHolder="Maaş Giriniz."
                     type='number'
                   />
@@ -122,7 +122,7 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="imagePath"
-                    label="Resim Giriniz"
+                    label="Resim "
                     placeHolder="Resim Giriniz."
                     type='text'
                   />
@@ -130,12 +130,12 @@ const AddAdmin = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="authority"
-                    label="Yetki Giriniz"
+                    label="Yetki"
                     placeHolder="Yetki Giriniz."
                   />
                 </div>
               </div>
-              <Button style={{marginTop:'30px'}} type='submit'>Ekle</Button>
+              <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px" }} type='submit'>Ekle</Button>
             </div>
         </Form>
         </div>

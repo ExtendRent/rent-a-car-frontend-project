@@ -55,7 +55,7 @@ const AddCarModel = (props: Props) => {
               <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                     <FormikSelect
-                      label="Marka Seç"
+                      label="Marka "
                       name="brandEntityId"
                       options={brandState.brands.map((brands: any) => ({ value: brands.id, label: brands.name }))}
                     />
@@ -63,12 +63,12 @@ const AddCarModel = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="carModelEntityName"
-                    label="Model Giriniz"
+                    label="Model "
                     placeHolder="Model Giriniz."
                     type="text"
                   />
                 </div>
-                  <Button type="submit">Ekle</Button>
+                <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'>Ekle</Button>
               </div>
             </div>
           </Form>

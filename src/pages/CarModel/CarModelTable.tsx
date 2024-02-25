@@ -12,6 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteCarModel, fetchCarModels } from "../../store/slices/carModelSlice";
 import { fetchBrands } from "../../store/slices/brandSlice";
+import "../Color/ColorTable.css";
 
 const CarModelTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -176,11 +177,13 @@ const CarModelTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <h2 className="h2-card">MODEL</h2>
+        <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        MODEL
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -258,8 +261,19 @@ const CarModelTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };

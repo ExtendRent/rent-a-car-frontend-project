@@ -52,17 +52,17 @@ const initialValues = {
               <div className="mb-2">
                 <FormikInput
                   name="discountCode"
-                  label="İndirim Kodu Giriniz"
+                  label="İndirim Kodu "
                   placeHolder="İndirim Kodu Giriniz."
                   type="text"
                 />
                 <FormikInput
                   name="discountPercentage"
-                  label="İndirim Oranı Giriniz"
+                  label="İndirim Oranı "
                   placeHolder="İndirim Oranı Giriniz."
                   type="number"
                 />
-                <Button type="submit">Ekle</Button>
+                 <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'>Ekle</Button>
               </div>
             </div>
           </div>

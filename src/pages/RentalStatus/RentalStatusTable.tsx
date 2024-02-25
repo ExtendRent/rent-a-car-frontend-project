@@ -10,6 +10,7 @@ import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { fetchRentalStatuses } from "../../store/slices/rentalStatusSlice";
+import "../Color/ColorTable.css";
 
 const RentalStatusTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -144,11 +145,13 @@ const RentalStatusTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <h2 className="h2-card">KİRALAMA DURUMU</h2>
+        <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        KİRALAMA DURUMU
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -202,8 +205,19 @@ const RentalStatusTable: React.FC = () => {
 
 
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };

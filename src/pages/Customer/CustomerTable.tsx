@@ -1,56 +1,60 @@
 import React, { useState, useEffect } from "react";
-import { CircularProgress, Typography,IconButton  } from "@mui/material";
+import { CircularProgress, Typography, IconButton } from "@mui/material";
 import MUIDataTable, {
   MUIDataTableColumn,
   FilterType,
   Responsive,
 } from "mui-datatables";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { deleteBrand, fetchBrands, updateBrand } from "../../store/slices/brandSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteCustomer, fetchCustomers } from "../../store/slices/customerSlice";
+import "../Color/ColorTable.css";
 
-const BrandTable: React.FC = () => {
+const CustomerTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const brandState = useSelector((state: any) => state.brand);
+  const customerState = useSelector((state: any) => state.customer);
   const [data, setData] = useState<any[][]>([["Loading Data..."]]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
-    dispatch(fetchBrands());
+    dispatch(fetchCustomers());
   }, [page, rowsPerPage]);
 
   useEffect(() => {
-     // brandState'in bir dizi olup olmadığını kontrol ettik
-     const tableData = brandState.brands.map((brand: any) => [
-      brand.id,
-      brand.name,
-      <img src={brand.logoImagePath} alt="Brand Logo" />,
-      <IconButton onClick={() => handleUpdate(brand.id)}><EditIcon /></IconButton>,
-      <IconButton onClick={() => handleDelete(brand.id)}><DeleteIcon /></IconButton>,
+    const tableData = customerState.customers.map((customer: any) => [
+      customer.id,
+      customer.phoneNumber,
+      customer.drivingLicenseNumber,
+      customer.drivingLicenseTypeEntityName,
+      customer.name,
+      customer.surname,
+      customer.emailAddress,
+      customer.userImageEntityImageUrl,
+      <IconButton onClick={() => handleUpdate(customer.id)}><EditIcon /></IconButton>,
+      <IconButton onClick={() => handleDelete(customer.id)}><DeleteIcon /></IconButton>,
     ]);
-      
-      setData(tableData);
-      setCount(brandState.length);
-   
-  }, [brandState]);
+
+    setData(tableData);
+    setCount(customerState.length);
+
+  }, [customerState]);
   const handleDelete = (id: number) => {
     console.log("Deleted ID:", id);
-    dispatch(deleteBrand({ brandId: id }));
+    dispatch(deleteCustomer({ customerId: id }));
   };
   const handleUpdate = (id: number) => {
-    console.log("Deleted ID:", id);
-    navigate(`/adminPanel/updateBrand/${id}`);
+    navigate(`/adminPanel/updateCustomer/${id}`);
   };
   const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
-    setPage(page); 
+    setPage(page);
     setIsLoading(false);
   };
   const changeRowsPerPage = (rowsPerPage: number, page: number) => { // Satır sayısını değiştiren fonksiyonu ekledik
@@ -60,25 +64,38 @@ const BrandTable: React.FC = () => {
 
   const sort = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
     setIsLoading(true);
-    // Tıklanan sütuna göre sıralama işlemini belirle
     let columnName: string = "";
     switch (sortOrder.name) {
       case "id":
         columnName = "id";
         break;
+      case "phoneNumber":
+        columnName = "phoneNumber";
+        break;
+      case "drivingLicenseNumber":
+        columnName = "drivingLicenseNumber";
+        break;
+      case "drivingLicenseTypeEntityName":
+        columnName = "drivingLicenseTypeEntityName";
+        break;
       case "name":
         columnName = "name";
         break;
-      case "logoImagePath":
-        columnName = "logoImagePath";
+      case "surname":
+        columnName = "surname";
         break;
+      case "emailAddress":
+        columnName = "emailAddress";
+        break;
+      case "userImageEntityImageUrl":
+        columnName = "userImageEntityImageUrl";
+        break;
+
       default:
         break;
     }
-  
-    // Sıralama işlemleri burada yapılacak
-    // Örnek bir sıralama işlemi:
-    const sortedData = brandState.brands.slice().sort((a: any, b: any) => {
+
+    const sortedData = customerState.customers.slice().sort((a: any, b: any) => {
       if (sortOrder.direction === "asc") {
         // Sıralama işlemini doğrudan dizge karşılaştırma operatörleriyle gerçekleştir
         return a[columnName] > b[columnName] ? 1 : -1;
@@ -87,18 +104,25 @@ const BrandTable: React.FC = () => {
         return b[columnName] > a[columnName] ? 1 : -1;
       }
     });
-  
+
     // Sıralanmış verileri güncelle
-    setData(sortedData.map((brand: any) => [brand.id, brand.name, <img src={brand.logoImagePath} alt="Brand Logo" />]));
+    setData(sortedData.map((customer: any) => [
+      customer.id,
+      customer.phoneNumber,
+      customer.drivingLicenseNumber,
+      customer.drivingLicenseTypeEntityName,
+      customer.name,
+      customer.surname,
+      customer.emailAddress,
+      customer.userImageEntityImageUrl,
+    ]));
     // isLoading durumunu false olarak ayarla
     setIsLoading(false);
   };
   const handleRowSelectionChange = (currentRowsSelected: any[]) => {
     if (currentRowsSelected.length > 0) {
-      const selectedRow = data[currentRowsSelected[0].index]; // Seçilen ilk satırın verilerini al
-      const selectedId = selectedRow[0]; // ID, ilk sütunda olduğu varsayılarak alındı
-      //console.log("Seçilen satır ID'si: ", selectedId);
-      //dispatch(deleteBrand({ brandId: selectedId }))
+      const selectedRow = data[currentRowsSelected[0].index];
+      const selectedId = selectedRow[0];
     }
   };
 
@@ -117,7 +141,16 @@ const BrandTable: React.FC = () => {
     search: true,
     filterList: [],
     onFilterReset: () => {
-      const originalData = brandState.brands.map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+      const originalData = customerState.customers.map((customer: any) => [
+        customer.id,
+        customer.phoneNumber,
+        customer.drivingLicenseNumber,
+        customer.drivingLicenseTypeEntityName,
+        customer.name,
+        customer.surname,
+        customer.emailAddress,
+        customer.userImageEntityImageUrl,
+      ]);
       setData(originalData);
     },
     onTableChange: (action: string, tableState: any) => {
@@ -133,24 +166,51 @@ const BrandTable: React.FC = () => {
           break;
         case 'filterChange':
           const { filterList } = tableState;
-          const filteredData = brandState.brands.filter((brand: any) => {
+          const filteredData = customerState.customers.filter((customer: any) => {
             return (
-              brand.id.toString().includes(filterList[0][0] || "") &&
-              brand.name.toLowerCase().includes(filterList[1][0] || "") &&
-              brand.logoImagePath.toLowerCase().includes(filterList[2][0] || "")
+              customer.id.toString().includes(filterList[0][0] || "") &&
+              customer.phoneNumber.toLowerCase().includes(filterList[1][0] || "") &&
+              customer.drivingLicenseNumber.toLowerCase().includes(filterList[2][0] || "") &&
+              customer.drivingLicenseTypeEntityName.toLowerCase().includes(filterList[3][0] || "") &&
+              customer.name.toLowerCase().includes(filterList[4][0] || "") &&
+              customer.surname.toLowerCase().includes(filterList[5][0] || "") &&
+              customer.emailAddress.toLowerCase().includes(filterList[6][0] || "") &&
+              customer.userImageEntityImageUrl.toLowerCase().includes(filterList[7][0] || "")
             );
-          }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+          }).map((customer: any) => [
+            customer.id,
+            customer.phoneNumber,
+            customer.drivingLicenseNumber,
+            customer.drivingLicenseTypeEntityName,
+            customer.name,
+            customer.surname,
+            customer.emailAddress,
+            customer.userImageEntityImageUrl,
+          ]);
           setData(filteredData);
           break;
         case 'search':
           const { searchText } = tableState;
           if (searchText) {
-            const searchData = brandState.brands.filter((brand: any) => {
+            const searchData = customerState.customers.filter((customer: any) => {
               return (
-                brand.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                brand.logoImagePath.toLowerCase().includes(searchText.toLowerCase())
+                customer.phoneNumber.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.drivingLicenseNumber.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.drivingLicenseTypeEntityName.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.surname.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.emailAddress.toLowerCase().includes(searchText.toLowerCase()) ||
+                customer.userImageEntityImageUrl.toLowerCase().includes(searchText.toLowerCase())
               );
-            }).map((brand: any) => [brand.id, brand.name, brand.logoImagePath]);
+            }).map((customer: any) => [
+              customer.id,
+              customer.phoneNumber,
+              customer.drivingLicenseNumber,
+              customer.drivingLicenseTypeEntityName,
+              customer.name,
+              customer.surname,
+              customer.emailAddress,
+              customer.userImageEntityImageUrl,]);
             setData(searchData);
           }
           break;
@@ -161,94 +221,165 @@ const BrandTable: React.FC = () => {
   };
 
   return (
-    <div style={{ width: "100%", overflowX: "auto" }}>
-      <MUIDataTable
-        title={
-          <Typography variant="h6">
-            MARKALAR 
-            {isLoading && (
-              <CircularProgress
-                size={24}
-                style={{ marginLeft: 15, position: "relative", top: 4 }}
-              />
-            )}
-          </Typography>
-        }
-        data={data}
-        columns={[
-          {
-            name: "id",
-            label: "ID",
-            options: {
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
+    <div className="container-card">
+      <h2 className="h2-card">MÜŞTERİLER</h2>
+      <div className="form">
+        <MUIDataTable
+          title={
+            <Typography variant="h6">
+              {isLoading && (
+                <CircularProgress
+                  size={24}
+                  style={{ marginLeft: 15, position: "relative", top: 4 }}
+                />
+              )}
+            </Typography>
+          }
+          data={data}
+          columns={[
+            {
+              name: "id",
+              label: "ID",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
             },
-          },
-          {
-            name: "name",
-            label: "MARKA",
-            options: {
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
+            {
+              name: "phoneNumber",
+              label: "PHONE",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
             },
-          },
-          {
-            name: "logoImagePath",
-            label: "LOGO",
-            options: {
-              filter: false,
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center",borderBottom:"1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any) => (
-                <div style={{ textAlign: "center" }}>{value}</div>
-              ),
+            {
+              name: "drivingLicenseNumber",
+              label: "EHLİYET NO",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
             },
-          },
-          {
-            name: "",
-            label: "",
-            options: {
-              filter: false,
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
-                <div style={{ textAlign: "center" ,float: "inline-end"}}>
-                  {value}
-                </div>
-              ),
+            {
+              name: "drivingLicenseTypeEntityName",
+              label: "EHLİYET TİPİ",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
             },
-          },
-          {
-            name: "",
-            label: "",
-            options: {
-              filter: false,
-              customHeadRender: (columnMeta: MUIDataTableColumn) => (
-                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
-              ),
-              customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
-                <div style={{ textAlign: "center" , float: "inline-start"}}>
-                  {value}
-                </div>
-              ),
+            {
+              name: "name",
+              label: "AD",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
             },
-          },
-        ]}
-        options={options}
-      />
+            {
+              name: "surname",
+              label: "SOYAD",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
+            },
+            {
+              name: "email",
+              label: "EMAIL",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
+            },
+            {
+              name: "userImageEntityImageUrl",
+              label: "IMG",
+              options: {
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any) => (
+                  <div style={{ textAlign: "center" }}>{value}</div>
+                ),
+              },
+            },
+            {
+              name: "",
+              label: "",
+              options: {
+                filter: false,
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                  <div style={{ textAlign: "center", float: "inline-end" }}>
+                    {value}
+                  </div>
+                ),
+              },
+            },
+            {
+              name: "",
+              label: "",
+              options: {
+                filter: false,
+                customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                  <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                ),
+                customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                  <div style={{ textAlign: "center", float: "inline-start" }}>
+                    {value}
+                  </div>
+                ),
+              },
+            },
+          ]}
+          options={{
+            ...options,
+            setRowProps: () => ({
+              className: 'custom-row'
+            }),
+            setTableProps: () => ({
+              style: {
+                className: 'custom-mui-table'
+              },
+            }),
+          }}
+        />
+      </div>
     </div>
   );
 };
 
-export default BrandTable;
+export default CustomerTable;
 

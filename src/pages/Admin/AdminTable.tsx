@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteAdmin, fetchAdmins } from "../../store/slices/adminSlice";
+import "../Color/ColorTable.css";
 
 const AdminTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -181,11 +182,13 @@ const AdminTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <h2 className="h2-card">ADMIN</h2>
+        <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ADMIN
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -299,8 +302,19 @@ const AdminTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };
