@@ -37,18 +37,19 @@ const Navbar = () => {
           <FaBars />
         </div>
         <ul className={`nav-menu ${menuActive ? 'active' : ''}`}>
-          {!decodedToken?.role?.some(role => role === 'CUSTOMER') && (
+         
             <li className='nav-item'>
               <Link to='/' className='nav-links'>
                 Ana Sayfa
               </Link>
             </li>
-          )}
+          {!decodedToken?.role?.some(role => role === 'CUSTOMER') && (
           <li className='nav-item'>
             <Link to='/adminPanel' className='nav-links'>
               Admin Panel
             </Link>
           </li>
+          )}
           <li className='nav-item'>
             <Link to='/rotalar' className='nav-links'>
               Rotalar

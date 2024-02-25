@@ -13,7 +13,7 @@ export const fetchCustomers = createAsyncThunk(
       return allCustomers.data.response;
     } catch (error) {
       console.error("Error fetching customers:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -27,7 +27,7 @@ export const getByIdCustomer = createAsyncThunk(
 
     } catch (error) {
       console.error("Error adding getByIded:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -41,7 +41,7 @@ export const getCustomerCountByStatus = createAsyncThunk(
 
     } catch (error) {
       console.error("Error adding getByCounted:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -55,7 +55,7 @@ export const getCustomerCountIsDeleted = createAsyncThunk(
 
     } catch (error) {
       console.error("Error adding getCountIsDeleted:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -69,7 +69,7 @@ export const getRentalsByCustomer = createAsyncThunk(
 
     } catch (error) {
       console.error("Error adding getByBrandIded:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -84,7 +84,7 @@ export const addCustomer = createAsyncThunk(
       return addedCustomer.data;
     } catch (error) {
       console.error("Error adding customer:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );
@@ -104,7 +104,7 @@ export const updateCustomer = createAsyncThunk(
       }
     } catch (error) {
       console.error("Error updating customer", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 )
@@ -119,7 +119,7 @@ export const deleteCustomer = createAsyncThunk(
       };
     } catch (error) {
       console.error("Error deleting customer:", error);
-      throw error;
+      throw new Error("İşlem sırasında bir hata oluştu");
     }
   }
 );

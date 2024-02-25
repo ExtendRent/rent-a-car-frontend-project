@@ -12,7 +12,7 @@ export const fetchAdmins = createAsyncThunk(
         return allAdmins.data.response;
       } catch (error) {
         console.error("Error fetching admins:", error);
-        throw error;
+        throw new Error("İşlem sırasında bir hata oluştu");
       }
     }
   );
@@ -26,7 +26,7 @@ export const fetchAdmins = createAsyncThunk(
 
         } catch (error) {
             console.error("Error adding getByIded:", error);
-            throw error;
+            throw new Error("İşlem sırasında bir hata oluştu");
         }
     }
 );
@@ -40,7 +40,7 @@ export const getAdminCountIsDeleted = createAsyncThunk(
 
         } catch (error) {
             console.error("Error adding getCountIsDeleted:", error);
-            throw error;
+            throw new Error("İşlem sırasında bir hata oluştu");
         }
     }
 );
@@ -56,7 +56,7 @@ export const addAdmin = createAsyncThunk(
             return addedAdmin.data;
         }catch(error){
             console.error("Error adding admin:", error);
-            throw error;
+            throw new Error("İşlem sırasında bir hata oluştu");
         }
     }
 )
@@ -75,7 +75,7 @@ export const updateAdmin = createAsyncThunk(
             }
         }catch(error){
             console.error("Error updating admin", error);
-            throw error;
+            throw new Error("İşlem sırasında bir hata oluştu");
         }
     }
 )
@@ -90,7 +90,7 @@ export const deleteAdmin = createAsyncThunk(
         };
       } catch (error) {
         console.error("Error deleting admin:", error);
-        throw error;
+        throw new Error("İşlem sırasında bir hata oluştu");
       }
     }
   );

@@ -100,7 +100,11 @@ const AdminRoutes: React.FC = () => {
 
         
       </Routes>
-      <AdminCards/>
+      <div className="container-card">
+        <div className="form orta">
+          <AdminCards/>
+        </div>
+      </div>
     </SideBar>
   );
 };
