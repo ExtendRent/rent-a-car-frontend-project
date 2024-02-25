@@ -1,0 +1,78 @@
+/* ShowCarCard.css */
+@keyframes expandLineCarCard {
+  from {
+    width: 0;
+  }
+  to {
+    width: 30%;
+  }
+}
+.container-carCard {
+  background-color: rgb(29, 28, 28);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  height: fit-content;
+  max-width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-carCard:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.card-header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+.card-header::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: red;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* 10px'lik bir blur eklenmiş shadow */
+  width: 0;
+  margin: 10px auto;
+  animation: expandLineCarCard 1s ease forwards; /* Animasyonu ekle ve durumu koru */
+}
+
+.card-image {
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card-info {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.mid-column {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7em;
+}
+
+.iconClass {
+  margin-right: 1.3em;
+}
+
+.Typography {
+  margin-bottom: 1.3em;
+}
+
+.bold-text {
+  font-weight: bold;
+}
