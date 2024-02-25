@@ -123,7 +123,7 @@ const ShowRental: React.FC<{
                   <p>Ehliyet Tipi:</p>
                 </div>
               </div>
-              <div className="customer-values">
+              <div className="customer-values text-grey">
                 <div>
                   <p>{customerDTO.name}</p>
                   <p>{customerDTO.surname}</p>
@@ -136,7 +136,7 @@ const ShowRental: React.FC<{
 
             <h5 className="second-header">Araç Bilgileri:</h5>
             <div className="car-info-container">
-              <div className="label-value-pair">
+              <div className="label-value-pair text-grey">
                 <p>Marka:</p>
                 <p>Model:</p>
                 <p>Renk:</p>
@@ -175,7 +175,7 @@ const ShowRental: React.FC<{
                   {calculateTotalDays(startDate, endDate)}
                 </strong>{" "}
                 Günlük fiyat:
-                <strong style={{ color: "white" }}>
+                <strong style={{ color: "white" , fontSize:'20px'}}>
                   {" "}
                   {calculatedAmount !== undefined
                     ? calculatedAmount
@@ -184,23 +184,21 @@ const ShowRental: React.FC<{
                 </strong>
               </p>
             </div>
-            <div className="input-container" style={{ float: "right" }}>
-              <span className="text-white">indirim kodu</span>
-              <OutlinedInput
+
+            <div>
+            <div className="input-container">
+              <input
                 value={discountCodeInput}
                 onChange={(e) =>
                   setDiscountCodeInput(e.target.value.toUpperCase().trim())
                 }
                 className="custom-input"
-                placeholder="AAAA"
+                placeholder="indirim kodu"
                 style={{ width: "210px", height: "50px" }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <Button onClick={handleCalculateClick}>Uygula</Button>
-                  </InputAdornment>
-                }
-              />
+              ></input>
+              <button onClick={handleCalculateClick} className="discountButton">Uygula</button>
             </div>
+          </div>
           </div>
 
           {/* checkbboxes */}
@@ -248,9 +246,9 @@ const ShowRental: React.FC<{
             </div>
           </div>
         </div>
-        <Button onClick={onPaymentProcessClick} className="mt-2 button-pay">
+        <button onClick={onPaymentProcessClick} className="mt-2 pay-button">
           Ödemeye İlerle
-        </Button>
+        </button>
       </div>
     </div>
   );
