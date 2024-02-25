@@ -22,7 +22,7 @@ export const addSignIn = createAsyncThunk(
           return addedSignIn.data.response; // Response'u doğrudan döndürüyoruz
       } catch (error) {
           console.error("Error adding signIn:", error);
-          throw new Error("İşlem sırasında bir hata oluştu");
+          throw  error;
       }
   }
 );

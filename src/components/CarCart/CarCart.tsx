@@ -32,6 +32,7 @@ import { fetchColors } from "../../store/slices/colorSlice";
 import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
 import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 import RentalButton from "../Button/RentalButton";
+import { Alert } from "@mui/material";
 interface CarCartProps {
   onButtonClick: (carEntityId: number) => void;
   startDate: string; // formattedStartDate ve formattedEndDate'yi props olarak ekleyin
@@ -51,6 +52,8 @@ export default function CarCart({
   const [selectedShiftType, setSelectedShiftType] = useState<number | null>(
     null
   );
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
   const [isHovered, setIsHovered] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -60,7 +63,8 @@ export default function CarCart({
   const colorState = useSelector((state: any) => state.color);
   const fuelTypeState = useSelector((state: any) => state.fuelType);
   const shiftTypeState = useSelector((state: any) => state.shiftType);
-
+  const [startDateFilter, setStartDate] = useState<string>(startDate);
+  const [endDateFilter, setEndDate] = useState<string>(endDate);
   useEffect(() => {
     dispatch(fetchBrands());
     dispatch(fetchColors());
@@ -114,12 +118,19 @@ export default function CarCart({
       filterData.shiftTypeId = selectedShiftType;
     }
     if (startDate !== null) {
-      filterData.startDate = startDate;
+      filterData.startDate = startDateFilter;
     }
     if (endDate !== null) {
-      filterData.endDate = endDate;
+      filterData.endDate = endDateFilter;
     }
-    dispatch(getByAllFilteredCars(filterData));
+   
+    
+    try {
+      dispatch(getByAllFilteredCars(filterData));
+    } catch (error) {
+      console.error("Redux action dispatch hatası:", error);
+      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
+    }
   };
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -130,14 +141,48 @@ export default function CarCart({
   };
 
   return (
+   
     <div className="row">
       <div className="col-md-3">
+      <div className="mb-3">
+          <label
+            htmlFor="startDate"
+            className="form-label"
+          >
+            Başlama Tarihi
+          </label>
+          <input
+            type="date"
+            className="select-filter"
+            id="startDate"
+            name="startDate"
+            value={startDateFilter}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label
+            htmlFor="endDate"
+            className="form-label"
+          >
+            Dönüş Tarihi
+          </label>
+          <input
+            type="date"
+            className="select-filter"
+            id="endDate"
+            name="endDate"
+            value={endDateFilter}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="brandSelect" className="form-label">
             Marka Seçiniz
           </label>
           <select
-            className="form-select"
+            className="select-filter"
             id="brandSelect"
             value={selectedBrand || ""}
             onChange={changeBrand}
@@ -157,7 +202,7 @@ export default function CarCart({
               Araba Modeli Seçiniz
             </label>
             <select
-              className="form-select"
+              className="select-filter"
               id="carModelSelect"
               value={selectedCarModel || ""}
               onChange={changeModel}
@@ -176,7 +221,7 @@ export default function CarCart({
             Renk Seçiniz
           </label>
           <select
-            className="form-select"
+            className="select-filter"
             id="colorSelect"
             value={selectedColor || ""}
             onChange={changeColor}
@@ -195,7 +240,7 @@ export default function CarCart({
             Yakıt Tipi Seçiniz
           </label>
           <select
-            className="form-select"
+            className="select-filter"
             id="fuelTypeSelect"
             value={selectedFuelType || ""}
             onChange={changeFuelType}
@@ -214,7 +259,7 @@ export default function CarCart({
             Vites Tipi Seçiniz
           </label>
           <select
-            className="form-select"
+            className="select-filter"
             id="shiftTypeSelect"
             value={selectedShiftType || ""}
             onChange={changeShiftType}
@@ -236,6 +281,12 @@ export default function CarCart({
           Filtrele
         </button>
       </div>
+      {errorMessage && (
+        <Alert severity="error" style={{ width: "430px" }}>
+          {errorMessage}
+        </Alert>
+      )}
+      {successMessage && <Alert severity="success">{successMessage}</Alert>}
       <div className="col-md-9">
         <Grid
           container
@@ -245,8 +296,8 @@ export default function CarCart({
         >
           {carsState.map((car: any) => (
             <Grid xs={1} sm={4} md={4}>
-              <Card sx={{ height: 600, marginTop: 12}} key={car.id}>
-                <Typography level="title-lg">
+              <Card sx={{ height: 500, marginTop: 2, bgcolor: '#6a6a6a59;', color:'white' ,borderColor:'#6a6a6a59'}} key={car.id}>
+                <Typography level="title-lg" sx={{color:'white'}}>
                   {car.carModelEntityBrandEntityName} {car.carModelEntityName}{" "}
                   {car.rentalPrice} TL
                 </Typography>
@@ -268,6 +319,7 @@ export default function CarCart({
                     style={{
                       maxWidth: "100%",
                       height: "-webkit-fill-available;",
+                      background:'#ffffff00'
                     }}
                   />
                 </AspectRatio>
@@ -281,9 +333,10 @@ export default function CarCart({
                         borderWidth: 1.5,
                         borderColor: "#E1DED9",
                         paddingLeft: 2,
+                        color:'white'
                       }}
                     >
-                      <Typography level="title-lg" sx={{ marginBottom: 1.6 }}>
+                      <Typography level="title-lg" sx={{ marginBottom: 1.6 ,color:'white'}}>
                         Araç Özellikleri
                       </Typography>
                       <div className="mid-column">
@@ -292,7 +345,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">{car.seat} Kişi</Typography>
+                        <Typography level="body-sm" sx={{ color:' #c1c0c0;'}}>{car.seat} Kişi</Typography>
                       </div>
                       <div className="mid-column">
                         <Icon
@@ -300,7 +353,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>
                           {car.luggage} Büyük Bavul
                         </Typography>
                       </div>
@@ -314,7 +367,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>
                           {car.fuelTypeEntityName}
                         </Typography>
                       </div>
@@ -324,13 +377,13 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>
                           {car.shiftTypeEntityName}
                         </Typography>
                       </div>
                     </Grid>
                     <Grid xs={6} sx={{ paddingLeft: 3 }}>
-                      <Typography level="title-lg" sx={{ marginBottom: 1.6 }}>
+                      <Typography level="title-lg" sx={{ marginBottom: 1.6,color:'white' }}>
                         Kiralama Koşulları
                       </Typography>
                       <div className="mid-column">
@@ -339,7 +392,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">21 Yaş Ve Üstü</Typography>
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>21 Yaş Ve Üstü</Typography>
                       </div>
                       <div className="mid-column">
                         <Icon
@@ -347,7 +400,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>
                           Ehliyet Yaşı 1 ve Üzeri
                         </Typography>
                       </div>
@@ -357,7 +410,7 @@ export default function CarCart({
                           size={1}
                           className="iconClass"
                         />
-                        <Typography level="body-sm">1 Kredi Kartı</Typography>
+                        <Typography level="body-sm"  sx={{ color:' #c1c0c0;'}}>1 Kredi Kartı</Typography>
                       </div>
                       <div className="mid-column"></div>
                     </Grid>
@@ -372,7 +425,6 @@ export default function CarCart({
                   >
                     Hemen Kirala
                   </Button>
-              
                 </CardOverflow>
               </Card>
             </Grid>
@@ -380,5 +432,6 @@ export default function CarCart({
         </Grid>
       </div>
     </div>
+   
   );
 }

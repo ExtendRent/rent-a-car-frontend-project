@@ -58,14 +58,16 @@ export default function SignUp({}: Props) {
                 phoneNumber,
                 drivingLicenseNumber,
                 drivingLicenseTypeEntityId,
+                userImageEntityId:4
                 })
             );
 
             if ("error" in response) {
                 if (response.error.message && response.error.message.includes("1007")) {
-                setErrorMessage("Giriş başarısız. Kullanıcı bulunamadı.");
+                setErrorMessage("Giriş başarısız.");
+                console.log(response);
                 } else {
-                setErrorMessage("Giriş başarısız. Lütfen tekrar deneyin.");
+                setErrorMessage("Giriş başarısız. Lütfen tekrar .");
                 console.log(response);
                 }
             } else {

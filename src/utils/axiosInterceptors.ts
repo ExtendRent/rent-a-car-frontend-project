@@ -25,11 +25,15 @@ axiosInstance.interceptors.request.use(
   axiosInstance.interceptors.response.use(
 	(response) => {
 	  //store.dispatch(decreaseRequestCount());
+	  
 	  return response;
 	},
 	(error) => {
 	  //store.dispatch(decreaseRequestCount());
-	  return Promise.reject(error);
+	  
+        const errorCode= error.response.data.response.details;
+    	
+		return Promise.reject(error);
 	}
   );
   

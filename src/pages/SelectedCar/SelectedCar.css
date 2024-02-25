@@ -10,7 +10,7 @@
   }
   
   .tab-content {
-    border: 1px solid #d3d3d3;
+    border: 1px solid #1d0b0b;
     padding: 15px;
   }
   
@@ -40,10 +40,13 @@
   .custom-tabs .nav-link.active-tab {
     color: red;
     border-bottom: 2px solid red;
+  
   }
   
   .custom-tabs .nav-link.inactive-tab {
     color: green;
     border-bottom: 2px solid green;
   }
-  
+  .nav-tabs .nav-link.active{
+    background-color: #ffc7c717;
+  }
