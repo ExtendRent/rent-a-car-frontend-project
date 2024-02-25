@@ -77,15 +77,9 @@ input[type="date"]::-webkit-calendar-picker{
   touch-action: manipulation;
   width: 100%;
   will-change: transform;
-  }
-  
-  .wheelIcon {
-    height: 25px;
-    margin-left: 20px;
-    transition-duration: 1.5s;
+  margin-left: 30px;
   }
 
-  
   .button3:hover {
     transition-duration: 1.5s;
     box-shadow: inset 0 -100px 0 0 #8C1816;
@@ -101,6 +95,15 @@ input[type="date"]::-webkit-calendar-picker{
     transform: rotate(250deg);
     transition-duration: 1.5s;
   }
+  
+  
+  .wheelIcon {
+    height: 25px;
+    margin-left: 20px;
+    transition-duration: 1.5s;
+  }
+
+  
   
   
 

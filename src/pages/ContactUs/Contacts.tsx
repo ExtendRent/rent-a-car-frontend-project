@@ -12,7 +12,7 @@ const Contacts = (props: Props) => {
     <div className="contact-info">
       <h2>BİZE ULAŞIN</h2>
       <p>Her türlü araç ihtiyacınızı karşılamak ve araç kiralama işinizi çevrimiçi platformlarda tanıtmak için buradayız!</p>
-      <hr />
+      <hr style={{color:'white'}}/>
       <p><strong>Telefon:</strong> (0 216) 656 26 00</p>
       <p><strong>Adres:</strong> Abdi İpekçi Cad. Nişantaşı No:15 </p>
       <p><strong>Mail:</strong> extendRent@gmail.com</p>
