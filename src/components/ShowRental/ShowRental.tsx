@@ -3,14 +3,10 @@ import { AddShowRentalResponse } from "../../models/Responses/Rental/AddShowRent
 import { addShowRental } from "../../store/slices/showRentalSlice";
 import { AppDispatch } from "../../store/configureStore";
 import { useDispatch } from "react-redux";
-import { TextField } from "@mui/material";
-import AspectRatio from "@mui/joy/AspectRatio";
+import { InputAdornment, OutlinedInput, TextField } from "@mui/material";
 import Button from "@mui/joy/Button";
-import Card from "@mui/joy/Card";
-import CardContent from "@mui/joy/CardContent";
-import Typography from "@mui/joy/Typography";
-import { CardOverflow, Grid } from "@mui/joy";
 import Icon from "@mdi/react";
+
 import {
   mdiAccountGroup,
   mdiBagSuitcase,
@@ -21,22 +17,57 @@ import {
   mdiCreditCardMultipleOutline,
 } from "@mdi/js";
 import "./ShowRental.css";
-import "./ShowCarCard.css";
-
+import "./DiscountInput.css";
+import ShowCarCard from "./CarCard/ShowCarCard";
 const ShowRental: React.FC<{
   response: AddShowRentalResponse | undefined;
   onPaymentProcessClick: () => void;
 }> = ({ response, onPaymentProcessClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [discountCodeInput, setDiscountCodeInput] = useState("");
-  const [calculatedAmount, setCalculatedAmount] = useState<number | undefined>(undefined);
-  const [rentalResponse, setRentalResponse] = useState<AddShowRentalResponse | undefined>();
+  const [calculatedAmount, setCalculatedAmount] = useState<number | undefined>(
+    undefined
+  );
+
+  const [rentalResponse, setRentalResponse] = useState<
+    AddShowRentalResponse | undefined
+  >();
 
   if (!response) {
     return <div>Bilgiler yükleniyor...</div>;
   }
+  /* tarihi reformat etmek */
+  const formatDate = (tarih: Date | string) => {
+    const dateObject = new Date(tarih);
+    if (dateObject instanceof Date && !isNaN(dateObject.getTime())) {
+      const gun = dateObject.getDate().toString().padStart(2, "0");
+      const ay = (dateObject.getMonth() + 1).toString().padStart(2, "0");
+      const yil = dateObject.getFullYear().toString();
+      return `${gun}.${ay}.${yil}`;
+    } else {
+      return "Geçersiz Tarih";
+    }
+  };
 
-  const { customerDTO, carDTO, startDate, endDate, discountCode, amount } = response.response;
+  const calculateTotalDays = (startDate: Date, endDate: Date): number => {
+    const oneDay = 24 * 60 * 60 * 1000;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const startTime = Date.UTC(
+      start.getFullYear(),
+      start.getMonth(),
+      start.getDate()
+    );
+    const endTime = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+
+    const dayDifference = Math.round(Math.abs((startTime - endTime) / oneDay));
+
+    return dayDifference;
+  };
+
+  const { customerDTO, carDTO, startDate, endDate, discountCode, amount } =
+    response.response;
 
   const handleCalculateClick = async () => {
     const newAmountResponse = await dispatch(
@@ -55,127 +86,171 @@ const ShowRental: React.FC<{
     }
   };
 
+  /* const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  }; */
+
   return (
-    <div>
-      Kiralama Detayları
-      <div>
-        Müşteri Bilgileri:
-        Ad: {customerDTO?.name} <br />
-        Soyad: {customerDTO?.surname} <br />
-        Mail Adresi: {customerDTO?.emailAddress} <br />
-        Telefon Numarası: {customerDTO?.phoneNumber} <br />
-        Ehliyet Tipi: {customerDTO?.drivingLicenseTypeEntityName} <br />
-        Ehliyet No: {customerDTO?.drivingLicenseNumber} <br />
+    <div className="show-rental-container mt-4">
+      <div className="text-white firstHeaderText">
+        <h3>Macera Detayları</h3>
       </div>
-      <div>
-        Kiralama Tarihleri:
-        Başlangıç Tarihi: {startDate?.toString()} <br />
-        Bitiş Tarihi: {endDate?.toString()} <br />
-      </div>
-      <div>
-        İndirim Kodu: {discountCode}
-      </div>
-      <div>
-        Fiyat: {calculatedAmount !== undefined ? calculatedAmount : amount}
-      </div>
-      <div>
-        <input
-          type="text"
-          placeholder="İndirim Kodu"
-          value={discountCodeInput}
-          onChange={(e) => setDiscountCodeInput(e.target.value)}
-          style={{
-            marginTop: '16px',
-            width: '100%',
-            padding: '10px',
-            boxSizing: 'border-box',
-          }}
-        />
-      </div>
+      <div className="line"></div>
 
-      <Button onClick={handleCalculateClick} color="primary" sx={{ mt: 2 }}>
-        Hesapla
-      </Button>
-      <Button onClick={onPaymentProcessClick} sx={{ mt: 2, ml: 2 }}>
-        Ödeme Yap
-      </Button>
-
-      <div className="carCard">
-        <div>
-          <div
-            style={{
-              height: 600,
-              marginTop: 12,
-            }}
-            key={carDTO.id}
-          >
-            <img
-              src={carDTO.imageEntityImageUrl}
-              loading="lazy"
-              alt=""
-              style={{
-                maxWidth: "100%",
-                height: "-webkit-fill-available",
-                marginBottom: 1.6,
-                transition: "transform 0.3s ease",
-              }}
-            />
+      <div className="row">
+        {/* CarCard */}
+        <div className="col-md-6">
+          <div>
+            {response && response.response.carDTO && (
+              <ShowCarCard carDTO={response.response.carDTO} />
+            )}
           </div>
+        </div>
 
-          <div style={{ display: "flex" }}>
-            <div
-              style={{
-                borderRightStyle: "solid",
-                borderWidth: 1.5,
-                borderColor: "#E1DED9",
-                paddingLeft: 2,
-                width: "50%",
-              }}
-            >
-              <div style={{ marginBottom: 1.6 }}>
-                <span style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-                  Araç Özellikleri
-                </span>
+        {/* Kiralama Detayları */}
+        <div className="col-md-6">
+          <div className="text-white">
+            <h5 className="second-header">Müşteri Bilgileri:</h5>
+            <div className="customer-info-container">
+              <div className="label-value-pair">
+                <div>
+                  <p>Ad:</p>
+                  <p>Soyad:</p>
+                  <p>Mail Adresi:</p>
+                  <p>İletişim Numarası:</p>
+                  <p>Ehliyet Tipi:</p>
+                </div>
               </div>
-              <div className="mid-column">
-                <Icon path={mdiAccountGroup} size={1} className="iconClass" />
-                <span>{carDTO.seat} Kişi</span>
-              </div>
-              <div className="mid-column">
-                <Icon path={mdiBagSuitcase} size={1} className="iconClass" />
-                <span>{carDTO.luggage} Büyük Bavul</span>
-              </div>
-              <div className="mid-column">
-                <Icon path={mdiGasStationOutline} size={1} className="iconClass" />
-                <span>{carDTO.fuelTypeEntityName}</span>
-              </div>
-              <div className="mid-column">
-                <Icon path={mdiCarShiftPattern} size={1} className="iconClass" />
-                <span>{carDTO.shiftTypeEntityName}</span>
+              <div className="customer-values">
+                <div>
+                  <p>{customerDTO.name}</p>
+                  <p>{customerDTO.surname}</p>
+                  <p>{customerDTO.emailAddress}</p>
+                  <p>{customerDTO.phoneNumber}</p>
+                  <p>{customerDTO.drivingLicenseTypeEntityName}</p>
+                </div>
               </div>
             </div>
 
-            <div style={{ paddingLeft: 3, width: "50%" }}>
-              <div style={{ marginBottom: 1.6 }}>
-                <span style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
-                  Kiralama Koşulları
-                </span>
+            <h5 className="second-header">Araç Bilgileri:</h5>
+            <div className="car-info-container">
+              <div className="label-value-pair">
+                <p>Marka:</p>
+                <p>Model:</p>
+                <p>Renk:</p>
+                <p>Yıl:</p>
               </div>
-              <div className="mid-column">
-                <Icon path={mdiCalendarAccountOutline} size={1} className="iconClass" />
-                <span>21 Yaş Ve Üstü</span>
+              <div className="car-info-values">
+                <div>
+                  <p>{carDTO.carModelEntityBrandEntityName}</p>
+                  <p>{carDTO.carModelEntityName}</p>
+                  <p>{carDTO.colorEntityName}</p>
+                  <p>{carDTO.year}</p>
+                </div>
               </div>
-              <div className="mid-column">
-                <Icon path={mdiCarChildSeat} size={1} className="iconClass" />
-                <span>Ehliyet Yılı 1 ve Üzeri</span>
+            </div>
+
+            <h4 className="second-header-center">Macera Tarihleri</h4>
+            <div className="rental-dates-container">
+              <div className="rental-date-values">
+                {formatDate(startDate)} - {formatDate(endDate)}
               </div>
-              <div className="mid-column">
-                <Icon path={mdiCreditCardMultipleOutline} size={1} className="iconClass" />
-                <span>1 Kredi Kartı</span>
-              </div>
+            </div>
+          </div>
+
+          {/* İndirim Kodu ve Hesapla Butonu */}
+          <div className="mb-3 asd">
+            {/* Fiyat*/}
+            <div style={{ float: "left", marginTop:'auto'}}>
+              <p style={{ color: "white" }}>
+                <strong
+                  style={{
+                    alignSelf: "flex-start",
+                    color: "white",
+                    alignItems: "center",
+                  }}
+                >
+                  {calculateTotalDays(startDate, endDate)}
+                </strong>{" "}
+                Günlük fiyat:
+                <strong style={{ color: "white" }}>
+                  {" "}
+                  {calculatedAmount !== undefined
+                    ? calculatedAmount
+                    : amount}{" "}
+                  TL
+                </strong>
+              </p>
+            </div>
+            <div className="input-container" style={{ float: "right" }}>
+              <span className="text-white">indirim kodu</span>
+              <OutlinedInput
+                value={discountCodeInput}
+                onChange={(e) =>
+                  setDiscountCodeInput(e.target.value.toUpperCase().trim())
+                }
+                className="custom-input"
+                placeholder="AAAA"
+                style={{ width: "210px", height: "50px" }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <Button onClick={handleCalculateClick}>Uygula</Button>
+                  </InputAdornment>
+                }
+              />
+            </div>
+          </div>
+
+          {/* checkbboxes */}
+          <div>
+            <div className="checkbox-container">
+              <input
+                type="checkbox"
+                id="termsCheckbox"
+                /* checked={isChecked}
+        onChange={handleCheckboxChange} */
+                className="checkbox-input"
+              />
+              <label htmlFor="termsCheckbox" className="checkbox-label">
+                ExtendRent
+                <a
+                  href="/link/to/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {" "}
+                  kullanım şartlarını
+                </a>{" "}
+                okudum, anladım, kabul ediyorum.
+              </label>
+            </div>
+
+            <div className="checkbox-container">
+              <input
+                type="checkbox"
+                id="termsCheckbox"
+                /* checked={isChecked}
+        onChange={handleCheckboxChange} */
+                className="checkbox-input"
+              />
+              <label htmlFor="termsCheckbox" className="checkbox-label">
+                <a
+                  href="/link/to/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Kiralama koşullarını
+                </a>{" "}
+                okudum, anladım, kabul ediyorum.
+              </label>
             </div>
           </div>
         </div>
+        <Button onClick={onPaymentProcessClick} className="mt-2 button-pay">
+          Ödemeye İlerle
+        </Button>
       </div>
     </div>
   );
