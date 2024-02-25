@@ -86,11 +86,13 @@ const SelectedCar: React.FC<{
     setActiveTab("tab1");
   }, []);
   return (
+    <div className="container-card">
     <Tabs
       activeKey={activeTab || undefined}
       className="custom-tabs"
       onSelect={(key) => setActiveTab(key as string)}
     >
+      
       <Tab
         eventKey="tab1"
         title={
@@ -103,6 +105,7 @@ const SelectedCar: React.FC<{
           </div>
         }
       >
+        
         <CarCart
           onButtonClick={(carEntityId) => {
             const formattedStartDate = new Date(`${startDate}T00:00:00.000Z`)
@@ -124,6 +127,7 @@ const SelectedCar: React.FC<{
           endDate={endDate}
         />
       </Tab>
+      
       <Tab
         eventKey="tab2"
         title={
@@ -189,6 +193,7 @@ const SelectedCar: React.FC<{
           />
       </Tab>
     </Tabs>
+    </div>
   );
 };
 

@@ -1,66 +1,185 @@
 /* ShowRental.css */
+@keyframes slideIn {
+  to {
+    
+    
+  }
+}
+
+@keyframes expandLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeInAndSlideIn {
+  from {
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.customer-info-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+  margin: auto;
+  margin-bottom: 15px;
+}
+
+.rental-dates-container {
+  justify-content: space-between;
+  max-width: 300px;
+  margin: auto; /* Container'ı yatayda ortalamak için */
+}
+.rental-date-values{
+  text-align: center;
+  font-size: 160%;
+}
+
+.second-header {
+  margin-left: 50px;
+}
+
+.second-header-center {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.customer-values p,
+.car-info-values p
+ {
+  margin-bottom: 3px;
+}
+
+.label-value-pair p{
+  margin-bottom: 3px;
+  text-transform: bold;
+}
+
+.label-value-pair {
+  text-align: left;
+  flex-direction: column;
+}
+
+.customer-values {
+  text-align: left;
+  flex-direction: column;
+}
+
+
+.car-info-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 300px;
+  margin: auto; /* Container'ı yatayda ortalamak için */
+}
+.car-info-values{
+  text-align: left;
+  flex-direction: column;
+  margin-right: 38%;
+}
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #333;
-    color: #fff;
-    margin: 0;
-    padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #333;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.firstHeaderText {
+  text-align: center;
+  text-shadow: 0 1px black;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: fadeInAndSlideIn 1.4s forwards;
+}
+
+.line {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: red;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  width: 0;
+  margin: 10px auto;
+  margin-bottom: 30px;
+  animation: expandLine 1s ease forwards;
+}
+
+.show-rental-container {
+  max-width: 70%;
+  margin: auto;
+  background-color: #111;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ff6347;
+}
+
+.grid-item {
+  margin-bottom: 20px;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  flex: 1;
+  margin-left: 5px;
+}
+
+.text-white {
+  color: white;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-input {
+  margin-right: 10px;
+}
+
+.checkbox-label {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.button-pay{
+  color: #111;
+}
+
+.asd{
+  display: flex;
+}
+
+.asd p{
+
+}
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .carCard {
-    width: 50%; /* x ekseninde yarısını kaplamak */
-    height: 100vh; /* y ekseninde sayfanın tamamını kaplamak */
-    float: left; /* Sola dayalı */
-    /* İhtiyaca bağlı olarak diğer stilleri ekleyebilirsiniz */
+  to {
+    opacity: 1;
   }
-  
-  .show-rental-container {
-    max-width: 800px;
-    margin: auto;
-    background-color: #111;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 0.5s ease-in-out;
-  }
-  
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ff6347; /* Tomato color */
-  }
-  
-  .grid-item {
-    margin-bottom: 20px;
-  }
-  
-  .customer-info, .car-info, .rental-dates, .discount-code, .price {
-    color: #00ced1; /* Dark Turquoise color */
-  }
-  
-  .discount-code-input {
-    margin-top: 20px;
-  }
-  
-  .buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .button {
-    flex: 1;
-    margin-left: 5px;
-  }
-  
-  /* Animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
+}

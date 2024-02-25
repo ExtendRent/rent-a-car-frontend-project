@@ -14,3 +14,22 @@
 .Typography{
     margin-bottom: 1.3em;
 }
+
+.select-filter{
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    font-size: 1rem;
+    width: 350px;
+    background-color:#9b9a9a4b ; 
+    color: whitesmoke;
+}
+.select-filter option {
+    padding: 10px; 
+    background-color: #ada9a9; 
+    color: #ffffff; 
+  }
+  .MuiAspectRatio-content {
+    background-color: #ffffff00 !important;
+  }
+  

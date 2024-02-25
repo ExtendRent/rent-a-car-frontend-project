@@ -33,3 +33,21 @@ input::-webkit-input-placeholder {
     padding-top: 30px;
     color: whitesmoke;
 } */
+input[type="password"] {
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    font-size: 1rem;
+    width: 500px;
+    background-color:#9b9a9a4b ; 
+    color: whitesmoke;
+}
+input[type="text"] {
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    font-size: 1rem;
+    width: 500px;
+    background-color:#9b9a9a4b ; 
+    color: whitesmoke;
+}

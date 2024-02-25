@@ -206,7 +206,7 @@ const UpdateCustomer = (props: Props) => {
                   <div className="mb-2">
                   <label className="form-label">Mail </label>
                   <input
-                      className='inputForm'
+                      className='info'
                       type="text"
                       value={mail}
                       onChange={(e) => setMail(e.target.value)}
@@ -216,7 +216,7 @@ const UpdateCustomer = (props: Props) => {
                   <div className="mb-2">
                   <label className="form-label">Eski Şifre </label>
                     <input
-                      className='inputForm'
+                      className='info'
                       type="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -226,7 +226,7 @@ const UpdateCustomer = (props: Props) => {
                   <div className="mb-2">
                   <label className="form-label">Yeni Şifre </label>
                     <input
-                      className='inputForm'
+                      className='info'
                       type="password"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
