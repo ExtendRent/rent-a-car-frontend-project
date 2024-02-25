@@ -51,8 +51,8 @@ const Navbar = () => {
           </li>
           )}
           <li className='nav-item'>
-            <Link to='/rotalar' className='nav-links'>
-              Rotalar
+            <Link to='/about' className='nav-links'>
+              Hakkımızda
             </Link>
           </li>
           <li className='nav-item'>
@@ -61,7 +61,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className='nav-item'>
-            <Link to='/contacts' className='nav-links'>
+            <Link to='/contact' className='nav-links'>
               İletişim
             </Link>
           </li>
