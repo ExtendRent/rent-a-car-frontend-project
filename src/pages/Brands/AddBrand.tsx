@@ -45,7 +45,7 @@ const AddBrand = (props: Props) => {
                                 <div className="mb-2">
                                 <FormikInput
                                     name="name"
-                                    label="Marka Giriniz"
+                                    label="Marka "
                                     placeHolder="Marka Giriniz."
                                     type='text'
                                 />
@@ -53,12 +53,12 @@ const AddBrand = (props: Props) => {
                                 <div className="mb-2">
                                     <FormikInput
                                         name="logoImagePath"
-                                        label="Resim Giriniz"
+                                        label="Resim "
                                         placeHolder="Resim Giriniz."
                                         type='text'
                                     />
                                 </div>
-                                <Button type="submit">Ekle</Button>
+                                <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'>Ekle</Button>
                             </div>
                         </div>
                     </Form>

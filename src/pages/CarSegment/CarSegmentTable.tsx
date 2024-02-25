@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteCarSegment, fetchCarSegments } from "../../store/slices/carSegmentSlice";
+import "../Color/ColorTable.css";
 
 
 const CarSegmentTable: React.FC = () => {
@@ -159,11 +160,13 @@ const CarSegmentTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+    <h2 className="h2-card">ARAÇ SEGMENT</h2>
+    <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        ARAÇ SEGMENT
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -245,8 +248,19 @@ const CarSegmentTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };
