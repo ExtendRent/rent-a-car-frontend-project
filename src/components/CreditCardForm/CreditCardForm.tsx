@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Cards from "react-credit-cards-2";
-import { Focused } from 'react-credit-cards-2';
+import { Focused } from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 
 import "./CreditCardForm.css";
@@ -9,12 +9,16 @@ interface CreditCardChangeHandler {
   (creditCardInfo: any): void;
 }
 
-const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCardChangeHandler }) => {
+const CreditCardForm = ({
+  onCreditCardChange,
+}: {
+  onCreditCardChange: CreditCardChangeHandler;
+}) => {
   const [state, setState] = useState({
     cardNumber: "",
     cardOwnerName: "",
     cardOwnerSurname: "",
-    expirationDate:"",
+    expirationDate: "",
     cvc: "",
     focus: "",
   });
@@ -40,18 +44,21 @@ const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCard
   // Yıl seçimi için dinamik bir seçenek listesi oluşturun
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 10 }, (_, i) => currentYear + i);
-  const yearOptions = years.map((year) => ({ value: year.toString(), label: year.toString() }));
+  const yearOptions = years.map((year) => ({
+    value: year.toString(),
+    label: year.toString(),
+  }));
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     if (name === "cardNumber") {
-      const formattedValue = value.replace(/\D/g, '');
+      const formattedValue = value.replace(/\D/g, "");
       const updatedValue = formattedValue.slice(0, 16);
-      let formattedCardNumber = '';
+      let formattedCardNumber = "";
       for (let i = 0; i < updatedValue.length; i++) {
         if (i > 0 && i % 4 === 0) {
-          formattedCardNumber += ' ';
+          formattedCardNumber += " ";
         }
         formattedCardNumber += updatedValue[i];
       }
@@ -61,7 +68,8 @@ const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCard
       }));
       onCreditCardChange({ ...state, [name]: formattedCardNumber });
     } else if (name === "cvc" && /^\d{0,3}$/.test(value)) {
-      if (/^\d*$/.test(value)) { // Sadece rakam içeriyorsa
+      if (/^\d*$/.test(value)) {
+        // Sadece rakam içeriyorsa
         setState((prevState) => ({
           ...prevState,
           [name]: value,
@@ -77,7 +85,9 @@ const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCard
     }
   };
 
-  const handleInputFocus = (e: React.FocusEvent<HTMLSelectElement | HTMLInputElement>) => {
+  const handleInputFocus = (
+    e: React.FocusEvent<HTMLSelectElement | HTMLInputElement>
+  ) => {
     setState((prev) => ({ ...prev, focus: e.target.name }));
   };
 
@@ -87,23 +97,21 @@ const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCard
     const formattedExpirationDate = `${expirationYear}-${selectedMonth}-01`;
     setState((prevState) => ({
       ...prevState,
-      expirationDate: formattedExpirationDate
+      expirationDate: formattedExpirationDate,
     }));
     onCreditCardChange({ ...state, expirationDate: formattedExpirationDate });
   };
-  
+
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedYear = e.target.value;
     setExpirationYear(selectedYear);
     const formattedExpirationDate = `${selectedYear}-${expirationMonth}-01`;
     setState((prevState) => ({
       ...prevState,
-      expirationDate: formattedExpirationDate
+      expirationDate: formattedExpirationDate,
     }));
     onCreditCardChange({ ...state, expirationDate: formattedExpirationDate });
   };
-
-
 
   return (
     <div>
@@ -116,95 +124,101 @@ const CreditCardForm = ({ onCreditCardChange }: { onCreditCardChange: CreditCard
       />
       <div className="mt-3">
         <form>
-          <div className="mb-3">
-            <input
-              type="text"
-              name="cardNumber"
-              className="form-control"
-              placeholder="Kart Numarası"
-              value={state.cardNumber}
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              name="cardOwnerName"
-              className="form-control"
-              placeholder="Adınız"
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              name="cardOwnerSurname"
-              className="form-control"
-              placeholder="Soyadız"
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              required
-            />
-          </div>
           <div className="row">
+            <div className="col-12 mb-3" style={{display: "contents"}}>
             <div className="col-6 mb-3">
-              <select
-                name="expirationMonth"
-                className="form-control"
-                value={expirationMonth}
-                onChange={handleMonthChange}
-                onFocus={handleInputFocus}
-                required
-              >
-                <option value="">Ay</option>
-                {monthOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    name="cardNumber"
+                    className="card-control"
+                    placeholder="Kart Numarası"
+                    value={state.cardNumber}
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    name="cardOwnerName"
+                    className="card-control"
+                    placeholder="Adınız"
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <input
+                    type="text"
+                    name="cardOwnerSurname"
+                    className="card-control"
+                    placeholder="Soyadız"
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                    required
+                  />
+                </div>
             </div>
-            <div className="col-6 mb-3">
-              <select
-                name="expirationYear"
-                className="form-control"
-                value={expirationYear}
-                onChange={handleYearChange}
-                onFocus={handleInputFocus}
-                required
-              >
-                <option value="">Yıl</option>
-                {yearOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="col-6 mb-3">
-            <input
-                type="text"
-                name="cvc"
-                className="form-control"
-                placeholder="CVC"
-                maxLength={3} // Maksimum uzunluk 3 olacak
-                onKeyPress={(e) => {
-                  // Sadece rakamları kabul et
-                  const onlyDigits = /[0-9]/;
-                  const key = String.fromCharCode(e.which);
-                  if (!onlyDigits.test(key)) {
-                    e.preventDefault();
-                  }
-                }}
-                value={state.cvc}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                required
-              />
+              <div className="col-6 mb-3">
+                <div className="col-6 mb-3">
+                  <select
+                    name="expirationMonth"
+                    className="card-control"
+                    value={expirationMonth}
+                    onChange={handleMonthChange}
+                    onFocus={handleInputFocus}
+                    required
+                  >
+                    <option value="">Ay</option>
+                    {monthOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-6 mb-3">
+                  <select
+                    name="expirationYear"
+                    className="card-control"
+                    value={expirationYear}
+                    onChange={handleYearChange}
+                    onFocus={handleInputFocus}
+                    required
+                  >
+                    <option value="">Yıl</option>
+                    {yearOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-6 mb-3">
+                  <input
+                    type="text"
+                    name="cvc"
+                    className="card-control"
+                    placeholder="CVC"
+                    maxLength={3} // Maksimum uzunluk 3 olacak
+                    onKeyPress={(e) => {
+                      // Sadece rakamları kabul et
+                      const onlyDigits = /[0-9]/;
+                      const key = String.fromCharCode(e.which);
+                      if (!onlyDigits.test(key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    value={state.cvc}
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                    required
+                  />
+                </div>
+                </div>
             </div>
           </div>
         </form>

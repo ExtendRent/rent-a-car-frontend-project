@@ -1,0 +1,8 @@
+.form-rental-detail{
+    background-color:  #ffffffcf;
+    width: 60%;
+    min-height: 552px;
+    margin: auto;
+    border-radius: 10px;
+    transform: translateY(45px);
+}

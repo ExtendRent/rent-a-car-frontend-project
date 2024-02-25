@@ -57,3 +57,22 @@
   height: 5px;
   background-color: #ddd;
 }
+.credit-cart-form{
+  margin-right: 40px;
+  padding-left: 40px;
+}
+.credit-input{
+    padding: 5px;
+    margin-bottom: 30px;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    font-size: 1rem;
+    width: 100%;
+    background-color:#9b9a9a4b ; 
+    color: whitesmoke;
+}
+.credit-input option {
+  padding: 10px; 
+  background-color: #ada9a9; 
+  color: #ffffff; 
+}

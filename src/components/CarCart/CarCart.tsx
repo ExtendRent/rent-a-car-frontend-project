@@ -34,7 +34,7 @@ import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 import RentalButton from "../Button/RentalButton";
 import { Alert } from "@mui/material";
 interface CarCartProps {
-  onButtonClick: (carEntityId: number) => void;
+  onButtonClick: (carEntityId: number,startDateFilter:string,endDateFilter:string) => void;
   startDate: string; // formattedStartDate ve formattedEndDate'yi props olarak ekleyin
   endDate: string;
 }
@@ -144,7 +144,7 @@ export default function CarCart({
    
     <div className="row">
       <div className="col-md-3">
-      <div className="mb-3">
+        <div className="mb-3">
           <label
             htmlFor="startDate"
             className="form-label"
@@ -292,7 +292,7 @@ export default function CarCart({
           container
           spacing={{ xs: 1, md: 3 }}
           columns={{ xs: 1, sm: 8, md: 12 }}
-          sx={{ flexGrow: 1, maxWidth: 1500, marginLeft: 4, marginRight: 4 }}
+          sx={{ flexGrow: 1, maxWidth: 1500, marginRight: 4 }}
         >
           {carsState.map((car: any) => (
             <Grid xs={1} sm={4} md={4}>
@@ -421,7 +421,7 @@ export default function CarCart({
                     variant="solid"
                     color="danger"
                     size="lg"
-                    onClick={() => onButtonClick(car.id)}
+                    onClick={() => onButtonClick(car.id,startDateFilter, endDateFilter)}
                   >
                     Hemen Kirala
                   </Button>
