@@ -3,8 +3,8 @@ export interface AddCustomerModel {
     surname: string;
     emailAddress: string;
     password: string;
-    phoneNumber: number;
+    phoneNumber: string;
     drivingLicenseNumber: string;
-    drivingLicenseTypeEntityId: number;
-    userImageEntityId: number;
+    drivingLicenseTypeEntityId: number | undefined;
+    userImageEntityId?: number ;
 }

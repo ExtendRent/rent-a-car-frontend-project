@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { fetchPaymentDetails } from "../../store/slices/paymentDetailsSlice";
 import { fetchPaymentTypes } from "../../store/slices/paymentTypeSlice";
+import "../Color/ColorTable.css";
 
 const PaymentDetailsTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -193,11 +194,13 @@ const PaymentDetailsTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <h2 className="h2-card">FATURA</h2>
+        <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        FATURA
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -313,8 +316,19 @@ const PaymentDetailsTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };

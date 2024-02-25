@@ -157,7 +157,7 @@ const AdminCards = (props: Props) => {
             <div className="card order-card">
                 <div className="card-block">
                 <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    ÇALIŞANLAR
+                    Çalışanlar
                 </h4>
                 <h6 className="m-b-20">
                     <i
@@ -185,7 +185,7 @@ const AdminCards = (props: Props) => {
                 <div className="card order-card">
                 <div className="card-block">
                     <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    ADMIN
+                    Admin
                     </h4>
                     <h6 className="m-b-20">
                     <i
@@ -213,7 +213,7 @@ const AdminCards = (props: Props) => {
                 <div className="card order-card">
                 <div className="card-block">
                     <h4 style={{ textAlign: "center" }} className="m-b-20">
-                    ARABA
+                    Araba
                     </h4>
                     <h6 className="m-b-20">
                     <i
@@ -248,7 +248,7 @@ const AdminCards = (props: Props) => {
                 <div className="card order-card">
                 <div className="card-block">
                     <h4 style={{ textAlign: "center"}} className="m-b-20">
-                    KİRALAMA
+                    Kiralama
                     </h4>
                     <h6 className="m-b-20">
                     <i

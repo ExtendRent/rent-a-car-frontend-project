@@ -1,0 +1,58 @@
+.css-mhc70k-MuiGrid-root>.MuiGrid-item {
+    margin-top: 46px !important;
+}
+.login-card{
+    width: 614px;
+    height: 478px;
+    background-color: #f0e67a12;
+    border-radius: 25px;
+    position: absolute;
+    margin-top: 83px;
+}
+
+  .text-danger {
+    color: #dc3545;
+  }
+  
+  .text-success {
+    color: #28a745;
+  }
+  
+  .autocomplete-root {
+    margin-bottom: 60px;
+    margin-top: 60px;
+  }
+  
+  /* Mantine PasswordInput style */
+  input[type='password'] {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #7a7a7a;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 60px;
+  }
+  
+  input[type='password']:focus {
+    outline: none;
+    /* border-color: #007bff; */
+    box-shadow: 0 0 0 0.2rem rgba(206, 210, 215, 0.25);
+  }
+  input{
+    margin-bottom: 60px;
+  }
+  .m-8fb7ebe7{
+    height: 47px !important;
+  }
+  
+.m-46b77525 {
+    margin-top: 26px !important;
+    margin-bottom: 19px !important;
+}
+.form-login{
+    display: flex !important;
+    justify-content: space-around !important;
+}

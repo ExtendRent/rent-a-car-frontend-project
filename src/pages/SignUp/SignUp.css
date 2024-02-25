@@ -1,0 +1,21 @@
+.css-1jf2wst-JoyFormControl-root {
+    width: 50% !important;
+    color: white;
+}
+.button3{
+    width: 30% !important;
+}
+
+.button-relative{
+    position:absolute;
+    display: flex;
+    width: -webkit-fill-available;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    transform: rotateY(180deg);
+}
+.h2-card-rent{
+    margin-bottom: 40px;
+    padding-top: 0px;
+}

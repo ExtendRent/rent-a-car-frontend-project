@@ -171,7 +171,7 @@ const AddCar = (props: Props) => {
                   <div id="select-block" className="col-md-6">
                     <div className="mb-2">
                       <FormikSelect
-                        label="Marka Seç"
+                        label="Marka"
                         name="brandEntityId"
                         options={brandState.brands.map((brands: any) => ({
                           value: brands.id,
@@ -182,7 +182,7 @@ const AddCar = (props: Props) => {
 
                     <div className="mb-2">
                       <FormikSelect
-                        label="Araç Model Seç"
+                        label="Araç Model "
                         name="carModelEntityId"
                         options={carModelState.carModel.map((carModel: any) => ({
                           value: carModel.id,
@@ -193,7 +193,7 @@ const AddCar = (props: Props) => {
 
                     <div className="mb-2">
                       <FormikSelect
-                        label="Kasa Tipi Seç"
+                        label="Kasa Tipi "
                         name="carBodyTypeEntityId"
                         options={carBodyTypeState.carBodyTypes.map(
                           (carBodyType: any) => ({
@@ -205,7 +205,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Renk Seç"
+                        label="Renk "
                         name="colorEntityId"
                         options={colorState.colors.map((color: any) => ({
                           value: color.id,
@@ -215,7 +215,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Araç Durumu Seç"
+                        label="Araç Durumu "
                         name="vehicleStatusEntityId"
                         options={vehicleStatusState.vehicleStatuses.map(
                           (vehicleStatus: any) => ({
@@ -227,7 +227,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Vites Tipi Seç"
+                        label="Vites Tipi "
                         name="shiftTypeEntityId"
                         options={shiftTypeState.shiftTypes.map(
                           (shiftType: any) => ({
@@ -239,7 +239,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Yakıt Tipi Seç"
+                        label="Yakıt Tipi "
                         name="fuelTypeEntityId"
                         options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
                           value: fuelType.id,
@@ -249,7 +249,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Ehliyet Tipi Seç"
+                        label="Ehliyet Tipi "
                         name="expectedMinDrivingLicenseTypeId"
                         options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
                           (drivingLicenseType: any) => ({
@@ -261,7 +261,7 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                       <FormikSelect
-                        label="Segment Seç"
+                        label="Segment "
                         name="carSegmentEntityId"
                         options={segmentState.carSegments.map(
                           (carSegment: any) => ({
@@ -290,7 +290,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="year"
-                        label="Yıl Giriniz"
+                        label="Yıl "
                         placeHolder="Yıl Giriniz."
                         type="number"
                       />
@@ -298,7 +298,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="details"
-                        label="Detay Giriniz"
+                        label="Detay "
                         placeHolder="Detay Giriniz."
                         type="text"
                       />
@@ -306,7 +306,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="rentalPrice"
-                        label="Araç Fiyatı Giriniz"
+                        label="Araç Fiyatı "
                         placeHolder="Araç Fiyatı Giriniz."
                         type="number"
                       />
@@ -314,7 +314,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="licensePlate"
-                        label="Plaka Giriniz"
+                        label="Plaka "
                         placeHolder="Plaka Giriniz."
                         type="text"
                       />
@@ -322,7 +322,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="kilometer"
-                        label="Kilometre Giriniz"
+                        label="Kilometre "
                         placeHolder="Kilometre Giriniz."
                         type="number"
                       />
@@ -330,7 +330,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="seat"
-                        label="Koltuk Sayısı Giriniz"
+                        label="Koltuk Sayısı "
                         placeHolder="Koltuk Sayısı Giriniz."
                         type="number"
                       />
@@ -338,7 +338,7 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikInput
                         name="luggage"
-                        label="Bagaj Sayısı Giriniz"
+                        label="Bagaj Sayısı "
                         placeHolder="Bagaj Sayısı Giriniz."
                         type="number"
                       />
@@ -346,13 +346,13 @@ const AddCar = (props: Props) => {
                     <div className="mb-2">
                       <FormikCheckbox
                         name="available"
-                        label="Araba Geçerli Mi Giriniz"
+                        label="Araba Geçerli Mi "
                       />
                     </div>
                     <div className="mb-2">
-                      <Button type="submit" className="btn btn-primary">
-                      Araba Ekle
-                    </Button>
+                    <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'> Ekle</Button>
+                       
+                    
                     </div>
                   </div>
                   

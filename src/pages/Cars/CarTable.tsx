@@ -19,6 +19,7 @@ import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
 import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeSlice";
 import { fetchVehicleStatus } from "../../store/slices/vehicleStatusSlice";
+import "../Color/ColorTable.css";
 
 const CarModelTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -309,7 +310,9 @@ const CarModelTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <h2 className="h2-card">ARAÇLAR</h2>
+        <div className="form">
             <MUIDataTable
                 title={
                     <Typography variant="h6">
@@ -511,8 +514,19 @@ const CarModelTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };

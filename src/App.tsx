@@ -73,6 +73,8 @@ import ReturnRental from './pages/Rental/ReturnRental';
 import UpdateCarModel from './pages/CarModel/UpdateCarModel';
 import AdminPanel from './pages/AdminPanel/AdminPanel';
 import Footer from './components/Footer/Footer';
+import PastRentalDetail from './pages/PastRentals/PastRentalDetail';
+import Contacts from './pages/ContactUs/Contacts';
 
   
 
@@ -163,6 +165,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
 
+        <Route path="/contacts" element={<Contacts />}></Route>
+
         <Route path="/adminPanel/rentals" element={<Rentals />}></Route>
         <Route path="/adminPanel/updateRental/:id" element={<UpdateRental />}></Route>
         <Route path="/adminPanel/returnRental/:id" element={<ReturnRental />}></Route>
@@ -173,6 +177,7 @@ function App() {
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
         <Route path="/adminPanel/updatePaymentDetails/:id" element={<UpdatePaymentDetails />}></Route>
         <Route path="/allMyRentals/:id" element={<PastRentals />}></Route>
+        <Route path="/myRentalDetails/:id" element={<PastRentalDetail />}></Route>
         <Route path="/account" element={<Account />}></Route>
       
 			</Routes>

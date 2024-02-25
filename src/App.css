@@ -191,8 +191,7 @@ input::-webkit-input-placeholder {
   color:white
 }
 
-/* .container-card-table{
-  width: 95%;
-  opacity: 1;
-  backdrop-filter: blur(4px);
-} */
+.orta{
+  display: flex;
+  justify-content: space-around;
+}

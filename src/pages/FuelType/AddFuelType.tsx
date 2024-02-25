@@ -47,11 +47,11 @@ const AddFuelType = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="name"
-                    label="Yakıt Tipi Giriniz"
+                    label="Yakıt Tipi "
                     placeHolder="Yakıt Tipi Giriniz."
                     type="text"
                   />
-                  <Button type="submit">Ekle</Button>
+                   <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'>Ekle</Button>
                 </div>
               </div>
             </div>

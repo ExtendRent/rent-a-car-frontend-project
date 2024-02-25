@@ -16,6 +16,7 @@ import { fetchCustomers } from "../../store/slices/customerSlice";
 import { fetchDiscountCodes } from "../../store/slices/discountCodeSlice";
 import { fetchCars } from "../../store/slices/carSlice";
 import { Button } from "react-bootstrap";
+import "../Color/ColorTable.css";
 
 const RentalTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -316,11 +317,13 @@ const RentalTable: React.FC = () => {
     };
 
     return (
-        <div style={{ width: "100%", overflowX: "auto" }}>
+        <div className="container-card">
+        <div className="form">
+        <h2 className="h2-card">KİRALAMA</h2>
             <MUIDataTable
                 title={
                     <Typography variant="h6">
-                        KİRALAMA
+                        
                         {isLoading && (
                             <CircularProgress
                                 size={24}
@@ -549,8 +552,19 @@ const RentalTable: React.FC = () => {
                         },
                     },
                 ]}
-                options={options}
+                options={{
+                    ...options,
+                    setRowProps: () => ({
+                      className: 'custom-row'
+                    }),
+                    setTableProps: () => ({
+                      style: {
+                        className: 'custom-mui-table'
+                      },
+                    }),
+                  }}
             />
+            </div>
         </div>
     );
 };

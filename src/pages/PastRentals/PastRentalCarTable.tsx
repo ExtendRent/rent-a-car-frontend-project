@@ -16,6 +16,7 @@ import { CustomerModel } from "../../models/Responses/Customer/CustomerModel";
 import { RentalModel } from "../../models/Responses/Rental/RentalModel";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import { useNavigate } from "react-router-dom";
 type Props = {};
 const PastRentalCarTable = (props: Props) => {
@@ -35,7 +36,7 @@ const PastRentalCarTable = (props: Props) => {
     console.log(rental);
   };
   const handleUpdate = (id: number) => {
-    navigate(`/adminPanel/updateCar/${id}`);
+    navigate(`/myRentalDetails/${id}`);
   };
   const formatDate = (date: string | Date | undefined): string => {
     if (!date) return ""; // Eğer tarih yoksa boş bir dize döndür
@@ -56,6 +57,7 @@ const PastRentalCarTable = (props: Props) => {
       sx={{ backgroundColor: "transparent" }}
       className="custom-table-container"
     >
+      <h2 className="h2-card">Kiralama Geçmişim</h2>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead sx={{backgroundColor: "#f5f5dc29"}}>
           <TableRow>
@@ -79,8 +81,7 @@ const PastRentalCarTable = (props: Props) => {
             </TableCell>
             <TableCell
               align="left"
-              sx={{ color: "#ffc107", padding: "0px 50px 0px 50px" }}
-            ></TableCell>
+              sx={{ color: "#ffc107", padding: "0px 50px 0px 50px" }}>DETAY</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -127,7 +128,7 @@ const PastRentalCarTable = (props: Props) => {
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
-                  <IconButton onClick={() => handleUpdate(item.id)}><EditIcon /></IconButton>
+                  <IconButton onClick={() => handleUpdate(item.id)}><ArticleOutlinedIcon /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
