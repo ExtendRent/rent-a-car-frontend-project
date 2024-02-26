@@ -104,11 +104,12 @@ const Search: React.FC = () => {
           </div>
 
   
-
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <button className="button3">
             Tarihe Göre Ara
             <img className="wheelIcon" src={wheelIcon} alt="wheel" />
           </button>
+          </div>
         </Form>
       </Formik>
       {errorMessage && (
