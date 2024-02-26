@@ -24,17 +24,17 @@ const Contacts = (props: Props) => {
     </div>
 
     <div className="contact-cards">
-      <div className="card">
+      <div className="card contact">
       
       <h3 className='text' > <i className="lni lni-phone" style={{color:'black'}}></i> BİZE ULAŞ  </h3>
         <p className='text'>(0 216) 656 26 00</p>
         <p className='text'>(0 216) 656 26 01</p>
       </div>
-      <div className="card location">
+      <div className="card contact location">
         <h3 className='text konum'><i className="lni lni-map-marker" style={{color:'black'}}></i></h3>
         <img className='location-img' src={location} alt="Contact Image"/> 
       </div>
-      <div className="card">
+      <div className="card contact">
         <h3 className='text'>ÇALIŞMA SAATLERİ</h3> 
         <p className='text'>Haftaiçi  : 08:00 - 22:00 </p>
         <p className='text'>Haftasonu : 08:00 - 23:00 </p>

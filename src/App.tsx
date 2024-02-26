@@ -76,6 +76,7 @@ import Footer from './components/Footer/Footer';
 import PastRentalDetail from './pages/PastRentals/PastRentalDetail';
 import Contacts from './pages/ContactUs/Contacts';
 import AboutUs from './pages/AboutUs/AboutUs';
+import RentalTerms from './pages/RentalTerms/RentalTerms';
 
   
 
@@ -182,6 +183,7 @@ function App() {
         <Route path="/allMyRentals/:id" element={<PastRentals />}></Route>
         <Route path="/myRentalDetails/:id" element={<PastRentalDetail />}></Route>
         <Route path="/account" element={<Account />}></Route>
+        <Route path="/rentalTerm" element={<RentalTerms />}></Route>
       
 			</Routes>
     <Footer/>

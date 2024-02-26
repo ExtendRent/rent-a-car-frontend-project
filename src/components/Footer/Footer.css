@@ -22,7 +22,7 @@ body{
   flex-wrap: wrap;
 }
 ul{
-  list-style: none;
+  list-style: circle;
 }
 .footer{
   background-color: #2d2e2e;

@@ -34,21 +34,22 @@ const ReturnRental = (props: Props) => {
   }
 
   return (
-    <div className="container-card">
-        <div className="form">
-        <h2 className="h2-card">Return Rental</h2>
-        <div className="form-control">
-            <label htmlFor="endDate">End Date:</label>
+    <div className="container-card return-rental-container">
+        <div className="form return-rental-form">
+        <h2 className="h2-card">Kiralama Tamamla</h2>
+        <div className="returnRental">
+            <p style={{textAlign:'center', marginTop:'100px'}}><label htmlFor="endDate">Bitiş Günü:</label></p>
             <input
                 type="date"
                 id="endDate"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
             />
-        </div>
+            </div>
         
-        <div className="form-control">
-            <label htmlFor="endKilometer">End Kilometer:</label>
+        
+        <div className="returnRental">
+        <p style={{textAlign:'center', marginTop:'20px'}}><label htmlFor="endKilometer">Güncel km:</label></p>
             <input
                 type="number"
                 id="endKilometer"
@@ -56,9 +57,9 @@ const ReturnRental = (props: Props) => {
                 onChange={(e) => setEndKilometer(parseInt(e.target.value))}
             />
         </div>
-        <div className="form-actions">
-        <button onClick={handlePaymentTypeUpdateSuccess}>Update Payment Type</button>
-        <button onClick={handleCancelUpdate}>Cancel</button>
+        <div className="form-actions return-rental-action">
+        <button className='return-button' onClick={handlePaymentTypeUpdateSuccess}>Kiralamayı Bitir</button>
+        <button className='return-button' onClick={handleCancelUpdate}>İptal</button>
         </div>
         </div>
     </div>

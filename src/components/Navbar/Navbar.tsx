@@ -56,11 +56,6 @@ const Navbar = () => {
             </Link>
           </li>
           <li className='nav-item'>
-            <Link to='/rehberlerimiz' className='nav-links'>
-              Rehberlerimiz
-            </Link>
-          </li>
-          <li className='nav-item'>
             <Link to='/contact' className='nav-links'>
               İletişim
             </Link>

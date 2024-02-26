@@ -7,6 +7,7 @@ type Props = {}
 
 const AboutUs = (props: Props) => {
     return (
+        <div className='form'>
         <div className="rent-a-car-page">
             <div className='hakkimizda'>
                 <h2>HAKKIMIZDA</h2> <br />
@@ -15,11 +16,8 @@ const AboutUs = (props: Props) => {
                     Müşterilerimizin ihtiyaçlarını anlamak ve onlara en uygun araçları sunmak için çaba gösteriyoruz. Geniş araç filomuz ve uygun fiyat politikamızla müşterilerimizin her türlü talebini karşılamak için buradayız.
 
                     Ekibimizdeki deneyimli ve uzman personelimiz, her adımda müşterilerimize yardımcı olmak ve onların seyahatlerini sorunsuz hale getirmek için çalışıyor. Müşteri memnuniyetini en üst düzeyde tutarak, ExtendRent olarak müşterilerimize güvenilir, kaliteli ve ekonomik bir araç kiralama deneyimi sunuyoruz.
-
-                    Siz de ExtendRent'ın ayrıcalıklı hizmetlerinden yararlanmak ve konforlu bir seyahat deneyimi yaşamak için bize bugün katılın. İhtiyacınız olan aracı seçin ve güvenle yolculuğa çıkın.
-
-                    ExtendRent olarak, sizin güvenliğiniz ve memnuniyetiniz bizim önceliğimizdir. İyi yolculuklar dileriz! </p>
-            </div> <br /> <br />
+</p>
+            </div> 
             <div className="row">
                 <div className="left-column left1">
                     <img className='carImage car1' src={musteri} alt='car-image' />
@@ -42,12 +40,13 @@ const AboutUs = (props: Props) => {
                         Güvenilirlik: Müşterilerimize güvenilir ve dürüst hizmet sunmaya özen gösteriyoruz.
                         Esneklik: Müşterilerimizin taleplerine esnek bir şekilde yanıt veriyoruz ve onların ihtiyaçlarına uygun çözümler sunuyoruz.
                         Toplumsal Sorumluluk: Topluma ve çevreye duyarlı bir şekilde faaliyet göstermeyi ve yerel topluluklara destek olmayı önemsiyoruz.
-                        ExtendRent olarak, tek şubemizde dahi müşterilerimize en iyi hizmeti sunmaya kararlıyız. Her müşterimizle samimi bir ilişki kurmayı ve onların seyahatlerini kolaylaştırmayı amaçlıyoruz.</p>
+                        </p>
                 </div>
                 <div className="right-column right1">
                     <img className='carImage car2' src={anahtar} alt='car-image' />
                 </div>
             </div>
+        </div>
         </div>
     );
 }

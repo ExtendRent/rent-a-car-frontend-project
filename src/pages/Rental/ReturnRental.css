@@ -1,41 +1,49 @@
-.return-rental-form {
-    max-width: 400px;
-    margin: 0 auto;
+
+  
+  .return-rental-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Sayfanın tamamını kaplar */
   }
   
-  .form-control {
-    margin-bottom: 15px;
+  .return-rental-form {
+    max-width: 90%; /* Formun en fazla genişliği */
+    overflow-x: auto; /* Yatay kaydırma çubuğunu görüntüler */
+    text-align: center; /* Input alanlarını ortalar */
   }
   
-  .form-control label {
-    display: block;
-    margin-bottom: 5px;
+
+   label {
+    display: block; /* Labelı blok eleman yapar */
+    margin-bottom: 5px; /* Label ile input arasına boşluk ekler */
+    color: aliceblue;
   }
   
-  .form-control input[type="date"],
-  .form-control input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid red;
-    border-radius: 10px;
-    box-sizing: border-box;
-    background-color: white
+   input {
+    width: 40%; /* Input alanlarını genişletir */
+    padding: 8px 10px; /* Input alanlarının iç boşluğunu ayarlar */
+    font-size: 14px; /* Yazı tipi boyutunu ayarlar */
+    background-color: #121212;
+    color: aliceblue;
+    opacity: 0.5;
+    border-radius: 20px;
   }
   
-  .form-actions button {
-    padding: 10px 20px;
-    background-color: #8C1816;
-    color: black;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+  .return-rental-action {
+    margin-top: 20px; /* Butonlar ile diğer içerik arasına boşluk ekler */
   }
   
-  .form-actions button + button {
-    margin-left: 10px;
+  .return-rental-action button {
+    margin-right: 10px; /* Butonlar arasına boşluk ekler */
+  }
+
+  .return-button{
+    border-radius: 20px;
+    background-color: rgba(140, 25, 25);
+    color: aliceblue;
+    width: 200px;
+    height: 40px;
   }
   
-  .form-actions button:hover {
-    background-color: #8C1816;
-  }
   

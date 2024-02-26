@@ -66,8 +66,8 @@ const RentalTable: React.FC = () => {
                 rental.rentalStatusEntityName,
                 <IconButton onClick={() => handleUpdate(rental.id)}><EditIcon /></IconButton>,
                 <IconButton onClick={() => handleDelete(rental.id)}><DeleteIcon /></IconButton>,
-                <IconButton type="button" className="btn btn-primary" onClick={() => handleStartUpdate(rental.id)}>Start Rental</IconButton>,
-                <IconButton onClick={() => handleReturnUpdate(rental.id)}>End Rental</IconButton>,
+                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleStartUpdate(rental.id)}>Start Rental</Button>,
+                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleReturnUpdate(rental.id)}>End Rental</Button>,
             ]);
 
             setData(tableData);

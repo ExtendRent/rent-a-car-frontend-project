@@ -58,13 +58,13 @@
   gap: 20px; /* Kartlar arasına boşluk ekleyin */
 }
 
-.card {
+.contact {
  opacity: 0.7;
   background-color: beige; 
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  width: 300px; /* Kartların maksimum genişliği */
+  max-width: 300px; /* Kartların maksimum genişliği */
   
 }
 .text{
@@ -74,11 +74,11 @@
   height: 150px;
   width: 250px;
 }
-.card {
+.contact {
   position: relative;
 }
 
-.card img {
+.contact img {
   position: absolute;
   top: 0;
   left: 0;
