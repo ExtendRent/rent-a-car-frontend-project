@@ -46,7 +46,7 @@ const AddDrivingLicenseType = (props: Props) => {
         <div className="form">
           <h2 className="h2-card">Ehliyet Tipi Ekleme</h2>
           <Form>
-            <div className="row">
+            <div className="row-add-carModel">
               <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                   <FormikInput

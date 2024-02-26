@@ -7,6 +7,7 @@ import { Form, Formik } from "formik";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import {Button } from '@mui/material';
 import * as Yup from 'yup';
+import './AddBrand.css';
 
 type Props = {};
 
@@ -40,7 +41,7 @@ const AddBrand = (props: Props) => {
                 <div className="form">
                     <h2 className='h2-card'>Marka Ekleme</h2>
                     <Form>
-                        <div className="row">
+                        <div className="row-add-brand">
                             <div id='select-block' className="col-md-6" style={{marginTop:'110px'}}>
                                 <div className="mb-2">
                                 <FormikInput

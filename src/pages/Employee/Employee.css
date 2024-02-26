@@ -1,0 +1,4 @@
+.row-add-employee{
+    display: flex;
+    justify-content: space-around;
+}

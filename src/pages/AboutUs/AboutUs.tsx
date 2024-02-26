@@ -7,10 +7,11 @@ type Props = {}
 
 const AboutUs = (props: Props) => {
     return (
-        <div className='form'>
+        <div className="container-card">
+         <div className="form">
         <div className="rent-a-car-page">
             <div className='hakkimizda'>
-                <h2>HAKKIMIZDA</h2> <br />
+                <h2 className='h2-card'>HAKKIMIZDA</h2> <br />
                 <p>ExtendRent, şehrinizin güvenilir ve samimi araç kiralama hizmeti sağlayıcısıdır. 2022 yılından beri sektörde liderliği ve müşteri memnuniyetini ön planda tutan yaklaşımıyla hizmet veren firmamız, müşterilerimize rahat ve konforlu bir seyahat deneyimi sunmayı amaçlamaktadır.
 
                     Müşterilerimizin ihtiyaçlarını anlamak ve onlara en uygun araçları sunmak için çaba gösteriyoruz. Geniş araç filomuz ve uygun fiyat politikamızla müşterilerimizin her türlü talebini karşılamak için buradayız.
@@ -46,6 +47,7 @@ const AboutUs = (props: Props) => {
                     <img className='carImage car2' src={anahtar} alt='car-image' />
                 </div>
             </div>
+        </div>
         </div>
         </div>
     );

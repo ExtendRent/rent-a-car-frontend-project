@@ -55,9 +55,9 @@ const DrivingLicenseTypes = (props: Props) => {
   return (
     <div >
       <SideBar>
-       
+        <div className="full-screen">
           <MyMUIDataTable />
-        
+        </div>
       </SideBar>
        
     </div>

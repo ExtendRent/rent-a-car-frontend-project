@@ -14,4 +14,7 @@ img {
   left: 75%;
   transform: translate(-75%);
 }
-
+.row-update-brand{
+  display: flex;
+  justify-content: center;
+}

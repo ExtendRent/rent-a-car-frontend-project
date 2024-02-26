@@ -21,6 +21,7 @@ import { CarModel } from '../../models/Responses/Car/CarModel';
 import FormikSelect from '../../components/FormikSelect/FormikSelect';
 import { addCarImages } from '../../store/slices/imageSlice';
 import './UpdateCar.css';
+import { Alert } from "@mui/material";
 type Props = {}
 
 const UpdateCar = (props: Props) => {
@@ -43,7 +44,8 @@ const UpdateCar = (props: Props) => {
     (state: any) => state.drivingLicenseType
   );
   
-
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
   useEffect(() => {
     if (isSubmited) {
       fetchData();
@@ -154,8 +156,32 @@ const UpdateCar = (props: Props) => {
     }));
     console.log(imageResponse); */
    
+    try {
+      const response = await dispatch(
+      updateCar(values)
+      ); 
+      
+      if ("error" in response) {
+        if (response.error.message && response.error.message.includes("1007")) {
+        setErrorMessage("İşlem  Başarısız.");
+        console.log(response);
+        } else {
+        setErrorMessage("İşlem  Başarısız");
+        console.log(response);
+        }
+    } else {
+        setSuccessMessage("Araba Güncellenmiştir.");
+        setTimeout(() => {
+        setSuccessMessage("");
+        window.location.reload();
+        }, 2000); 
+    }
     
-    dispatch(updateCar(values));
+    }
+    catch (error) {
+      console.error("Redux action dispatch hatası:", error);
+      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
+    }
   };
  
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +218,7 @@ const UpdateCar = (props: Props) => {
             <div id="select-block" className="col-md-6">
                 <div className="mb-2">
                   <FormikSelect
-                    label="Marka Seç"
+                    label="Marka"
                     name="brandEntityId"
                     options={brandState.brands.map((brands: any) => ({
                       value: brands.id,
@@ -203,7 +229,7 @@ const UpdateCar = (props: Props) => {
 
                 <div className="mb-2">
                   <FormikSelect
-                    label="Araç Model Seç"
+                    label="Araç Model"
                     name="carModelEntityId"
                     options={carModelState.carModel.map((carModel: any) => ({
                       value: carModel.id,
@@ -214,7 +240,7 @@ const UpdateCar = (props: Props) => {
 
                 <div className="mb-2">
                   <FormikSelect
-                    label="Kasa Tipi Seç"
+                    label="Kasa Tipi"
                     name="carBodyTypeEntityId"
                     options={carBodyTypeState.carBodyTypes.map(
                       (carBodyType: any) => ({
@@ -226,7 +252,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Renk Seç"
+                    label="Renk"
                     name="colorEntityId"
                     options={colorState.colors.map((color: any) => ({
                       value: color.id,
@@ -236,7 +262,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Araç Durumu Seç"
+                    label="Araç Durumu"
                     name="vehicleStatusEntityId"
                     options={vehicleStatusState.vehicleStatuses.map(
                       (vehicleStatus: any) => ({
@@ -248,7 +274,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Vites Tipi Seç"
+                    label="Vites Tipi"
                     name="shiftTypeEntityId"
                     options={shiftTypeState.shiftTypes.map(
                       (shiftType: any) => ({
@@ -260,7 +286,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Yakıt Tipi Seç"
+                    label="Yakıt Tipi"
                     name="fuelTypeEntityId"
                     options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
                       value: fuelType.id,
@@ -270,7 +296,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Ehliyet Tipi Seç"
+                    label="Ehliyet Tipi"
                     name="expectedMinDrivingLicenseTypeId"
                     options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
                       (drivingLicenseType: any) => ({
@@ -282,7 +308,7 @@ const UpdateCar = (props: Props) => {
                 </div>
                 <div className="mb-2">
                   <FormikSelect
-                    label="Segment Seç"
+                    label="Segment"
                     name="carSegmentEntityId"
                     options={segmentState.carSegments.map(
                       (carSegment: any) => ({
@@ -300,7 +326,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="year"
-                    label="Yıl Giriniz"
+                    label="Yıl"
                     placeHolder="Yıl Giriniz."
                     type="number"
                   />
@@ -308,7 +334,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="details"
-                    label="Detay Giriniz"
+                    label="Detay"
                     placeHolder="Detay Giriniz."
                     type="text"
                   />
@@ -316,7 +342,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="rentalPrice"
-                    label="Araç Fiyatı Giriniz"
+                    label="Araç Fiyatı"
                     placeHolder="Araç Fiyatı Giriniz."
                     type="number"
                   />
@@ -324,7 +350,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="licensePlate"
-                    label="Plaka Giriniz"
+                    label="Plaka"
                     placeHolder="Plaka Giriniz."
                     type="text"
                   />
@@ -332,7 +358,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="kilometer"
-                    label="Kilometre Giriniz"
+                    label="Kilometre"
                     placeHolder="Kilometre Giriniz."
                     type="number"
                   />
@@ -340,7 +366,7 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="seat"
-                    label="Koltuk Sayısı Giriniz"
+                    label="Koltuk Sayısı"
                     placeHolder="Koltuk Sayısı Giriniz."
                     type="number"
                   />
@@ -348,17 +374,19 @@ const UpdateCar = (props: Props) => {
                 <div className="mb-2">
                   <FormikInput
                     name="luggage"
-                    label="Bagaj Sayısı Giriniz"
+                    label="Bagaj Sayısı"
                     placeHolder="Bagaj Sayısı Giriniz."
                     type="number"
                   />
                 </div>
                 
+                <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'> Güncelle</Button>
+              {errorMessage && <Alert severity="error" style={{width:"430px"}}>{errorMessage}</Alert>}
+              {successMessage && (
+              <Alert severity="success">{successMessage}</Alert>
+              )}
               </div>
             </div>
-            <Button type="submit" className="btn btn-primary">
-              Araba Güncelle
-            </Button>
           </Form>
         </div>
         </div>

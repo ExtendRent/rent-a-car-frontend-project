@@ -56,6 +56,7 @@
   
   .nav-links:hover {
     color: rgb(189, 8, 8);
+    text-decoration: none;
   }
   
   .nav-links-btn {
@@ -69,6 +70,7 @@
   .nav-links-btn:hover{
     color: white;
     background-color: rgb(189, 8, 8);
+    text-decoration: none;
   }
   
   .nav-item.nav-item-right {
@@ -82,8 +84,11 @@
   
     .navbar-logo {
       margin-left: 10px; /* Logo'nun sola yaslanmasını sağladım */
+      text-decoration: none;
     }
-  
+    .navbar-logo :hover{
+      text-decoration: none;
+    }
     .menu-icon {
       display: flex; /* Menü simgesini görünür hale getirdim */
       margin-right: 10px; /* Menü simgesinin sağa boşluk ekledim */

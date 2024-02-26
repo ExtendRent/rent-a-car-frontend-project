@@ -7,7 +7,7 @@ import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
 import { Button } from "@mui/joy";
-
+import './Employee.css'
 type Props = {};
 
 const AddEmployee = (props: Props) => {
@@ -72,7 +72,7 @@ const AddEmployee = (props: Props) => {
       <div className="form">
         <h2 className='h2-card'>Çalışan Ekleme</h2>
           <Form>
-            <div className="row">
+            <div className="row-add-employee">
               <div id='select-block' className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                   <FormikInput
@@ -139,8 +139,8 @@ const AddEmployee = (props: Props) => {
                     placeHolder="Yetki Giriniz."
                   />
                 </div>
-              </div>
               <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"40px" }} type='submit'>Ekle</Button>
+              </div>
             </div>
         </Form>
         </div>

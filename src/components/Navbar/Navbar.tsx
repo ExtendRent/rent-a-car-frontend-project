@@ -30,7 +30,7 @@ const Navbar = () => {
       <div className='navbar-container'>
 
         <Link to='/' className='navbar-logo'>
-          <>Extend</><span style={{color:"#8C1818"}}><b>Rent</b></span>
+          <span>Extend</span><span style={{color:"#8C1818"}}><b>Rent</b></span>
         </Link>
 
         <div className='menu-icon' onClick={toggleMenu}>
@@ -43,7 +43,7 @@ const Navbar = () => {
                 Ana Sayfa
               </Link>
             </li>
-          {!decodedToken?.role?.some(role => role === 'CUSTOMER') && (
+          {decodedToken?.role?.some(role => role === 'ADMIN') && (
           <li className='nav-item'>
             <Link to='/adminPanel' className='nav-links'>
               Admin Panel
