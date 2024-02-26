@@ -83,7 +83,7 @@ const UpdateCustomer = (props: Props) => {
     drivingLicenseNumber: customer?.drivingLicenseNumber,
     status:customer?.status,
     authority:customer?.authority,
-    expectedMinDrivingLicenseTypeId:customer?.drivingLicenseTypeId,
+    drivingLicenseTypeEntityId:customer?.drivingLicenseTypeId,
   }
   
   const handleUpdateCustomer = async (values: any) => {
@@ -181,7 +181,7 @@ const UpdateCustomer = (props: Props) => {
                   <div className="mb-2">
                     <FormikSelect
                       label="Ehliyet Tipi Seç"
-                      name="expectedMinDrivingLicenseTypeId"
+                      name="drivingLicenseTypeEntityId"
                       options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
                         (drivingLicenseType: any) => ({
                           value: drivingLicenseType.id,

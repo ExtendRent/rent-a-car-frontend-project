@@ -19,10 +19,7 @@ const AddFuelType = (props: Props) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, "Yakıt Tipi en az 2 karakter olmalıdır")
-      .matches(
-        /^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/,
-        "Yakıt Tipi sadece harflerden oluşmalıdır"
-      )
+      
       .required("Yakıt Tipi Giriniz"),
   });
   const initialValues = {
@@ -42,7 +39,7 @@ const AddFuelType = (props: Props) => {
         <div className="form">
           <h2 className="h2-card">Yakıt Tipi Ekleme</h2>
           <Form>
-            <div className="row">
+            <div className="row-add-carModel">
               <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                   <FormikInput

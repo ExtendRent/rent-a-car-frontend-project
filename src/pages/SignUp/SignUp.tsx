@@ -108,7 +108,7 @@ export default function SignUp({}: Props) {
   return (
     <div className="container-card">
       <div className="form">
-        <h2 className="h2-card rent">Kayıt Ol</h2>
+        <h2 className="h2-card">Kayıt Ol</h2>
         <Box sx={{ width: "100%", marginTop: 10 }}>
           <Grid container spacing={2} sx={{ flexGrow: 1 }}>
             <Grid
@@ -154,6 +154,8 @@ export default function SignUp({}: Props) {
                       fontSize: "15px",
                       color: "black",
                       padding: "0 12px",
+                      width:'100%',
+                      backgroundColor:'white'
                     }}
                     placeholder="Cep telefonu"
                     mask="+90 (___) ___-__-__"

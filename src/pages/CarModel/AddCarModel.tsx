@@ -9,6 +9,8 @@ import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
 import FormikSelect from '../../components/FormikSelect/FormikSelect';
+import './CarModel.css'
+import { Alert } from "@mui/material";
 
 type Props = {}
 
@@ -17,18 +19,41 @@ const AddCarModel = (props: Props) => {
   const dispatch =useDispatch<AppDispatch>();
   const [selectedValue, setSelectedValue] = useState({});
   const brandState =useSelector((state: any) => state.brand);
-  
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
   useEffect(()=>{
     dispatch(fetchBrands())
   },[dispatch])
 
-  const handleAddCarModel = (values: any) => {
-      dispatch(addCarModel(values));
+  const handleAddCarModel =async (values: any) => {
+    try {
+
+      const response = await dispatch(addCarModel(values));
+      if ("error" in response) {
+        if (response.error.message && response.error.message.includes("1007")) {
+        setErrorMessage("İşlem başarısız.");
+    
+        } else {
+        setErrorMessage("İşlem başarısız.");
+   
+        }
+    } else {
+        setSuccessMessage("Araba Modeli Eklendi.");
+        setTimeout(() => {
+        setSuccessMessage("");
+        window.location.reload();
+        }, 2000); 
+    }
+    }
+    catch (error) {
+      console.error("Redux action dispatch hatası:", error);
+      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
+    }
   };
   const validationSchema = Yup.object().shape({
     carModelEntityName: Yup.string()
-      .min(2, "Marka en az 2 karakter olmalıdır")
-      .required("Marka Giriniz"),
+      .min(2, "Model en az 2 karakter olmalıdır")
+      .required("Model Giriniz"),
     brandEntityId: Yup.number().required('Marka seçiniz'),
   });
   const initialValues = {
@@ -51,7 +76,7 @@ const AddCarModel = (props: Props) => {
         <div className="form">
           <h2 className="h2-card">Model Ekleme</h2>
           <Form>
-            <div className="row">
+            <div className="row-add-carModel">
               <div id="select-block" className="col-md-6" style={{marginTop:'110px'}}>
                 <div className="mb-2">
                     <FormikSelect
@@ -72,6 +97,10 @@ const AddCarModel = (props: Props) => {
               </div>
             </div>
           </Form>
+        {errorMessage && <Alert severity="error" style={{width:"430px"}}>{errorMessage}</Alert>}
+          {successMessage && (
+          <Alert severity="success">{successMessage}</Alert>
+          )}
         </div>
         </div>
       </SideBar>

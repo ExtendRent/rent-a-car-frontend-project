@@ -32,7 +32,7 @@ const BrandTable: React.FC = () => {
      const tableData = brandState.brands.map((brand: any) => [
       brand.id,
       brand.name,
-      <img src={brand.logoImagePath} alt="Brand Logo" />,
+      <img src={brand.brandImageEntityUrl} alt="Brand Logo" />,
       <IconButton onClick={() => handleUpdate(brand.id)}><EditIcon /></IconButton>,
       <IconButton onClick={() => handleDelete(brand.id)}><DeleteIcon /></IconButton>,
     ]);
