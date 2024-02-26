@@ -172,6 +172,8 @@ input::-webkit-input-placeholder {
 }
 .container-card{
   background-image:url('./assets/wall10.png');
+  background-repeat: repeat-y;
+  background-position: bottom;
   width: 100%;
   min-height: 905px;
 }

@@ -21,6 +21,7 @@ import FormikCheckbox from "../../components/FormikCheckbox/FormikCheckbox";
 import { addCarImages } from "../../store/slices/imageSlice";
 import Dropzone from "react-dropzone-uploader";
 import { AddCarModel } from "../../models/Requests/Car/AddCarModel";
+import './UpdateCar.css';
 type Props = {};
 
 const AddCar = (props: Props) => {
@@ -167,7 +168,7 @@ const AddCar = (props: Props) => {
           <div className="form">
             <h2 className="h2-card">Araba Ekleme</h2>
               <Form>
-                <div className="row">
+                <div className="row space">
                   <div id="select-block" className="col-md-6">
                     <div className="mb-2">
                       <FormikSelect

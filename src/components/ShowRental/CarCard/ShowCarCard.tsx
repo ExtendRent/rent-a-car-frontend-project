@@ -20,6 +20,7 @@ const ShowCarCard: React.FC<{ carDTO: any }> = ({ carDTO }) => {
               paddingTop: "20px",
               fontWeight: "bold",
               fontSize: "1.5rem",
+              color: "#A8A8A8"
             }}
           >
             ARACINIZ
@@ -37,8 +38,9 @@ const ShowCarCard: React.FC<{ carDTO: any }> = ({ carDTO }) => {
             }}
           />
           <div
-            className="card-header"
+            
             style={{
+              margin:"21px",
               textAlign: "center",
               paddingTop: "20px",
               fontWeight: "bold",
@@ -57,10 +59,11 @@ const ShowCarCard: React.FC<{ carDTO: any }> = ({ carDTO }) => {
               borderColor: "#E1DED9",
               paddingLeft: 2,
               width: "50%",
+              color: "#A8A8A8",
             }}
           >
             <div style={{ marginBottom: 1.6 }}>
-              <span style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
+              <span style={{ fontSize: "1.25rem", fontWeight: "bold",color:"#FFFFFF" }}>
                 Araç Özellikleri
               </span>
             </div>
@@ -98,9 +101,9 @@ const ShowCarCard: React.FC<{ carDTO: any }> = ({ carDTO }) => {
             </div>
           </div>
 
-          <div style={{ paddingLeft: 3, width: "50%" }}>
-            <div style={{ marginBottom: 1.6 }}>
-              <span style={{ fontSize: "1.25rem", fontWeight: "bold" }}>
+          <div style={{ paddingLeft: 3, width: "50%", color:"#A8A8A8"}}>
+            <div style={{ marginBottom: 1.6, }}>
+              <span style={{ fontSize: "1.25rem", fontWeight: "bold", color:"#FFFFFF"}}>
                 Kiralama Koşulları
               </span>
             </div>
