@@ -66,8 +66,8 @@ const RentalTable: React.FC = () => {
                 rental.rentalStatusEntityName,
                 <IconButton onClick={() => handleUpdate(rental.id)}><EditIcon /></IconButton>,
                 <IconButton onClick={() => handleDelete(rental.id)}><DeleteIcon /></IconButton>,
-                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleStartUpdate(rental.id)}>Start Rental</Button>,
-                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleReturnUpdate(rental.id)}>End Rental</Button>,
+                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleStartUpdate(rental.id)}>Başlat</Button>,
+                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleReturnUpdate(rental.id)}>Bitir</Button>,
             ]);
 
             setData(tableData);
@@ -80,6 +80,7 @@ const RentalTable: React.FC = () => {
     const handleStartUpdate = (id: number) => {
         console.log("Start Update:", id);
         dispatch(startRental({ rentalId: id }));
+        window.location.reload();
     };
 
     const handleReturnUpdate = (id: number) => {
@@ -523,7 +524,7 @@ const RentalTable: React.FC = () => {
                     },
                     {
                         name: "StartRental",
-                        label: "Start Rental",
+                        label: "Kiralamayı Başlat",
                         options: {
                             filter: false,
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (
@@ -538,7 +539,7 @@ const RentalTable: React.FC = () => {
                     },
                     {
                         name: "EndRental",
-                        label: "End Rental",
+                        label: "Kiralamayı Bitir",
                         options: {
                             filter: false,
                             customHeadRender: (columnMeta: MUIDataTableColumn) => (

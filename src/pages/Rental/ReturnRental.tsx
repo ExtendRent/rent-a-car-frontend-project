@@ -9,6 +9,7 @@ type Props = {}
 
 const ReturnRental = (props: Props) => {
 
+
   const dispatch = useDispatch<AppDispatch>();
   const rentalState = useSelector((state: any) => state.rental);
 
@@ -25,7 +26,10 @@ const ReturnRental = (props: Props) => {
   const handlePaymentTypeUpdateSuccess = () => {
       dispatch(returnRental({ returnDate: endDate, id: rentalId, endKilometer: endKilometer }));
       handleCancelUpdate();
+      window.location.href = "/adminPanel/rentals";
     }
+
+
 
   const handleCancelUpdate = () => {
     setEndDate("");
