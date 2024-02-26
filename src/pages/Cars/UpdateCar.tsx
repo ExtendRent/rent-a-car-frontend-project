@@ -20,6 +20,7 @@ import { fetchCarSegments } from '../../store/slices/carSegmentSlice';
 import { CarModel } from '../../models/Responses/Car/CarModel';
 import FormikSelect from '../../components/FormikSelect/FormikSelect';
 import { addCarImages } from '../../store/slices/imageSlice';
+import './UpdateCar.css';
 type Props = {}
 
 const UpdateCar = (props: Props) => {
@@ -77,7 +78,7 @@ const UpdateCar = (props: Props) => {
   };
 
   const validationSchema = Yup.object().shape({
-    /* year: Yup.number()
+    year: Yup.number()
       .min(2005, "Yıl en az 2005 olmalıdır")
       .max(2024, "Yıl en fazla 2024 olmalıdır")
       .required("Yıl giriniz"),
@@ -114,11 +115,11 @@ const UpdateCar = (props: Props) => {
     expectedMinDrivingLicenseTypeId: Yup.number().required(
       "Ehliyet tipi seçiniz"
     ),
-    carImageEntityId: Yup.string().required("Fotoğraf giriniz"),
-    carSegmentEntityId: Yup.number().required("Segment seçiniz"), */
+    carSegmentEntityId: Yup.number().required("Segment seçiniz"),
   });
 
   const initialValues = {
+    id:carId,
     year: car?.year,
     details: car?.details,
     rentalPrice: car?.rentalPrice,
@@ -135,11 +136,12 @@ const UpdateCar = (props: Props) => {
     fuelTypeEntityId: car?.fuelTypeEntityId,
     carSegmentEntityId: car?.carSegmentEntityId,
     expectedMinDrivingLicenseTypeId: car?.expectedMinDrivingLicenseTypeId,
-    vehicleType: "CAR"
+    vehicleType: "CAR",
+    carImageEntityId:car?.carImageEntityId
   
   };
   const handleUpdateCar = async (values: any) => {
-    if(typeof file === 'undefined') return;
+    /* if(typeof file === 'undefined') return;
     const formData =new FormData();
     formData.append('files',file)
     //formData.append("upload_present" ,"636629149633282");
@@ -150,10 +152,10 @@ const UpdateCar = (props: Props) => {
       image: formData,
       licensePlate: values.licensePlate
     }));
-    console.log(imageResponse);
+    console.log(imageResponse); */
    
     
-    //dispatch(updateCar(values));
+    dispatch(updateCar(values));
   };
  
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,10 +184,11 @@ const UpdateCar = (props: Props) => {
       enableReinitialize={true}
     >
       <SideBar>
-        <div className="container-car">
-          <h2 className="h2-car">Araba Ekleme</h2>
+        <div className="container-card">
+          <div className='form'>
+          <h2 className="h2-card">Araba Güncelleme</h2>
           <Form>
-            <div className="row">
+            <div className="row space">
             <div id="select-block" className="col-md-6">
                 <div className="mb-2">
                   <FormikSelect
@@ -354,9 +357,10 @@ const UpdateCar = (props: Props) => {
               </div>
             </div>
             <Button type="submit" className="btn btn-primary">
-              Araba Ekle
+              Araba Güncelle
             </Button>
           </Form>
+        </div>
         </div>
       </SideBar>
     </Formik>
