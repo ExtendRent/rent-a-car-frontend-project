@@ -66,7 +66,7 @@ input[type="date"]::-webkit-calendar-picker{
   line-height: normal;
   margin: 0;
   min-height: 60px;
-  min-width: 280px;
+  min-width: 270px;
   outline: none;
   padding: 16px 24px;
   text-align: center;
@@ -77,7 +77,6 @@ input[type="date"]::-webkit-calendar-picker{
   touch-action: manipulation;
   width: 100%;
   will-change: transform;
-  margin-left: 30px;
   }
 
   .button3:hover {

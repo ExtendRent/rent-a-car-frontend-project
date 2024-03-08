@@ -190,7 +190,7 @@ const routes = [
   },
   {
     path: "",
-    name: "ARAÇ KİRALAMA",
+    name: "Araç Kiralama",
     icon: <TbManualGearbox       />,
     subRoutes: [
     
