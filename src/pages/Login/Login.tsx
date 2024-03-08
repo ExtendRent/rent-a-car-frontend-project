@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import { AppDispatch, RootState } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import { addSignIn } from "../../store/slices/signInSlice";
 import {
@@ -19,43 +19,36 @@ import { ErrorResponse } from "../../services/signInService";
 import { unwrapResult } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import "./Login.css";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { useAppSelector } from "../../store/useAppSelector";
+
 
 const Login: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const handleClose = () => setOpen(false);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.signIn.error);
 
-  const handleSubmit = async (values: { email: string; password: string }) => {
-    try {
-      const response = await dispatch(
+
+  /* const isLogged = useAppSelector((state:RootState) => state.auth.isAuthenticated);
+
+  if (isLogged) {
+    window.location.href = "/";
+  } */
+  const handleSubmit =  (values: { email: string; password: string }) => {
+    
+    
+      dispatch(
         addSignIn({ email: values.email, password: values.password })
       );
-      if ("error" in response) {
-        if (response.error.message && response.error.message.includes("1007")) {
-          setErrorMessage("Giriş başarısız. Kullanıcı bulunamadı.");
-        } else {
-          setErrorMessage("Giriş başarısız. Lütfen tekrar deneyin.");
-          console.log(response);
-        }
-      } else {
-        setSuccessMessage("Hoşgeldiniz! Giriş başarılı.");
-        setTimeout(() => {
-          setSuccessMessage("");
-          window.location.reload();
-          //navigate("/");
-          window.location.href = "/";
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Redux action dispatch hatası:", error);
-      setErrorMessage("Giriş başarısız. Lütfen tekrar deneyin.");
-    }
+      navigate('/');
+   
   };
 
   const data = ["gmail.com", "outlook.com", "yahoo.com"];
@@ -144,7 +137,7 @@ const Login: React.FC = () => {
                     </Form>
                   )}
                 </Formik>
-                {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+                {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
                 {successMessage && (
                   <Alert severity="success">{successMessage}</Alert>
                 )}

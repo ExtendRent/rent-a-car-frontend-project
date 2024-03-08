@@ -31,7 +31,6 @@ const AddColor = (props: Props) => {
     onSubmit={(values) => {
       handleAddColor(values);
     }}
-    enableReinitialize={true}
   >
     <SideBar>
       <div className="container-card">

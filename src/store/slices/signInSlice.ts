@@ -1,3 +1,4 @@
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { SignInModel } from "../../models/Requests/SignIn/SignInModel";
 import SignInService, { ErrorResponse } from "../../services/signInService";
@@ -20,9 +21,16 @@ export const addSignIn = createAsyncThunk(
           const token = addedSignIn.data.response.token;
           localStorage.setItem("token", token);
           return addedSignIn.data.response; // Response'u doğrudan döndürüyoruz
-      } catch (error) {
-          console.error("Error adding signIn:", error);
-          throw  error;
+      } 
+      catch (error: any) {
+        console.log("hata",error.response.data.response.details[0]);
+        const messaage="Giriş hatalı";
+        if (error && error.response && error.response.data.response.details[0] === 'Bad credentials') {
+          
+          throw messaage;
+          
+        }
+        
       }
   }
 );
@@ -34,10 +42,11 @@ export const isUserTrue = createAsyncThunk(
           const addedisUserTrue = await service.isUserTrue(isUserTrueData);
   
           return addedisUserTrue.data; 
-      } catch (error) {
-          console.error("Error adding signIn:", error);
-          throw new Error("İşlem sırasında bir hata oluştu");
-      }
+      } 
+      catch (error) {
+        console.error("Error adding signIn:", error);
+        throw  error;
+    }
   }
 );
 const signInSlice = createSlice({
@@ -46,16 +55,18 @@ const signInSlice = createSlice({
     reducers: {
       setDecodedToken: (state, action) => {
         state.decodedToken = action.payload;
-      },
+      }
     },
     extraReducers: (builder) => {
      
   
       builder.addCase(addSignIn.pending, (state) => {});
       builder.addCase(addSignIn.fulfilled, (state, action) => {
+        state.error=null;
         state.signIn.push(action.payload);
       });
       builder.addCase(addSignIn.rejected, (state, action) => {
+      
         state.error = action.error.message || "Bir hata oluştu.";
       });
 

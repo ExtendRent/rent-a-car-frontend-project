@@ -47,10 +47,11 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
       setIsMenuOpen(false);
     }
   }, [isOpen]);
+
   return (
     <>
-      <div className="menu" onClick={toggleMenu}>
-        <div className="menu_item">
+      <div className="menu flex items-center justify-between cursor-pointer" onClick={toggleMenu}>
+        <div className="menu_item flex items-center">
           <div className="icon">{route.icon}</div>
           <AnimatePresence>
             {isOpen && (
@@ -59,7 +60,7 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
                 initial="hidden"
                 animate="show"
                 exit="hidden"
-                className="link_text"
+                className="link_text ml-2" // Tailwind CSS sınıfı eklendi
               >
                 {route.name}
               </motion.div>
@@ -68,13 +69,10 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
         </div>
         {isOpen && (
           <motion.div
-            animate={
-              isMenuOpen
-                ? {
-                    rotate: -90,
-                  }
-                : { rotate: 0 }
-            }
+            animate={{
+              rotate: isMenuOpen ? -90 : 0,
+            }}
+            className="menu_icon"
           >
             <FaAngleDown />
           </motion.div>
@@ -91,14 +89,14 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
           >
             {route.subRoutes.map((subRoute, i) => (
               <motion.div variants={menuItemAnimation} key={i} custom={i}>
-                <NavLink to={subRoute.path} className="link">
+                <NavLink to={subRoute.path} className="link flex items-center py-2 px-4 border-r-4 border-transparent transition duration-200 hover:border-red-600 hover:bg-red-600"> {/* Tailwind CSS sınıfları eklendi */}
                   <div className="icon">{subRoute.icon}</div>
-                  <motion.div className="link_text">{subRoute.name}</motion.div>
+                  <motion.div className="link_text ml-2">{subRoute.name}</motion.div> {/* Tailwind CSS sınıfı eklendi */}
                 </NavLink>
               </motion.div>
             ))}
           </motion.div>
-        )}{" "}
+        )}
       </AnimatePresence>
     </>
   );

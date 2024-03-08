@@ -268,64 +268,33 @@ const routes = [
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const inputAnimation = {
-    hidden: {
-      width: 0,
-      padding: 0,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    show: {
-      width: "140px",
-      padding: "5px 15px",
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const showAnimation = {
-    hidden: {
-      width: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-    show: {
-      opacity: 1,
-      width: "auto",
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
 
   return (
     <>
-      <div className="main-container">
+      <div className="main-container flex"> 
         <motion.div
           animate={{
             width: isOpen ? "200px" : "45px",
-
-            transition: {
-              duration: 0.5,
-              type: "spring",
-              damping: 10,
-            },
           }}
-          className={`sidebar `}
+          className={`sidebar overflow-y-auto ${isOpen ? "bg-gray-800" : "bg-gray-900"}`} 
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0)",
+            color: "rgb(255, 255, 255)",
+            backdropFilter: "blur(4px)",
+            overflowY: "auto",
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(59, 67, 129, 0.547) rgba(0, 0, 0, 0)",
+            height: "auto"
+          }}
         >
-          <div className="top_section">
+          <div className="top_section flex items-center justify-between px-4 py-3"> 
             <AnimatePresence>
               {isOpen && (
                 <motion.h1
-                  variants={showAnimation}
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  className="logo"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="logo text-white" 
                 >
                   Admin Panel
                 </motion.h1>
@@ -333,23 +302,24 @@ const SideBar = ({ children }) => {
             </AnimatePresence>
 
             <div className="bars">
-              <FaBars onClick={toggle} />
+              <button onClick={toggle}>
+                <FaBars className="text-white" /> 
+              </button>
             </div>
           </div>
-          <div className="search">
+          <div className="search px-4 py-2"> 
             <div className="search_icon">
-              <BiSearch />
+              <BiSearch className="text-white" /> 
             </div>
             <AnimatePresence>
               {isOpen && (
                 <motion.input
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  variants={inputAnimation}
+                  initial={{ width: 0 }}
+                  animate={{ width: "140px" }}
+                  exit={{ width: 0 }}
                   type="text"
                   placeholder="Search"
-                  style={{width:"130px"}}
+                  className="bg-gray-600 text-white px-2 py-1 ml-2 rounded" 
                 />
               )}
             </AnimatePresence>
@@ -359,9 +329,9 @@ const SideBar = ({ children }) => {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu
+                    key={index}
                     setIsOpen={setIsOpen}
                     route={route}
-                    showAnimation={showAnimation}
                     isOpen={isOpen}
                   />
                 );
@@ -371,18 +341,19 @@ const SideBar = ({ children }) => {
                 <NavLink
                   to={route.path}
                   key={index}
-                  className="link"
+                  className="link flex items-center text-white px-4 py-2 border-r-4 border-transparent transition duration-200 hover:border-red-600 hover:bg-red-600" 
                   activeClassName="active"
                 >
-                  <div className="icon">{route.icon}</div>
+                  <div className="icon">
+                    {route.icon} 
+                  </div>
                   <AnimatePresence>
                     {isOpen && (
                       <motion.div
-                        variants={showAnimation}
-                        initial="hidden"
-                        animate="show"
-                        exit="hidden"
-                        className="link_text"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="link_text" 
                       >
                         {route.name}
                       </motion.div>
@@ -394,7 +365,7 @@ const SideBar = ({ children }) => {
           </section>
         </motion.div>
 
-        <main style={{width:"100%",height:"fit-content;"}}>{children}</main>
+        <main className="w-full">{children}</main>
       </div>
     </>
   );

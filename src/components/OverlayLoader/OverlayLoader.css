@@ -5,6 +5,7 @@
     height: 100%;
     position: fixed;
     background: #222;
+    z-index: 999;
 }
 
 .overlay__inner {

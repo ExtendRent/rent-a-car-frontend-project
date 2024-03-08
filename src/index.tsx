@@ -11,15 +11,7 @@ import 'react-phone-number-input/style.css'
 import { Provider } from "react-redux";
 import { store } from './store/configureStore';
 
-// Create a theme with default options
-const defaultTheme = createTheme({});
 
-// Create a custom theme with your desired options
-const customTheme = createTheme({
-  colors: {
-    background: ['#FA5252', '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', '#C0C0C0', '#808080'],
-  },
-});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
