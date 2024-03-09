@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AddShiftTypeModel } from "../../models/Requests/ShiftType/AddShiftTypeModel";
-import ShiftTypeService from "../../services/shiftTypeService";
 import { UpdateShiftTypeModel } from "../../models/Requests/ShiftType/UpdateShiftTypeModel";
 import shiftTypeService from "../../services/shiftTypeService";
+import { stat } from "fs";
 
 
 export const fetchShiftTypes = createAsyncThunk(
@@ -42,9 +42,11 @@ export const addShiftType = createAsyncThunk(
       console.log(addedShiftType);
 
       return addedShiftType.data;
-    } catch (error) {
-      console.error("Error adding shiftType:", error);
-      throw error;
+    } catch (error : any) {
+      if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+        const details = error.response.data.response.details[0];
+        throw details;
+      } 
     }
   });
 
@@ -60,9 +62,13 @@ export const updateShiftType = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null;
       }
-    } catch (error) {
-      console.error("Error updating shifttype:", error);
-      throw error;
+    } catch (error: any) {
+            
+      if (error && error.response && error.response.data.response.errorCode === 3000) {
+          const details = error.response.data.response.details[0];
+         throw details;
+      }
+      
     }
   }
 );
@@ -86,7 +92,7 @@ export const deleteShiftType = createAsyncThunk(
 
 const shiftTypeSlice = createSlice({
   name: "shiftType",
-  initialState: { shiftTypes: [] as any[], error: null },
+  initialState: { shiftTypes: [] as any[], error: null as string | null },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -108,17 +114,23 @@ const shiftTypeSlice = createSlice({
 
     builder.addCase(addShiftType.pending, (state) => { });
     builder.addCase(addShiftType.fulfilled, (state, action) => {
+      state.error = null;
       state.shiftTypes.push(action.payload);
     });
-    builder.addCase(addShiftType.rejected, (state) => { });
+    builder.addCase(addShiftType.rejected, (state, action) => { 
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
     /*-----------------*/
 
     builder.addCase(updateShiftType.pending, (state) => { });
     builder.addCase(updateShiftType.fulfilled, (state, action) => {
+      state.error = null;
       state.shiftTypes = [];
     });
-    builder.addCase(updateShiftType.rejected, (state) => { });
+    builder.addCase(updateShiftType.rejected, (state, action) => { 
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
     /*-----------------*/
 

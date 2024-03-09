@@ -40,9 +40,11 @@ export const addDrivingLicenseType = createAsyncThunk(
 
             return addedDrivingLicenseType.data;
 
-        } catch (error) {
-            console.error("Error adding drivingLicenseType:", error);
-            throw error;
+        } catch (error : any) {
+            if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+                throw details;
+              } 
         }
     }
 );
@@ -59,9 +61,11 @@ export const updateDrivingLicenseType = createAsyncThunk(
                 console.warn("Server response does not contain data.");
                 return null;
             }
-        } catch (error) {
-            console.error("Error updating drivingLicenseType:", error);
-            throw error;
+        } catch (error : any) {
+            if (error && error.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+               throw details;
+            }
         }
     }
 );
@@ -84,7 +88,7 @@ export const deleteDrivingLicenseType = createAsyncThunk(
 
 const drivingLicenseTypeSlice = createSlice({
     name: "drivingLicenseType",
-    initialState: { drivingLicenseTypes: [] as any[], error: null },
+    initialState: { drivingLicenseTypes: [] as any[], error: null as string | null},
     reducers: {},
     extraReducers: (builder) => {
 
@@ -106,17 +110,23 @@ const drivingLicenseTypeSlice = createSlice({
 
         builder.addCase(addDrivingLicenseType.pending, (state) => { });
         builder.addCase(addDrivingLicenseType.fulfilled, (state, action) => {
+            state.error = null;
             state.drivingLicenseTypes.push(action.payload);
         });
-        builder.addCase(addDrivingLicenseType.rejected, (state) => { });
+        builder.addCase(addDrivingLicenseType.rejected, (state, action) => { 
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*-----------------*/
 
         builder.addCase(updateDrivingLicenseType.pending, (state) => { });
         builder.addCase(updateDrivingLicenseType.fulfilled, (state, action) => {
+            state.error = null;
             state.drivingLicenseTypes = [];
         });
-        builder.addCase(updateDrivingLicenseType.rejected, (state) => { });
+        builder.addCase(updateDrivingLicenseType.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+         });
 
         /*-----------------*/
 

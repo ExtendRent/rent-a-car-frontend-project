@@ -36,16 +36,20 @@ export const updateVehicleStatus = createAsyncThunk(
     async (updatedVehicleStatusData: UpdateVehicleStatusModel, thunkAPI) => {
         try {
             return (await vehicleStatusService.update(updatedVehicleStatusData)).data.response;
-        } catch (error) {
-            console.error("Error updating vehicle status: ", error);
-            throw error;
-        }
+        } catch (error: any) {
+            
+            if (error && error.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+               throw details;
+            }
+            
+          }
     }
 )
 
 const vehicleStatusSlice = createSlice({
     name: "vehicleStatus",
-    initialState: { vehicleStatuses: [] as any[], error: null },
+    initialState: { vehicleStatuses: [] as any[], error: null as string | null },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -70,9 +74,12 @@ const vehicleStatusSlice = createSlice({
 
         builder.addCase(updateVehicleStatus.pending, (state) => { });
         builder.addCase(updateVehicleStatus.fulfilled, (state, action) => {
+            state.error = null;
             state.vehicleStatuses = [];
         });
-        builder.addCase(updateVehicleStatus.rejected, (state) => { });
+        builder.addCase(updateVehicleStatus.rejected, (state, action) => { 
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*----------------*/
 
