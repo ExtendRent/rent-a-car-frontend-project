@@ -1,11 +1,10 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import SideBar from "../../components/Sidebar/SideBar";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import { Button } from "@mui/joy";
 import * as Yup from "yup";
-import { AppDispatch } from "../../store/configureStore";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/configureStore";
 import { addCar } from "../../store/slices/carSlice";
 import FormikSelect from "../../components/FormikSelect/FormikSelect";
 import { fetchBrands } from "../../store/slices/brandSlice";
@@ -19,27 +18,34 @@ import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeS
 import { fetchCarSegments } from "../../store/slices/carSegmentSlice";
 import FormikCheckbox from "../../components/FormikCheckbox/FormikCheckbox";
 import { addCarImages } from "../../store/slices/imageSlice";
-import Dropzone from "react-dropzone-uploader";
-import { AddCarModel } from "../../models/Requests/Car/AddCarModel";
 import './UpdateCar.css';
+import { useAppSelector } from "../../store/useAppSelector";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { Alert } from "@mui/material";
 type Props = {};
 
 const AddCar = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
+  const [file, setFile] = useState<File | undefined>();
   const [selectedValue, setSelectedValue] = useState({});
   const [imageValue, setImageValue] = useState({});
-  const brandState = useSelector((state: any) => state.brand);
-  const carModelState = useSelector((state: any) => state.carModel);
-  const carBodyTypeState = useSelector((state: any) => state.carBodyType);
-  const colorState = useSelector((state: any) => state.color);
-  const vehicleStatusState = useSelector((state: any) => state.vehicleStatus);
-  const shiftTypeState = useSelector((state: any) => state.shiftType);
-  const fuelTypeState = useSelector((state: any) => state.fuelType);
-  const expectedMinDrivingLicenseTypeState = useSelector(
+  const brandState = useAppSelector((state: any) => state.brand);
+  const carModelState = useAppSelector((state: any) => state.carModel);
+  const carBodyTypeState = useAppSelector((state: any) => state.carBodyType);
+  const colorState = useAppSelector((state: any) => state.color);
+  const vehicleStatusState = useAppSelector((state: any) => state.vehicleStatus);
+  const shiftTypeState = useAppSelector((state: any) => state.shiftType);
+  const fuelTypeState = useAppSelector((state: any) => state.fuelType);
+  const expectedMinDrivingLicenseTypeState = useAppSelector(
     (state: any) => state.drivingLicenseType
   );
-  const segmentState = useSelector((state: any) => state.carSegment);
-
+  const segmentState = useAppSelector((state: any) => state.carSegment);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [imageError, setImageError] = useState("");
+  const errorCustom = useAppSelector(
+    (state: RootState) => state.imageLoad.error
+  );
   useEffect(() => {
     dispatch(fetchBrands());
     dispatch(fetchCarModels());
@@ -52,7 +58,7 @@ const AddCar = (props: Props) => {
     dispatch(fetchCarSegments());
   }, [dispatch]);
   const validationSchema = Yup.object().shape({
-    /* year: Yup.number()
+    year: Yup.number()
       .min(2005, "Yıl en az 2005 olmalıdır")
       .max(2024, "Yıl en fazla 2024 olmalıdır")
       .required("Yıl giriniz"),
@@ -89,8 +95,7 @@ const AddCar = (props: Props) => {
     expectedMinDrivingLicenseTypeId: Yup.number().required(
       "Ehliyet tipi seçiniz"
     ),
-    carImageEntityId: Yup.string().required("Fotoğraf giriniz"),
-    carSegmentEntityId: Yup.number().required("Segment seçiniz"), */
+    carSegmentEntityId: Yup.number().required("Segment seçiniz"),
   });
 
   const initialValues = {
@@ -101,57 +106,58 @@ const AddCar = (props: Props) => {
     kilometer: 0,
     seat: 0,
     luggage: 0,
-    brandEntityId: 0,
-    carModelEntityId: 0,
-    carBodyTypeEntityId: 0,
-    colorEntityId: 0,
-    vehicleStatusEntityId: 0,
-    shiftTypeEntityId: 0,
-    fuelTypeEntityId: 0,
-    expectedMinDrivingLicenseTypeId: 0,
+    brandEntityId: "",
+    carModelEntityId: "",
+    carBodyTypeEntityId: "",
+    colorEntityId: "",
+    vehicleStatusEntityId: "",
+    shiftTypeEntityId:"",
+    fuelTypeEntityId: "",
+    expectedMinDrivingLicenseTypeId: "",
     vehicleType: "CAR",
-    carSegmentEntityId: 0,
-    carImageEntityId:0,
+    carSegmentEntityId: "",
     available: true,
   };
-  /* const handleAddCar = async (values: any) => {
-
-    const { licensePlate, carImageEntityId } = values;
-    const imageResponse = await dispatch(addCarImages({
-      image: values.carImageEntityId,
-      licensePlate: values.licensePlate
-    }));
-    console.log(imageResponse);
-    dispatch(addCar(values));
-  }; */
-  const formData = new FormData();
-  const getUploadParams = ({}) => {
-   
- 
-    return { url: 'https://httpbin.org/post' }
-
+  const handleAddCar = async (values: any) => {
+    if (typeof file === "undefined") {
+      setImageError("Lütfen bir resim seçiniz");
+      return;
+    }
+    
+    const formData = new FormData();
+    try {
+      formData.append("image", file);
+      const thunkParams = {
+        image: formData,
+        licensePlate: values.licensePlate 
+    };
+      const imageResponse = await dispatch(addCarImages(thunkParams));
+      if (imageResponse) {
+        const carImageEntityId = imageResponse.payload;
+        const updatedValues = { ...values, carImageEntityId };
+        const response = await dispatch(addCar(updatedValues));
+        setSuccessMessage("İşlem başarıyla tamamlandı");
+      }
+    } catch (error) {
+      console.error("Error : ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
+    }
   }
-  const handleChangeStatus = ({ meta, file }: { meta: any, file: any }) => {
-    if (meta.status === 'done') {
-      console.log('Dosya yüklendi:', file);
-      formData.append("file", file)
+  const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement & { files: FileList };
 
+    const files = target.files;
 
-    } else if (meta.status === 'error') {
-      console.error('Dosya yüklenirken bir hata oluştu:', meta);
-
+    if (files) {
+      setFile(target.files[0]);
+      setImageError("");
+    }
+    else {
+      // Eğer resim seçilmediyse hata mesajını ayarla
+      setImageError("Lütfen bir resim seçiniz");
     }
   };
-  const handleAddCar = async (values:AddCarModel) => {
-  
-    console.log(formData);
-    
-    formData.append('file', new Blob([JSON.stringify(values)], { type: "application/json" }))
-    
-    //console.log(formData);
-    
-    //dispatch(addCar(formData));
-  }
   return (
     <Formik
       initialValues={initialValues}
@@ -273,18 +279,8 @@ const AddCar = (props: Props) => {
                       />
                     </div>
                     <div className="mb-2">
-                      {/* <FormikInput
-                        name="carImageEntityId"
-                        label="Fotoğraf Giriniz"
-                        placeHolder="Fotoğraf Giriniz."
-                        type="file"
-                      /> */}
-                      <Dropzone
-                        getUploadParams={getUploadParams}
-                        onChangeStatus={handleChangeStatus}
-                        accept='image/*'
-                        classNames={{ dropzone: 'custom-dropzone' }}
-                      />
+                      <input type="file" name="image" onChange={handleOnChange} />
+                      {imageError && <Alert severity="error">{imageError}</Alert>}
                     </div>
                   </div>
                   <div id="input-block" className="col-md-6">
@@ -352,14 +348,14 @@ const AddCar = (props: Props) => {
                     </div>
                     <div className="mb-2">
                     <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'> Ekle</Button>
-                       
+                      {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+                      {!errorCustom && successMessage && (
+                        <Alert severity="success">{successMessage}</Alert>
+                      )}
                     
                     </div>
                   </div>
-                  
-                  
                 </div>
-                
               </Form>
           </div>
         </div>

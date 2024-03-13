@@ -23,6 +23,7 @@ import { addCarImages } from "../../store/slices/imageSlice";
 import "./UpdateCar.css";
 import { Alert } from "@mui/material";
 import { useAppSelector } from "../../store/useAppSelector";
+import { useAppDispatch } from "../../store/useAppDispatch";
 type Props = {};
 
 const UpdateCar = (props: Props) => {
@@ -31,7 +32,7 @@ const UpdateCar = (props: Props) => {
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [file, setFile] = useState<File | undefined>();
   const [car, setCar] = useState<CarModel>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [selectedValue, setSelectedValue] = useState({});
   const brandState = useSelector((state: any) => state.brand);
   const carModelState = useSelector((state: any) => state.carModel);
