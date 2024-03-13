@@ -48,9 +48,11 @@ export const addBrand = createAsyncThunk(
       console.log(addedBrand);
       
       return addedBrand.data;
-    } catch (error) {
-      console.error("Error adding brand:", error);
-      throw error;
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 2005) {
+        const details = error.response.data.response.details[0];
+        throw details;
+      } 
     }
   }
 );
@@ -67,9 +69,11 @@ export const updateBrand = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null; // Veya başka bir değer dönebilirsiniz, bu size bağlı.
       }
-    } catch (error) {
-      console.error("Error updating brand:", error);
-      throw error;
+    } catch (error: any) {
+      if (error && error.response && error.response.data.response.errorCode === 2005) {
+        const details = error.response.data.response.details[0];
+       throw details;
+    }
     }
   }
 );
@@ -89,7 +93,7 @@ export const deleteBrand = createAsyncThunk(
 );
 const brandSlice = createSlice({
   name: "brand",
-  initialState: { brands: [] as any[],error:null },
+  initialState: { brands: [] as any[],error:null as string | null },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -114,18 +118,24 @@ const brandSlice = createSlice({
 
     builder.addCase(addBrand.pending, (state) => {});
     builder.addCase(addBrand.fulfilled, (state, action) => {
+      state.error = null;
       state.brands.push(action.payload);
     });
-    builder.addCase(addBrand.rejected, (state) => {});
+    builder.addCase(addBrand.rejected, (state, action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
    /*-------------  */
 
     builder.addCase(updateBrand.pending, (state) => {});
     builder.addCase(updateBrand.fulfilled, (state, action) => {
       // Marka güncelledikten sonra, mevcut marka listesini yeniden al
+      state.error = null;
       state.brands = [];
     });
-    builder.addCase(updateBrand.rejected, (state, action) => {});
+    builder.addCase(updateBrand.rejected, (state, action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
       
 
      /*-------------  */

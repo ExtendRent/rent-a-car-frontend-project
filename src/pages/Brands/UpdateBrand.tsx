@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BrandModel } from "../../models/Responses/Brand/BrandModel";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import { AppDispatch, RootState } from "../../store/configureStore";
 import {
   fetchBrands,
   getByIdBrand,
@@ -16,9 +16,11 @@ import { Button } from "@mui/joy";
 import { addBrandImages } from "../../store/slices/imageSlice";
 import "./Brand.css";
 import { Alert } from "@mui/material";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { useAppSelector } from "../../store/useAppSelector";
 
 const UpdateBrand = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const brandId = parseInt(id ?? "", 10);
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
@@ -26,6 +28,8 @@ const UpdateBrand = () => {
   const [file, setFile] = useState<File | undefined>();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.brand.error);
+
   useEffect(() => {
     if (isSubmited) {
       fetchData();
@@ -89,6 +93,10 @@ const UpdateBrand = () => {
     }
   };
   return (
+    <SideBar>
+       <div className="container-card">
+          <div className="form">
+          <h2 className="h2-card">Marka Güncelle</h2>
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -97,10 +105,6 @@ const UpdateBrand = () => {
       }}
       enableReinitialize={true}
     >
-      <SideBar>
-        <div className="container-card">
-          <div className="form">
-            <h2 className="h2-card">Marka Güncelle</h2>
             <Form>
               <div className="row-update-brand">
                 <div
@@ -134,19 +138,17 @@ const UpdateBrand = () => {
                   </Button>
                 </div>
               </div>
-              {errorMessage && (
-                <Alert severity="error" style={{ width: "430px" }}>
-                  {errorMessage}
-                </Alert>
-              )}
-              {successMessage && (
-                <Alert severity="success">{successMessage}</Alert>
-              )}
             </Form>
+            </Formik>
+            {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+          
+          {!errorCustom && successMessage && (
+          <Alert severity="success">{successMessage}</Alert>
+  )}
           </div>
         </div>
       </SideBar>
-    </Formik>
+    
   );
 };
 
