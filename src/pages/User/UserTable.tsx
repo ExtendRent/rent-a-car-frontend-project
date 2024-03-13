@@ -26,30 +26,34 @@ const UserTable: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchUsers({page, size, sort: [sortOrder.direction] }));
-        console.log(userState.users.content);
+      
     }, [page, size]);
 
     useEffect(() => {
-        const tableData = userState.users.content.map((user: any) => [
-            user.id,
-            user.name,
-            user.surname,
-            user.email,
-            user.userImageEntityUrl,
-            user.authority,
-            user.status,
-            user.deleted,
-            <IconButton onClick={() => handleUpdate(user.id)}><EditIcon /></IconButton>,
-        ]);
+        if (userState.users.content) {
+            const tableData = userState.users.content.map((user: any) => [
+                user.id,
+                user.name,
+                user.surname,
+                user.email,
+                user.userImageEntityUrl,
+                user.authority,
+                user.status,
+                user.deleted,
+                <IconButton onClick={() => handleUpdate(user.id)}><EditIcon /></IconButton>,
+            ]);
 
         setData(tableData);
         setCount(userState.users.content.length);
 
-        console.log(userState.users);
+    } else {
+        setData([]);
+        setCount(0);
+    }
     }, [userState]);
  
     const handleUpdate = (id: number) => {
-        navigate(`/adminPanel/users/block/${id}`);
+        navigate(`/adminPanel/users/${id}`);
     };
 
     const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
@@ -117,7 +121,6 @@ const UserTable: React.FC = () => {
         if (currentRowsSelected.length > 0) {
             const selectedRow = data[currentRowsSelected[0].index];
             const selectedId = selectedRow[0];
-            console.log(selectedRow);
         }
     };
 

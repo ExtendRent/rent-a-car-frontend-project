@@ -4,6 +4,7 @@ import rentalService from "../../services/rentalService";
 import { UpdateRentalModel } from "../../models/Requests/Rental/UpdateRentalModel";
 import { AddRentalModel } from "../../models/Requests/Rental/AddRentalModel";
 import { ReturnRentalModel } from "../../models/Requests/Rental/ReturnRentalModel";
+import { GetAllRentalsModel } from '../../models/Responses/Rental/GetAllRentalsModel';
 
 export const fetchRentals = createAsyncThunk(
     "rentals/fetchRentals",

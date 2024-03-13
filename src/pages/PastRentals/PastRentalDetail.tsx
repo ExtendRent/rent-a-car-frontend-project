@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../store/useAppSelector";
 import { RootState } from "../../store/configureStore";
-import { getByIdRental, fetchRentals } from "../../store/slices/rentalSlice";
+import { getByIdRental } from "../../store/slices/rentalSlice";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store/useAppDispatch";
 
@@ -10,24 +10,23 @@ const PastRentalDetail = () => {
   const { id } = useParams();
   const rentalId = parseInt(id || '');
   
-  // RentalModel dizisi içinden gelen verileri alın
+  // Redux store'dan veriyi al
   const rentalResponse = useAppSelector((state: RootState) => state.rental.getByIdRental);
 
-  // Eğer rentalResponse henüz gelmemişse veya boşsa, yükleniyor mesajını göster
-  if (!rentalResponse || rentalResponse.length === 0) {
-    return <div>Loading...</div>;
-  }
-
-  // rentalResponse dizisinin ilk öğesini alın
-  const rentalData = rentalResponse[0];
-
+  // useEffect kullanarak veriyi alın
   useEffect(() => {
     if (rentalId) {
       dispatch(getByIdRental({ id: rentalId }));
-    } else {
-      dispatch(fetchRentals());
-    }
+    } 
   }, [dispatch, rentalId]);
+
+  // Eğer rentalResponse henüz gelmemişse veya boşsa, yükleniyor mesajını göster
+  if (!rentalResponse || rentalResponse.length === 0) {
+    return <div>Yükleniyor...</div>;
+  }
+
+  // rentalResponse dizisinin ilk öğesini alın
+  const rentalData = rentalResponse[0].response;
 
   // rentalData nesnesinden gelen verileri kullanarak arayüzü oluştur
   return (
@@ -45,10 +44,15 @@ const PastRentalDetail = () => {
             <strong>Yıl:</strong> {rentalData.carEntityYear}<br/>
             <strong>Kiralama Ücreti:</strong> {rentalData.carEntityRentalPrice}<br/>
             <strong>Araç Plakası:</strong> {rentalData.carEntityLicensePlate}<br/>
+            <strong>Başlangıç Tarihi:</strong> {rentalData.startDate.toString()}<br/>
+            <strong>Bitiş Tarihi:</strong> {rentalData.endDate.toString()}<br/>
+            <strong>İade Tarihi:</strong> {rentalData.returnDate.toString()}<br/>
             <strong>Ödeme Tutarı:</strong> {rentalData.paymentDetailsEntityAmount}<br/>
             <strong>Ödeme Tipi:</strong> {rentalData.paymentDetailsEntityPaymentTypeEntityPaymentTypeName}<br/>
             <strong>Kiralama Durumu:</strong> {rentalData.rentalStatusEntityName}<br/>
             <strong>İndirim Kodu:</strong> {rentalData.discountEntityDiscountCode}<br/>
+            <strong>Aktif:</strong> {rentalData.active ? 'Evet' : 'Hayır'}<br/>
+            <strong>Silinmiş:</strong> {rentalData.deleted ? 'Evet' : 'Hayır'}<br/>
           </li>
         </ul>
       </div>

@@ -1,8 +1,9 @@
-export interface RentalModel{
+export interface RentalModel {
+  response: {
     id: number;
     customerEntityId: number;
     discountEntityId: number;
-    rentalStatusEntityId:number;
+    rentalStatusEntityId: number;
     customerEntityName: string;
     customerEntitySurname: string;
 
@@ -25,4 +26,5 @@ export interface RentalModel{
     discountEntityDiscountCode: string;
     active: boolean;
     deleted: boolean;
-} 
+  };
+}

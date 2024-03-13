@@ -18,6 +18,7 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import { useNavigate } from "react-router-dom";
+import { GetAllRentalsModel } from "../../models/Responses/Rental/GetAllRentalsModel";
 type Props = {};
 const PastRentalCarTable = (props: Props) => {
   const { id } = useParams();
@@ -88,7 +89,7 @@ const PastRentalCarTable = (props: Props) => {
           {rental &&
             rental.map((item, index) => (
               <TableRow
-                key={item.id}
+                key={item.response.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell
@@ -98,37 +99,37 @@ const PastRentalCarTable = (props: Props) => {
                   align="left"
                 >
                   <span className="table-data">
-                    {item.customerEntityName}
-                    {item.customerEntitySurname}
+                    {item.response.customerEntityName}
+                    {item.response.customerEntitySurname}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
                   <span className="table-data">
-                    {formatDate(item.startDate) ?? ""}
+                    {formatDate(item.response.startDate) ?? ""}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
                   <span className="table-data">
-                    {formatDate(item.endDate) ?? ""}
+                    {formatDate(item.response.endDate) ?? ""}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
                   <span className="table-data">
-                    {formatDate(item.returnDate) ?? ""}
+                    {formatDate(item.response.returnDate) ?? ""}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
                   <span className="table-data">
-                    {item.rentalStatusEntityName}
+                    {item.response.rentalStatusEntityName}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
                   <span className="table-data">
-                    {item.paymentDetailsEntityAmount}
+                    {item.response.paymentDetailsEntityAmount}
                   </span>
                 </TableCell>
                 <TableCell align="left" sx={{ padding: "50px" }}>
-                  <IconButton onClick={() => handleUpdate(item.id)}><ArticleOutlinedIcon /></IconButton>
+                  <IconButton onClick={() => handleUpdate(item.response.id)}><ArticleOutlinedIcon /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
