@@ -43,9 +43,14 @@ export const addCarBodyType = createAsyncThunk(
       console.log(addedCarBodyType);
 
       return addedCarBodyType.data;
-    } catch (error) {
-      console.error("Error adding car body type:", error);
-      throw error;
+    }
+    catch (error: any) {
+      if (error && error.response && error.response.data.response.errorCode === 2007) {
+        
+          throw error.response.data.response.details[0];
+        
+      }
+      
     }
   }
 );
@@ -63,9 +68,14 @@ export const updateCarBodyType = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null;
       }
-    } catch (error) {
-      console.error("Error updating car body type:", error);
-      throw error;
+    } 
+    catch (error: any) {
+      if (error && error.response && error.response.data.response.errorCode === 2007) {
+        
+          throw error.response.data.response.details[0];
+        
+      }
+      
     }
   }
 );
@@ -87,7 +97,7 @@ export const deleteCarBodyType = createAsyncThunk(
 
 const carBodyTypeSlice = createSlice({
   name: "carBodyType",
-  initialState: { carBodyTypes: [] as any[], error: null },
+  initialState: { carBodyTypes: [] as any[], error: null as string | null },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -112,17 +122,23 @@ const carBodyTypeSlice = createSlice({
 
     builder.addCase(addCarBodyType.pending, (state) => { });
     builder.addCase(addCarBodyType.fulfilled, (state, action) => {
+      state.error=null;
       state.carBodyTypes.push(action.payload);
     });
-    builder.addCase(addCarBodyType.rejected, (state) => { });
+    builder.addCase(addCarBodyType.rejected, (state,action) => { 
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
     /*-----------------------------------------------------------------*/
 
     builder.addCase(updateCarBodyType.pending, (state) => { });
     builder.addCase(updateCarBodyType.fulfilled, (state, action) => {
+      state.error=null;
       state.carBodyTypes = [];
     });
-    builder.addCase(updateCarBodyType.rejected, (state) => { });
+    builder.addCase(updateCarBodyType.rejected, (state,action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
+     });
 
     /*-----------------------------------------------------------------*/
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { BrandModel } from "../../models/Responses/Brand/BrandModel";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import {  RootState } from "../../store/configureStore";
 import { fetchBrands } from "../../store/slices/brandSlice";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
@@ -17,18 +15,25 @@ import {
 import FormikSelect from "../../components/FormikSelect/FormikSelect";
 import { GetByIdCarModelModel } from "../../models/Responses/CarModel/GetByIdCarModelModel";
 import "./CarModel.css";
+import { useAppSelector } from "../../store/useAppSelector";
+import './CarModel.css'
+import { Alert } from "@mui/material";
+import { useAppDispatch } from "../../store/useAppDispatch";
 type Props = {};
 
 const UpdateCarModel = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const carModelId = parseInt(id ?? "", 10);
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [carModel, setCarModel] = useState<GetByIdCarModelModel>();
   const [file, setFile] = useState<File | undefined>();
   const [selectedValue, setSelectedValue] = useState({});
-  const brandState = useSelector((state: any) => state.brand);
-  const carModelState = useSelector((state: any) => state.carModel);
+  const brandState = useAppSelector((state: any) => state.brand);
+  const carModelState = useAppSelector((state: any) => state.carModel);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.carModel.error);
 
   useEffect(() => {
     if (isSubmited) {
@@ -49,9 +54,10 @@ const UpdateCarModel = (props: Props) => {
   };
   const validationSchema = Yup.object().shape({
     brandEntityId: Yup.number().required("Marka seçiniz"),
-
     carModelEntityId: Yup.number().required("Model seçiniz"),
-    carModelEntityName: Yup.string().required("Model giriniz."),
+    carModelEntityName: Yup.string()
+      .min(2, "Model en az 2 karakter olmalıdır")
+      .required("Model Giriniz"),
   });
   const initialValues = {
     brandEntityId: carModel?.brandEntityId,
@@ -60,9 +66,18 @@ const UpdateCarModel = (props: Props) => {
   };
 
   const handleUpdateCarModel = async (values: any) => {
-    dispatch(updateCarModel(values));
-    // Sayfayı yenile
-    window.location.reload();
+
+    try {
+      const response = await dispatch(updateCarModel(values));
+      // İşlem başarılı olduğunda
+      setSuccessMessage("İşlem başarıyla tamamlandı");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating shift type: ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
+    }
+    
   };
 
   return (
@@ -130,6 +145,10 @@ const UpdateCarModel = (props: Props) => {
                 </div>
               </div>
             </Form>
+            {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+            {!errorCustom && successMessage && (
+                <Alert severity="success">{successMessage}</Alert>
+            )}
           </div>
         </div>
       </SideBar>

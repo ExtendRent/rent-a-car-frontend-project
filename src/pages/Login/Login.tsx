@@ -24,9 +24,7 @@ import { useAppSelector } from "../../store/useAppSelector";
 
 
 const Login: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState("");
-  const handleClose = () => setOpen(false);
+
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

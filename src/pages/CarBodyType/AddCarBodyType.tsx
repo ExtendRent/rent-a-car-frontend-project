@@ -1,20 +1,34 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import {  RootState } from "../../store/configureStore";
 import { addCarBodyType } from "../../store/slices/carBodyTypeSlice";
 import { Button } from "@mui/joy";
 import * as Yup from "yup";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
-
+import { useAppSelector } from "../../store/useAppSelector";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { Alert } from "@mui/material";
 type Props = {};
 
 const AddCarBodyType = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.carBodyType.error);
 
-  const handleAddCarBodyType = (values: any) => {
-    dispatch(addCarBodyType(values));
+  const handleAddCarBodyType = async (values: any) => {
+    try {
+      const response = await dispatch(addCarBodyType(values));
+      // İşlem başarılı olduğunda
+      setSuccessMessage("İşlem başarıyla tamamlandı");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating shift type: ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
+    }
+    
   };
   const validationSchema = Yup.object().shape({
     carBodyTypeEntityName: Yup.string()
@@ -54,6 +68,10 @@ const AddCarBodyType = (props: Props) => {
               </div>
             </div>
           </Form>
+          {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+          {!errorCustom && successMessage && (
+              <Alert severity="success">{successMessage}</Alert>
+          )}
         </div>
         </div>
       </SideBar>
