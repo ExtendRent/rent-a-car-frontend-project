@@ -1,18 +1,22 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import  { useState } from "react";
 import { addBrand } from "../../store/slices/brandSlice";
-import { AppDispatch } from "../../store/configureStore";
+import { RootState } from "../../store/configureStore";
 import SideBar from "../../components/Sidebar/SideBar";
 import { Form, Formik } from "formik";
 import FormikInput from "../../components/FormikInput/FormikInput";
-import {Button } from '@mui/material';
+import {Alert, Button } from '@mui/material';
 import * as Yup from 'yup';
 import './AddBrand.css';
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { useAppSelector } from "../../store/useAppSelector";
 
 type Props = {};
 
 const AddBrand = (props: Props) => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
+    const errorCustom = useAppSelector((state: RootState) => state.brand.error);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
     const handleAddBrand = (values: any) => {
         dispatch(addBrand(values));
@@ -63,6 +67,10 @@ const AddBrand = (props: Props) => {
                             </div>
                         </div>
                     </Form>
+                    {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+        {!errorCustom && successMessage && (
+        <Alert severity="success">{successMessage}</Alert>
+          )}
                 </div>
                 </div>
             </SideBar>

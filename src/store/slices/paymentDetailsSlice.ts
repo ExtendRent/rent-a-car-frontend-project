@@ -104,9 +104,11 @@ export const updatePaymentDetails = createAsyncThunk(
                 console.warn("Server response does not contain data.");
                 return null;
             }
-        } catch (error) {
-            console.error("Error updating paymnet details:", error);
-            throw error;
+        } catch (error: any) {
+          if (error && error.response && error.response.data.response.errorCode === 2011) {
+            const details = error.response.data.response.details[0];
+           throw details;
+        }
         }
     }
 );
@@ -115,7 +117,7 @@ export const updatePaymentDetails = createAsyncThunk(
 
 const paymentDetailsSlice = createSlice({
     name: "paymentDetails",
-    initialState: { paymentDetails: [] as any[], error: null },
+    initialState: { paymentDetails: [] as any[], error: null as string | null },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -168,9 +170,12 @@ const paymentDetailsSlice = createSlice({
 
         builder.addCase(updatePaymentDetails.pending, (state) => { });
         builder.addCase(updatePaymentDetails.fulfilled, (state, action) => {
+          state.error = null;
             state.paymentDetails = [];
         });
-        builder.addCase(updatePaymentDetails.rejected, (state) => {});
+        builder.addCase(updatePaymentDetails.rejected, (state, action) => { 
+          state.error = action.error.message || "Bir hata oluştu.";
+        });
 
     }
 });
