@@ -11,9 +11,14 @@ export const addCarModel = createAsyncThunk(
         const addedCarModel = await carModelService.add(addCarModelData);
         return addedCarModel.data;
 
-      } catch (error) {
-        console.error("Error adding addedCarModel:", error);
-        throw error;
+      } 
+      catch (error: any) {
+        if (error && error.response && error.response.data.response.errorCode === 2008) {
+          
+            throw error.response.data.response.details[0];
+          
+        }
+        
       }
     }
   );
@@ -25,9 +30,14 @@ export const updateCarModel = createAsyncThunk(
         const updatedCarModel = await carModelService.update(updateCarModelData);
         return updatedCarModel.data;
 
-      } catch (error) {
-        console.error("Error updated updatedCarModel:", error);
-        throw error;
+      }
+      catch (error: any) {
+        if (error && error.response && error.response.data.response.errorCode === 2008) {
+          
+            throw error.response.data.response.details[0];
+          
+        }
+        
       }
     }
   );
@@ -90,16 +100,19 @@ export const fetchCarModels = createAsyncThunk(
 
   const carModelSlice = createSlice({
     name: "carModel",
-    initialState: { carModel: [] as any[],error:null },
+    initialState: { carModel: [] as any[],error: null as string | null },
     reducers: {},
     extraReducers: (builder) => {
      
   
       builder.addCase(addCarModel.pending, (state) => {});
       builder.addCase(addCarModel.fulfilled, (state, action) => {
+        state.error=null;
         state.carModel.push(action.payload);
       });
-      builder.addCase(addCarModel.rejected, (state) => {});
+      builder.addCase(addCarModel.rejected, (state,action) => {
+        state.error = action.error.message || "Bir hata oluştu.";
+      });
 
       builder.addCase(getByIdCarModels.pending, (state) => { });
       builder.addCase(getByIdCarModels.fulfilled, (state, action) => {
@@ -110,10 +123,11 @@ export const fetchCarModels = createAsyncThunk(
 
       builder.addCase(updateCarModel.pending, (state) => {});
       builder.addCase(updateCarModel.fulfilled, (state, action) => {
+        state.error=null;
         state.carModel = [];
       });
-      builder.addCase(updateCarModel.rejected, (state) => {
-        
+      builder.addCase(updateCarModel.rejected, (state,action) => {
+        state.error = action.error.message || "Bir hata oluştu.";
       });
 
       builder.addCase(fetchCarModels.pending, (state) => {});

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
+import { RootState } from '../../store/configureStore';
 import { addCarModel } from '../../store/slices/carModelSlice';
 import { fetchBrands } from '../../store/slices/brandSlice';
 import { Button } from "@mui/joy";
@@ -11,44 +10,37 @@ import SideBar from "../../components/Sidebar/SideBar";
 import FormikSelect from '../../components/FormikSelect/FormikSelect';
 import './CarModel.css'
 import { Alert } from "@mui/material";
+import { useAppSelector } from '../../store/useAppSelector';
+import { useAppDispatch } from '../../store/useAppDispatch';
 
 type Props = {}
 
 const AddCarModel = (props: Props) => {
 
-  const dispatch =useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [selectedValue, setSelectedValue] = useState({});
-  const brandState =useSelector((state: any) => state.brand);
+  const brandState =useAppSelector((state: any) => state.brand);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.carModel.error);
+  
   useEffect(()=>{
     dispatch(fetchBrands())
   },[dispatch])
 
   const handleAddCarModel =async (values: any) => {
-    try {
-
-      const response = await dispatch(addCarModel(values));
-      if ("error" in response) {
-        if (response.error.message && response.error.message.includes("1007")) {
-        setErrorMessage("İşlem başarısız.");
-    
-        } else {
-        setErrorMessage("İşlem başarısız.");
-   
-        }
-    } else {
-        setSuccessMessage("Araba Modeli Eklendi.");
-        setTimeout(() => {
-        setSuccessMessage("");
+  
+      try {
+        const response = await dispatch(addCarModel(values));
+        // İşlem başarılı olduğunda
+        setSuccessMessage("İşlem başarıyla tamamlandı");
         window.location.reload();
-        }, 2000); 
-    }
-    }
-    catch (error) {
-      console.error("Redux action dispatch hatası:", error);
-      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
-    }
+      } catch (error) {
+        console.error("Error updating shift type: ", error);
+        // Hata durumunda
+        setErrorMessage("İşlem sırasında bir hata oluştu");
+      }
+       
   };
   const validationSchema = Yup.object().shape({
     carModelEntityName: Yup.string()
@@ -97,10 +89,10 @@ const AddCarModel = (props: Props) => {
               </div>
             </div>
           </Form>
-        {errorMessage && <Alert severity="error" style={{width:"430px"}}>{errorMessage}</Alert>}
-          {successMessage && (
-          <Alert severity="success">{successMessage}</Alert>
-          )}
+            {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+            {!errorCustom && successMessage && (
+                <Alert severity="success">{successMessage}</Alert>
+            )}
         </div>
         </div>
       </SideBar>

@@ -23,7 +23,7 @@ export const getByIdCustomer = createAsyncThunk(
   async ({ id }: { id: number; }, thunkAPI) => {
     try {
       const getByIded = await customerService.getById(id);
-      return getByIded.data.response;
+      return getByIded.data;
 
     } catch (error) {
       console.error("Error adding getByIded:", error);
@@ -143,7 +143,9 @@ const customerSlice = createSlice({
 
     builder.addCase(getByIdCustomer.pending, (state) => { });
     builder.addCase(getByIdCustomer.fulfilled, (state, action) => {
-      state.customers = action.payload;
+      state.customers = [action.payload];
+      console.log(action.payload);
+      
     });
     builder.addCase(getByIdCustomer.rejected, (state) => {
     });

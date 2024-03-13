@@ -20,9 +20,8 @@ import { mdiCarShiftPattern } from "@mdi/js";
 import { mdiCalendarAccountOutline } from "@mdi/js";
 import { mdiCarChildSeat } from "@mdi/js";
 import { mdiCreditCardMultipleOutline } from "@mdi/js";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchCars, getByAllFilteredCars } from "../../store/slices/carSlice";
-import { AppDispatch } from "../../store/configureStore";
+import { AppDispatch, RootState } from "../../store/configureStore";
 import { GetByDateCarResponse } from "../../models/Responses/Car/GetByDateCarResponse";
 import { AllGetByDateCarResponse } from "../../models/Responses/Car/AllGetByDateCarResponse";
 import { fetchBrands } from "../../store/slices/brandSlice";
@@ -33,6 +32,10 @@ import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
 import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
 import RentalButton from "../Button/RentalButton";
 import { Alert } from "@mui/material";
+import { useAppSelector } from "../../store/useAppSelector";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { getByIdCustomer } from "../../store/slices/customerSlice";
+import useToken from "../../utils/useToken";
 interface CarCartProps {
   onButtonClick: (carEntityId: number,startDateFilter:string,endDateFilter:string) => void;
   startDate: string; // formattedStartDate ve formattedEndDate'yi props olarak ekleyin
@@ -44,7 +47,7 @@ export default function CarCart({
   endDate,
 }: CarCartProps) {
   /*  const CarCart: React.FC<{ searchCarResponse: AllGetByDateCarResponse | undefined }> = ({ searchCarResponse }) => { */
-  const carsState = useSelector((state: any) => state.car.cars);
+  const carsState = useAppSelector((state: any) => state.car.cars);
   const [selectedBrand, setSelectedBrand] = useState<number | null>(null);
   const [selectedCarModel, setSelectedCarModel] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState<number | null>(null);
@@ -52,24 +55,31 @@ export default function CarCart({
   const [selectedShiftType, setSelectedShiftType] = useState<number | null>(
     null
   );
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
+
   const [isHovered, setIsHovered] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const dispatch = useDispatch<AppDispatch>();
 
-  const brandState = useSelector((state: any) => state.brand);
-  const carModelState = useSelector((state: any) => state.carModel);
-  const colorState = useSelector((state: any) => state.color);
-  const fuelTypeState = useSelector((state: any) => state.fuelType);
-  const shiftTypeState = useSelector((state: any) => state.shiftType);
+  const brandState = useAppSelector((state: any) => state.brand);
+  const carModelState = useAppSelector((state: any) => state.carModel);
+  const colorState = useAppSelector((state: any) => state.color);
+  const fuelTypeState = useAppSelector((state: any) => state.fuelType);
+  const shiftTypeState = useAppSelector((state: any) => state.shiftType);
   const [startDateFilter, setStartDate] = useState<string>(startDate);
   const [endDateFilter, setEndDate] = useState<string>(endDate);
+  const [isLicenseTypeSuitableChecked, setIsLicenseTypeSuitableChecked] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.car.error);
+  const { token, decodedToken, updateToken, clearToken } = useToken();
+
   useEffect(() => {
     dispatch(fetchBrands());
     dispatch(fetchColors());
     dispatch(fetchFuelType());
     dispatch(fetchShiftTypes());
+    /* decodedToken?.id */
   }, [dispatch]);
 
   const changeModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -99,6 +109,10 @@ export default function CarCart({
     const shiftTypeId = parseInt(e.target.value, 10);
     setSelectedShiftType(isNaN(shiftTypeId) ? null : shiftTypeId);
   };
+  const handleLicenseTypeSuitableChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLicenseTypeSuitableChecked(e.target.checked);
+  };
+  
   const handleFiltred = () => {
     const filterData: GetAllFilteredResponse = {};
 
@@ -123,7 +137,14 @@ export default function CarCart({
     if (endDate !== null) {
       filterData.endDate = endDateFilter;
     }
-   
+    if (isLicenseTypeSuitableChecked == true) {
+      filterData.customerId = decodedToken?.id;
+      filterData.licenseSuitable = true;
+    }
+    if (isLicenseTypeSuitableChecked == false) {
+      filterData.licenseSuitable = false;
+    }
+    
     
     try {
       dispatch(getByAllFilteredCars(filterData));
@@ -272,7 +293,18 @@ export default function CarCart({
             ))}
           </select>
         </div>
-
+        <div className="mb-3">
+          <label htmlFor="licenseTypeSuitableCheckbox" className="form-label">
+            Ehliyetime uygun olanları göster
+          </label>
+          <input
+            type="checkbox"
+            className="checkbox-filter"
+            id="licenseTypeSuitableCheckbox"
+            checked={isLicenseTypeSuitableChecked}
+            onChange={handleLicenseTypeSuitableChange}
+          />
+        </div>
         <button
           type="button"
           className="btn btn-primary"
@@ -281,10 +313,9 @@ export default function CarCart({
           Filtrele
         </button>
       </div>
-      {errorMessage && (
-        <Alert severity="error" style={{ width: "430px" }}>
-          {errorMessage}
-        </Alert>
+      {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+        {!errorCustom && successMessage && (
+          <Alert severity="success">{successMessage}</Alert>
       )}
       {successMessage && <Alert severity="success">{successMessage}</Alert>}
       <div className="col-md-9">
@@ -300,6 +331,11 @@ export default function CarCart({
                 <Typography level="title-lg" sx={{color:'white'}}>
                   {car.carModelEntityBrandEntityName} {car.carModelEntityName}{" "}
                   {car.rentalPrice} TL
+                 
+                </Typography> 
+                <Typography level="title-md" sx={{color:'red'}}>
+    
+                {car.isLicenseTypeSuitable? "dd":"sss"}
                 </Typography>
                 <AspectRatio
                   minHeight="140px"
