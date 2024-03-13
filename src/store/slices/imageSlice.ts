@@ -6,19 +6,23 @@ import ImageService, { EmailImageRequest, LicanseImageRequest } from '../../serv
 
 export const addCarImages = createAsyncThunk(
     "images/addCarImages",
-    async(values: any, thunkAPI) => {
+    async({ image, licensePlate }: { image: FormData, licensePlate: string }, thunkAPI) => {
         try{
-            console.log("car images values : ", values);
+           
             const service: ImageService = new ImageService();
-            const { licensePlate, image } = values;
-            const addedImage = await service.addCarImage(licensePlate,image);
+          
+            const addedImage = await service.addCarImage(image, licensePlate);
    
             return addedImage.data;
         }
-        catch (error){
-            console.error("Error adding fuel types", error);
-            throw error;
-        }
+        catch (error: any) {
+            if (error && error.response && (error.response.data.response.errorCode === 1 || (error.response.data.response.details[0] ))) {
+              
+                throw "Resim boyutu maximum boyutu aşmıştır.Daha küçük boyutlu bir resim yükleyiniz."  ;
+              
+            }
+            
+          }
     }
 );
 
@@ -56,17 +60,18 @@ export const addBrandImages = createAsyncThunk(
 
 const imageSlice = createSlice({
     name: "image",
-    initialState: {images : [] as any [], error: null},
+    initialState: {images : [] as any [],error: null as string | null},
     reducers:{},
     extraReducers: (builder) => {
 
 
         builder.addCase(addCarImages.pending, (state) => {});
         builder.addCase(addCarImages.fulfilled, (state, action) => {
+            state.error=null;
             state.images.push(action.payload);
         });
-        builder.addCase(addCarImages.rejected, (state) => {
-
+        builder.addCase(addCarImages.rejected, (state,action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
         });
 
 

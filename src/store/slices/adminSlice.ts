@@ -54,9 +54,11 @@ export const addAdmin = createAsyncThunk(
             console.log(newAdminData);
             
             return addedAdmin.data;
-        }catch(error){
-            console.error("Error adding admin:", error);
-            throw new Error("İşlem sırasında bir hata oluştu");
+        }catch(error: any ){
+            if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 2003) {
+                const details = error.response.data.response.details[0];
+                throw details;
+              } 
         }
     }
 )
@@ -73,9 +75,11 @@ export const updateAdmin = createAsyncThunk(
                 console.warn("Service response does not contain data.")
                 return null;
             }
-        }catch(error){
-            console.error("Error updating admin", error);
-            throw new Error("İşlem sırasında bir hata oluştu");
+        }catch(error: any){
+            if (error && error.response && error.response.data.response.errorCode === 2003) {
+                const details = error.response.data.response.details[0];
+               throw details;
+            }
         }
     }
 )
@@ -97,7 +101,7 @@ export const deleteAdmin = createAsyncThunk(
 
 const adminSlice = createSlice({
     name: "admin",
-    initialState: {admins: [] as any[], error: null, adminCountIsDeleted:0},
+    initialState: {admins: [] as any[], error: null as string | null, adminCountIsDeleted:0},
     reducers: {},
     extraReducers: (builder) => {
 
@@ -105,9 +109,12 @@ const adminSlice = createSlice({
 
         builder.addCase(addAdmin.pending, (state) => {});
         builder.addCase(addAdmin.fulfilled,(state, action) => {
+            state.error = null;
             state.admins.push(action.payload);
         })
-        builder.addCase(addAdmin.rejected, (state) => {})
+        builder.addCase(addAdmin.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+        })
 
         /*-----------------------------------------------------------------*/
 
@@ -140,9 +147,12 @@ const adminSlice = createSlice({
 
         builder.addCase(updateAdmin.pending, (state) => {});
         builder.addCase(updateAdmin.fulfilled, (state, action) => {
+            state.error = null;
             state.admins = [];
         });
-        builder.addCase(updateAdmin.rejected, (state) => {});
+        builder.addCase(updateAdmin.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*-----------------------------------------------------------------*/
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import {  RootState } from "../../store/configureStore";
 import { useParams } from "react-router-dom";
 import {
   fetchCarBodyTypes,
@@ -14,16 +13,22 @@ import SideBar from "../../components/Sidebar/SideBar";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import FormikSelect from "../../components/FormikSelect/FormikSelect";
 import { GetByIdCarBodyType } from "../../models/Responses/CarBodyType/GetByIdCarBodyType";
+import { useAppDispatch } from "../../store/useAppDispatch";
+import { useAppSelector } from "../../store/useAppSelector";
+import { Alert } from "@mui/material";
 type Props = {};
 
 const UpdateCarBodyType = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const carBodyTypeId = parseInt(id ?? "", 10);
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [carBodyType, setCarBodyType] = useState<GetByIdCarBodyType>();
-  const carBodyTypeState = useSelector((state: any) => state.carBodyType);
+  const carBodyTypeState = useAppSelector((state: any) => state.carBodyType);
   const [selectedValue, setSelectedValue] = useState({});
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector((state: RootState) => state.carBodyType.error);
   useEffect(() => {
     if (isSubmited) {
       fetchData();
@@ -45,7 +50,10 @@ const UpdateCarBodyType = (props: Props) => {
   };
   const validationSchema = Yup.object().shape({
     id: Yup.number().required("Marka seçiniz"),
-    name: Yup.string().required("Model seçiniz"),
+    name: Yup.string()
+      .min(2, "Kasa Tipi en az 2 karakter olmalıdır")
+      .matches(/^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$/, "Kasa Tipi sadece harflerden oluşmalıdır")
+      .required("Kasa Tipi Giriniz"),
   });
   const initialValues = {
     id: carBodyType?.id,
@@ -53,8 +61,16 @@ const UpdateCarBodyType = (props: Props) => {
   };
 
   const handleUpdateCarModel = async (values: any) => {
-    dispatch(updateCarBodyType(values));
-    window.location.reload();
+    try {
+      const response = await dispatch(updateCarBodyType(values));
+      // İşlem başarılı olduğunda
+      setSuccessMessage("İşlem başarıyla tamamlandı");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating shift type: ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
+    }
   };
   return (
     <Formik
@@ -113,6 +129,10 @@ const UpdateCarBodyType = (props: Props) => {
                 </div>
               </div>
             </Form>
+            {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+            {!errorCustom && successMessage && (
+                <Alert severity="success">{successMessage}</Alert>
+            )}
           </div>
         </div>
       </SideBar>

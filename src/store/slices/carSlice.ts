@@ -1,11 +1,12 @@
 
 import { GetByDateCarModel } from '../../models/Responses/Car/GetByDateCarModel';
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import CarService from "../../services/carService"
 import { GetAllFilteredResponse } from '../../models/Responses/Car/GetAllFilteredResponse';
 import { AddCarModel } from '../../models/Requests/Car/AddCarModel';
 import { UpdateCarModel } from '../../models/Requests/Car/UpdateCarModel';
 import carService from '../../services/carService';
+import { GetByDateCarResponse } from '../../models/Responses/Car/GetByDateCarResponse';
 
 export const fetchCars = createAsyncThunk(
     "cars/fetchCars",
@@ -40,11 +41,17 @@ export const getByAllFilteredCars = createAsyncThunk(
     async (allFiltred: GetAllFilteredResponse, thunkAPI) => {
         try {
             const filtredCars = await carService.getByAllFiltered(allFiltred);
+            console.log(allFiltred);
+            
             return filtredCars.data.response;
-        } catch (error) {
-            console.error("Error fetching cars:", error);
-            throw error; // Hata durumunu iletmek önemlidir
-        }
+        } catch (error: any) {
+            if (error && error.response && (error.response.data.response.errorCode === 1017 || error.response.data.response.errorCode === 1018 || error.response.data.response.errorCode === 1 )) {
+              
+                throw error.response.data.response.details[0];
+              
+            }
+            
+          }
     });
 
 export const getCarCountByStatus = createAsyncThunk(
@@ -140,77 +147,72 @@ export const getByCarId = createAsyncThunk(
 const carSlice = createSlice(
     {
         name: "car",
-        initialState: { cars: [] as any[], carStatus:0, carCountIsDeleted:0 },
+        initialState: { cars: [] as any[] , carStatus:0, carCountIsDeleted:0 ,error: null as string | null},
         reducers: {},
         extraReducers: builder => {
-            builder.addCase(fetchCars.pending, (state) => { });
-            builder.addCase(fetchCars.fulfilled, (state, action) => {
-                state.cars = action.payload;
-            });
-            builder.addCase(fetchCars.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(getByDateCars.pending, (state) => { });
-            builder.addCase(getByDateCars.fulfilled, (state, action) => {
-                state.cars = action.payload;
-            });
-            builder.addCase(getByDateCars.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(getByAllFilteredCars.pending, (state) => { });
-            builder.addCase(getByAllFilteredCars.fulfilled, (state, action) => {
-                state.cars = action.payload;
-            });
-            builder.addCase(getByAllFilteredCars.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(addCar.pending, (state) => { });
-            builder.addCase(addCar.fulfilled, (state, action) => {
-                state.cars.push(action.payload);
-            });
-            builder.addCase(addCar.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(updateCar.pending, (state) => { });
-            builder.addCase(updateCar.fulfilled, (state, action) => {
-                state.cars = [];
-            });
-            builder.addCase(updateCar.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(deleteCar.pending, (state) => { });
-            builder.addCase(deleteCar.fulfilled, (state, action) => {
-                const deletedCarId = action.payload.deletedCarId;
-                state.cars = state.cars.filter(car => car.id !== deletedCarId);
-            });
-            builder.addCase(deleteCar.rejected, (state) => { });
-
-            /*---------------*/
-
-            builder.addCase(getByCarId.pending, (state) => { });
-            builder.addCase(getByCarId.fulfilled, (state, action) => {
-                state.cars = [action.payload]; });
-            builder.addCase(getByCarId.rejected, (state) => {});
-
-            /*---------------*/
-
-            builder.addCase(getCarCountByStatus.pending, (state) => { });
-            builder.addCase(getCarCountByStatus.fulfilled, (state, action) => {
-                state.carStatus = action.payload.response; });
-            builder.addCase(getCarCountByStatus.rejected, (state) => {});
-
-            /*---------------*/
-
-            builder.addCase(getCarCountIsDeleted.pending, (state) => { });
-            builder.addCase(getCarCountIsDeleted.fulfilled, (state, action) => {
-                state.carCountIsDeleted = action.payload.response;});
-            builder.addCase(getCarCountIsDeleted.rejected, (state) => { });
-
+            builder
+                .addCase(fetchCars.pending, (state) => { })
+                .addCase(fetchCars.fulfilled, (state, action) => {
+                    state.error=null;
+                    state.cars = action.payload;
+                })
+                .addCase(fetchCars.rejected, (state) => { })
+                .addCase(getByDateCars.pending, (state) => { })
+                .addCase(getByDateCars.fulfilled, (state, action) => {
+                    state.error=null;
+                    state.cars = action.payload;
+                })
+                .addCase(getByDateCars.rejected, (state) => { })
+                .addCase(getByAllFilteredCars.pending, (state) => { })
+                .addCase(getByAllFilteredCars.fulfilled, (state, action) => {
+                    state.error=null;
+                    state.cars = Array.isArray(action.payload) ? action.payload : [];
+                })
+                .addCase(getByAllFilteredCars.rejected, (state,action) => { 
+                    state.cars = [];
+                    state.error = action.error.message || "Bir hata oluştu.";
+                })
+                .addCase(addCar.pending, (state) => { })
+                .addCase(addCar.fulfilled, (state, action) => {
+                    if (Array.isArray(action.payload)) {
+                        state.cars = action.payload;
+                    } else {
+                        console.error('Invalid payload type for addCar.fulfilled');
+                    }
+                })
+                .addCase(addCar.rejected, (state) => { })
+                .addCase(updateCar.pending, (state) => { })
+                .addCase(updateCar.fulfilled, (state) => {
+                    state.cars = [];
+                })
+                .addCase(updateCar.rejected, (state) => { })
+                .addCase(deleteCar.pending, (state) => { })
+                .addCase(deleteCar.fulfilled, (state, action) => {
+                    state.error=null;
+                    const deletedCarId = action.payload.deletedCarId;
+                    state.cars = state.cars.filter(car => car.id !== deletedCarId);
+                })
+                .addCase(deleteCar.rejected, (state) => { })
+                .addCase(getByCarId.pending, (state) => { })
+                .addCase(getByCarId.fulfilled, (state, action) => {
+                    if (Array.isArray(action.payload)) {
+                        state.cars = action.payload;
+                    } else {
+                        console.error('Invalid payload type for getByCarId.fulfilled');
+                    }
+                })
+                .addCase(getByCarId.rejected, (state) => { })
+                .addCase(getCarCountByStatus.pending, (state) => { })
+                .addCase(getCarCountByStatus.fulfilled, (state, action) => {
+                    state.error=null;
+                    state.carStatus = action.payload.response;
+                })
+                .addCase(getCarCountByStatus.rejected, (state) => { })
+                .addCase(getCarCountIsDeleted.pending, (state) => { })
+                .addCase(getCarCountIsDeleted.fulfilled, (state, action) => {
+                    state.carCountIsDeleted = action.payload.response;
+                })
+                .addCase(getCarCountIsDeleted.rejected, (state) => { })
         }
     }
 )

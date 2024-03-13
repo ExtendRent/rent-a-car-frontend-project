@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
+import {  RootState } from '../../store/configureStore';
 import { addDiscountCode } from '../../store/slices/discountCodeSlice';
 import * as Yup from "yup";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
 import { Button } from "@mui/joy";
+import { useAppDispatch } from '../../store/useAppDispatch';
+import { useAppSelector } from '../../store/useAppSelector';
+import { Alert } from '@mui/material';
 
 type Props = {}
 
 const AddDiscountCode = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
+  const errorCustom = useAppSelector((state: RootState) => state.discountCode.error);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
  
 
   const handleAddDiscountCode = (values: any) => {
@@ -53,7 +59,7 @@ const initialValues = {
                 <FormikInput
                   name="discountCode"
                   label="İndirim Kodu "
-                  placeHolder="İndirim Kodu Giriniz."
+                  placeHolder="İndirim Kodu Giriniz"
                   type="text"
                 />
                 <FormikInput
@@ -67,6 +73,10 @@ const initialValues = {
             </div>
           </div>
         </Form>
+        {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+        {!errorCustom && successMessage && (
+        <Alert severity="success">{successMessage}</Alert>
+          )}
       </div>
       </div>
     </SideBar>

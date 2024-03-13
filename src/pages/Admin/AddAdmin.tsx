@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store/configureStore'
+import { AppDispatch, RootState } from '../../store/configureStore'
 import { addAdmin } from '../../store/slices/adminSlice'
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup';
 import FormikInput from '../../components/FormikInput/FormikInput'
 import SideBar from '../../components/Sidebar/SideBar'
-import {Button } from '@mui/material';
+import {Alert, Button } from '@mui/material';
 import '../Employee/Employee.css'
+import { useAppDispatch } from '../../store/useAppDispatch'
+import { useAppSelector } from '../../store/useAppSelector'
 type Props = {}
 
 const AddAdmin = (props: Props) => {
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [selectedValue, setSelectedValue] = useState({});
+  const errorCustom = useAppSelector((state: RootState) => state.employee.error);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
  
   const handleAddAdmin = (values: any) => {
       dispatch(addAdmin(values));
@@ -139,6 +144,10 @@ const AddAdmin = (props: Props) => {
               </div>
             </div>
         </Form>
+        {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+        {!errorCustom && successMessage && (
+        <Alert severity="success">{successMessage}</Alert>
+          )}
         </div>
         </div>
       </SideBar>

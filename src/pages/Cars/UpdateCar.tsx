@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
 import { Button } from "@mui/joy";
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../../store/configureStore';
-import { useParams } from 'react-router-dom';
-import { getByCarId, updateCar } from '../../store/slices/carSlice';
-import { fetchBrands } from '../../store/slices/brandSlice';
-import { fetchCarModels } from '../../store/slices/carModelSlice';
-import { fetchCarBodyTypes } from '../../store/slices/carBodyTypeSlice';
-import { fetchColors } from '../../store/slices/colorSlice';
-import { fetchVehicleStatus } from '../../store/slices/vehicleStatusSlice';
-import { fetchShiftTypes } from '../../store/slices/shiftTypeSlice';
-import { fetchFuelType } from '../../store/slices/fuelTypeSlice';
-import { fetchDrivingLicenseTypes } from '../../store/slices/drivingLicenseTypeSlice';
-import { fetchCarSegments } from '../../store/slices/carSegmentSlice';
-import { CarModel } from '../../models/Responses/Car/CarModel';
-import FormikSelect from '../../components/FormikSelect/FormikSelect';
-import { addCarImages } from '../../store/slices/imageSlice';
-import './UpdateCar.css';
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/configureStore";
+import { useParams } from "react-router-dom";
+import { getByCarId, updateCar } from "../../store/slices/carSlice";
+import { fetchBrands } from "../../store/slices/brandSlice";
+import { fetchCarModels } from "../../store/slices/carModelSlice";
+import { fetchCarBodyTypes } from "../../store/slices/carBodyTypeSlice";
+import { fetchColors } from "../../store/slices/colorSlice";
+import { fetchVehicleStatus } from "../../store/slices/vehicleStatusSlice";
+import { fetchShiftTypes } from "../../store/slices/shiftTypeSlice";
+import { fetchFuelType } from "../../store/slices/fuelTypeSlice";
+import { fetchDrivingLicenseTypes } from "../../store/slices/drivingLicenseTypeSlice";
+import { fetchCarSegments } from "../../store/slices/carSegmentSlice";
+import { CarModel } from "../../models/Responses/Car/CarModel";
+import FormikSelect from "../../components/FormikSelect/FormikSelect";
+import { addCarImages } from "../../store/slices/imageSlice";
+import "./UpdateCar.css";
 import { Alert } from "@mui/material";
-type Props = {}
+import { useAppSelector } from "../../store/useAppSelector";
+type Props = {};
 
 const UpdateCar = (props: Props) => {
   const { id } = useParams();
-  const carId = parseInt(id || '');
+  const carId = parseInt(id || "");
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [file, setFile] = useState<File | undefined>();
   const [car, setCar] = useState<CarModel>();
@@ -43,25 +44,24 @@ const UpdateCar = (props: Props) => {
   const expectedMinDrivingLicenseTypeState = useSelector(
     (state: any) => state.drivingLicenseType
   );
-  
+
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const errorCustom = useAppSelector(
+    (state: RootState) => state.imageLoad.error
+  );
   useEffect(() => {
     if (isSubmited) {
       fetchData();
       setIsSubmited(false);
-    }
-    else
-      fetchData();
-
+    } else fetchData();
   }, [id, isSubmited]);
 
   const fetchData = async () => {
     try {
-     
-      const newAmountResponse = await dispatch(getByCarId({carId}))
-      setCar((newAmountResponse as any)?.payload?.response)
-    
+      const newAmountResponse = await dispatch(getByCarId({ carId }));
+      setCar((newAmountResponse as any)?.payload?.response);
+
       dispatch(fetchBrands());
       dispatch(fetchCarModels());
       dispatch(fetchCarBodyTypes());
@@ -71,16 +71,13 @@ const UpdateCar = (props: Props) => {
       dispatch(fetchFuelType());
       dispatch(fetchDrivingLicenseTypes());
       dispatch(fetchCarSegments());
-      
-       
-        
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
   };
 
   const validationSchema = Yup.object().shape({
-    year: Yup.number()
+     year: Yup.number()
       .min(2005, "Yıl en az 2005 olmalıdır")
       .max(2024, "Yıl en fazla 2024 olmalıdır")
       .required("Yıl giriniz"),
@@ -121,7 +118,7 @@ const UpdateCar = (props: Props) => {
   });
 
   const initialValues = {
-    id:carId,
+    id: carId,
     year: car?.year,
     details: car?.details,
     rentalPrice: car?.rentalPrice,
@@ -131,7 +128,7 @@ const UpdateCar = (props: Props) => {
     luggage: car?.luggage,
     colorEntityId: car?.colorEntityId,
     brandEntityId: car?.carModelEntityBrandEntityId,
-    carModelEntityId:car?.carModelEntityId,
+    carModelEntityId: car?.carModelEntityId,
     carBodyTypeEntityId: car?.carBodyTypeEntityId,
     vehicleStatusEntityId: car?.vehicleStatusEntityId,
     shiftTypeEntityId: car?.shiftTypeEntityId,
@@ -139,67 +136,41 @@ const UpdateCar = (props: Props) => {
     carSegmentEntityId: car?.carSegmentEntityId,
     expectedMinDrivingLicenseTypeId: car?.expectedMinDrivingLicenseTypeId,
     vehicleType: "CAR",
-    carImageEntityId:car?.carImageEntityId
-  
+    carImageEntityId: car?.carImageEntityId,
   };
   const handleUpdateCar = async (values: any) => {
-    /* if(typeof file === 'undefined') return;
-    const formData =new FormData();
-    formData.append('files',file)
-    //formData.append("upload_present" ,"636629149633282");
-    console.log(formData);
-    
-    const { licensePlate, carImageEntityId } = values;
-    const imageResponse = await dispatch(addCarImages({
-      image: formData,
-      licensePlate: values.licensePlate
-    }));
-    console.log(imageResponse); */
-   
+    if (typeof file === "undefined") return;
+
+    const formData = new FormData();
     try {
-      const response = await dispatch(
-      updateCar(values)
-      ); 
-      
-      if ("error" in response) {
-        if (response.error.message && response.error.message.includes("1007")) {
-        setErrorMessage("İşlem  Başarısız.");
-        console.log(response);
-        } else {
-        setErrorMessage("İşlem  Başarısız");
-        console.log(response);
-        }
-    } else {
-        setSuccessMessage("Araba Güncellenmiştir.");
-        setTimeout(() => {
-        setSuccessMessage("");
-        window.location.reload();
-        }, 2000); 
-    }
-    
-    }
-    catch (error) {
-      console.error("Redux action dispatch hatası:", error);
-      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
+      formData.append("image", file);
+      const thunkParams = {
+        image: formData,
+        licensePlate: values.licensePlate 
+    };
+      const imageResponse = await dispatch(addCarImages(thunkParams));
+      if (imageResponse) {
+        const carImageEntityId = imageResponse.payload;
+        const updatedValues = { ...values, carImageEntityId };
+        const response = await dispatch(updateCar(updatedValues));
+        setSuccessMessage("İşlem başarıyla tamamlandı");
+      }
+    } catch (error) {
+      console.error("Error : ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
     }
   };
- 
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement & { files: FileList };
-  
-    // Access the selected files
+
     const files = target.files;
-  
-    // Do something with the selected files
+
     if (files) {
-      // Process the files here
-     setFile(target.files[0])
-     console.log(target.files[0]);
-     
+      setFile(target.files[0]);
     }
   };
   return (
-   
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -211,188 +182,201 @@ const UpdateCar = (props: Props) => {
     >
       <SideBar>
         <div className="container-card">
-          <div className='form'>
-          <h2 className="h2-card">Araba Güncelleme</h2>
-          <Form>
-            <div className="row space">
-            <div id="select-block" className="col-md-6">
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Marka"
-                    name="brandEntityId"
-                    options={brandState.brands.map((brands: any) => ({
-                      value: brands.id,
-                      label: brands.name,
-                    }))}
-                  />
-                </div>
+          <div className="form">
+            <h2 className="h2-card">Araba Güncelleme</h2>
+            <Form>
+              <div className="row space">
+                <div id="select-block" className="col-md-6">
+                  <div className="mb-2">
+                    <input type="file" name="image" onChange={handleOnChange} />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Marka"
+                      name="brandEntityId"
+                      options={brandState.brands.map((brands: any) => ({
+                        value: brands.id,
+                        label: brands.name,
+                      }))}
+                    />
+                  </div>
 
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Araç Model"
-                    name="carModelEntityId"
-                    options={carModelState.carModel.map((carModel: any) => ({
-                      value: carModel.id,
-                      label: carModel.name,
-                    }))}
-                  />
-                </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Araç Model"
+                      name="carModelEntityId"
+                      options={carModelState.carModel.map((carModel: any) => ({
+                        value: carModel.id,
+                        label: carModel.name,
+                      }))}
+                    />
+                  </div>
 
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Kasa Tipi"
-                    name="carBodyTypeEntityId"
-                    options={carBodyTypeState.carBodyTypes.map(
-                      (carBodyType: any) => ({
-                        value: carBodyType.id,
-                        label: carBodyType.name,
-                      })
-                    )}
-                  />
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Kasa Tipi"
+                      name="carBodyTypeEntityId"
+                      options={carBodyTypeState.carBodyTypes.map(
+                        (carBodyType: any) => ({
+                          value: carBodyType.id,
+                          label: carBodyType.name,
+                        })
+                      )}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Renk"
+                      name="colorEntityId"
+                      options={colorState.colors.map((color: any) => ({
+                        value: color.id,
+                        label: color.name,
+                      }))}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Araç Durumu"
+                      name="vehicleStatusEntityId"
+                      options={vehicleStatusState.vehicleStatuses.map(
+                        (vehicleStatus: any) => ({
+                          value: vehicleStatus.id,
+                          label: vehicleStatus.name,
+                        })
+                      )}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Vites Tipi"
+                      name="shiftTypeEntityId"
+                      options={shiftTypeState.shiftTypes.map(
+                        (shiftType: any) => ({
+                          value: shiftType.id,
+                          label: shiftType.name,
+                        })
+                      )}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Yakıt Tipi"
+                      name="fuelTypeEntityId"
+                      options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
+                        value: fuelType.id,
+                        label: fuelType.name,
+                      }))}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Ehliyet Tipi"
+                      name="expectedMinDrivingLicenseTypeId"
+                      options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
+                        (drivingLicenseType: any) => ({
+                          value: drivingLicenseType.id,
+                          label: drivingLicenseType.name,
+                        })
+                      )}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikSelect
+                      label="Segment"
+                      name="carSegmentEntityId"
+                      options={segmentState.carSegments.map(
+                        (carSegment: any) => ({
+                          value: carSegment.id,
+                          label: carSegment.name,
+                        })
+                      )}
+                    />
+                  </div>
                 </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Renk"
-                    name="colorEntityId"
-                    options={colorState.colors.map((color: any) => ({
-                      value: color.id,
-                      label: color.name,
-                    }))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Araç Durumu"
-                    name="vehicleStatusEntityId"
-                    options={vehicleStatusState.vehicleStatuses.map(
-                      (vehicleStatus: any) => ({
-                        value: vehicleStatus.id,
-                        label: vehicleStatus.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Vites Tipi"
-                    name="shiftTypeEntityId"
-                    options={shiftTypeState.shiftTypes.map(
-                      (shiftType: any) => ({
-                        value: shiftType.id,
-                        label: shiftType.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Yakıt Tipi"
-                    name="fuelTypeEntityId"
-                    options={fuelTypeState.fuelTypes.map((fuelType: any) => ({
-                      value: fuelType.id,
-                      label: fuelType.name,
-                    }))}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Ehliyet Tipi"
-                    name="expectedMinDrivingLicenseTypeId"
-                    options={expectedMinDrivingLicenseTypeState.drivingLicenseTypes.map(
-                      (drivingLicenseType: any) => ({
-                        value: drivingLicenseType.id,
-                        label: drivingLicenseType.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikSelect
-                    label="Segment"
-                    name="carSegmentEntityId"
-                    options={segmentState.carSegments.map(
-                      (carSegment: any) => ({
-                        value: carSegment.id,
-                        label: carSegment.name,
-                      })
-                    )}
-                  />
-                </div>
-                <div className="mb-2">
-                  <input type='file' name='image' onChange={handleOnChange}/>
+                <div id="input-block" className="col-md-6">
+                  <div className="mb-2">
+                    <FormikInput
+                      name="year"
+                      label="Yıl"
+                      placeHolder="Yıl Giriniz."
+                      type="number"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="details"
+                      label="Detay"
+                      placeHolder="Detay Giriniz."
+                      type="text"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="rentalPrice"
+                      label="Araç Fiyatı"
+                      placeHolder="Araç Fiyatı Giriniz."
+                      type="number"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="licensePlate"
+                      label="Plaka"
+                      placeHolder="Plaka Giriniz."
+                      type="text"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="kilometer"
+                      label="Kilometre"
+                      placeHolder="Kilometre Giriniz."
+                      type="number"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="seat"
+                      label="Koltuk Sayısı"
+                      placeHolder="Koltuk Sayısı Giriniz."
+                      type="number"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <FormikInput
+                      name="luggage"
+                      label="Bagaj Sayısı"
+                      placeHolder="Bagaj Sayısı Giriniz."
+                      type="number"
+                    />
+                  </div>
+
+                  <Button
+                    style={{
+                      marginTop: "30px",
+                      backgroundColor: "rgb(140,24,24)",
+                      color: "white",
+                      width: "200px",
+                      borderRadius: "10px",
+                      marginLeft: "140px",
+                    }}
+                    type="submit"
+                  >
+                    {" "}
+                    Güncelle
+                  </Button>
+                  {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+                  {!errorCustom && successMessage && (
+                    <Alert severity="success">{successMessage}</Alert>
+                  )}
                 </div>
               </div>
-              <div id="input-block" className="col-md-6">
-                <div className="mb-2">
-                  <FormikInput
-                    name="year"
-                    label="Yıl"
-                    placeHolder="Yıl Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="details"
-                    label="Detay"
-                    placeHolder="Detay Giriniz."
-                    type="text"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="rentalPrice"
-                    label="Araç Fiyatı"
-                    placeHolder="Araç Fiyatı Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="licensePlate"
-                    label="Plaka"
-                    placeHolder="Plaka Giriniz."
-                    type="text"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="kilometer"
-                    label="Kilometre"
-                    placeHolder="Kilometre Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="seat"
-                    label="Koltuk Sayısı"
-                    placeHolder="Koltuk Sayısı Giriniz."
-                    type="number"
-                  />
-                </div>
-                <div className="mb-2">
-                  <FormikInput
-                    name="luggage"
-                    label="Bagaj Sayısı"
-                    placeHolder="Bagaj Sayısı Giriniz."
-                    type="number"
-                  />
-                </div>
-                
-                <Button style={{marginTop:'30px', backgroundColor: "rgb(140,24,24)", color:"white", width:"200px" , borderRadius:"10px", marginLeft:"140px" }} type='submit'> Güncelle</Button>
-              {errorMessage && <Alert severity="error" style={{width:"430px"}}>{errorMessage}</Alert>}
-              {successMessage && (
-              <Alert severity="success">{successMessage}</Alert>
-              )}
-              </div>
-            </div>
-          </Form>
-        </div>
+            </Form>
+          </div>
         </div>
       </SideBar>
     </Formik>
-  )
-}
+  );
+};
 
-export default UpdateCar
+export default UpdateCar;

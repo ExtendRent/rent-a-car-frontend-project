@@ -1,6 +1,7 @@
 import { AddCustomerModel } from "../models/Requests/Customer/AddCustomerModel";
 import { UpdateCustomerModel } from "../models/Requests/Customer/UpdateCustomerModel";
 import { GetAllCustomerModel } from "../models/Responses/Customer/GetAllCustomerModel";
+import { GetByIdCustomerModel } from "../models/Responses/Customer/GetByIdCustomerModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
 class CustomerService {
@@ -10,7 +11,7 @@ class CustomerService {
     }
 
     getById(id: number){
-        return axiosInstance.get<GetAllCustomerModel>(`customers/${id}`)
+        return axiosInstance.get<GetByIdCustomerModel>(`customers/${id}`)
     }
 
     add(newCustomer: AddCustomerModel) {

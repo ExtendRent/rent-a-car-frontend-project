@@ -41,9 +41,11 @@ export const addDiscountCode = createAsyncThunk(
 
       return addedDiscountCode.data;
 
-    } catch (error) {
-      console.error("Error adding discountcode:", error);
-      throw error;
+    } catch (error: any ) {
+      if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 2012) {
+        const details = error.response.data.response.details[0];
+        throw details;
+      } 
     }
   }
 );
@@ -60,9 +62,11 @@ export const updateDiscountCode = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null;
       }
-    } catch (error) {
-      console.error("Error updating discountcode:", error);
-      throw error;
+    } catch (error : any) {
+      if (error && error.response && error.response.data.response.errorCode === 2012) {
+        const details = error.response.data.response.details[0];
+       throw details;
+    }
     }
   }
 );
@@ -86,7 +90,7 @@ export const deleteDiscountCode = createAsyncThunk(
 
 const discountCodeSlice = createSlice({
   name: "discountCodes",
-  initialState: { discountCodes: [] as any[], error: null },
+  initialState: { discountCodes: [] as any[], error: null as string | null },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -108,17 +112,23 @@ const discountCodeSlice = createSlice({
 
     builder.addCase(addDiscountCode.pending, (state) => { });
     builder.addCase(addDiscountCode.fulfilled, (state, action) => {
+      state.error = null;
       state.discountCodes.push(action.payload);
     });
-    builder.addCase(addDiscountCode.rejected, (state) => { });
+    builder.addCase(addDiscountCode.rejected, (state, action) => { 
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
     /*-----------------*/
 
     builder.addCase(updateDiscountCode.pending, (state) => { });
     builder.addCase(updateDiscountCode.fulfilled, (state, action) => {
+      state.error = null;
       state.discountCodes = [];
     });
-    builder.addCase(updateDiscountCode.rejected, (state) => { });
+    builder.addCase(updateDiscountCode.rejected, (state, action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
+     });
 
     /*-----------------*/
 

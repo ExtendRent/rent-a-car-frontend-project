@@ -10,14 +10,10 @@ export interface  LicanseImageRequest{
 }
 
 export default class ImageService{
-    addCarImage(licensePlate:string,image: File){
-      
-        return axiosInstance.post<{}>(`images/car?licensePlate=${licensePlate}`,image ,{
-            headers: {
-                "Content-Type": "applications/json",
-          },
-        }
-    )}
+    addCarImage(image: FormData ,licensePlate:string){
+        
+        return axiosInstance.post(`images/car?licensePlate=${licensePlate}`, image);
+    }
     
     addUserImage(addUserImage: EmailImageRequest){
         return axiosInstance.post<{}>("images/user", addUserImage)

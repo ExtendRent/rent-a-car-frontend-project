@@ -1,19 +1,34 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../store/configureStore'
+import {  RootState } from '../../store/configureStore'
 import { addColor } from '../../store/slices/colorSlice'
 import * as Yup from "yup";
 import FormikInput from "../../components/FormikInput/FormikInput";
 import { Form, Formik } from "formik";
 import SideBar from "../../components/Sidebar/SideBar";
 import { Button } from "@mui/joy";
+import { useAppDispatch } from '../../store/useAppDispatch';
+import { useAppSelector } from '../../store/useAppSelector';
+import { Alert } from '@mui/material';
 
 type Props = {}
 
 const AddColor = (props: Props) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
+  const errorCustom = useAppSelector((state: RootState) => state.color.error);
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+
   const handleAddColor= (values: any) => {
+    try{
       dispatch(addColor(values));
+      setSuccessMessage("İşlem başarıyla tamamlandı");
+    } catch (error) {
+      console.error("Error updating color: ", error);
+      // Hata durumunda
+      setErrorMessage("İşlem sırasında bir hata oluştu");
+    }
+     
   };
   const validationSchema = Yup.object().shape({
     colorEntityName: Yup.string()
@@ -51,6 +66,10 @@ const AddColor = (props: Props) => {
             </div>
           </div>
         </Form>
+        {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+        {!errorCustom && successMessage && (
+        <Alert severity="success">{successMessage}</Alert>
+          )}
       </div>
       </div>
     </SideBar>

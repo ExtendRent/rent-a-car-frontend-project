@@ -41,9 +41,11 @@ export const addFuelType = createAsyncThunk(
             console.log(addedFuelType);
             return addedFuelType.data;
         }
-        catch (error){
-            console.error("Error adding fuel types", error);
-            throw error;
+        catch (error: any){
+            if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+                throw details;
+              } 
         }
     }
 );
@@ -52,11 +54,20 @@ export const updateFuelType = createAsyncThunk(
     "fuelTypes/updateFuelTypes",
     async(updatedFuelTypeData : UpdateFuelTypeModel, thunkAPI) => {
         try{
-            const updateFuelType = await fuelTypeService.update(updatedFuelTypeData);
-            return updateFuelType.data.response;
-        }catch(error){
-            console.error("Error updating fuel type:", error);
-            throw error;
+            const updatedFuelType = await fuelTypeService.update(updatedFuelTypeData);
+            if (updatedFuelType.data) {
+                return updatedFuelType.data.response;
+              }
+              else {
+                console.warn("Server response does not contain data.");
+                return null;
+              }
+            } catch (error: any) {
+                    
+              if (error && error.response && error.response.data.response.errorCode === 3000) {
+                  const details = error.response.data.response.details[0];
+                 throw details;
+              }
         }
     }
 )
@@ -78,7 +89,7 @@ export const deleteFuelType = createAsyncThunk(
 
 const fuelTypeSlice = createSlice({
     name: "fuelType",
-    initialState: {fuelTypes : [] as any [], error: null},
+    initialState: {fuelTypes : [] as any [], error: null as string | null },
     reducers:{},
     extraReducers: (builder) => {
 
@@ -86,9 +97,12 @@ const fuelTypeSlice = createSlice({
 
         builder.addCase(addFuelType.pending, (state) => {});
         builder.addCase(addFuelType.fulfilled, (state, action) => {
+            state.error = null;
             state.fuelTypes.push(action.payload);
         });
-        builder.addCase(addFuelType.rejected, (state) => {});
+        builder.addCase(addFuelType.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*------------------*/
 
@@ -112,9 +126,12 @@ const fuelTypeSlice = createSlice({
 
         builder.addCase(updateFuelType.pending, (state) => {});
         builder.addCase(updateFuelType.fulfilled, (state, action) => {
+            state.error = null;
             state.fuelTypes = [];
         })
-        builder.addCase(updateFuelType.rejected, (state) => {});
+        builder.addCase(updateFuelType.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*----------------------*/
 
