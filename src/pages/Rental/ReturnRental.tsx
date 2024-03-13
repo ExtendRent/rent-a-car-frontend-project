@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { fetchRentals, returnRental } from "../../store/slices/rentalSlice";
 import "./ReturnRental.css";
 import { useParams } from "react-router-dom";
+import { useAppDispatch } from "../../store/useAppDispatch";
 
 type Props = {}
 
 const ReturnRental = (props: Props) => {
 
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const rentalState = useSelector((state: any) => state.rental);
 
   const { id } = useParams();

@@ -1,3 +1,4 @@
+import { RentalModel } from './../../models/Responses/Rental/RentalModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import rentalService from "../../services/rentalService";
 import { UpdateRentalModel } from "../../models/Requests/Rental/UpdateRentalModel";
@@ -23,7 +24,7 @@ export const getByIdRental = createAsyncThunk(
     async ({ id }: { id: number; }, thunkAPI) => {
         try {
             const getByIded = await rentalService.getById(id);
-            return getByIded.data.response;
+            return getByIded.data as RentalModel;
 
         } catch (error) {
             console.error("Error adding getByIded:", error);
@@ -133,7 +134,7 @@ export const deleteRental = createAsyncThunk(
 
 const rentalSlice = createSlice({
     name: "rental",
-    initialState: { rentals: [] as any[], error: null, rentalStatus:0, rentalCountIsDeleted:0 },
+    initialState: { rentals: [] as any[], error: null, rentalStatus:0, rentalCountIsDeleted:0, getByIdRental: [] as RentalModel[] },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -147,7 +148,7 @@ const rentalSlice = createSlice({
 
         builder.addCase(getByIdRental.pending, (state) => { });
         builder.addCase(getByIdRental.fulfilled, (state, action) => {
-            state.rentals = action.payload;
+            state.getByIdRental = [action.payload];
         });
         builder.addCase(getByIdRental.rejected, (state) => {
         });

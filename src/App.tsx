@@ -77,6 +77,7 @@ import PastRentalDetail from './pages/PastRentals/PastRentalDetail';
 import Contacts from './pages/ContactUs/Contacts';
 import AboutUs from './pages/AboutUs/AboutUs';
 import RentalTerms from './pages/RentalTerms/RentalTerms';
+import UpdateCarSegment from './pages/CarSegment/UpdateCarSegment';
 
   
 
@@ -131,6 +132,8 @@ function App() {
 
         <Route path="/adminPanel/carSegments" element={<CarSegments />}></Route>
         <Route path="/adminPanel/addCarSegment" element={<AddCarSegment />}></Route>
+        <Route path="/adminPanel/updateCarSegment/:id" element={<UpdateCarSegment />}></Route>
+        {/* <Route path="/adminPanel/deleteCarSegment" element={<DeleteCarSegment />}></Route> */}
 
         <Route path="/adminPanel/fuelTypes" element={<FuelTypes />}></Route>
         <Route path="/adminPanel/addFuelType" element={<AddFuelType />}></Route>

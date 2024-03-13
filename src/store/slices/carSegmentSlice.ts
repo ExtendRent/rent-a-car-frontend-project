@@ -42,9 +42,11 @@ export const addCarSegment = createAsyncThunk(
 
       return addedCarSegment.data;
 
-    } catch (error) {
-      console.error("Error adding car segment:", error);
-      throw error;
+    } catch (error : any) {
+      if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+        const details = error.response.data.response.details[0];
+        throw details;
+      } 
     }
   }
 );
@@ -61,9 +63,13 @@ export const updateCarSegment = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null;
       }
-    } catch (error) {
-      console.error("Error updating car segment:", error);
-      throw error;
+    } catch (error: any) {
+            
+      if (error && error.response && error.response.data.response.errorCode === 3000) {
+          const details = error.response.data.response.details[0];
+         throw details;
+      }
+      
     }
   }
 );
@@ -87,7 +93,7 @@ export const deleteCarSegment = createAsyncThunk(
 
 const carSegmentSlice = createSlice({
   name: "carSegment",
-  initialState: { carSegments: [] as any[], error: null },
+  initialState: { carSegments: [] as any[], error: null as string | null},
   reducers: {},
   extraReducers: (builder) => {
 
@@ -111,18 +117,22 @@ const carSegmentSlice = createSlice({
 
     builder.addCase(addCarSegment.pending, (state) => { });
     builder.addCase(addCarSegment.fulfilled, (state, action) => {
+      state.error = null;
       state.carSegments.push(action.payload);
     });
-    builder.addCase(addCarSegment.rejected, (state) => { });
+    builder.addCase(addCarSegment.rejected, (state, action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
+     });
 
     /*----------------*/
 
     builder.addCase(updateCarSegment.pending, (state) => { });
     builder.addCase(updateCarSegment.fulfilled, (state, action) => {
+      state.error = null;
       state.carSegments = [];
     });
-    builder.addCase(updateCarSegment.rejected, (state) => {
-
+    builder.addCase(updateCarSegment.rejected, (state, action) => {
+      state.error = action.error.message || "Bir hata oluştu.";
     });
 
     /*----------------*/

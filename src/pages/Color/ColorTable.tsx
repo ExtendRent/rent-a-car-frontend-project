@@ -12,9 +12,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteColor, fetchColors } from "../../store/slices/colorSlice";
 import './ColorTable.css'
+import { useAppDispatch } from "../../store/useAppDispatch";
 
 const ColorTable: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const colorState = useSelector((state: any) => state.color);
   const [data, setData] = useState<any[][]>([["Loading Data..."]]);
   const [isLoading, setIsLoading] = useState<boolean>(false);

@@ -73,9 +73,9 @@ const AddShiftType = (props: Props) => {
               </div>
             </Form>
             {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
-            {successMessage && (
-              <Alert severity="success">{successMessage}</Alert>
-            )}
+        {!errorCustom && successMessage && (
+          <Alert severity="success">{successMessage}</Alert>
+        )}
           </div>
         </div>
       </SideBar>

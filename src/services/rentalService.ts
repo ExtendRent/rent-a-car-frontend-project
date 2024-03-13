@@ -3,6 +3,7 @@ import { GetAllRentalsModel } from "../models/Responses/Rental/GetAllRentalsMode
 import axiosInstance from "../utils/axiosInterceptors";
 import { ReturnRentalModel } from '../models/Requests/Rental/ReturnRentalModel';
 import { AddRentalModel } from '../models/Requests/Rental/AddRentalModel';
+import { RentalModel } from '../models/Responses/Rental/RentalModel';
 
 class RentalService {
 
@@ -11,7 +12,7 @@ class RentalService {
     }
 
     getById(id:number){
-        return axiosInstance.get<GetAllRentalsModel>(`rentals/${id}`)
+        return axiosInstance.get<RentalModel>(`rentals/${id}`)
      }  
 
     add(newRental: AddRentalModel){

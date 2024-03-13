@@ -115,7 +115,7 @@ const UpdateVehicleStatus = () => {
             </Form>
         </Formik>
         {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
-        {successMessage && (
+        {!errorCustom && successMessage && (
           <Alert severity="success">{successMessage}</Alert>
         )}
       </div>

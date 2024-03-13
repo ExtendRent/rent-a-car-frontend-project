@@ -1,8 +1,8 @@
+import { GetAllPaymentTypesModel } from './../models/Responses/PaymentType/GetAllPaymentTypesModel';
 import { UpdatePaymentTypeModel } from "../models/Requests/PaymentType/UpdatePaymentTypeModel";
-import { GetAllPaymentTypesModel } from "../models/Responses/PaymentType/GetAllPaymentTypesModel";
 import axiosInstance from "../utils/axiosInterceptors";
 
-export default class PaymentTypeService {
+ class PaymentTypeService {
     getAll() {
         return axiosInstance.get<GetAllPaymentTypesModel>("paymentTypes")
     }
@@ -10,4 +10,9 @@ export default class PaymentTypeService {
     update(updatedPaymentType: UpdatePaymentTypeModel){
         return axiosInstance.put<GetAllPaymentTypesModel>("paymentTypes", updatedPaymentType)
     }
+
+    getById(id: number){
+        return axiosInstance.get<GetAllPaymentTypesModel>(`paymentTypes/${id}`)
+    }
 }
+export default new PaymentTypeService();
