@@ -41,9 +41,11 @@ export const addColor = createAsyncThunk(
 
       return addedColor.data;
 
-    } catch (error) {
-      console.error("Error adding color:", error);
-      throw error;
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 2006) {
+        const details = error.response.data.response.details[0];
+        throw details;
+      } 
     }
   }
 );
@@ -61,9 +63,11 @@ export const updateColor = createAsyncThunk(
         console.warn("Server response does not contain data.");
         return null;
       }
-    } catch (error) {
-      console.error("Error updating color:", error);
-      throw error;
+    } catch (error : any) {
+      if (error && error.response && error.response.data.response.errorCode === 2006) {
+        const details = error.response.data.response.details[0];
+       throw details;
+    }
     }
   }
 );
@@ -89,7 +93,7 @@ export const deleteColor = createAsyncThunk(
 
 const colorSlice = createSlice({
   name: "color",
-  initialState: { colors: [] as any[], error: null },
+  initialState: { colors: [] as any[], error: null as string | null },
   reducers: {},
   extraReducers: (builder) => {
 
@@ -112,15 +116,19 @@ const colorSlice = createSlice({
 
     builder.addCase(addColor.pending, (state) => { });
     builder.addCase(addColor.fulfilled, (state, action) => {
+      state.error = null;
       state.colors.push(action.payload);
     });
-    builder.addCase(addColor.rejected, (state) => { });
+    builder.addCase(addColor.rejected, (state, action) => { 
+      state.error = action.error.message || "Bir hata oluştu.";
+    });
 
     builder.addCase(updateColor.pending, (state) => { });
     builder.addCase(updateColor.fulfilled, (state, action) => {
+      state.error = null;
       state.colors = [];
     });
-    builder.addCase(updateColor.rejected, (state) => { });
+    builder.addCase(updateColor.rejected, (state, action) => {  state.error = action.error.message || "Bir hata oluştu."; });
     /*-----------------*/
 
     builder.addCase(deleteColor.pending, (state) => { });

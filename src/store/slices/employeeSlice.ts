@@ -41,9 +41,11 @@ export const addEmployee = createAsyncThunk(
 
             return addedEmployee.data;
 
-        } catch (error) {
-            console.error("Error adding employee:", error);
-            throw error;
+        } catch (error: any) {
+            if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+                throw details;
+              } 
         }
     }
 );
@@ -60,9 +62,11 @@ export const updateEmployee = createAsyncThunk(
                 console.warn("Server response does not contain data.");
                 return null;
             }
-        } catch (error) {
-            console.error("Error updating employee:", error);
-            throw error;
+        } catch (error: any) {
+            if (error && error.response && error.response.data.response.errorCode === 3000) {
+                const details = error.response.data.response.details[0];
+               throw details;
+            }
         }
     }
 );
@@ -98,7 +102,7 @@ export const getEmployeeCountIsDeleted = createAsyncThunk(
 
 const employeeSlice = createSlice({
     name: "employee",
-    initialState: { employees: [] as any[], error: null, employeeCountIsDeleted: 0 },
+    initialState: { employees: [] as any[], error: null as string | null, employeeCountIsDeleted: 0 },
     reducers: {},
     extraReducers: (builder) => {
 
@@ -130,17 +134,23 @@ const employeeSlice = createSlice({
 
         builder.addCase(addEmployee.pending, (state) => { });
         builder.addCase(addEmployee.fulfilled, (state, action) => {
+            state.error = null;
             state.employees.push(action.payload);
         });
-        builder.addCase(addEmployee.rejected, (state) => { });
+        builder.addCase(addEmployee.rejected, (state, action) => { 
+            state.error = action.error.message || "Bir hata oluştu.";
+        });
 
         /*-----------------*/
 
         builder.addCase(updateEmployee.pending, (state) => { });
         builder.addCase(updateEmployee.fulfilled, (state, action) => {
+            state.error = null;
             state.employees = [];
         });
-        builder.addCase(updateEmployee.rejected, (state) => { });
+        builder.addCase(updateEmployee.rejected, (state, action) => {
+            state.error = action.error.message || "Bir hata oluştu.";
+         });
 
         /*-----------------*/
 
