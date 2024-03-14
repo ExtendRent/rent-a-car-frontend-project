@@ -11,9 +11,9 @@ export default class ImageService {
       image
     );
   }
-  addBrandImage(image: FormData, licensePlate: string) {
+  addBrandImage(image: FormData, brandName : string) {
     return axiosInstance.post<{}>(
-      `images/brand?licensePlate=${licensePlate}`,
+      `images/brand?brandName=${brandName}`,
       image
     );
   }

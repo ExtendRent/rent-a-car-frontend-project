@@ -143,6 +143,7 @@ const AddCar = (props: Props) => {
       // Hata durumunda
       setErrorMessage("İşlem sırasında bir hata oluştu");
     }
+    window.location.href = "/adminPanel/cars";
   }
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement & { files: FileList };

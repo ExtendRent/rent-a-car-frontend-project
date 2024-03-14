@@ -29,7 +29,7 @@ const UpdateBrand = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const errorCustom = useAppSelector((state: RootState) => state.brand.error);
-
+  const [imageError, setImageError] = useState("");
   useEffect(() => {
     if (isSubmited) {
       fetchData();
@@ -52,59 +52,60 @@ const UpdateBrand = () => {
   const initialValues = {
     id: brandId,
     name: brand?.name,
-    brandImageEntityUrl: brand?.brandImageEntityUrl,
     brandImageEntityId: brand?.brandImageEntityId,
   };
 
   const handleUpdateBrand = async (values: any) => {
     try {
-      const response = await dispatch(updateBrand(values));
-
-      if ("error" in response) {
-        if (response.error.message && response.error.message.includes("1007")) {
-          setErrorMessage("İşlem başarısız.");
-          console.log(response);
-        } else {
-          setErrorMessage("İşlem başarısız.");
-          console.log(response);
-        }
+      if (typeof file === "undefined") {
+        const updatedValues = { ...values };
+        const response = await dispatch(updateBrand(updatedValues));
+        setSuccessMessage("İşlem başarıyla tamamlandı");
       } else {
-        setSuccessMessage("Marka Güncellendi.");
-        setTimeout(() => {
-          setSuccessMessage("");
-          window.location.reload();
-        }, 2000);
+        const formData = new FormData();
+
+        formData.append("image", file);
+        const thunkParams = {
+          image: formData,
+          brandName: values.name,
+        };
+        const imageResponse = await dispatch(addBrandImages(thunkParams));
+        if (imageResponse) {
+          const brandImageEntityId = imageResponse.payload;
+          const updatedValues = { ...values, brandImageEntityId };
+          const response = await dispatch(updateBrand(updatedValues));
+          setSuccessMessage("İşlem başarıyla tamamlandı");
+        }
       }
+      window.location.href = "/adminPanel/brands";
     } catch (error) {
-      console.error("Redux action dispatch hatası:", error);
-      setErrorMessage("İşlem başarısız. Lütfen tekrar deneyin.");
+      console.error("Error : ", error);
+      setErrorMessage("İşlem sırasında bir hata oluştu");
     }
   };
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement & { files: FileList };
 
-    // Access the selected files
     const files = target.files;
 
-    // Do something with the selected files
     if (files) {
-      // Process the files here
       setFile(target.files[0]);
+      setImageError("");
     }
   };
   return (
     <SideBar>
-       <div className="container-card">
-          <div className="form">
+      <div className="container-card">
+        <div className="form">
           <h2 className="h2-card">Marka Güncelle</h2>
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values) => {
-        handleUpdateBrand(values);
-      }}
-      enableReinitialize={true}
-    >
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              handleUpdateBrand(values);
+            }}
+            enableReinitialize={true}
+          >
             <Form>
               <div className="row-update-brand">
                 <div
@@ -122,6 +123,8 @@ const UpdateBrand = () => {
                   </div>
                   <div className="mb-2">
                     <input type="file" name="image" onChange={handleOnChange} />
+                    <img src={brand?.brandImageEntityUrl} alt="Brand Logo" />
+                    {imageError && <Alert severity="error">{imageError}</Alert>}
                   </div>
                   <Button
                     style={{
@@ -139,16 +142,15 @@ const UpdateBrand = () => {
                 </div>
               </div>
             </Form>
-            </Formik>
-            {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
-          
+          </Formik>
+          {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
+
           {!errorCustom && successMessage && (
-          <Alert severity="success">{successMessage}</Alert>
-  )}
-          </div>
+            <Alert severity="success">{successMessage}</Alert>
+          )}
         </div>
-      </SideBar>
-    
+      </div>
+    </SideBar>
   );
 };
 

@@ -73,6 +73,7 @@ const CarModelTable: React.FC = () => {
                 car.licensePlate,
                 car.kilometer,
                 car.vehicleStatusEntityName,
+                <img src={car.imageEntityImageUrl} alt="Car Logo" />,
                 <IconButton onClick={() => handleUpdate(car.id)}><EditIcon /></IconButton>,
                 <IconButton onClick={() => handleDelete(car.id)}><DeleteIcon /></IconButton>,
             ]);

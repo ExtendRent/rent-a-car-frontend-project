@@ -56,12 +56,12 @@ export const addUserImages = createAsyncThunk(
 export const addBrandImages = createAsyncThunk(
   "images/addBrandImages",
   async (
-    { image, licensePlate }: { image: FormData; licensePlate: string },
+    { image, brandName  }: { image: FormData; brandName : string },
     thunkAPI
   ) => {
     try {
       const service: ImageService = new ImageService();
-      const addedImage = await service.addBrandImage(image, licensePlate);
+      const addedImage = await service.addBrandImage(image, brandName );
 
       return addedImage.data;
     } catch (error: any) {
