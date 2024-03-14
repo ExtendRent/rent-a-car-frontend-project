@@ -78,7 +78,8 @@ import Contacts from './pages/ContactUs/Contacts';
 import AboutUs from './pages/AboutUs/AboutUs';
 import RentalTerms from './pages/RentalTerms/RentalTerms';
 import UpdateCarSegment from './pages/CarSegment/UpdateCarSegment';
-import UpdateUser from './pages/User/UpdateUser';
+import UpdateUser from './pages/User/UpdatePassword';
+import UpdatePassword from './pages/User/UpdatePassword';
 
   
 
@@ -180,7 +181,7 @@ function App() {
         <Route path="/adminPanel/returnRental/:id" element={<ReturnRental />}></Route>
 
         <Route path="/adminPanel/users" element={<Users />}></Route>
-        <Route path="/adminPanel/users/:id" element={<UpdateUser />}></Route>
+        <Route path="/adminPanel/users/updatePassword" element={<UpdatePassword />}></Route>
 
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>

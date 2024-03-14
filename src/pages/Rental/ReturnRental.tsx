@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store/configureStore";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchRentals, returnRental } from "../../store/slices/rentalSlice";
 import "./ReturnRental.css";

@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/configureStore";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import { fetchUsers } from "../../store/slices/userSlice";
+import { fetchUsers, updateUserBlock } from "../../store/slices/userSlice";
 import "../Color/ColorTable.css";
-
+import { Button } from "react-bootstrap";
 
 const UserTable: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -40,7 +40,8 @@ const UserTable: React.FC = () => {
                 user.authority,
                 user.status,
                 user.deleted,
-                <IconButton onClick={() => handleUpdate(user.id)}><EditIcon /></IconButton>,
+                <IconButton onClick={() => handleUpdatePassword(user.id, user.password)}><EditIcon /></IconButton>,
+                <Button type="button" style={{backgroundColor:'rgba(140, 25, 25)'}} onClick={() => handleUserBlock(user.id)}>Blokla</Button>,
             ]);
 
         setData(tableData);
@@ -52,8 +53,14 @@ const UserTable: React.FC = () => {
     }
     }, [userState]);
  
-    const handleUpdate = (id: number) => {
-        navigate(`/adminPanel/users/${id}`);
+    const handleUpdatePassword = (id: number, password: string) => {
+        navigate(`/adminPanel/users/updatePassword`);
+    };
+
+    const handleUserBlock = (id: number) => {
+        console.log("User Block:", id);
+        dispatch(updateUserBlock(id));
+        window.location.reload();
     };
 
     const changePage = (page: number, sortOrder: { name: string; direction: "asc" | "desc" }) => {
@@ -305,6 +312,21 @@ const UserTable: React.FC = () => {
                             ),
                             customBodyRender: (value: any) => (
                                 <div style={{ textAlign: "center" }}>{value}</div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "",
+                        label: "",
+                        options: {
+                            filter: false,
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                                <div style={{ textAlign: "center", float: "inline-end" }}>
+                                    {value}
+                                </div>
                             ),
                         },
                     },
