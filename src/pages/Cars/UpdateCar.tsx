@@ -23,6 +23,7 @@ import { addCarImages } from "../../store/slices/imageSlice";
 import "./UpdateCar.css";
 import { Alert } from "@mui/material";
 import { useAppSelector } from "../../store/useAppSelector";
+import { useAppDispatch } from "../../store/useAppDispatch";
 type Props = {};
 
 const UpdateCar = (props: Props) => {
@@ -31,7 +32,7 @@ const UpdateCar = (props: Props) => {
   const [isSubmited, setIsSubmited] = useState<Boolean>(false);
   const [file, setFile] = useState<File | undefined>();
   const [car, setCar] = useState<CarModel>();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [selectedValue, setSelectedValue] = useState({});
   const brandState = useSelector((state: any) => state.brand);
   const carModelState = useSelector((state: any) => state.carModel);
@@ -46,6 +47,7 @@ const UpdateCar = (props: Props) => {
   );
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [imageError, setImageError] = useState("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const errorCustom = useAppSelector(
     (state: RootState) => state.imageLoad.error
@@ -77,7 +79,7 @@ const UpdateCar = (props: Props) => {
   };
 
   const validationSchema = Yup.object().shape({
-     year: Yup.number()
+    year: Yup.number()
       .min(2005, "Yıl en az 2005 olmalıdır")
       .max(2024, "Yıl en fazla 2024 olmalıdır")
       .required("Yıl giriniz"),
@@ -139,27 +141,33 @@ const UpdateCar = (props: Props) => {
     carImageEntityId: car?.carImageEntityId,
   };
   const handleUpdateCar = async (values: any) => {
-    if (typeof file === "undefined") return;
-
-    const formData = new FormData();
     try {
-      formData.append("image", file);
-      const thunkParams = {
-        image: formData,
-        licensePlate: values.licensePlate 
-    };
-      const imageResponse = await dispatch(addCarImages(thunkParams));
-      if (imageResponse) {
-        const carImageEntityId = imageResponse.payload;
-        const updatedValues = { ...values, carImageEntityId };
+      if (typeof file === "undefined") {
+        const updatedValues = { ...values };
         const response = await dispatch(updateCar(updatedValues));
         setSuccessMessage("İşlem başarıyla tamamlandı");
+      } else {
+        const formData = new FormData();
+
+        formData.append("image", file);
+        const thunkParams = {
+          image: formData,
+          licensePlate: values.licensePlate,
+        };
+        const imageResponse = await dispatch(addCarImages(thunkParams));
+        if (imageResponse) {
+          const carImageEntityId = imageResponse.payload;
+          const updatedValues = { ...values, carImageEntityId };
+          const response = await dispatch(updateCar(updatedValues));
+          setSuccessMessage("İşlem başarıyla tamamlandı");
+        }
       }
     } catch (error) {
       console.error("Error : ", error);
       // Hata durumunda
       setErrorMessage("İşlem sırasında bir hata oluştu");
     }
+    window.location.href = "/adminPanel/cars";
   };
   const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement & { files: FileList };
@@ -168,6 +176,7 @@ const UpdateCar = (props: Props) => {
 
     if (files) {
       setFile(target.files[0]);
+      setImageError("");
     }
   };
   return (
@@ -187,9 +196,6 @@ const UpdateCar = (props: Props) => {
             <Form>
               <div className="row space">
                 <div id="select-block" className="col-md-6">
-                  <div className="mb-2">
-                    <input type="file" name="image" onChange={handleOnChange} />
-                  </div>
                   <div className="mb-2">
                     <FormikSelect
                       label="Marka"
@@ -350,7 +356,11 @@ const UpdateCar = (props: Props) => {
                       type="number"
                     />
                   </div>
-
+                  <div className="mb-2">
+                    <input type="file" name="image" onChange={handleOnChange} />
+                    <img src={car?.imageEntityImageUrl} alt="Car Logo" />
+                    {imageError && <Alert severity="error">{imageError}</Alert>}
+                  </div>
                   <Button
                     style={{
                       marginTop: "30px",
