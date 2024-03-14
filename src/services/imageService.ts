@@ -6,15 +6,12 @@ export default class ImageService {
   }
 
   addUserImage(image: FormData, emailAddress: string) {
-    return axiosInstance.post<{}>(
+    return axiosInstance.post(
       `images/user?emailAddress=${emailAddress}`,
       image
     );
   }
-  addBrandImage(image: FormData, brandName : string) {
-    return axiosInstance.post<{}>(
-      `images/brand?brandName=${brandName}`,
-      image
-    );
+  addBrandImage(image: FormData, brandName: string) {
+    return axiosInstance.post(`images/brand?brandName=${brandName}`, image);
   }
 }

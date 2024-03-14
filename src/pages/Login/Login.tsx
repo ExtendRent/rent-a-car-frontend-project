@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Container, Grid, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store/configureStore";
@@ -32,7 +32,11 @@ const Login: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const errorCustom = useAppSelector((state: RootState) => state.signIn.error);
-
+  useEffect(() => {
+    if (errorCustom) {
+      setErrorMessage(errorCustom);
+    }
+  }, [errorCustom]);
 
   /* const isLogged = useAppSelector((state:RootState) => state.auth.isAuthenticated);
 
@@ -41,12 +45,17 @@ const Login: React.FC = () => {
   } */
   const handleSubmit =  (values: { email: string; password: string }) => {
     
-    
+    try {
       dispatch(
         addSignIn({ email: values.email, password: values.password })
       );
       navigate('/');
-   
+    } catch (error) {
+      // Giriş işlemi başarısız olduğunda hatayı yakala
+      console.error("Giriş işlemi başarısız oldu: ", error);
+      // Hata mesajını ayarla
+      setErrorMessage("Giriş işlemi başarısız oldu. Lütfen bilgilerinizi kontrol edin.");
+    }
   };
 
   const data = ["gmail.com", "outlook.com", "yahoo.com"];
@@ -136,7 +145,7 @@ const Login: React.FC = () => {
                   )}
                 </Formik>
                 {errorCustom && <Alert severity="error">{errorCustom}</Alert>}
-                {successMessage && (
+                {!errorCustom && successMessage && (
                   <Alert severity="success">{successMessage}</Alert>
                 )}
               </Grid>

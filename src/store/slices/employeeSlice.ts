@@ -42,7 +42,7 @@ export const addEmployee = createAsyncThunk(
             return addedEmployee.data;
 
         } catch (error: any) {
-            if (error.response && error.response.data && error.response.data.response && error.response.data.response.errorCode === 3000) {
+            if (error.response && error.response.data && error.response.data.response && (error.response.data.response.errorCode === 3000 || error.response.data.response.errorCode === 2016 ||error.response.data.response.errorCode === 2014 )) {
                 const details = error.response.data.response.details[0];
                 throw details;
               } 

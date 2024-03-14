@@ -23,11 +23,10 @@ export const addSignIn = createAsyncThunk(
           return addedSignIn.data.response; // Response'u doğrudan döndürüyoruz
       } 
       catch (error: any) {
-        console.log("hata",error.response.data.response.details[0]);
-        const messaage="Giriş hatalı";
-        if (error && error.response && error.response.data.response.details[0] === 'Bad credentials') {
+       
+        if (error && error.response && (error.response.data.response.errorCode === 1 || error.response.data.response.errorCode === 1001)) {
           
-          throw messaage;
+          throw error.response.data.response.details[0];
           
         }
         

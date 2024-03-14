@@ -34,6 +34,7 @@ const EmployeeTable: React.FC = () => {
             employee.surname,
             employee.email,
             employee.salary,
+            <img src={employee.userImageEntityImageUrl} alt="User"></img>,
             <IconButton onClick={() => handleUpdate(employee.id)}><EditIcon /></IconButton>,
             <IconButton onClick={() => handleDelete(employee.id)}><DeleteIcon /></IconButton>,
         ]);
@@ -253,6 +254,21 @@ const EmployeeTable: React.FC = () => {
                             ),
                             customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
                                 <div style={{ textAlign: "center", float: "inline-end" }}>
+                                    {value}
+                                </div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "",
+                        label: "",
+                        options: {
+                            filter: false,
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                                <div style={{ textAlign: "center", float: "inline-start" }}>
                                     {value}
                                 </div>
                             ),

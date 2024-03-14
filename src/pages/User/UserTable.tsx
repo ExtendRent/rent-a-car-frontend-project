@@ -36,7 +36,7 @@ const UserTable: React.FC = () => {
                 user.name,
                 user.surname,
                 user.email,
-                user.userImageEntityUrl,
+                <img src={user.userImageEntityUrl} alt="User"></img>,
                 user.authority,
                 user.status,
                 user.deleted,
@@ -54,7 +54,7 @@ const UserTable: React.FC = () => {
     }, [userState]);
  
     const handleUpdatePassword = (id: number, password: string) => {
-        navigate(`/adminPanel/users/updatePassword`);
+        navigate(`/adminPanel/users/updatePassword/${id}`);
     };
 
     const handleUserBlock = (id: number) => {

@@ -73,7 +73,7 @@ const CarModelTable: React.FC = () => {
                 car.licensePlate,
                 car.kilometer,
                 car.vehicleStatusEntityName,
-                <img src={car.imageEntityImageUrl} alt="Car Logo" />,
+                <img src={car.imageEntityImageUrl} alt="Car Logo"></img>,
                 <IconButton onClick={() => handleUpdate(car.id)}><EditIcon /></IconButton>,
                 <IconButton onClick={() => handleDelete(car.id)}><DeleteIcon /></IconButton>,
             ]);
@@ -481,6 +481,21 @@ const CarModelTable: React.FC = () => {
                             ),
                             customBodyRender: (value: any) => (
                                 <div style={{ textAlign: "center" }}>{value}</div>
+                            ),
+                        },
+                    },
+                    {
+                        name: "",
+                        label: "",
+                        options: {
+                            filter: false,
+                            customHeadRender: (columnMeta: MUIDataTableColumn) => (
+                                <th style={{ textAlign: "center", borderBottom: "1px solid rgba(224, 224, 224, 1)" }}>{columnMeta.label}</th>
+                            ),
+                            customBodyRender: (value: any, tableMeta: { rowData: any[] }) => (
+                                <div style={{ textAlign: "center", float: "inline-end" }}>
+                                    {value}
+                                </div>
                             ),
                         },
                     },

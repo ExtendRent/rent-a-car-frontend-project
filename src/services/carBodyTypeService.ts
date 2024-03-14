@@ -22,7 +22,7 @@ class CarBodyTypeService{
     }
 
     delete(id:number){
-        return axiosInstance.delete<GetAllCarBodyTypeModel>(`carBodyTypes/{id}?id=${id}&isHardDelete=true`)
+        return axiosInstance.delete<GetAllCarBodyTypeModel>(`carBodyTypes?id=${id}&isHardDelete=true`)
     }
     
 }

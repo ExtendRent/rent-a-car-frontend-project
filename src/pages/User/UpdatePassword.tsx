@@ -18,36 +18,13 @@ const UpdatePassword = (props: Props) => {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const userId = parseInt(id ?? "", 10);
-  const [isSubmited, setIsSubmited] = useState<Boolean>(false);
-  const [user, setUser] = useState<UserModel>();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
   const errorCustom = useAppSelector((state: RootState) => state.user.error);
-  const [page, setPage] = useState<number>(0);
-  const [size, setSize] = useState<number>(15);
-  const [sortOrder, setSortOrder] = useState<{ name: string; direction: "asc" | "desc" }>({ name: "", direction: "asc" });
+  
 
-  useEffect(() => {
-    if (isSubmited) {
-      fetchData();
-      setIsSubmited(false);
-    } else fetchData();
-  }, [id, isSubmited]);
-
-  const fetchData = async () => {
-    try {
-      const newResponse = await dispatch(getByIdUser({ id: userId }));
-      setUser((newResponse as any)?.payload);
-
-      dispatch(fetchUsers({ page, size, sort: [sortOrder.direction] }));
-    } catch (error) {
-      console.error("Error fetching data: ", error);
-    }
-  };
 
   const validationSchema = Yup.object().shape({
-    id: Yup.number()
-    .required("Id giriniz"),
     password: Yup.string()
     .min(8, "Şifre en az 8 hane olmalıdır")
     .max(30, "Şifre en fazla 30 hane olmalıdır")
@@ -90,14 +67,7 @@ const UpdatePassword = (props: Props) => {
                   className="col-md-6"
                   style={{ marginTop: "110px" }}
                 >
-                  <div className="mb-2">
-                    <FormikInput
-                      name="id"
-                      label="ID"
-                      placeHolder="Id Giriniz."
-                      type="text"
-                    />
-                  </div>
+              
                   <div className="mb-2">
                     <FormikInput
                       name="password"

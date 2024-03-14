@@ -21,7 +21,8 @@ class BrandService {
   }
   
   delete(id: number) {
-    return axiosInstance.delete<GetAllBrandsModel>(`brands/{id}?id=${id}&isHardDelete=true`)
+    return axiosInstance.delete<GetAllBrandsModel>(`brands?id=${id}&isHardDelete=true`)
   }
+  
 }
 export default new BrandService();

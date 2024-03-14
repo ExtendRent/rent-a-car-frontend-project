@@ -181,7 +181,7 @@ function App() {
         <Route path="/adminPanel/returnRental/:id" element={<ReturnRental />}></Route>
 
         <Route path="/adminPanel/users" element={<Users />}></Route>
-        <Route path="/adminPanel/users/updatePassword" element={<UpdatePassword />}></Route>
+        <Route path="/adminPanel/users/updatePassword/:id" element={<UpdatePassword />}></Route>
 
         <Route path="/selectedCar" element={<SelectedCar response={searchCarResponse} />} />
         <Route path="/adminPanel/paymentDetails" element={<PaymentDetails />}></Route>
